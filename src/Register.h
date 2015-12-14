@@ -3,18 +3,22 @@
 
 #include <cstdint>
 
+template <typename T>
 class Register {
 public:
-    Register();
+    Register() {};
 
-    void set(const uint8_t byte);
-    uint8_t value();
+    void set(const T new_value) { val = new_value; };
+    T value() const { return val; };
 
-    void increment();
-    void decrement();
+    void increment() { val += 1; };
+    void decrement() { val -= 1; };
 
 private:
-    uint8_t val;
+    T val;
 };
+
+typedef Register<uint8_t> ByteRegister;
+typedef Register<uint16_t> WordRegister;
 
 #endif

@@ -1,6 +1,6 @@
 #include "RegisterGroup.h"
 
-RegisterGroup::RegisterGroup(Register& low, Register& high) :
+RegisterGroup::RegisterGroup(ByteRegister& low, ByteRegister& high) :
         low_byte(low),
         high_byte(high)
 {
@@ -12,6 +12,14 @@ void RegisterGroup::set_low(const uint8_t byte) {
 
 void RegisterGroup::set_high(const uint8_t byte) {
     high_byte.set(byte);
+}
+
+void RegisterGroup::set_low(const ByteRegister byte) {
+    low_byte.set(byte.value());
+}
+
+void RegisterGroup::set_high(const ByteRegister byte) {
+    low_byte.set(byte.value());
 }
 
 void RegisterGroup::set(const uint16_t word) {
