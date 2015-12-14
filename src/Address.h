@@ -9,6 +9,7 @@ public:
     Address();
     Address(uint16_t location);
     Address(RegisterGroup from);
+    Address(WordRegister from);
 
     uint16_t value() const;
 
