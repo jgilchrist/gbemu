@@ -7,7 +7,7 @@
 
 class RegisterGroup {
 public:
-    RegisterGroup(ByteRegister& x, ByteRegister& y);
+    RegisterGroup(ByteRegister& low, ByteRegister& high);
 
     void set_low(const uint8_t byte);
     void set_high(const uint8_t byte);
