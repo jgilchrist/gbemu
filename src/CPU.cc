@@ -518,6 +518,7 @@ void CPU::execute_opcode(const uint8_t opcode) {
 }
 
 void CPU::opcode_00() {
+    /* NOP */
 }
 
 void CPU::opcode_01() {
