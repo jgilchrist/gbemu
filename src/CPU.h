@@ -4,6 +4,8 @@
 #include <cstdint>
 #include "Clock.h"
 #include "MMU.h"
+#include "Register.h"
+#include "RegisterGroup.h"
 
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.
@@ -20,9 +22,12 @@ private:
     MMU mmu;
 
     /* Basic registers */
-    uint8_t a, b, c, d, e, h, l;
+    ByteRegister a, b, c, d, e, h, l;
 
-    /* Special purpose registers */
+    /* 'Group' registers for operations which use two registers as a word */
+    RegisterGroup bc = RegisterGroup(b, c);
+    RegisterGroup de = RegisterGroup(d, e);
+    RegisterGroup hl = RegisterGroup(h, l);
 
     /*
      * Flags set dependant on the result of the last operation
@@ -31,13 +36,13 @@ private:
      *  0x20 - lower half of the byte overflowed 15
      *  0x10 - overflowed 255 or underflowed 0 for additions/subtractions
      */
-    uint8_t f;
+    ByteRegister f;
 
     /* Program counter */
-    uint16_t pc;
+    WordRegister pc;
 
     /* Stack pointer */
-    uint16_t sp;
+    WordRegister sp;
 
     /* Opcodes */
     void opcode_00();
