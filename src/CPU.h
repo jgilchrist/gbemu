@@ -6,6 +6,7 @@
 #include "MMU.h"
 #include "Register.h"
 #include "RegisterGroup.h"
+#include "Address.h"
 
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.
@@ -43,6 +44,15 @@ private:
 
     /* Stack pointer */
     WordRegister sp;
+
+    void opcode_ld(ByteRegister& reg, const uint8_t value);
+    void opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg);
+    void opcode_ld(ByteRegister& reg, const Address& address);
+
+    void opcode_ld(const Address& address, const uint8_t value);
+    void opcode_ld(const Address& address, const uint16_t value);
+    void opcode_ld(const Address& address, const ByteRegister& byte_reg);
+    void opcode_ld(const Address& address, const WordRegister& word_reg);
 
     /* Opcodes */
     void opcode_00();

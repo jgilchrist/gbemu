@@ -261,3 +261,30 @@ void CPU::execute_opcode(const uint8_t opcode) {
     }
 }
 
+void CPU::opcode_ld(ByteRegister &reg, const uint8_t value) {
+    reg.set(value);
+}
+
+void CPU::opcode_ld(ByteRegister &reg, const ByteRegister &byte_reg) {
+    reg.set(byte_reg.value());
+}
+
+void CPU::opcode_ld(ByteRegister &reg, const Address &address) {
+    reg.set(mmu.read_byte(address.value()));
+}
+
+void CPU::opcode_ld(const Address &address, const uint8_t value) {
+    mmu.write_byte(address.value(), value);
+}
+
+void CPU::opcode_ld(const Address &address, const uint16_t value) {
+    mmu.write_word(address.value(), value);
+}
+
+void CPU::opcode_ld(const Address &address, const ByteRegister &byte_reg) {
+    mmu.write_byte(address.value(), byte_reg.value());
+}
+
+void CPU::opcode_ld(const Address &address, const WordRegister &word_reg) {
+    mmu.write_word(address.value(), word_reg.value());
+}
