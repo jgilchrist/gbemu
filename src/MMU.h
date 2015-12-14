@@ -9,10 +9,10 @@ public:
     MMU();
 
     uint8_t read_byte(const uint16_t address) const;
-    uint8_t read_word(const uint16_t address) const;
+    uint16_t read_word(const uint16_t address) const;
 
-    void write_byte(const uint16_t address, const uint16_t byte) const;
-    void write_word(const uint16_t address, const uint16_t byte) const;
+    void write_byte(const uint16_t address, const uint8_t byte) const;
+    void write_word(const uint16_t address, const uint16_t word) const;
 
 private:
     Memory memory;
