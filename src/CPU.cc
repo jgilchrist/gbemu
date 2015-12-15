@@ -350,27 +350,27 @@ void CPU::opcode_00() {
 }
 
 void CPU::opcode_01() {
-    /* TODO */
+    opcode_ld(bc);
 }
 
 void CPU::opcode_02() {
-    /* TODO */
+    opcode_ld(Address(bc), a);
 }
 
 void CPU::opcode_03() {
-    /* TODO */
+    bc.increment();
 }
 
 void CPU::opcode_04() {
-    /* TODO */
+    b.increment();
 }
 
 void CPU::opcode_05() {
-    /* TODO */
+    b.decrement();
 }
 
 void CPU::opcode_06() {
-    /* TODO */
+    opcode_ld(b);
 }
 
 void CPU::opcode_07() {
@@ -378,7 +378,8 @@ void CPU::opcode_07() {
 }
 
 void CPU::opcode_08() {
-    /* TODO */
+    uint16_t nn = get_word_from_pc();
+    opcode_ld(Address(nn), sp);
 }
 
 void CPU::opcode_09() {
@@ -386,23 +387,23 @@ void CPU::opcode_09() {
 }
 
 void CPU::opcode_0A() {
-    /* TODO */
+    opcode_ld(a, Address(bc));
 }
 
 void CPU::opcode_0B() {
-    /* TODO */
+    bc.decrement();
 }
 
 void CPU::opcode_0C() {
-    /* TODO */
+    c.increment();
 }
 
 void CPU::opcode_0D() {
-    /* TODO */
+    c.decrement();
 }
 
 void CPU::opcode_0E() {
-    /* TODO */
+    opcode_ld(c);
 }
 
 void CPU::opcode_0F() {
@@ -414,27 +415,27 @@ void CPU::opcode_10() {
 }
 
 void CPU::opcode_11() {
-    /* TODO */
+    opcode_ld(de);
 }
 
 void CPU::opcode_12() {
-    /* TODO */
+    opcode_ld(Address(de), a);
 }
 
 void CPU::opcode_13() {
-    /* TODO */
+    de.increment();
 }
 
 void CPU::opcode_14() {
-    /* TODO */
+    d.increment();
 }
 
 void CPU::opcode_15() {
-    /* TODO */
+    d.decrement();
 }
 
 void CPU::opcode_16() {
-    /* TODO */
+    opcode_ld(d);
 }
 
 void CPU::opcode_17() {
@@ -450,23 +451,23 @@ void CPU::opcode_19() {
 }
 
 void CPU::opcode_1A() {
-    /* TODO */
+    opcode_ld(a, Address(de));
 }
 
 void CPU::opcode_1B() {
-    /* TODO */
+    de.decrement();
 }
 
 void CPU::opcode_1C() {
-    /* TODO */
+    e.increment();
 }
 
 void CPU::opcode_1D() {
-    /* TODO */
+    e.decrement();
 }
 
 void CPU::opcode_1E() {
-    /* TODO */
+    opcode_ld(e);
 }
 
 void CPU::opcode_1F() {
@@ -478,7 +479,7 @@ void CPU::opcode_20() {
 }
 
 void CPU::opcode_21() {
-    /* TODO */
+    opcode_ld(hl);
 }
 
 void CPU::opcode_22() {
@@ -486,19 +487,19 @@ void CPU::opcode_22() {
 }
 
 void CPU::opcode_23() {
-    /* TODO */
+    hl.increment();
 }
 
 void CPU::opcode_24() {
-    /* TODO */
+    h.increment();
 }
 
 void CPU::opcode_25() {
-    /* TODO */
+    h.decrement();
 }
 
 void CPU::opcode_26() {
-    /* TODO */
+    opcode_ld(h);
 }
 
 void CPU::opcode_27() {
@@ -518,19 +519,19 @@ void CPU::opcode_2A() {
 }
 
 void CPU::opcode_2B() {
-    /* TODO */
+    hl.decrement();
 }
 
 void CPU::opcode_2C() {
-    /* TODO */
+    l.increment();
 }
 
 void CPU::opcode_2D() {
-    /* TODO */
+    l.decrement();
 }
 
 void CPU::opcode_2E() {
-    /* TODO */
+    opcode_ld(l);
 }
 
 void CPU::opcode_2F() {
@@ -542,7 +543,7 @@ void CPU::opcode_30() {
 }
 
 void CPU::opcode_31() {
-    /* TODO */
+    opcode_ld(sp);
 }
 
 void CPU::opcode_32() {
@@ -550,19 +551,19 @@ void CPU::opcode_32() {
 }
 
 void CPU::opcode_33() {
-    /* TODO */
+    sp.increment();
 }
 
 void CPU::opcode_34() {
-    /* TODO */
+    opcode_inc(Address(hl));
 }
 
 void CPU::opcode_35() {
-    /* TODO */
+    opcode_dec(Address(hl));
 }
 
 void CPU::opcode_36() {
-    /* TODO */
+    opcode_ld(Address(hl));
 }
 
 void CPU::opcode_37() {
@@ -582,19 +583,19 @@ void CPU::opcode_3A() {
 }
 
 void CPU::opcode_3B() {
-    /* TODO */
+    sp.decrement();
 }
 
 void CPU::opcode_3C() {
-    /* TODO */
+    a.increment();
 }
 
 void CPU::opcode_3D() {
-    /* TODO */
+    a.decrement();
 }
 
 void CPU::opcode_3E() {
-    /* TODO */
+    opcode_ld(a);
 }
 
 void CPU::opcode_3F() {
