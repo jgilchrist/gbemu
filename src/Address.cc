@@ -1,8 +1,5 @@
 #include "Address.h"
 
-Address::Address() : addr(0) {
-}
-
 Address::Address(uint16_t location) : addr(location) {
 }
 
