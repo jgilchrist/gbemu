@@ -311,6 +311,11 @@ inline void CPU::opcode_ld(RegisterGroup &reg, const uint16_t value) {
     reg.set(value);
 }
 
+inline void CPU::opcode_ld(const Address &address) {
+    uint8_t n = get_byte_from_pc();
+    mmu.write_byte(address, n);
+}
+
 inline void CPU::opcode_ld(const Address &address, const uint8_t value) {
     mmu.write_byte(address, value);
 }
@@ -325,6 +330,19 @@ inline void CPU::opcode_ld(const Address &address, const ByteRegister &byte_reg)
 
 inline void CPU::opcode_ld(const Address &address, const WordRegister &word_reg) {
     mmu.write_word(address, word_reg.value());
+}
+
+inline void CPU::opcode_inc(const Address &address) {
+    uint8_t n = mmu.read_byte(address);
+    n += 1;
+    mmu.write_byte(address, n);
+}
+
+inline void CPU::opcode_dec(const Address &address) {
+    uint8_t n = mmu.read_byte(address);
+    n -= 1;
+    mmu.write_byte(address, n);
+
 }
 
 void CPU::opcode_00() {

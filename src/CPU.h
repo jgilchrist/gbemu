@@ -59,10 +59,14 @@ private:
     void opcode_ld(RegisterGroup& reg);
     void opcode_ld(RegisterGroup& reg, const uint16_t value);
 
+    void opcode_ld(const Address& address);
     void opcode_ld(const Address& address, const uint8_t value);
     void opcode_ld(const Address& address, const uint16_t value);
     void opcode_ld(const Address& address, const ByteRegister& byte_reg);
     void opcode_ld(const Address& address, const WordRegister& word_reg);
+
+    void opcode_inc(const Address& address);
+    void opcode_dec(const Address& address);
 
     /* Opcodes */
     void opcode_00();
