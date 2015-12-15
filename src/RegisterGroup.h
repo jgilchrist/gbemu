@@ -12,8 +12,8 @@ public:
     void set_low(const uint8_t byte);
     void set_high(const uint8_t byte);
 
-    void set_low(const ByteRegister byte);
-    void set_high(const ByteRegister byte);
+    void set_low(const ByteRegister& byte);
+    void set_high(const ByteRegister& byte);
 
     void set(const uint16_t word);
 

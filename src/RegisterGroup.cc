@@ -14,11 +14,11 @@ void RegisterGroup::set_high(const uint8_t byte) {
     high_byte.set(byte);
 }
 
-void RegisterGroup::set_low(const ByteRegister byte) {
+void RegisterGroup::set_low(const ByteRegister& byte) {
     low_byte.set(byte.value());
 }
 
-void RegisterGroup::set_high(const ByteRegister byte) {
+void RegisterGroup::set_high(const ByteRegister& byte) {
     low_byte.set(byte.value());
 }
 
