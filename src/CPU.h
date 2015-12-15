@@ -53,6 +53,12 @@ private:
     void opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg);
     void opcode_ld(ByteRegister& reg, const Address& address);
 
+    void opcode_ld(WordRegister& reg);
+    void opcode_ld(WordRegister& reg, const uint16_t value);
+
+    void opcode_ld(RegisterGroup& reg);
+    void opcode_ld(RegisterGroup& reg, const uint16_t value);
+
     void opcode_ld(const Address& address, const uint8_t value);
     void opcode_ld(const Address& address, const ByteRegister& byte_reg);
 

@@ -277,7 +277,8 @@ inline uint16_t CPU::get_word_from_pc() {
 }
 
 inline void CPU::opcode_ld(ByteRegister &reg) {
-    // TODO
+    uint8_t n = get_byte_from_pc();
+    reg.set(n);
 }
 
 inline void CPU::opcode_ld(ByteRegister &reg, const uint8_t value) {
@@ -290,6 +291,24 @@ inline void CPU::opcode_ld(ByteRegister &reg, const ByteRegister &byte_reg) {
 
 inline void CPU::opcode_ld(ByteRegister &reg, const Address &address) {
     reg.set(mmu.read_byte(address));
+}
+
+inline void CPU::opcode_ld(WordRegister &reg) {
+    uint16_t nn = get_word_from_pc();
+    reg.set(nn);
+}
+
+inline void CPU::opcode_ld(WordRegister &reg, const uint16_t value) {
+    reg.set(value);
+}
+
+inline void CPU::opcode_ld(RegisterGroup &reg) {
+    uint16_t nn = get_word_from_pc();
+    reg.set(nn);
+}
+
+inline void CPU::opcode_ld(RegisterGroup &reg, const uint16_t value) {
+    reg.set(value);
 }
 
 inline void CPU::opcode_ld(const Address &address, const uint8_t value) {
