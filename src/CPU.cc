@@ -285,23 +285,23 @@ inline void CPU::opcode_ld(ByteRegister &reg, const ByteRegister &byte_reg) {
 }
 
 inline void CPU::opcode_ld(ByteRegister &reg, const Address &address) {
-    reg.set(mmu.read_byte(address.value()));
+    reg.set(mmu.read_byte(address));
 }
 
 inline void CPU::opcode_ld(const Address &address, const uint8_t value) {
-    mmu.write_byte(address.value(), value);
+    mmu.write_byte(address, value);
 }
 
 inline void CPU::opcode_ld(const Address &address, const uint16_t value) {
-    mmu.write_word(address.value(), value);
+    mmu.write_word(address, value);
 }
 
 inline void CPU::opcode_ld(const Address &address, const ByteRegister &byte_reg) {
-    mmu.write_byte(address.value(), byte_reg.value());
+    mmu.write_byte(address, byte_reg.value());
 }
 
 inline void CPU::opcode_ld(const Address &address, const WordRegister &word_reg) {
-    mmu.write_word(address.value(), word_reg.value());
+    mmu.write_word(address, word_reg.value());
 }
 
 void CPU::opcode_00() {

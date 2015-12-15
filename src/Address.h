@@ -6,10 +6,9 @@
 
 class Address {
 public:
-    Address();
-    Address(uint16_t location);
-    Address(RegisterGroup from);
-    Address(WordRegister from);
+    explicit Address(uint16_t location);
+    explicit Address(RegisterGroup from);
+    explicit Address(WordRegister from);
 
     uint16_t value() const;
 
