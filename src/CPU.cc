@@ -1,4 +1,5 @@
 #include "CPU.h"
+#include "Bitwise.h"
 
 void CPU::execute_opcode(const uint8_t opcode) {
     switch (opcode) {
@@ -259,6 +260,20 @@ void CPU::execute_opcode(const uint8_t opcode) {
         case 0xFE: opcode_FE(); break;
         case 0xFF: opcode_FF(); break;
     }
+}
+
+inline uint8_t CPU::get_byte_from_pc() {
+    uint8_t byte = mmu.read_byte(Address(pc));
+    pc.increment();
+
+    return byte;
+}
+
+inline uint16_t CPU::get_word_from_pc() {
+    uint8_t high_byte = get_byte_from_pc();
+    uint8_t low_byte = get_byte_from_pc();
+
+    return compose_bytes(low_byte, high_byte);
 }
 
 inline void CPU::opcode_ld(ByteRegister &reg, const uint8_t value) {
