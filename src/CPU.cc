@@ -324,27 +324,27 @@ void CPU::opcode_00() {
 }
 
 void CPU::opcode_01() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_02() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_03() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_04() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_05() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_06() {
-   /* TODO */
+    /* TODO */
 }
 
 void CPU::opcode_07() {
