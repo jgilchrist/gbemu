@@ -1,5 +1,10 @@
 #include <cstdio>
 
+#include "gameboy.h"
+#include "log.h"
+
 int main() {
-    printf("Hello world!\n");
+    log_debug("Hello world!");
+
+    Gameboy gameboy;
 }

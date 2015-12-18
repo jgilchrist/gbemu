@@ -12,6 +12,8 @@ add_executable(emulator
     src/clock.h
     src/gameboy.cc
     src/gameboy.h
+    src/log.cc
+    src/log.h
     src/main.cc
     src/cpu/cpu.cc
     src/cpu/cpu.h
