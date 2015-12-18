@@ -278,6 +278,191 @@ inline uint16_t CPU::get_word_from_pc() {
     return compose_bytes(low_byte, high_byte);
 }
 
+
+/**
+ * This section contains helper functions for allowing succinct expression
+ * of opcodes when writing the opcode_00-FF functions.
+ */
+
+/* ADC */
+inline void CPU::opcode_adc() {
+    // TODO
+}
+
+inline void CPU::opcode_adc(const RegisterPair& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_adc(const Address& addr) {
+    // TODO
+}
+
+
+/* ADD */
+inline void CPU::opcode_add(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_add(ByteRegister& reg, const ByteRegister& byte_reg) {
+    // TODO
+}
+
+inline void CPU::opcode_add(ByteRegister& reg, const Address& addr) {
+    // TODO
+}
+
+
+inline void CPU::opcode_add(RegisterPair& reg, const RegisterPair& reg_pair) {
+    // TODO
+}
+
+
+inline void CPU::opcode_add(WordRegister& reg) {
+    // TODO
+}
+
+
+/* AND */
+inline void CPU::opcode_and() {
+    // TODO
+}
+
+inline void CPU::opcode_and(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_and(Address& addr) {
+    // TODO
+}
+
+
+/* BIT */
+inline void CPU::opcode_bit(const int bit, ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_bit(const int bit, Address& addr) {
+    // TODO
+}
+
+
+/* CALL */
+inline void CPU::opcode_call() {
+    // TODO
+}
+
+inline void CPU::opcode_call(const uint8_t condition) {
+    // TODO
+}
+
+
+/* CCF */
+inline void CPU::opcode_ccf() {
+    // TODO
+}
+
+
+/* CP */
+inline void CPU::opcode_cp() {
+    // TODO
+}
+
+inline void CPU::opcode_cp(const ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_cp(const Address& addr) {
+    // TODO
+}
+
+
+/* CPL */
+inline void CPU::opcode_cpl() {
+    // TODO
+}
+
+
+/* DAA */
+inline void CPU::opcode_daa() {
+    // TODO
+}
+
+
+/* DEC */
+inline void CPU::opcode_dec(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_dec(RegisterPair& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_dec(Address&& addr) {
+    // TODO
+}
+
+
+/* DI */
+inline void CPU::opcode_di() {
+    // TODO
+}
+
+
+/* EI */
+inline void CPU::opcode_ei() {
+    // TODO
+}
+
+
+/* INC */
+inline void CPU::opcode_inc(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_inc(RegisterPair& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_inc(Address& addr) {
+    // TODO
+}
+
+inline void CPU::opcode_inc(Address&& addr) {
+    // TODO
+}
+
+
+/* JP */
+inline void CPU::opcode_jp() {
+    // TODO
+}
+
+inline void CPU::opcode_jp(const int condition) {
+    // TODO
+}
+
+inline void CPU::opcode_jp(const Address& addr) {
+    // TODO
+}
+
+
+/* JR */
+inline void CPU::opcode_jr() {
+    // TODO
+}
+
+inline void CPU::opcode_jr(const int condition) {
+    // TODO
+}
+
+
+/* HALT */
+inline void CPU::opcode_halt() {
+    // TODO
+}
+
+
+/* LD */
 inline void CPU::opcode_ld(ByteRegister& reg) {
     uint8_t n = get_byte_from_pc();
     reg.set(n);
@@ -291,15 +476,18 @@ inline void CPU::opcode_ld(ByteRegister& reg, const Address& address) {
     reg.set(mmu.read_byte(address));
 }
 
-inline void CPU::opcode_ld(WordRegister& reg) {
-    uint16_t nn = get_word_from_pc();
-    reg.set(nn);
-}
 
 inline void CPU::opcode_ld(RegisterPair& reg) {
     uint16_t nn = get_word_from_pc();
     reg.set(nn);
 }
+
+
+inline void CPU::opcode_ld(WordRegister& reg) {
+    uint16_t nn = get_word_from_pc();
+    reg.set(nn);
+}
+
 
 inline void CPU::opcode_ld(const Address& address) {
     uint8_t n = get_byte_from_pc();
@@ -314,29 +502,259 @@ inline void CPU::opcode_ld(const Address& address, const WordRegister& word_reg)
     mmu.write_word(address, word_reg.value());
 }
 
-inline void CPU::opcode_inc(ByteRegister& reg) {
-    reg.increment();
+
+/* LDD */
+inline void CPU::opcode_ldd(const ByteRegister& reg, const Address& address) {
+    // TODO
 }
 
-inline void CPU::opcode_inc(RegisterPair& reg) {
-    reg.increment();
+inline void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
+    // TODO
 }
 
-inline void CPU::opcode_inc(Address&& addr) {
-    mmu.write_byte(addr, mmu.read_byte(addr) + 1);
+
+/* LDH */
+// TODO: Add a type to express an 8-bit offset
+inline void CPU::opcode_ldh(const ByteRegister& reg, const Address& address) {
+    // TODO
 }
 
-inline void CPU::opcode_dec(ByteRegister& reg) {
-    reg.decrement();
+inline void CPU::opcode_ldh(const Address& address, const ByteRegister& reg) {
+    // TODO
 }
 
-inline void CPU::opcode_dec(RegisterPair& reg) {
-    reg.decrement();
+
+/* LDHL */
+inline void CPU::opcode_ldhl(const WordRegister& reg) {
+    // TODO
 }
 
-inline void CPU::opcode_dec(Address&& addr) {
-    mmu.write_byte(addr, mmu.read_byte(addr) - 1);
+
+/* LDI */
+inline void CPU::opcode_ldi(const ByteRegister& reg, const Address& address) {
+    // TODO
 }
+
+inline void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
+    // TODO
+}
+
+
+/* NOP */
+inline void CPU::opcode_nop() {
+    // TODO
+}
+
+
+/* OR */
+inline void CPU::opcode_or() {
+    // TODO
+}
+
+inline void CPU::opcode_or(const ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_or(const Address& addr) {
+    // TODO
+}
+
+
+/* POP */
+inline void CPU::opcode_pop(const RegisterPair& reg) {
+    // TODO
+}
+
+
+/* PUSH */
+inline void CPU::opcode_push(const RegisterPair& reg) {
+    // TODO
+}
+
+
+/* RES */
+inline void CPU::opcode_res(const int bit, ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_res(const int bit, Address& reg) {
+    // TODO
+}
+
+
+/* RET */
+inline void CPU::opcode_ret() {
+    // TODO
+}
+
+inline void CPU::opcode_ret(const int condition) {
+    // TODO
+}
+
+
+/* RETI */
+inline void CPU::opcode_reti() {
+    // TODO
+}
+
+
+/* RL */
+inline void CPU::opcode_rl(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_rl(Address& reg) {
+    // TODO
+}
+
+
+/* RLC */
+inline void CPU::opcode_rlc(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_rlc(Address& reg) {
+    // TODO
+}
+
+
+/* RR */
+inline void CPU::opcode_rr(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_rr(Address& reg) {
+    // TODO
+}
+
+
+/* RRC */
+inline void CPU::opcode_rrc(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_rrc(Address& reg) {
+    // TODO
+}
+
+
+/* RST */
+// TODO: offset type
+inline void CPU::opcode_rst(const uint8_t offset) {
+    // TODO
+}
+
+
+/* SBC */
+inline void CPU::opcode_sbc(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_sbc(ByteRegister& reg, const ByteRegister& byte_reg) {
+    // TODO
+}
+
+inline void CPU::opcode_sbc(ByteRegister& reg, const Address& addr) {
+    // TODO
+}
+
+
+/* SCF */
+inline void CPU::opcode_scf() {
+    // TODO
+}
+
+
+/* SET */
+inline void CPU::opcode_set(const int bit, ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_set(const int bit, Address& addr) {
+    // TODO
+}
+
+
+/* SLA */
+inline void CPU::opcode_sla(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_sla(Address& reg) {
+    // TODO
+}
+
+
+/* SRA */
+inline void CPU::opcode_sra(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_sra(Address& reg) {
+    // TODO
+}
+
+
+/* SRL */
+inline void CPU::opcode_srl(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_srl(Address& reg) {
+    // TODO
+}
+
+
+/* STOP */
+inline void CPU::opcode_stop() {
+    // TODO
+}
+
+
+/* SUB */
+inline void CPU::opcode_sub() {
+    // TODO
+}
+
+inline void CPU::opcode_sub(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_sub(Address& addr) {
+    // TODO
+}
+
+
+/* SWAP */
+inline void CPU::opcode_swap(ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_swap(Address& addr) {
+    // TODO
+}
+
+
+/* XOR */
+inline void CPU::opcode_xor() {
+    // TODO
+}
+
+inline void CPU::opcode_xor(const ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_xor(const Address& addr) {
+    // TODO
+}
+
+
+
+
+/**
+ * This section contains functions which map to actual opcodes which are executed
+ * by the Gameboy's processor.
+ */
 
 void CPU::opcode_00() {
     /* NOP */
