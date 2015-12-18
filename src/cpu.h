@@ -25,9 +25,9 @@ private:
     ByteRegister a, b, c, d, e, h, l;
 
     /* 'Group' registers for operations which use two registers as a word */
-    RegisterGroup bc = RegisterGroup(b, c);
-    RegisterGroup de = RegisterGroup(d, e);
-    RegisterGroup hl = RegisterGroup(h, l);
+    RegisterPair bc = RegisterPair(b, c);
+    RegisterPair de = RegisterPair(d, e);
+    RegisterPair hl = RegisterPair(h, l);
 
     /*
      * Flags set dependant on the result of the last operation
@@ -55,8 +55,8 @@ private:
     void opcode_ld(WordRegister& reg);
     void opcode_ld(WordRegister& reg, const uint16_t value);
 
-    void opcode_ld(RegisterGroup& reg);
-    void opcode_ld(RegisterGroup& reg, const uint16_t value);
+    void opcode_ld(RegisterPair& reg);
+    void opcode_ld(RegisterPair& reg, const uint16_t value);
 
     void opcode_ld(const Address& address);
     void opcode_ld(const Address& address, const uint8_t value);

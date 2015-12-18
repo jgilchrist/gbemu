@@ -3,7 +3,7 @@
 Address::Address(uint16_t location) : addr(location) {
 }
 
-Address::Address(RegisterGroup from) : addr(from.value()) {
+Address::Address(RegisterPair from) : addr(from.value()) {
 }
 
 Address::Address(WordRegister from) : addr(from.value()) {

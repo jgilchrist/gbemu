@@ -302,12 +302,12 @@ inline void CPU::opcode_ld(WordRegister &reg, const uint16_t value) {
     reg.set(value);
 }
 
-inline void CPU::opcode_ld(RegisterGroup &reg) {
+inline void CPU::opcode_ld(RegisterPair &reg) {
     uint16_t nn = get_word_from_pc();
     reg.set(nn);
 }
 
-inline void CPU::opcode_ld(RegisterGroup &reg, const uint16_t value) {
+inline void CPU::opcode_ld(RegisterPair &reg, const uint16_t value) {
     reg.set(value);
 }
 
