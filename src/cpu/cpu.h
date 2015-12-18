@@ -49,31 +49,190 @@ private:
 
     /* Opcode Helper Functions */
 
-    /* LD */
-    void opcode_ld(ByteRegister& reg);
-    void opcode_ld(ByteRegister& reg, const uint8_t value);
-    void opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg);
-    void opcode_ld(ByteRegister& reg, const Address& address);
+    /* ADC */
+    void opcode_adc();
+    void opcode_adc(const RegisterPair& reg);
+    void opcode_adc(const Address& addr);
 
-    void opcode_ld(WordRegister& reg);
-    void opcode_ld(WordRegister& reg, const uint16_t value);
+    /* ADD */
+    void opcode_add(ByteRegister& reg);
+    void opcode_add(ByteRegister& reg, const ByteRegister& byte_reg);
+    void opcode_add(ByteRegister& reg, const Address& addr);
 
-    void opcode_ld(RegisterPair& reg);
-    void opcode_ld(RegisterPair& reg, const uint16_t value);
+    void opcode_add(RegisterPair& reg, const RegisterPair& reg_pair);
 
-    void opcode_ld(const Address& address);
-    void opcode_ld(const Address& address, const uint8_t value);
-    void opcode_ld(const Address& address, const uint16_t value);
-    void opcode_ld(const Address& address, const ByteRegister& byte_reg);
-    void opcode_ld(const Address& address, const WordRegister& word_reg);
+    void opcode_add(WordRegister& reg);
 
-    /* INC */
-    void opcode_inc(ByteRegister& reg);
-    void opcode_inc(RegisterPair& reg);
+    /* AND */
+    void opcode_and();
+    void opcode_and(ByteRegister& reg);
+    void opcode_and(Address& addr);
+
+    /* BIT */
+    void opcode_bit(const int bit, ByteRegister& reg);
+    void opcode_bit(const int bit, Address& addr);
+
+    /* CALL */
+    void opcode_call();
+    void opcode_call(const uint8_t condition);
+
+    /* CCF */
+    void opcode_ccf();
+
+    /* CP */
+    void opcode_cp();
+    void opcode_cp(const ByteRegister& reg);
+    void opcode_cp(const Address& addr);
+
+    /* CPL */
+    void opcode_cpl();
+
+    /* DAA */
+    void opcode_daa();
 
     /* DEC */
     void opcode_dec(ByteRegister& reg);
     void opcode_dec(RegisterPair& reg);
+    void opcode_dec(Address&& addr);
+
+    /* DI */
+    void opcode_di();
+
+    /* EI */
+    void opcode_ei();
+
+    /* INC */
+    void opcode_inc(ByteRegister& reg);
+    void opcode_inc(RegisterPair& reg);
+    void opcode_inc(Address& addr);
+    void opcode_inc(Address&& addr);
+
+    /* JP */
+    void opcode_jp();
+    void opcode_jp(const int condition);
+    void opcode_jp(const Address& addr);
+
+    /* JR */
+    void opcode_jr();
+    void opcode_jr(const int condition);
+
+    /* HALT */
+    void opcode_halt();
+
+    /* LD */
+    void opcode_ld(ByteRegister& reg);
+    void opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg);
+    void opcode_ld(ByteRegister& reg, const Address& address);
+
+    void opcode_ld(RegisterPair& reg);
+
+    void opcode_ld(WordRegister& reg);
+
+    void opcode_ld(const Address& address);
+    void opcode_ld(const Address& address, const ByteRegister& byte_reg);
+    void opcode_ld(const Address& address, const WordRegister& word_reg);
+
+    /* LDD */
+    void opcode_ldd(const ByteRegister& reg, const Address& address);
+    void opcode_ldd(const Address& address, const ByteRegister& reg);
+
+    /* LDH */
+    // TODO: Add a type to express an 8-bit offset
+    void opcode_ldh(const ByteRegister& reg, const Address& address);
+    void opcode_ldh(const Address& address, const ByteRegister& reg);
+
+    /* LDHL */
+    void opcode_ldhl(const WordRegister& reg);
+
+    /* LDI */
+    void opcode_ldi(const ByteRegister& reg, const Address& address);
+    void opcode_ldi(const Address& address, const ByteRegister& reg);
+
+    /* NOP */
+    void opcode_nop();
+
+    /* OR */
+    void opcode_or();
+    void opcode_or(const ByteRegister& reg);
+    void opcode_or(const Address& addr);
+
+    /* POP */
+    void opcode_pop(const RegisterPair& reg);
+
+    /* PUSH */
+    void opcode_push(const RegisterPair& reg);
+
+    /* RES */
+    void opcode_res(const int bit, ByteRegister& reg);
+    void opcode_res(const int bit, Address& reg);
+
+    /* RET */
+    void opcode_ret();
+    void opcode_ret(const int condition);
+
+    /* RETI */
+    void opcode_reti();
+
+    /* RL */
+    void opcode_rl(ByteRegister& reg);
+    void opcode_rl(Address& reg);
+
+    /* RLC */
+    void opcode_rlc(ByteRegister& reg);
+    void opcode_rlc(Address& reg);
+
+    /* RR */
+    void opcode_rr(ByteRegister& reg);
+    void opcode_rr(Address& reg);
+
+    /* RRC */
+    void opcode_rrc(ByteRegister& reg);
+    void opcode_rrc(Address& reg);
+
+    /* RST */
+    // TODO: offset type
+    void opcode_rst(const uint8_t offset);
+
+    /* SBC */
+    void opcode_sbc(ByteRegister& reg);
+    void opcode_sbc(ByteRegister& reg, const ByteRegister& byte_reg);
+    void opcode_sbc(ByteRegister& reg, const Address& addr);
+
+    /* SCF */
+    void opcode_scf();
+
+    /* SET */
+    void opcode_set(const int bit, ByteRegister& reg);
+    void opcode_set(const int bit, Address& addr);
+
+    /* SLA */
+    void opcode_sla(ByteRegister& reg);
+    void opcode_sla(Address& reg);
+
+    /* SRA */
+    void opcode_sra(ByteRegister& reg);
+    void opcode_sra(Address& reg);
+
+    /* SRL */
+    void opcode_srl(ByteRegister& reg);
+    void opcode_srl(Address& reg);
+
+    /* STOP */
+    void opcode_stop();
+
+    /* SUB */
+    void opcode_sub();
+    void opcode_sub(ByteRegister& reg);
+    void opcode_sub(Address& addr);
+
+    /* SWAP */
+    void opcode_swap(ByteRegister& reg);
+    void opcode_swap(Address& addr);
+
+    /* XOR */
+    void opcode_xor();
+    void opcode_xor(const ByteRegister& reg);
+    void opcode_xor(const Address& addr);
 
     /* Opcodes */
     void opcode_00();

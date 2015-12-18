@@ -283,10 +283,6 @@ inline void CPU::opcode_ld(ByteRegister& reg) {
     reg.set(n);
 }
 
-inline void CPU::opcode_ld(ByteRegister& reg, const uint8_t value) {
-    reg.set(value);
-}
-
 inline void CPU::opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg) {
     reg.set(byte_reg.value());
 }
@@ -300,30 +296,14 @@ inline void CPU::opcode_ld(WordRegister& reg) {
     reg.set(nn);
 }
 
-inline void CPU::opcode_ld(WordRegister& reg, const uint16_t value) {
-    reg.set(value);
-}
-
 inline void CPU::opcode_ld(RegisterPair& reg) {
     uint16_t nn = get_word_from_pc();
     reg.set(nn);
 }
 
-inline void CPU::opcode_ld(RegisterPair& reg, const uint16_t value) {
-    reg.set(value);
-}
-
 inline void CPU::opcode_ld(const Address& address) {
     uint8_t n = get_byte_from_pc();
     mmu.write_byte(address, n);
-}
-
-inline void CPU::opcode_ld(const Address& address, const uint8_t value) {
-    mmu.write_byte(address, value);
-}
-
-inline void CPU::opcode_ld(const Address& address, const uint16_t value) {
-    mmu.write_word(address, value);
 }
 
 inline void CPU::opcode_ld(const Address& address, const ByteRegister& byte_reg) {
@@ -342,6 +322,10 @@ inline void CPU::opcode_inc(RegisterPair& reg) {
     reg.increment();
 }
 
+inline void CPU::opcode_inc(Address&& addr) {
+    mmu.write_byte(addr, mmu.read_byte(addr) + 1);
+}
+
 inline void CPU::opcode_dec(ByteRegister& reg) {
     reg.decrement();
 }
@@ -350,7 +334,8 @@ inline void CPU::opcode_dec(RegisterPair& reg) {
     reg.decrement();
 }
 
-inline void CPU::opcode_rlc(ByteRegister& reg) {
+inline void CPU::opcode_dec(Address&& addr) {
+    mmu.write_byte(addr, mmu.read_byte(addr) - 1);
 }
 
 void CPU::opcode_00() {
