@@ -316,6 +316,9 @@ inline void CPU::opcode_add(RegisterPair& reg, const RegisterPair& reg_pair) {
     // TODO
 }
 
+inline void CPU::opcode_add(RegisterPair& reg, const WordRegister& word_reg) {
+    // TODO
+}
 
 inline void CPU::opcode_add(WordRegister& reg) {
     // TODO
@@ -397,6 +400,10 @@ inline void CPU::opcode_dec(RegisterPair& reg) {
     // TODO
 }
 
+inline void CPU::opcode_dec(WordRegister& reg) {
+    // TODO
+}
+
 inline void CPU::opcode_dec(Address&& addr) {
     // TODO
 }
@@ -423,7 +430,7 @@ inline void CPU::opcode_inc(RegisterPair& reg) {
     // TODO
 }
 
-inline void CPU::opcode_inc(Address& addr) {
+inline void CPU::opcode_inc(WordRegister& addr) {
     // TODO
 }
 

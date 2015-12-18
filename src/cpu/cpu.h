@@ -60,6 +60,7 @@ private:
     void opcode_add(ByteRegister& reg, const Address& addr);
 
     void opcode_add(RegisterPair& reg, const RegisterPair& reg_pair);
+    void opcode_add(RegisterPair& reg, const WordRegister& word_reg);
 
     void opcode_add(WordRegister& reg);
 
@@ -93,6 +94,7 @@ private:
     /* DEC */
     void opcode_dec(ByteRegister& reg);
     void opcode_dec(RegisterPair& reg);
+    void opcode_dec(WordRegister& reg);
     void opcode_dec(Address&& addr);
 
     /* DI */
@@ -104,7 +106,7 @@ private:
     /* INC */
     void opcode_inc(ByteRegister& reg);
     void opcode_inc(RegisterPair& reg);
-    void opcode_inc(Address& addr);
+    void opcode_inc(WordRegister& reg);
     void opcode_inc(Address&& addr);
 
     /* JP */
