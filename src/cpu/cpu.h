@@ -2,10 +2,10 @@
 #define EMULATOR_CPU_H
 
 #include <cstdint>
-#include "clock.h"
+#include "../address.h"
+#include "../clock.h"
 #include "mmu.h"
 #include "register.h"
-#include "address.h"
 
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.

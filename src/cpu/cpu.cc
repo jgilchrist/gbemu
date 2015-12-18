@@ -1,5 +1,5 @@
 #include "cpu.h"
-#include "bitwise.h"
+#include "../bitwise.h"
 
 void CPU::execute_opcode(const uint8_t opcode) {
     switch (opcode) {

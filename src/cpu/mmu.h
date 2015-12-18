@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include "memory.h"
-#include "address.h"
+#include "../address.h"
 
 class MMU {
 public:

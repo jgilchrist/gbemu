@@ -1,7 +1,7 @@
 #ifndef EMULATOR_GAMEBOY_H
 #define EMULATOR_GAMEBOY_H
 
-#include "cpu.h"
+#include "cpu/cpu.h"
 
 class Gameboy {
 public:
