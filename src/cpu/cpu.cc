@@ -1,6 +1,8 @@
 #include "cpu.h"
 #include "../bitwise.h"
 
+CPU::CPU() {}
+
 void CPU::execute_opcode(const uint8_t opcode) {
     switch (opcode) {
         case 0x00: opcode_00(); break;
