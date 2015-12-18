@@ -2,7 +2,7 @@
 #define EMULATOR_ADDRESS_H
 
 #include <cstdint>
-#include "RegisterGroup.h"
+#include "registergroup.h"
 
 class Address {
 public:

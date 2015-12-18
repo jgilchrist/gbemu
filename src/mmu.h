@@ -2,8 +2,8 @@
 #define EMULATOR_MMU_H
 
 #include <cstdint>
-#include "Memory.h"
-#include "Address.h"
+#include "memory.h"
+#include "address.h"
 
 class MMU {
 public:

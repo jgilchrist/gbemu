@@ -1,4 +1,4 @@
-#include "RegisterGroup.h"
+#include "registergroup.h"
 
 RegisterGroup::RegisterGroup(ByteRegister& low, ByteRegister& high) :
         low_byte(low),
