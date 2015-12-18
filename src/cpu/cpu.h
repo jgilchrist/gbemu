@@ -47,6 +47,9 @@ private:
     uint8_t get_byte_from_pc();
     uint16_t get_word_from_pc();
 
+    /* Opcode Helper Functions */
+
+    /* LD */
     void opcode_ld(ByteRegister& reg);
     void opcode_ld(ByteRegister& reg, const uint8_t value);
     void opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg);
@@ -64,8 +67,13 @@ private:
     void opcode_ld(const Address& address, const ByteRegister& byte_reg);
     void opcode_ld(const Address& address, const WordRegister& word_reg);
 
-    void opcode_inc(const Address& address);
-    void opcode_dec(const Address& address);
+    /* INC */
+    void opcode_inc(ByteRegister& reg);
+    void opcode_inc(RegisterPair& reg);
+
+    /* DEC */
+    void opcode_dec(ByteRegister& reg);
+    void opcode_dec(RegisterPair& reg);
 
     /* Opcodes */
     void opcode_00();
