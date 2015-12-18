@@ -4,4 +4,22 @@ project(emulator)
 
 add_definitions(-std=c++11 -Wall -Wextra -pedantic -g -ferror-limit=10000)
 
-add_executable(emulator src/main.cc src/CPU.cc src/CPU.h src/Gameboy.cc src/Gameboy.h src/MMU.cc src/MMU.h src/Clock.cc src/Clock.h src/Memory.cc src/Memory.h src/RegisterGroup.cc src/RegisterGroup.h src/Register.h src/Address.cc src/Address.h src/Bitwise.h)
+add_executable(emulator
+    src/main.cc
+    src/cpu.cc
+    src/cpu.h
+    src/gameboy.cc
+    src/gameboy.h
+    src/mmu.cc
+    src/mmu.h
+    src/clock.cc
+    src/clock.h
+    src/memory.cc
+    src/memory.h
+    src/registergroup.cc
+    src/registergroup.h
+    src/register.h
+    src/address.cc
+    src/address.h
+    src/bitwise.h
+)
