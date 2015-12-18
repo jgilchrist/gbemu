@@ -764,7 +764,7 @@ inline void CPU::opcode_xor(const Address& addr) {
  */
 
 void CPU::opcode_00() {
-    /* NOP */
+    opcode_nop();
 }
 
 void CPU::opcode_01() {
@@ -792,7 +792,7 @@ void CPU::opcode_06() {
 }
 
 void CPU::opcode_07() {
-    /* TODO */
+    opcode_rlc(a);
 }
 
 void CPU::opcode_08() {
@@ -801,7 +801,7 @@ void CPU::opcode_08() {
 }
 
 void CPU::opcode_09() {
-    /* TODO */
+    opcode_add(hl, bc);
 }
 
 void CPU::opcode_0A() {
@@ -809,15 +809,15 @@ void CPU::opcode_0A() {
 }
 
 void CPU::opcode_0B() {
-    bc.decrement();
+    opcode_dec(bc);
 }
 
 void CPU::opcode_0C() {
-    c.increment();
+    opcode_inc(c);
 }
 
 void CPU::opcode_0D() {
-    c.decrement();
+    opcode_dec(c);
 }
 
 void CPU::opcode_0E() {
@@ -825,11 +825,11 @@ void CPU::opcode_0E() {
 }
 
 void CPU::opcode_0F() {
-    /* TODO */
+    opcode_rrc(a);
 }
 
 void CPU::opcode_10() {
-    /* TODO */
+    opcode_stop();
 }
 
 void CPU::opcode_11() {
@@ -841,15 +841,15 @@ void CPU::opcode_12() {
 }
 
 void CPU::opcode_13() {
-    de.increment();
+    opcode_inc(de);
 }
 
 void CPU::opcode_14() {
-    d.increment();
+    opcode_inc(d);
 }
 
 void CPU::opcode_15() {
-    d.decrement();
+    opcode_dec(d);
 }
 
 void CPU::opcode_16() {
@@ -857,15 +857,15 @@ void CPU::opcode_16() {
 }
 
 void CPU::opcode_17() {
-    /* TODO */
+    opcode_rl(a);
 }
 
 void CPU::opcode_18() {
-    /* TODO */
+    opcode_jr();
 }
 
 void CPU::opcode_19() {
-    /* TODO */
+    opcode_add(hl, de);
 }
 
 void CPU::opcode_1A() {
@@ -873,15 +873,15 @@ void CPU::opcode_1A() {
 }
 
 void CPU::opcode_1B() {
-    de.decrement();
+    opcode_dec(de);
 }
 
 void CPU::opcode_1C() {
-    e.increment();
+    opcode_inc(e);
 }
 
 void CPU::opcode_1D() {
-    e.decrement();
+    opcode_dec(e);
 }
 
 void CPU::opcode_1E() {
@@ -889,7 +889,7 @@ void CPU::opcode_1E() {
 }
 
 void CPU::opcode_1F() {
-    /* TODO */
+    opcode_rr(a);
 }
 
 void CPU::opcode_20() {
@@ -901,19 +901,19 @@ void CPU::opcode_21() {
 }
 
 void CPU::opcode_22() {
-    /* TODO */
+    opcode_ldi(Address(hl), a);
 }
 
 void CPU::opcode_23() {
-    hl.increment();
+    opcode_inc(hl);
 }
 
 void CPU::opcode_24() {
-    h.increment();
+    opcode_inc(h);
 }
 
 void CPU::opcode_25() {
-    h.decrement();
+    opcode_inc(l);
 }
 
 void CPU::opcode_26() {
@@ -921,7 +921,7 @@ void CPU::opcode_26() {
 }
 
 void CPU::opcode_27() {
-    /* TODO */
+    opcode_daa();
 }
 
 void CPU::opcode_28() {
@@ -929,23 +929,23 @@ void CPU::opcode_28() {
 }
 
 void CPU::opcode_29() {
-    /* TODO */
+    opcode_add(hl, hl);
 }
 
 void CPU::opcode_2A() {
-    /* TODO */
+    opcode_ldi(a, Address(hl));
 }
 
 void CPU::opcode_2B() {
-    hl.decrement();
+    opcode_dec(hl);
 }
 
 void CPU::opcode_2C() {
-    l.increment();
+    opcode_inc(l);
 }
 
 void CPU::opcode_2D() {
-    l.decrement();
+    opcode_dec(l);
 }
 
 void CPU::opcode_2E() {
@@ -953,7 +953,7 @@ void CPU::opcode_2E() {
 }
 
 void CPU::opcode_2F() {
-    /* TODO */
+    opcode_cpl();
 }
 
 void CPU::opcode_30() {
@@ -965,11 +965,11 @@ void CPU::opcode_31() {
 }
 
 void CPU::opcode_32() {
-    /* TODO */
+    opcode_ldd(Address(hl), a);
 }
 
 void CPU::opcode_33() {
-    sp.increment();
+    opcode_inc(sp);
 }
 
 void CPU::opcode_34() {
@@ -985,7 +985,7 @@ void CPU::opcode_36() {
 }
 
 void CPU::opcode_37() {
-    /* TODO */
+    opcode_scf();
 }
 
 void CPU::opcode_38() {
@@ -993,23 +993,23 @@ void CPU::opcode_38() {
 }
 
 void CPU::opcode_39() {
-    /* TODO */
+    opcode_add(hl, sp);
 }
 
 void CPU::opcode_3A() {
-    /* TODO */
+    opcode_ldd(a, Address(hl));
 }
 
 void CPU::opcode_3B() {
-    sp.decrement();
+    opcode_dec(sp);
 }
 
 void CPU::opcode_3C() {
-    a.increment();
+    opcode_inc(a);
 }
 
 void CPU::opcode_3D() {
-    a.decrement();
+    opcode_dec(a);
 }
 
 void CPU::opcode_3E() {
@@ -1017,7 +1017,7 @@ void CPU::opcode_3E() {
 }
 
 void CPU::opcode_3F() {
-    /* TODO */
+    opcode_ccf();
 }
 
 void CPU::opcode_40() {
