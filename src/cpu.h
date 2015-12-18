@@ -5,7 +5,6 @@
 #include "clock.h"
 #include "mmu.h"
 #include "register.h"
-#include "registergroup.h"
 #include "address.h"
 
 /**

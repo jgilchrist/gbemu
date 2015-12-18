@@ -16,8 +16,7 @@ add_executable(emulator
     src/clock.h
     src/memory.cc
     src/memory.h
-    src/registergroup.cc
-    src/registergroup.h
+    src/register.cc
     src/register.h
     src/address.cc
     src/address.h
