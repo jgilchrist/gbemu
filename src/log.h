@@ -21,7 +21,7 @@ private:
     bool should_log(LogLevel level) const;
     const char* level_color(LogLevel level) const;
 
-    LogLevel current_level = LogLevel::Error;
+    LogLevel current_level = LogLevel::Debug;
     bool enabled = true;
 };
 
