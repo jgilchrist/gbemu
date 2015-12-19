@@ -293,7 +293,7 @@ inline void CPU::opcode_adc(const ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_adc(const Address& addr) {
+inline void CPU::opcode_adc(const Address&& addr) {
     // TODO
 }
 
@@ -321,6 +321,10 @@ inline void CPU::opcode_add(RegisterPair& reg, const WordRegister& word_reg) {
 }
 
 inline void CPU::opcode_add(WordRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_add_signed() {
     // TODO
 }
 
@@ -495,6 +499,10 @@ inline void CPU::opcode_ld(WordRegister& reg) {
     reg.set(nn);
 }
 
+inline void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
+    // TODO
+}
+
 
 inline void CPU::opcode_ld(const Address& address) {
     uint8_t n = get_byte_from_pc();
@@ -521,18 +529,21 @@ inline void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
 
 
 /* LDH */
-// TODO: Add a type to express an 8-bit offset
-inline void CPU::opcode_ldh(const ByteRegister& reg, const Address& address) {
+inline void CPU::opcode_ldh() {
     // TODO
 }
 
-inline void CPU::opcode_ldh(const Address& address, const ByteRegister& reg) {
+inline void CPU::opcode_ldh(const ByteRegister& reg) {
+    // TODO
+}
+
+inline void CPU::opcode_ldh(const Address&& addr) {
     // TODO
 }
 
 
 /* LDHL */
-inline void CPU::opcode_ldhl(const WordRegister& reg) {
+inline void CPU::opcode_ldhl() {
     // TODO
 }
 
@@ -653,6 +664,10 @@ inline void CPU::opcode_rst(const uint8_t offset) {
 
 
 /* SBC */
+inline void CPU::opcode_sbc() {
+    // TODO
+}
+
 inline void CPU::opcode_sbc(ByteRegister& reg) {
     // TODO
 }

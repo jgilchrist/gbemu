@@ -64,6 +64,8 @@ private:
 
     void opcode_add(WordRegister& reg);
 
+    void opcode_add_signed();
+
     /* AND */
     void opcode_and();
     void opcode_and(ByteRegister& reg);
@@ -129,6 +131,7 @@ private:
     void opcode_ld(RegisterPair& reg);
 
     void opcode_ld(WordRegister& reg);
+    void opcode_ld(WordRegister& reg, const RegisterPair& reg_pair);
 
     void opcode_ld(const Address& address);
     void opcode_ld(const Address& address, const ByteRegister& byte_reg);
@@ -139,12 +142,15 @@ private:
     void opcode_ldd(const Address& address, const ByteRegister& reg);
 
     /* LDH */
-    // TODO: Add a type to express an 8-bit offset
-    void opcode_ldh(const ByteRegister& reg, const Address& address);
-    void opcode_ldh(const Address& address, const ByteRegister& reg);
+    // (n), A
+    void opcode_ldh();
+    // A, (n)
+    void opcode_ldh(const ByteRegister& reg);
+    // (reg), A
+    void opcode_ldh(const Address&& addr);
 
     /* LDHL */
-    void opcode_ldhl(const WordRegister& reg);
+    void opcode_ldhl();
 
     /* LDI */
     void opcode_ldi(const ByteRegister& reg, const Address& address);
@@ -196,6 +202,7 @@ private:
     void opcode_rst(const uint8_t offset);
 
     /* SBC */
+    void opcode_sbc();
     void opcode_sbc(ByteRegister& reg);
     void opcode_sbc(Address&& addr);
 
