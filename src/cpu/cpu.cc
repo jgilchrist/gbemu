@@ -552,6 +552,41 @@ inline uint16_t CPU::get_word_from_pc() {
     return compose_bytes(low_byte, high_byte);
 }
 
+void CPU::set_flag_zero(bool b) {
+    f.set(set_bit(f.value(), 7));
+}
+
+void CPU::set_flag_subtract(bool b) {
+    f.set(set_bit(f.value(), 6));
+}
+
+void CPU::set_flag_half_carry(bool b) {
+    f.set(set_bit(f.value(), 5));
+}
+
+void CPU::set_flag_carry(bool b) {
+    f.set(set_bit(f.value(), 4));
+
+}
+
+bool CPU::flag_zero() const {
+    return check_bit(f.value(), 7);
+}
+
+bool CPU::flag_subtract() const {
+    return check_bit(f.value(), 6);
+
+}
+
+bool CPU::flag_half_carry() const {
+    return check_bit(f.value(), 5);
+
+}
+
+bool CPU::flag_carry() const {
+    return check_bit(f.value(), 4);
+
+}
 
 /**
  * This section contains helper functions for allowing succinct expression

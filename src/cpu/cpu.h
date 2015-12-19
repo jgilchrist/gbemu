@@ -48,6 +48,16 @@ private:
      */
     ByteRegister f;
 
+    void set_flag_zero(bool b);
+    void set_flag_subtract(bool b);
+    void set_flag_half_carry(bool b);
+    void set_flag_carry(bool b);
+
+    bool flag_zero() const;
+    bool flag_subtract() const;
+    bool flag_half_carry() const;
+    bool flag_carry() const;
+
     /* Program counter */
     WordRegister pc;
 
