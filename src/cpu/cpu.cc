@@ -358,7 +358,7 @@ inline void CPU::opcode_call() {
     // TODO
 }
 
-inline void CPU::opcode_call(const uint8_t condition) {
+inline void CPU::opcode_call(Condition condition) {
     // TODO
 }
 
@@ -448,7 +448,7 @@ inline void CPU::opcode_jp() {
     // TODO
 }
 
-inline void CPU::opcode_jp(const int condition) {
+inline void CPU::opcode_jp(Condition condition) {
     // TODO
 }
 
@@ -462,7 +462,7 @@ inline void CPU::opcode_jr() {
     // TODO
 }
 
-inline void CPU::opcode_jr(const int condition) {
+inline void CPU::opcode_jr(Condition condition) {
     // TODO
 }
 
@@ -605,7 +605,7 @@ inline void CPU::opcode_ret() {
     // TODO
 }
 
-inline void CPU::opcode_ret(const int condition) {
+inline void CPU::opcode_ret(Condition condition) {
     // TODO
 }
 

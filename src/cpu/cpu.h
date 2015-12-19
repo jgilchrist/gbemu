@@ -11,6 +11,13 @@
  * The Gameboy CPU is a Z80 (8-bit) chip.
  */
 
+enum class Condition {
+    NZ,
+    Z,
+    NC,
+    C,
+};
+
 class CPU {
 public:
     CPU();
@@ -78,7 +85,7 @@ private:
 
     /* CALL */
     void opcode_call();
-    void opcode_call(const uint8_t condition);
+    void opcode_call(Condition condition);
 
     /* CCF */
     void opcode_ccf();
@@ -114,12 +121,12 @@ private:
 
     /* JP */
     void opcode_jp();
-    void opcode_jp(const int condition);
+    void opcode_jp(Condition condition);
     void opcode_jp(const Address& addr);
 
     /* JR */
     void opcode_jr();
-    void opcode_jr(const int condition);
+    void opcode_jr(Condition condition);
 
     /* HALT */
     void opcode_halt();
@@ -177,7 +184,7 @@ private:
 
     /* RET */
     void opcode_ret();
-    void opcode_ret(const int condition);
+    void opcode_ret(Condition condition);
 
     /* RETI */
     void opcode_reti();
