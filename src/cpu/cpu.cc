@@ -909,7 +909,7 @@ void CPU::opcode_1F() {
 }
 
 void CPU::opcode_20() {
-    /* TODO */
+    opcode_jr(Condition::NZ);
 }
 
 void CPU::opcode_21() {
@@ -941,7 +941,7 @@ void CPU::opcode_27() {
 }
 
 void CPU::opcode_28() {
-    /* TODO */
+    opcode_jr(Condition::Z);
 }
 
 void CPU::opcode_29() {
@@ -973,7 +973,7 @@ void CPU::opcode_2F() {
 }
 
 void CPU::opcode_30() {
-    /* TODO */
+    opcode_jr(Condition::NC);
 }
 
 void CPU::opcode_31() {
@@ -1005,7 +1005,7 @@ void CPU::opcode_37() {
 }
 
 void CPU::opcode_38() {
-    /* TODO */
+    opcode_jr(Condition::C);
 }
 
 void CPU::opcode_39() {
@@ -1549,7 +1549,7 @@ void CPU::opcode_BF() {
 }
 
 void CPU::opcode_C0() {
-    /* TODO */
+    opcode_ret(Condition::NZ);
 }
 
 void CPU::opcode_C1() {
@@ -1557,7 +1557,7 @@ void CPU::opcode_C1() {
 }
 
 void CPU::opcode_C2() {
-    /* TODO */
+    opcode_jp(Condition::NZ);
 }
 
 void CPU::opcode_C3() {
@@ -1565,7 +1565,7 @@ void CPU::opcode_C3() {
 }
 
 void CPU::opcode_C4() {
-    /* TODO */
+    opcode_call(Condition::NZ);
 }
 
 void CPU::opcode_C5() {
@@ -1581,7 +1581,7 @@ void CPU::opcode_C7() {
 }
 
 void CPU::opcode_C8() {
-    /* TODO */
+    opcode_ret(Condition::Z);
 }
 
 void CPU::opcode_C9() {
@@ -1589,15 +1589,15 @@ void CPU::opcode_C9() {
 }
 
 void CPU::opcode_CA() {
-    /* TODO */
+    opcode_jp(Condition::Z);
 }
 
 void CPU::opcode_CB() {
-    /* TODO */
+    // TODO: External Ops
 }
 
 void CPU::opcode_CC() {
-    /* TODO */
+    opcode_call(Condition::Z);
 }
 
 void CPU::opcode_CD() {
@@ -1613,7 +1613,7 @@ void CPU::opcode_CF() {
 }
 
 void CPU::opcode_D0() {
-    /* TODO */
+    opcode_ret(Condition::NC);
 }
 
 void CPU::opcode_D1() {
@@ -1621,7 +1621,7 @@ void CPU::opcode_D1() {
 }
 
 void CPU::opcode_D2() {
-    /* TODO */
+    opcode_jp(Condition::NC);
 }
 
 void CPU::opcode_D3() {
@@ -1629,7 +1629,7 @@ void CPU::opcode_D3() {
 }
 
 void CPU::opcode_D4() {
-    /* TODO */
+    opcode_call(Condition::NC);
 }
 
 void CPU::opcode_D5() {
@@ -1645,15 +1645,15 @@ void CPU::opcode_D7() {
 }
 
 void CPU::opcode_D8() {
-    /* TODO */
+    opcode_ret(Condition::C);
 }
 
 void CPU::opcode_D9() {
-    /* TODO */
+    opcode_reti();
 }
 
 void CPU::opcode_DA() {
-    /* TODO */
+    opcode_jp(Condition::C);
 }
 
 void CPU::opcode_DB() {
@@ -1661,7 +1661,7 @@ void CPU::opcode_DB() {
 }
 
 void CPU::opcode_DC() {
-    /* TODO */
+    opcode_call(Condition::C);
 }
 
 void CPU::opcode_DD() {
@@ -1717,7 +1717,7 @@ void CPU::opcode_E9() {
 }
 
 void CPU::opcode_EA() {
-    /* TODO */
+    opcode_ld_to_addr(a);
 }
 
 void CPU::opcode_EB() {
