@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "cpu.h"
 #include "../bitwise.h"
 
@@ -269,6 +270,7 @@ void CPU::execute_normal_opcode(const uint8_t opcode) {
         case 0xFD: opcode_FD(); break;
         case 0xFE: opcode_FE(); break;
         case 0xFF: opcode_FF(); break;
+        default: throw std::invalid_argument("Desired opcode is not implemented");
     }
 }
 
@@ -532,6 +534,7 @@ void CPU::execute_cb_opcode(const uint8_t opcode) {
         case 0xFD: opcode_CB_FD(); break;
         case 0xFE: opcode_CB_FE(); break;
         case 0xFF: opcode_CB_FF(); break;
+        default: throw std::invalid_argument("Desired opcode is not implemented");
     }
 }
 
