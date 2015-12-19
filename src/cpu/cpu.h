@@ -166,7 +166,7 @@ private:
 
     /* RES */
     void opcode_res(const int bit, ByteRegister& reg);
-    void opcode_res(const int bit, Address& reg);
+    void opcode_res(const int bit, Address& addr);
 
     /* RET */
     void opcode_ret();
@@ -177,19 +177,19 @@ private:
 
     /* RL */
     void opcode_rl(ByteRegister& reg);
-    void opcode_rl(Address& reg);
+    void opcode_rl(Address& addr);
 
     /* RLC */
     void opcode_rlc(ByteRegister& reg);
-    void opcode_rlc(Address& reg);
+    void opcode_rlc(Address& addr);
 
     /* RR */
     void opcode_rr(ByteRegister& reg);
-    void opcode_rr(Address& reg);
+    void opcode_rr(Address& addr);
 
     /* RRC */
     void opcode_rrc(ByteRegister& reg);
-    void opcode_rrc(Address& reg);
+    void opcode_rrc(Address& addr);
 
     /* RST */
     // TODO: offset type
@@ -209,15 +209,15 @@ private:
 
     /* SLA */
     void opcode_sla(ByteRegister& reg);
-    void opcode_sla(Address& reg);
+    void opcode_sla(Address& addr);
 
     /* SRA */
     void opcode_sra(ByteRegister& reg);
-    void opcode_sra(Address& reg);
+    void opcode_sra(Address& addr);
 
     /* SRL */
     void opcode_srl(ByteRegister& reg);
-    void opcode_srl(Address& reg);
+    void opcode_srl(Address& addr);
 
     /* STOP */
     void opcode_stop();

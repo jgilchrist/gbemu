@@ -584,7 +584,7 @@ inline void CPU::opcode_res(const int bit, ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_res(const int bit, Address& reg) {
+inline void CPU::opcode_res(const int bit, Address& addr) {
     // TODO
 }
 
@@ -610,7 +610,7 @@ inline void CPU::opcode_rl(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rl(Address& reg) {
+inline void CPU::opcode_rl(Address& addr) {
     // TODO
 }
 
@@ -620,7 +620,7 @@ inline void CPU::opcode_rlc(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rlc(Address& reg) {
+inline void CPU::opcode_rlc(Address& addr) {
     // TODO
 }
 
@@ -630,7 +630,7 @@ inline void CPU::opcode_rr(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rr(Address& reg) {
+inline void CPU::opcode_rr(Address& addr) {
     // TODO
 }
 
@@ -640,7 +640,7 @@ inline void CPU::opcode_rrc(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rrc(Address& reg) {
+inline void CPU::opcode_rrc(Address& addr) {
     // TODO
 }
 
@@ -687,7 +687,7 @@ inline void CPU::opcode_sla(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sla(Address& reg) {
+inline void CPU::opcode_sla(Address& addr) {
     // TODO
 }
 
@@ -697,7 +697,7 @@ inline void CPU::opcode_sra(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sra(Address& reg) {
+inline void CPU::opcode_sra(Address& addr) {
     // TODO
 }
 
@@ -707,7 +707,7 @@ inline void CPU::opcode_srl(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_srl(Address& reg) {
+inline void CPU::opcode_srl(Address& addr) {
     // TODO
 }
 
