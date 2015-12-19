@@ -24,7 +24,7 @@ public:
 
     void execute_opcode(const uint8_t opcode);
     void execute_normal_opcode(const uint8_t opcode);
-    void execute_cb_opcode(const uint8_t opcode);
+    void execute_cb_opcode();
 
 private:
     Clock clock;

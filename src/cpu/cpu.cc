@@ -8,7 +8,7 @@ void CPU::execute_opcode(const uint8_t opcode) {
     if (opcode != 0xCB) {
         execute_normal_opcode(opcode);
     } else {
-        execute_cb_opcode(opcode);
+        execute_cb_opcode();
     }
 }
 
@@ -274,7 +274,7 @@ void CPU::execute_normal_opcode(const uint8_t opcode) {
     }
 }
 
-void CPU::execute_cb_opcode(const uint8_t opcode) {
+void CPU::execute_cb_opcode() {
     uint8_t cb_opcode = get_byte_from_pc();
 
     switch (cb_opcode) {
