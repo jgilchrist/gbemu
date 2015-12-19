@@ -1021,259 +1021,259 @@ void CPU::opcode_3F() {
 }
 
 void CPU::opcode_40() {
-    /* TODO */
+    opcode_ld(b, b);
 }
 
 void CPU::opcode_41() {
-    /* TODO */
+    opcode_ld(b, c);
 }
 
 void CPU::opcode_42() {
-    /* TODO */
+    opcode_ld(b, d);
 }
 
 void CPU::opcode_43() {
-    /* TODO */
+    opcode_ld(b, e);
 }
 
 void CPU::opcode_44() {
-    /* TODO */
+    opcode_ld(b, h);
 }
 
 void CPU::opcode_45() {
-    /* TODO */
+    opcode_ld(b, l);
 }
 
 void CPU::opcode_46() {
-    /* TODO */
+    opcode_ld(b, Address(hl));
 }
 
 void CPU::opcode_47() {
-    /* TODO */
+    opcode_ld(b, a);
 }
 
 void CPU::opcode_48() {
-    /* TODO */
+    opcode_ld(c, b);
 }
 
 void CPU::opcode_49() {
-    /* TODO */
+    opcode_ld(c, c);
 }
 
 void CPU::opcode_4A() {
-    /* TODO */
+    opcode_ld(c, d);
 }
 
 void CPU::opcode_4B() {
-    /* TODO */
+    opcode_ld(c, e);
 }
 
 void CPU::opcode_4C() {
-    /* TODO */
+    opcode_ld(c, h);
 }
 
 void CPU::opcode_4D() {
-    /* TODO */
+    opcode_ld(c, l);
 }
 
 void CPU::opcode_4E() {
-    /* TODO */
+    opcode_ld(c, Address(hl));
 }
 
 void CPU::opcode_4F() {
-    /* TODO */
+    opcode_ld(c, a);
 }
 
 void CPU::opcode_50() {
-    /* TODO */
+    opcode_ld(d, b);
 }
 
 void CPU::opcode_51() {
-    /* TODO */
+    opcode_ld(d, c);
 }
 
 void CPU::opcode_52() {
-    /* TODO */
+    opcode_ld(d, d);
 }
 
 void CPU::opcode_53() {
-    /* TODO */
+    opcode_ld(d, e);
 }
 
 void CPU::opcode_54() {
-    /* TODO */
+    opcode_ld(d, h);
 }
 
 void CPU::opcode_55() {
-    /* TODO */
+    opcode_ld(d, l);
 }
 
 void CPU::opcode_56() {
-    /* TODO */
+    opcode_ld(d, Address(hl));
 }
 
 void CPU::opcode_57() {
-    /* TODO */
+    opcode_ld(d, a);
 }
 
 void CPU::opcode_58() {
-    /* TODO */
+    opcode_ld(e, b);
 }
 
 void CPU::opcode_59() {
-    /* TODO */
+    opcode_ld(e, c);
 }
 
 void CPU::opcode_5A() {
-    /* TODO */
+    opcode_ld(e, d);
 }
 
 void CPU::opcode_5B() {
-    /* TODO */
+    opcode_ld(e, e);
 }
 
 void CPU::opcode_5C() {
-    /* TODO */
+    opcode_ld(e, h);
 }
 
 void CPU::opcode_5D() {
-    /* TODO */
+    opcode_ld(e, l);
 }
 
 void CPU::opcode_5E() {
-    /* TODO */
+    opcode_ld(e, Address(hl));
 }
 
 void CPU::opcode_5F() {
-    /* TODO */
+    opcode_ld(e, a);
 }
 
 void CPU::opcode_60() {
-    /* TODO */
+    opcode_ld(h, b);
 }
 
 void CPU::opcode_61() {
-    /* TODO */
+    opcode_ld(h, c);
 }
 
 void CPU::opcode_62() {
-    /* TODO */
+    opcode_ld(h, d);
 }
 
 void CPU::opcode_63() {
-    /* TODO */
+    opcode_ld(h, e);
 }
 
 void CPU::opcode_64() {
-    /* TODO */
+    opcode_ld(h, h);
 }
 
 void CPU::opcode_65() {
-    /* TODO */
+    opcode_ld(h, l);
 }
 
 void CPU::opcode_66() {
-    /* TODO */
+    opcode_ld(h, Address(hl));
 }
 
 void CPU::opcode_67() {
-    /* TODO */
+    opcode_ld(h, a);
 }
 
 void CPU::opcode_68() {
-    /* TODO */
+    opcode_ld(l, b);
 }
 
 void CPU::opcode_69() {
-    /* TODO */
+    opcode_ld(l, c);
 }
 
 void CPU::opcode_6A() {
-    /* TODO */
+    opcode_ld(l, d);
 }
 
 void CPU::opcode_6B() {
-    /* TODO */
+    opcode_ld(l, e);
 }
 
 void CPU::opcode_6C() {
-    /* TODO */
+    opcode_ld(l, h);
 }
 
 void CPU::opcode_6D() {
-    /* TODO */
+    opcode_ld(l, l);
 }
 
 void CPU::opcode_6E() {
-    /* TODO */
+    opcode_ld(l, Address(hl));
 }
 
 void CPU::opcode_6F() {
-    /* TODO */
+    opcode_ld(l, a);
 }
 
 void CPU::opcode_70() {
-    /* TODO */
+    opcode_ld(Address(hl), b);
 }
 
 void CPU::opcode_71() {
-    /* TODO */
+    opcode_ld(Address(hl), c);
 }
 
 void CPU::opcode_72() {
-    /* TODO */
+    opcode_ld(Address(hl), d);
 }
 
 void CPU::opcode_73() {
-    /* TODO */
+    opcode_ld(Address(hl), e);
 }
 
 void CPU::opcode_74() {
-    /* TODO */
+    opcode_ld(Address(hl), h);
 }
 
 void CPU::opcode_75() {
-    /* TODO */
+    opcode_ld(Address(hl), l);
 }
 
 void CPU::opcode_76() {
-    /* TODO */
+    opcode_halt();
 }
 
 void CPU::opcode_77() {
-    /* TODO */
+    opcode_ld(Address(hl), a);
 }
 
 void CPU::opcode_78() {
-    /* TODO */
+    opcode_ld(a, b);
 }
 
 void CPU::opcode_79() {
-    /* TODO */
+    opcode_ld(a, c);
 }
 
 void CPU::opcode_7A() {
-    /* TODO */
+    opcode_ld(a, d);
 }
 
 void CPU::opcode_7B() {
-    /* TODO */
+    opcode_ld(a, e);
 }
 
 void CPU::opcode_7C() {
-    /* TODO */
+    opcode_ld(a, h);
 }
 
 void CPU::opcode_7D() {
-    /* TODO */
+    opcode_ld(a, l);
 }
 
 void CPU::opcode_7E() {
-    /* TODO */
+    opcode_ld(a, Address(hl));
 }
 
 void CPU::opcode_7F() {
-    /* TODO */
+    opcode_ld(a, a);
 }
 
 void CPU::opcode_80() {
