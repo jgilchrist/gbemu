@@ -52,7 +52,7 @@ private:
     /* ADC */
     void opcode_adc();
     void opcode_adc(const ByteRegister& reg);
-    void opcode_adc(const Address& addr);
+    void opcode_adc(const Address&& addr);
 
     /* ADD */
     void opcode_add(ByteRegister& reg);
@@ -67,7 +67,7 @@ private:
     /* AND */
     void opcode_and();
     void opcode_and(ByteRegister& reg);
-    void opcode_and(Address& addr);
+    void opcode_and(Address&& addr);
 
     /* BIT */
     void opcode_bit(const int bit, ByteRegister& reg);
@@ -177,19 +177,19 @@ private:
 
     /* RL */
     void opcode_rl(ByteRegister& reg);
-    void opcode_rl(Address& addr);
+    void opcode_rl(Address&& addr);
 
     /* RLC */
     void opcode_rlc(ByteRegister& reg);
-    void opcode_rlc(Address& addr);
+    void opcode_rlc(Address&& addr);
 
     /* RR */
     void opcode_rr(ByteRegister& reg);
-    void opcode_rr(Address& addr);
+    void opcode_rr(Address&& addr);
 
     /* RRC */
     void opcode_rrc(ByteRegister& reg);
-    void opcode_rrc(Address& addr);
+    void opcode_rrc(Address&& addr);
 
     /* RST */
     // TODO: offset type
@@ -197,8 +197,7 @@ private:
 
     /* SBC */
     void opcode_sbc(ByteRegister& reg);
-    void opcode_sbc(ByteRegister& reg, const ByteRegister& byte_reg);
-    void opcode_sbc(ByteRegister& reg, const Address& addr);
+    void opcode_sbc(Address&& addr);
 
     /* SCF */
     void opcode_scf();
@@ -209,15 +208,15 @@ private:
 
     /* SLA */
     void opcode_sla(ByteRegister& reg);
-    void opcode_sla(Address& addr);
+    void opcode_sla(Address&& addr);
 
     /* SRA */
     void opcode_sra(ByteRegister& reg);
-    void opcode_sra(Address& addr);
+    void opcode_sra(Address&& addr);
 
     /* SRL */
     void opcode_srl(ByteRegister& reg);
-    void opcode_srl(Address& addr);
+    void opcode_srl(Address&& addr);
 
     /* STOP */
     void opcode_stop();
@@ -225,11 +224,11 @@ private:
     /* SUB */
     void opcode_sub();
     void opcode_sub(ByteRegister& reg);
-    void opcode_sub(Address& addr);
+    void opcode_sub(Address&& addr);
 
     /* SWAP */
     void opcode_swap(ByteRegister& reg);
-    void opcode_swap(Address& addr);
+    void opcode_swap(Address&& addr);
 
     /* XOR */
     void opcode_xor();

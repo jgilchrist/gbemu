@@ -334,7 +334,7 @@ inline void CPU::opcode_and(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_and(Address& addr) {
+inline void CPU::opcode_and(Address&& addr) {
     // TODO
 }
 
@@ -610,7 +610,7 @@ inline void CPU::opcode_rl(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rl(Address& addr) {
+inline void CPU::opcode_rl(Address&& addr) {
     // TODO
 }
 
@@ -620,7 +620,7 @@ inline void CPU::opcode_rlc(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rlc(Address& addr) {
+inline void CPU::opcode_rlc(Address&& addr) {
     // TODO
 }
 
@@ -630,7 +630,7 @@ inline void CPU::opcode_rr(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rr(Address& addr) {
+inline void CPU::opcode_rr(Address&& addr) {
     // TODO
 }
 
@@ -640,7 +640,7 @@ inline void CPU::opcode_rrc(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_rrc(Address& addr) {
+inline void CPU::opcode_rrc(Address&& addr) {
     // TODO
 }
 
@@ -657,11 +657,7 @@ inline void CPU::opcode_sbc(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sbc(ByteRegister& reg, const ByteRegister& byte_reg) {
-    // TODO
-}
-
-inline void CPU::opcode_sbc(ByteRegister& reg, const Address& addr) {
+inline void CPU::opcode_sbc(Address&& addr) {
     // TODO
 }
 
@@ -687,7 +683,7 @@ inline void CPU::opcode_sla(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sla(Address& addr) {
+inline void CPU::opcode_sla(Address&& addr) {
     // TODO
 }
 
@@ -697,7 +693,7 @@ inline void CPU::opcode_sra(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sra(Address& addr) {
+inline void CPU::opcode_sra(Address&& addr) {
     // TODO
 }
 
@@ -707,7 +703,7 @@ inline void CPU::opcode_srl(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_srl(Address& addr) {
+inline void CPU::opcode_srl(Address&& addr) {
     // TODO
 }
 
@@ -727,7 +723,7 @@ inline void CPU::opcode_sub(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_sub(Address& addr) {
+inline void CPU::opcode_sub(Address&& addr) {
     // TODO
 }
 
@@ -737,7 +733,7 @@ inline void CPU::opcode_swap(ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_swap(Address& addr) {
+inline void CPU::opcode_swap(Address&& addr) {
     // TODO
 }
 
