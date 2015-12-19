@@ -1804,3 +1804,1029 @@ void CPU::opcode_FF() {
     opcode_rst(38);
 }
 
+
+/**
+ * This section contains two-byte opcodes, which are triggered when prefixed with
+ * the CB instruction above.
+ */
+
+void CPU::opcode_CB_00() {
+    // TODO
+}
+
+void CPU::opcode_CB_01() {
+    // TODO
+}
+
+void CPU::opcode_CB_02() {
+    // TODO
+}
+
+void CPU::opcode_CB_03() {
+    // TODO
+}
+
+void CPU::opcode_CB_04() {
+    // TODO
+}
+
+void CPU::opcode_CB_05() {
+    // TODO
+}
+
+void CPU::opcode_CB_06() {
+    // TODO
+}
+
+void CPU::opcode_CB_07() {
+    // TODO
+}
+
+void CPU::opcode_CB_08() {
+    // TODO
+}
+
+void CPU::opcode_CB_09() {
+    // TODO
+}
+
+void CPU::opcode_CB_0A() {
+    // TODO
+}
+
+void CPU::opcode_CB_0B() {
+    // TODO
+}
+
+void CPU::opcode_CB_0C() {
+    // TODO
+}
+
+void CPU::opcode_CB_0D() {
+    // TODO
+}
+
+void CPU::opcode_CB_0E() {
+    // TODO
+}
+
+void CPU::opcode_CB_0F() {
+    // TODO
+}
+
+void CPU::opcode_CB_10() {
+    // TODO
+}
+
+void CPU::opcode_CB_11() {
+    // TODO
+}
+
+void CPU::opcode_CB_12() {
+    // TODO
+}
+
+void CPU::opcode_CB_13() {
+    // TODO
+}
+
+void CPU::opcode_CB_14() {
+    // TODO
+}
+
+void CPU::opcode_CB_15() {
+    // TODO
+}
+
+void CPU::opcode_CB_16() {
+    // TODO
+}
+
+void CPU::opcode_CB_17() {
+    // TODO
+}
+
+void CPU::opcode_CB_18() {
+    // TODO
+}
+
+void CPU::opcode_CB_19() {
+    // TODO
+}
+
+void CPU::opcode_CB_1A() {
+    // TODO
+}
+
+void CPU::opcode_CB_1B() {
+    // TODO
+}
+
+void CPU::opcode_CB_1C() {
+    // TODO
+}
+
+void CPU::opcode_CB_1D() {
+    // TODO
+}
+
+void CPU::opcode_CB_1E() {
+    // TODO
+}
+
+void CPU::opcode_CB_1F() {
+    // TODO
+}
+
+void CPU::opcode_CB_20() {
+    // TODO
+}
+
+void CPU::opcode_CB_21() {
+    // TODO
+}
+
+void CPU::opcode_CB_22() {
+    // TODO
+}
+
+void CPU::opcode_CB_23() {
+    // TODO
+}
+
+void CPU::opcode_CB_24() {
+    // TODO
+}
+
+void CPU::opcode_CB_25() {
+    // TODO
+}
+
+void CPU::opcode_CB_26() {
+    // TODO
+}
+
+void CPU::opcode_CB_27() {
+    // TODO
+}
+
+void CPU::opcode_CB_28() {
+    // TODO
+}
+
+void CPU::opcode_CB_29() {
+    // TODO
+}
+
+void CPU::opcode_CB_2A() {
+    // TODO
+}
+
+void CPU::opcode_CB_2B() {
+    // TODO
+}
+
+void CPU::opcode_CB_2C() {
+    // TODO
+}
+
+void CPU::opcode_CB_2D() {
+    // TODO
+}
+
+void CPU::opcode_CB_2E() {
+    // TODO
+}
+
+void CPU::opcode_CB_2F() {
+    // TODO
+}
+
+void CPU::opcode_CB_30() {
+    // TODO
+}
+
+void CPU::opcode_CB_31() {
+    // TODO
+}
+
+void CPU::opcode_CB_32() {
+    // TODO
+}
+
+void CPU::opcode_CB_33() {
+    // TODO
+}
+
+void CPU::opcode_CB_34() {
+    // TODO
+}
+
+void CPU::opcode_CB_35() {
+    // TODO
+}
+
+void CPU::opcode_CB_36() {
+    // TODO
+}
+
+void CPU::opcode_CB_37() {
+    // TODO
+}
+
+void CPU::opcode_CB_38() {
+    // TODO
+}
+
+void CPU::opcode_CB_39() {
+    // TODO
+}
+
+void CPU::opcode_CB_3A() {
+    // TODO
+}
+
+void CPU::opcode_CB_3B() {
+    // TODO
+}
+
+void CPU::opcode_CB_3C() {
+    // TODO
+}
+
+void CPU::opcode_CB_3D() {
+    // TODO
+}
+
+void CPU::opcode_CB_3E() {
+    // TODO
+}
+
+void CPU::opcode_CB_3F() {
+    // TODO
+}
+
+void CPU::opcode_CB_40() {
+    // TODO
+}
+
+void CPU::opcode_CB_41() {
+    // TODO
+}
+
+void CPU::opcode_CB_42() {
+    // TODO
+}
+
+void CPU::opcode_CB_43() {
+    // TODO
+}
+
+void CPU::opcode_CB_44() {
+    // TODO
+}
+
+void CPU::opcode_CB_45() {
+    // TODO
+}
+
+void CPU::opcode_CB_46() {
+    // TODO
+}
+
+void CPU::opcode_CB_47() {
+    // TODO
+}
+
+void CPU::opcode_CB_48() {
+    // TODO
+}
+
+void CPU::opcode_CB_49() {
+    // TODO
+}
+
+void CPU::opcode_CB_4A() {
+    // TODO
+}
+
+void CPU::opcode_CB_4B() {
+    // TODO
+}
+
+void CPU::opcode_CB_4C() {
+    // TODO
+}
+
+void CPU::opcode_CB_4D() {
+    // TODO
+}
+
+void CPU::opcode_CB_4E() {
+    // TODO
+}
+
+void CPU::opcode_CB_4F() {
+    // TODO
+}
+
+void CPU::opcode_CB_50() {
+    // TODO
+}
+
+void CPU::opcode_CB_51() {
+    // TODO
+}
+
+void CPU::opcode_CB_52() {
+    // TODO
+}
+
+void CPU::opcode_CB_53() {
+    // TODO
+}
+
+void CPU::opcode_CB_54() {
+    // TODO
+}
+
+void CPU::opcode_CB_55() {
+    // TODO
+}
+
+void CPU::opcode_CB_56() {
+    // TODO
+}
+
+void CPU::opcode_CB_57() {
+    // TODO
+}
+
+void CPU::opcode_CB_58() {
+    // TODO
+}
+
+void CPU::opcode_CB_59() {
+    // TODO
+}
+
+void CPU::opcode_CB_5A() {
+    // TODO
+}
+
+void CPU::opcode_CB_5B() {
+    // TODO
+}
+
+void CPU::opcode_CB_5C() {
+    // TODO
+}
+
+void CPU::opcode_CB_5D() {
+    // TODO
+}
+
+void CPU::opcode_CB_5E() {
+    // TODO
+}
+
+void CPU::opcode_CB_5F() {
+    // TODO
+}
+
+void CPU::opcode_CB_60() {
+    // TODO
+}
+
+void CPU::opcode_CB_61() {
+    // TODO
+}
+
+void CPU::opcode_CB_62() {
+    // TODO
+}
+
+void CPU::opcode_CB_63() {
+    // TODO
+}
+
+void CPU::opcode_CB_64() {
+    // TODO
+}
+
+void CPU::opcode_CB_65() {
+    // TODO
+}
+
+void CPU::opcode_CB_66() {
+    // TODO
+}
+
+void CPU::opcode_CB_67() {
+    // TODO
+}
+
+void CPU::opcode_CB_68() {
+    // TODO
+}
+
+void CPU::opcode_CB_69() {
+    // TODO
+}
+
+void CPU::opcode_CB_6A() {
+    // TODO
+}
+
+void CPU::opcode_CB_6B() {
+    // TODO
+}
+
+void CPU::opcode_CB_6C() {
+    // TODO
+}
+
+void CPU::opcode_CB_6D() {
+    // TODO
+}
+
+void CPU::opcode_CB_6E() {
+    // TODO
+}
+
+void CPU::opcode_CB_6F() {
+    // TODO
+}
+
+void CPU::opcode_CB_70() {
+    // TODO
+}
+
+void CPU::opcode_CB_71() {
+    // TODO
+}
+
+void CPU::opcode_CB_72() {
+    // TODO
+}
+
+void CPU::opcode_CB_73() {
+    // TODO
+}
+
+void CPU::opcode_CB_74() {
+    // TODO
+}
+
+void CPU::opcode_CB_75() {
+    // TODO
+}
+
+void CPU::opcode_CB_76() {
+    // TODO
+}
+
+void CPU::opcode_CB_77() {
+    // TODO
+}
+
+void CPU::opcode_CB_78() {
+    // TODO
+}
+
+void CPU::opcode_CB_79() {
+    // TODO
+}
+
+void CPU::opcode_CB_7A() {
+    // TODO
+}
+
+void CPU::opcode_CB_7B() {
+    // TODO
+}
+
+void CPU::opcode_CB_7C() {
+    // TODO
+}
+
+void CPU::opcode_CB_7D() {
+    // TODO
+}
+
+void CPU::opcode_CB_7E() {
+    // TODO
+}
+
+void CPU::opcode_CB_7F() {
+    // TODO
+}
+
+void CPU::opcode_CB_80() {
+    // TODO
+}
+
+void CPU::opcode_CB_81() {
+    // TODO
+}
+
+void CPU::opcode_CB_82() {
+    // TODO
+}
+
+void CPU::opcode_CB_83() {
+    // TODO
+}
+
+void CPU::opcode_CB_84() {
+    // TODO
+}
+
+void CPU::opcode_CB_85() {
+    // TODO
+}
+
+void CPU::opcode_CB_86() {
+    // TODO
+}
+
+void CPU::opcode_CB_87() {
+    // TODO
+}
+
+void CPU::opcode_CB_88() {
+    // TODO
+}
+
+void CPU::opcode_CB_89() {
+    // TODO
+}
+
+void CPU::opcode_CB_8A() {
+    // TODO
+}
+
+void CPU::opcode_CB_8B() {
+    // TODO
+}
+
+void CPU::opcode_CB_8C() {
+    // TODO
+}
+
+void CPU::opcode_CB_8D() {
+    // TODO
+}
+
+void CPU::opcode_CB_8E() {
+    // TODO
+}
+
+void CPU::opcode_CB_8F() {
+    // TODO
+}
+
+void CPU::opcode_CB_90() {
+    // TODO
+}
+
+void CPU::opcode_CB_91() {
+    // TODO
+}
+
+void CPU::opcode_CB_92() {
+    // TODO
+}
+
+void CPU::opcode_CB_93() {
+    // TODO
+}
+
+void CPU::opcode_CB_94() {
+    // TODO
+}
+
+void CPU::opcode_CB_95() {
+    // TODO
+}
+
+void CPU::opcode_CB_96() {
+    // TODO
+}
+
+void CPU::opcode_CB_97() {
+    // TODO
+}
+
+void CPU::opcode_CB_98() {
+    // TODO
+}
+
+void CPU::opcode_CB_99() {
+    // TODO
+}
+
+void CPU::opcode_CB_9A() {
+    // TODO
+}
+
+void CPU::opcode_CB_9B() {
+    // TODO
+}
+
+void CPU::opcode_CB_9C() {
+    // TODO
+}
+
+void CPU::opcode_CB_9D() {
+    // TODO
+}
+
+void CPU::opcode_CB_9E() {
+    // TODO
+}
+
+void CPU::opcode_CB_9F() {
+    // TODO
+}
+
+void CPU::opcode_CB_A0() {
+    // TODO
+}
+
+void CPU::opcode_CB_A1() {
+    // TODO
+}
+
+void CPU::opcode_CB_A2() {
+    // TODO
+}
+
+void CPU::opcode_CB_A3() {
+    // TODO
+}
+
+void CPU::opcode_CB_A4() {
+    // TODO
+}
+
+void CPU::opcode_CB_A5() {
+    // TODO
+}
+
+void CPU::opcode_CB_A6() {
+    // TODO
+}
+
+void CPU::opcode_CB_A7() {
+    // TODO
+}
+
+void CPU::opcode_CB_A8() {
+    // TODO
+}
+
+void CPU::opcode_CB_A9() {
+    // TODO
+}
+
+void CPU::opcode_CB_AA() {
+    // TODO
+}
+
+void CPU::opcode_CB_AB() {
+    // TODO
+}
+
+void CPU::opcode_CB_AC() {
+    // TODO
+}
+
+void CPU::opcode_CB_AD() {
+    // TODO
+}
+
+void CPU::opcode_CB_AE() {
+    // TODO
+}
+
+void CPU::opcode_CB_AF() {
+    // TODO
+}
+
+void CPU::opcode_CB_B0() {
+    // TODO
+}
+
+void CPU::opcode_CB_B1() {
+    // TODO
+}
+
+void CPU::opcode_CB_B2() {
+    // TODO
+}
+
+void CPU::opcode_CB_B3() {
+    // TODO
+}
+
+void CPU::opcode_CB_B4() {
+    // TODO
+}
+
+void CPU::opcode_CB_B5() {
+    // TODO
+}
+
+void CPU::opcode_CB_B6() {
+    // TODO
+}
+
+void CPU::opcode_CB_B7() {
+    // TODO
+}
+
+void CPU::opcode_CB_B8() {
+    // TODO
+}
+
+void CPU::opcode_CB_B9() {
+    // TODO
+}
+
+void CPU::opcode_CB_BA() {
+    // TODO
+}
+
+void CPU::opcode_CB_BB() {
+    // TODO
+}
+
+void CPU::opcode_CB_BC() {
+    // TODO
+}
+
+void CPU::opcode_CB_BD() {
+    // TODO
+}
+
+void CPU::opcode_CB_BE() {
+    // TODO
+}
+
+void CPU::opcode_CB_BF() {
+    // TODO
+}
+
+void CPU::opcode_CB_C0() {
+    // TODO
+}
+
+void CPU::opcode_CB_C1() {
+    // TODO
+}
+
+void CPU::opcode_CB_C2() {
+    // TODO
+}
+
+void CPU::opcode_CB_C3() {
+    // TODO
+}
+
+void CPU::opcode_CB_C4() {
+    // TODO
+}
+
+void CPU::opcode_CB_C5() {
+    // TODO
+}
+
+void CPU::opcode_CB_C6() {
+    // TODO
+}
+
+void CPU::opcode_CB_C7() {
+    // TODO
+}
+
+void CPU::opcode_CB_C8() {
+    // TODO
+}
+
+void CPU::opcode_CB_C9() {
+    // TODO
+}
+
+void CPU::opcode_CB_CA() {
+    // TODO
+}
+
+void CPU::opcode_CB_CB() {
+    // TODO
+}
+
+void CPU::opcode_CB_CC() {
+    // TODO
+}
+
+void CPU::opcode_CB_CD() {
+    // TODO
+}
+
+void CPU::opcode_CB_CE() {
+    // TODO
+}
+
+void CPU::opcode_CB_CF() {
+    // TODO
+}
+
+void CPU::opcode_CB_D0() {
+    // TODO
+}
+
+void CPU::opcode_CB_D1() {
+    // TODO
+}
+
+void CPU::opcode_CB_D2() {
+    // TODO
+}
+
+void CPU::opcode_CB_D3() {
+    // TODO
+}
+
+void CPU::opcode_CB_D4() {
+    // TODO
+}
+
+void CPU::opcode_CB_D5() {
+    // TODO
+}
+
+void CPU::opcode_CB_D6() {
+    // TODO
+}
+
+void CPU::opcode_CB_D7() {
+    // TODO
+}
+
+void CPU::opcode_CB_D8() {
+    // TODO
+}
+
+void CPU::opcode_CB_D9() {
+    // TODO
+}
+
+void CPU::opcode_CB_DA() {
+    // TODO
+}
+
+void CPU::opcode_CB_DB() {
+    // TODO
+}
+
+void CPU::opcode_CB_DC() {
+    // TODO
+}
+
+void CPU::opcode_CB_DD() {
+    // TODO
+}
+
+void CPU::opcode_CB_DE() {
+    // TODO
+}
+
+void CPU::opcode_CB_DF() {
+    // TODO
+}
+
+void CPU::opcode_CB_E0() {
+    // TODO
+}
+
+void CPU::opcode_CB_E1() {
+    // TODO
+}
+
+void CPU::opcode_CB_E2() {
+    // TODO
+}
+
+void CPU::opcode_CB_E3() {
+    // TODO
+}
+
+void CPU::opcode_CB_E4() {
+    // TODO
+}
+
+void CPU::opcode_CB_E5() {
+    // TODO
+}
+
+void CPU::opcode_CB_E6() {
+    // TODO
+}
+
+void CPU::opcode_CB_E7() {
+    // TODO
+}
+
+void CPU::opcode_CB_E8() {
+    // TODO
+}
+
+void CPU::opcode_CB_E9() {
+    // TODO
+}
+
+void CPU::opcode_CB_EA() {
+    // TODO
+}
+
+void CPU::opcode_CB_EB() {
+    // TODO
+}
+
+void CPU::opcode_CB_EC() {
+    // TODO
+}
+
+void CPU::opcode_CB_ED() {
+    // TODO
+}
+
+void CPU::opcode_CB_EE() {
+    // TODO
+}
+
+void CPU::opcode_CB_EF() {
+    // TODO
+}
+
+void CPU::opcode_CB_F0() {
+    // TODO
+}
+
+void CPU::opcode_CB_F1() {
+    // TODO
+}
+
+void CPU::opcode_CB_F2() {
+    // TODO
+}
+
+void CPU::opcode_CB_F3() {
+    // TODO
+}
+
+void CPU::opcode_CB_F4() {
+    // TODO
+}
+
+void CPU::opcode_CB_F5() {
+    // TODO
+}
+
+void CPU::opcode_CB_F6() {
+    // TODO
+}
+
+void CPU::opcode_CB_F7() {
+    // TODO
+}
+
+void CPU::opcode_CB_F8() {
+    // TODO
+}
+
+void CPU::opcode_CB_F9() {
+    // TODO
+}
+
+void CPU::opcode_CB_FA() {
+    // TODO
+}
+
+void CPU::opcode_CB_FB() {
+    // TODO
+}
+
+void CPU::opcode_CB_FC() {
+    // TODO
+}
+
+void CPU::opcode_CB_FD() {
+    // TODO
+}
+
+void CPU::opcode_CB_FE() {
+    // TODO
+}
+
