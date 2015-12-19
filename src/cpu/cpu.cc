@@ -588,6 +588,16 @@ bool CPU::flag_carry() const {
 
 }
 
+uint8_t CPU::flag_half_carry_value() const {
+    return static_cast<uint8_t>(flag_half_carry() ? 1 : 0);
+
+}
+
+uint8_t CPU::flag_carry_value() const {
+    return static_cast<uint8_t>(flag_carry() ? 1 : 0);
+
+}
+
 /**
  * This section contains helper functions for allowing succinct expression
  * of opcodes when writing the opcode_00-FF functions.

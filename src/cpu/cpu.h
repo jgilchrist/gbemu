@@ -58,6 +58,9 @@ private:
     bool flag_half_carry() const;
     bool flag_carry() const;
 
+    uint8_t flag_half_carry_value() const;
+    uint8_t flag_carry_value() const;
+
     /* Program counter */
     WordRegister pc;
 
