@@ -155,12 +155,12 @@ private:
     void opcode_ldd(const Address& address, const ByteRegister& reg);
 
     /* LDH */
-    // (n), A
-    void opcode_ldh();
     // A, (n)
-    void opcode_ldh(const ByteRegister& reg);
+    void opcode_ldh_into_a();
+    // (n), A
+    void opcode_ldh_into_data();
     // (reg), A
-    void opcode_ldh(const Address&& addr);
+    void opcode_ldh_into_c();
 
     /* LDHL */
     void opcode_ldhl();

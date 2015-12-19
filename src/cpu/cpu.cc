@@ -808,15 +808,15 @@ inline void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
 
 
 /* LDH */
-inline void CPU::opcode_ldh() {
+inline void CPU::opcode_ldh_into_a() {
     // TODO
 }
 
-inline void CPU::opcode_ldh(const ByteRegister& reg) {
+inline void CPU::opcode_ldh_into_data() {
     // TODO
 }
 
-inline void CPU::opcode_ldh(const Address&& addr) {
+inline void CPU::opcode_ldh_into_c() {
     // TODO
 }
 
@@ -1879,7 +1879,7 @@ void CPU::opcode_CD() {
 }
 
 void CPU::opcode_CE() {
-    opcode_adc(a);
+    opcode_adc();
 }
 
 void CPU::opcode_CF() {
@@ -1911,7 +1911,7 @@ void CPU::opcode_D5() {
 }
 
 void CPU::opcode_D6() {
-    opcode_sub(a);
+    opcode_sub();
 }
 
 void CPU::opcode_D7() {
@@ -1951,7 +1951,7 @@ void CPU::opcode_DF() {
 }
 
 void CPU::opcode_E0() {
-    opcode_ldh(a);
+    opcode_ldh_into_data();
 }
 
 void CPU::opcode_E1() {
@@ -1959,7 +1959,7 @@ void CPU::opcode_E1() {
 }
 
 void CPU::opcode_E2() {
-    opcode_ldh(c);
+    opcode_ldh_into_c();
 }
 
 void CPU::opcode_E3() {
@@ -2015,7 +2015,7 @@ void CPU::opcode_EF() {
 }
 
 void CPU::opcode_F0() {
-    opcode_ldh(a);
+    opcode_ldh_into_a();
 }
 
 void CPU::opcode_F1() {
