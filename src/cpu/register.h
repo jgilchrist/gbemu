@@ -46,4 +46,15 @@ private:
     ByteRegister& high_byte;
 };
 
+class Offset {
+public:
+    Offset(uint8_t val) : val(val) {};
+    Offset(ByteRegister& reg) : val(reg.value()) {};
+
+    uint8_t value() { return val; }
+
+private:
+    uint8_t val;
+};
+
 #endif
