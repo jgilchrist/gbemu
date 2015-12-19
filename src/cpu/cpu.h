@@ -81,7 +81,7 @@ private:
 
     /* BIT */
     void opcode_bit(const int bit, ByteRegister& reg);
-    void opcode_bit(const int bit, Address& addr);
+    void opcode_bit(const int bit, Address&& addr);
 
     /* CALL */
     void opcode_call();
@@ -183,7 +183,7 @@ private:
 
     /* RES */
     void opcode_res(const int bit, ByteRegister& reg);
-    void opcode_res(const int bit, Address& addr);
+    void opcode_res(const int bit, Address&& addr);
 
     /* RET */
     void opcode_ret();
@@ -222,7 +222,7 @@ private:
 
     /* SET */
     void opcode_set(const int bit, ByteRegister& reg);
-    void opcode_set(const int bit, Address& addr);
+    void opcode_set(const int bit, Address&& addr);
 
     /* SLA */
     void opcode_sla(ByteRegister& reg);

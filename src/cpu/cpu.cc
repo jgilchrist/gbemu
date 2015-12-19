@@ -348,7 +348,7 @@ inline void CPU::opcode_bit(const int bit, ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_bit(const int bit, Address& addr) {
+inline void CPU::opcode_bit(const int bit, Address&& addr) {
     // TODO
 }
 
@@ -600,7 +600,7 @@ inline void CPU::opcode_res(const int bit, ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_res(const int bit, Address& addr) {
+inline void CPU::opcode_res(const int bit, Address&& addr) {
     // TODO
 }
 
@@ -693,7 +693,7 @@ inline void CPU::opcode_set(const int bit, ByteRegister& reg) {
     // TODO
 }
 
-inline void CPU::opcode_set(const int bit, Address& addr) {
+inline void CPU::opcode_set(const int bit, Address&& addr) {
     // TODO
 }
 
