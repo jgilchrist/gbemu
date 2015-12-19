@@ -51,7 +51,7 @@ private:
 
     /* ADC */
     void opcode_adc();
-    void opcode_adc(const RegisterPair& reg);
+    void opcode_adc(const ByteRegister& reg);
     void opcode_adc(const Address& addr);
 
     /* ADD */

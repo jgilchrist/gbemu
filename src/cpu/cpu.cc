@@ -289,7 +289,7 @@ inline void CPU::opcode_adc() {
     // TODO
 }
 
-inline void CPU::opcode_adc(const RegisterPair& reg) {
+inline void CPU::opcode_adc(const ByteRegister& reg) {
     // TODO
 }
 
