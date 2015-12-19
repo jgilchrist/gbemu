@@ -625,28 +625,35 @@ inline void CPU::opcode_adc(const Address&& addr) {
 
 
 /* ADD */
-inline void CPU::opcode_add(ByteRegister& reg) {
+inline void CPU::opcode_add_a() {
     // TODO
 }
 
-inline void CPU::opcode_add(ByteRegister& reg, const ByteRegister& byte_reg) {
+inline void CPU::opcode_add_a(const ByteRegister& reg) {
+    uint16_t result = a.value() + reg.value();
+
+    set_flags(Flags {
+        .zero = a.value() == 0,
+        .subtract = false,
+        .half_carry = ((a.value() ^ reg.value() ^ result) & 0x10) != 0,
+        .carry = (result & 0x100) != 0,
+    });
+}
+
+inline void CPU::opcode_add_a(const Address& addr) {
     // TODO
 }
 
-inline void CPU::opcode_add(ByteRegister& reg, const Address& addr) {
+
+inline void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
     // TODO
 }
 
-
-inline void CPU::opcode_add(RegisterPair& reg, const RegisterPair& reg_pair) {
+inline void CPU::opcode_add_hl(const WordRegister& word_reg) {
     // TODO
 }
 
-inline void CPU::opcode_add(RegisterPair& reg, const WordRegister& word_reg) {
-    // TODO
-}
-
-inline void CPU::opcode_add(WordRegister& reg) {
+inline void CPU::opcode_add_sp() {
     // TODO
 }
 
@@ -1143,7 +1150,7 @@ void CPU::opcode_08() {
 }
 
 void CPU::opcode_09() {
-    opcode_add(hl, bc);
+    opcode_add_hl(bc);
 }
 
 void CPU::opcode_0A() {
@@ -1207,7 +1214,7 @@ void CPU::opcode_18() {
 }
 
 void CPU::opcode_19() {
-    opcode_add(hl, de);
+    opcode_add_hl(de);
 }
 
 void CPU::opcode_1A() {
@@ -1271,7 +1278,7 @@ void CPU::opcode_28() {
 }
 
 void CPU::opcode_29() {
-    opcode_add(hl, hl);
+    opcode_add_hl(hl);
 }
 
 void CPU::opcode_2A() {
@@ -1335,7 +1342,7 @@ void CPU::opcode_38() {
 }
 
 void CPU::opcode_39() {
-    opcode_add(hl, sp);
+    opcode_add_hl(sp);
 }
 
 void CPU::opcode_3A() {
@@ -1619,35 +1626,35 @@ void CPU::opcode_7F() {
 }
 
 void CPU::opcode_80() {
-    opcode_add(a, b);
+    opcode_add_a(b);
 }
 
 void CPU::opcode_81() {
-    opcode_add(a, c);
+    opcode_add_a(c);
 }
 
 void CPU::opcode_82() {
-    opcode_add(a, d);
+    opcode_add_a(d);
 }
 
 void CPU::opcode_83() {
-    opcode_add(a, e);
+    opcode_add_a(e);
 }
 
 void CPU::opcode_84() {
-    opcode_add(a, h);
+    opcode_add_a(h);
 }
 
 void CPU::opcode_85() {
-    opcode_add(a, l);
+    opcode_add_a(l);
 }
 
 void CPU::opcode_86() {
-    opcode_add(a, Address(hl));
+    opcode_add_a(Address(hl));
 }
 
 void CPU::opcode_87() {
-    opcode_add(a, a);
+    opcode_add_a(a);
 }
 
 void CPU::opcode_88() {
@@ -1899,7 +1906,7 @@ void CPU::opcode_C5() {
 }
 
 void CPU::opcode_C6() {
-    opcode_add(a);
+    opcode_add_a();
 }
 
 void CPU::opcode_C7() {

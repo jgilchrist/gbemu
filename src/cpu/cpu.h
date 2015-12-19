@@ -87,14 +87,14 @@ private:
     void opcode_adc(const Address&& addr);
 
     /* ADD */
-    void opcode_add(ByteRegister& reg);
-    void opcode_add(ByteRegister& reg, const ByteRegister& byte_reg);
-    void opcode_add(ByteRegister& reg, const Address& addr);
+    void opcode_add_a();
+    void opcode_add_a(const ByteRegister& reg);
+    void opcode_add_a(const Address& addr);
 
-    void opcode_add(RegisterPair& reg, const RegisterPair& reg_pair);
-    void opcode_add(RegisterPair& reg, const WordRegister& word_reg);
+    void opcode_add_hl(const RegisterPair& reg_pair);
+    void opcode_add_hl(const WordRegister& word_reg);
 
-    void opcode_add(WordRegister& reg);
+    void opcode_add_sp();
 
     void opcode_add_signed();
 
