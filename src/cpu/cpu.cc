@@ -1620,7 +1620,7 @@ void CPU::opcode_D2() {
 }
 
 void CPU::opcode_D3() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_D4() {
@@ -1652,7 +1652,7 @@ void CPU::opcode_DA() {
 }
 
 void CPU::opcode_DB() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_DC() {
@@ -1660,7 +1660,7 @@ void CPU::opcode_DC() {
 }
 
 void CPU::opcode_DD() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_DE() {
@@ -1684,11 +1684,11 @@ void CPU::opcode_E2() {
 }
 
 void CPU::opcode_E3() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_E4() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_E5() {
@@ -1716,15 +1716,15 @@ void CPU::opcode_EA() {
 }
 
 void CPU::opcode_EB() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_EC() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_ED() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_EE() {
@@ -1744,7 +1744,7 @@ void CPU::opcode_F1() {
 }
 
 void CPU::opcode_F2() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_F3() {
@@ -1752,7 +1752,7 @@ void CPU::opcode_F3() {
 }
 
 void CPU::opcode_F4() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_F5() {
@@ -1784,11 +1784,11 @@ void CPU::opcode_FB() {
 }
 
 void CPU::opcode_FC() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_FD() {
-    /* TODO */
+    // Undefined
 }
 
 void CPU::opcode_FE() {
