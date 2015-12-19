@@ -145,6 +145,9 @@ private:
     void opcode_ld(const Address& address, const ByteRegister& byte_reg);
     void opcode_ld(const Address& address, const WordRegister& word_reg);
 
+    // (nn), A
+    void opcode_ld_to_addr(const ByteRegister& reg);
+
     /* LDD */
     void opcode_ldd(const ByteRegister& reg, const Address& address);
     void opcode_ldd(const Address& address, const ByteRegister& reg);

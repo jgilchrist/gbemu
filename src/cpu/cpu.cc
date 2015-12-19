@@ -518,6 +518,11 @@ inline void CPU::opcode_ld(const Address& address, const WordRegister& word_reg)
 }
 
 
+inline void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
+    // TODO
+}
+
+
 /* LDD */
 inline void CPU::opcode_ldd(const ByteRegister& reg, const Address& address) {
     // TODO
