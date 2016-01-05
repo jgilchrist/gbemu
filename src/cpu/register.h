@@ -18,8 +18,8 @@ private:
     T val;
 };
 
-typedef Register<uint8_t> ByteRegister;
-typedef Register<uint16_t> WordRegister;
+using ByteRegister = Register<uint8_t>;
+using WordRegister = Register<uint16_t>;
 
 class RegisterPair {
 public:
