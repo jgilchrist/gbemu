@@ -611,37 +611,65 @@ uint8_t CPU::flag_carry_value() const {
  */
 
 /* ADC */
+inline uint8_t CPU::_opcode_adc_and_set_flags(uint8_t value) {
+    uint8_t reg = a.value();
+    uint8_t carry = flag_carry_value();
+
+    uint16_t result = reg + value + carry;
+
+    set_flags(Flags {
+        .zero = reg == 0,
+        .subtract = false,
+        .half_carry = ((reg ^ value ^ result) & 0x10) != 0,
+        .carry = (result & 0x100) != 0,
+    });
+
+    return static_cast<uint8_t>(result);
+}
+
 inline void CPU::opcode_adc() {
-    // TODO
+    uint8_t result = _opcode_adc_and_set_flags(get_byte_from_pc());
+    a.set(result);
 }
 
 inline void CPU::opcode_adc(const ByteRegister& reg) {
-    // TODO
+    uint8_t result = _opcode_adc_and_set_flags(reg.value());
+    a.set(result);
 }
 
 inline void CPU::opcode_adc(const Address&& addr) {
-    // TODO
+    uint8_t result = _opcode_adc_and_set_flags(mmu.read_byte(addr));
+    a.set(result);
 }
 
 
 /* ADD */
-inline void CPU::opcode_add_a() {
-    // TODO
-}
-
-inline void CPU::opcode_add_a(const ByteRegister& reg) {
-    uint16_t result = a.value() + reg.value();
+inline uint8_t CPU::_opcode_add_and_set_flags(uint8_t reg, uint8_t value) {
+    uint16_t result = reg + value;
 
     set_flags(Flags {
         .zero = a.value() == 0,
         .subtract = false,
-        .half_carry = ((a.value() ^ reg.value() ^ result) & 0x10) != 0,
+        .half_carry = ((reg ^ value ^ result) & 0x10) != 0,
         .carry = (result & 0x100) != 0,
     });
+
+    return static_cast<uint8_t>(result);
+}
+
+inline void CPU::opcode_add_a() {
+    uint8_t result = _opcode_add_and_set_flags(a.value(), get_byte_from_pc());
+    a.set(result);
+}
+
+inline void CPU::opcode_add_a(const ByteRegister& reg) {
+    uint8_t result = _opcode_add_and_set_flags(a.value(), reg.value());
+    a.set(result);
 }
 
 inline void CPU::opcode_add_a(const Address& addr) {
-    // TODO
+    uint8_t result = _opcode_add_and_set_flags(a.value(), mmu.read_byte(addr));
+    a.set(result);
 }
 
 

@@ -82,11 +82,15 @@ private:
     /* Opcode Helper Functions */
 
     /* ADC */
+    uint8_t _opcode_adc_and_set_flags(uint8_t value);
+
     void opcode_adc();
     void opcode_adc(const ByteRegister& reg);
     void opcode_adc(const Address&& addr);
 
     /* ADD */
+    uint8_t _opcode_add_and_set_flags(uint8_t reg, uint8_t value);
+
     void opcode_add_a();
     void opcode_add_a(const ByteRegister& reg);
     void opcode_add_a(const Address& addr);
