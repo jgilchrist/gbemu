@@ -16,6 +16,7 @@ add_executable(emulator
     src/log.h
     src/main.cc
     src/cpu/cpu.cc
+    src/cpu/cpu_opcodes.cc
     src/cpu/cpu.h
     src/cpu/memory.cc
     src/cpu/memory.h
