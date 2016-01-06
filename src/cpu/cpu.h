@@ -19,6 +19,12 @@ enum class Condition {
 };
 
 struct Flags {
+    Flags(bool zero, bool subtract, bool half_carry, bool carry) :
+        zero(zero),
+        subtract(subtract),
+        half_carry(half_carry),
+        carry(carry) {}
+
     const bool zero;
     const bool subtract;
     const bool half_carry;

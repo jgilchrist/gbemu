@@ -617,12 +617,12 @@ inline uint8_t CPU::_opcode_adc_and_set_flags(uint8_t value) {
 
     uint16_t result = reg + value + carry;
 
-    set_flags(Flags {
-        .zero = reg == 0,
-        .subtract = false,
-        .half_carry = ((reg ^ value ^ result) & 0x10) != 0,
-        .carry = (result & 0x100) != 0,
-    });
+    set_flags(Flags(
+        reg == 0,
+        false,
+        ((reg ^ value ^ result) & 0x10) != 0,
+        (result & 0x100) != 0
+    ));
 
     return static_cast<uint8_t>(result);
 }
@@ -647,12 +647,12 @@ void CPU::opcode_adc(const Address&& addr) {
 inline uint8_t CPU::_opcode_add_and_set_flags(uint8_t reg, uint8_t value) {
     uint16_t result = reg + value;
 
-    set_flags(Flags {
-        .zero = a.value() == 0,
-        .subtract = false,
-        .half_carry = ((reg ^ value ^ result) & 0x10) != 0,
-        .carry = (result & 0x100) != 0,
-    });
+    set_flags(Flags(
+        a.value() == 0,
+        false,
+        ((reg ^ value ^ result) & 0x10) != 0,
+        (result & 0x100) != 0
+    ));
 
     return static_cast<uint8_t>(result);
 }
