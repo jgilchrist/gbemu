@@ -17,6 +17,7 @@ add_executable(emulator
     src/main.cc
     src/cpu/cpu.cc
     src/cpu/cpu_opcodes.cc
+    src/cpu/cpu_opcodes_cb.cc
     src/cpu/cpu.h
     src/cpu/memory.cc
     src/cpu/memory.h
