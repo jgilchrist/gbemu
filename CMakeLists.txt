@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4)
 
 project(emulator)
 
-add_definitions(-std=c++14 -Wall -Wextra -pedantic -g -ferror-limit=10000)
+add_definitions(-std=c++14 -Wall -Wextra -Wpedantic -g -ferror-limit=10000)
 add_definitions(-Wno-unused-parameter)
 
 add_executable(emulator
