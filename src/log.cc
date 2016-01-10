@@ -10,7 +10,7 @@ const char* COLOR_ERROR = "\033[1;31m";
 
 Logger::Logger() {}
 
-void Logger::log(LogLevel level, const char* file, int line, const std::string msg) {
+void Logger::log(LogLevel level, const std::string file, int line, const std::string msg) {
     if (!should_log(level)) {
         return;
     }
@@ -24,7 +24,7 @@ void Logger::log(LogLevel level, const char* file, int line, const std::string m
 
     fprintf((level < LogLevel::Error) ? stdout : stderr,
         "%s%s \033[0m%s (%s:%d)\n",
-        level_color(level), timeString, msg.c_str(), file, line);
+        level_color(level), timeString, msg.c_str(), file.c_str(), line);
 }
 
 void Logger::set_level(LogLevel level) {
