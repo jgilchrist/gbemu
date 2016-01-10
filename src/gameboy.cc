@@ -2,5 +2,5 @@
 #include "log.h"
 
 Gameboy::Gameboy() {
-    log_debug("Initialising Gameboy");
+    log_info("Initialising Gameboy");
 }

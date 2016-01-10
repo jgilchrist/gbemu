@@ -4,7 +4,7 @@
 #include "log.h"
 
 int main() {
-    log_debug("Hello world!");
+    log_info("Hello world!");
 
     Gameboy gameboy;
 }
