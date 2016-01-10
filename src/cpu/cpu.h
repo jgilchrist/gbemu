@@ -1,5 +1,4 @@
-#ifndef EMULATOR_CPU_H
-#define EMULATOR_CPU_H
+#pragma once
 
 #include <cstdint>
 #include "../address.h"
@@ -834,5 +833,3 @@ private:
     void opcode_CB_FE();
     void opcode_CB_FF();
 };
-
-#endif

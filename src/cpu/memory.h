@@ -1,8 +1,5 @@
-#ifndef EMULATOR_MEMORY_H
-#define EMULATOR_MEMORY_H
+#pragma once
 
 class Memory {
 
 };
-
-#endif

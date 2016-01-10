@@ -1,5 +1,4 @@
-#ifndef EMULATOR_GAMEBOY_H
-#define EMULATOR_GAMEBOY_H
+#pragma once
 
 #include "cpu/cpu.h"
 
@@ -10,5 +9,3 @@ public:
 private:
     CPU cpu;
 };
-
-#endif

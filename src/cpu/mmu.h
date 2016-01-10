@@ -1,5 +1,4 @@
-#ifndef EMULATOR_MMU_H
-#define EMULATOR_MMU_H
+#pragma once
 
 #include <cstdint>
 #include "memory.h"
@@ -18,5 +17,3 @@ public:
 private:
     Memory memory;
 };
-
-#endif

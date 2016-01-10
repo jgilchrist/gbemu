@@ -1,5 +1,4 @@
-#ifndef EMULATOR_REGISTER_H
-#define EMULATOR_REGISTER_H
+#pragma once
 
 #include <cstdint>
 
@@ -56,5 +55,3 @@ public:
 private:
     uint8_t val;
 };
-
-#endif

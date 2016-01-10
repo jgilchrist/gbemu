@@ -1,5 +1,4 @@
-#ifndef EMULATOR_BITWISE_H
-#define EMULATOR_BITWISE_H
+#pragma once
 
 #include <cstdint>
 
@@ -14,5 +13,3 @@ inline bool check_bit(const uint8_t value, int bit) {
 inline uint8_t set_bit(const uint8_t value, int bit) {
     return static_cast<uint8_t>(value | (1 << bit));
 }
-
-#endif

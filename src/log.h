@@ -1,5 +1,4 @@
-#ifndef EMULATOR_LOG_H
-#define EMULATOR_LOG_H
+#pragma once
 
 #include <string>
 
@@ -39,5 +38,3 @@ extern const char* COLOR_ERROR;
 #define log_error(fmt, ...) log.log(LogLevel::Error, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
 
 extern void log_set_level(LogLevel level);
-
-#endif

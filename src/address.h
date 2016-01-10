@@ -1,5 +1,4 @@
-#ifndef EMULATOR_ADDRESS_H
-#define EMULATOR_ADDRESS_H
+#pragma once
 
 #include <cstdint>
 #include "cpu/register.h"
@@ -15,5 +14,3 @@ public:
 private:
     uint16_t addr;
 };
-
-#endif

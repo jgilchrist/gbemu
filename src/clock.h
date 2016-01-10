@@ -1,5 +1,4 @@
-#ifndef EMULATOR_CLOCK_H
-#define EMULATOR_CLOCK_H
+#pragma once
 
 #include <cstdint>
 
@@ -9,5 +8,3 @@ public:
 
     void add_time(const uint8_t timestep);
 };
-
-#endif
