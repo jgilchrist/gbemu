@@ -1,7 +1,7 @@
 #include <cstdio>
 
 #include "gameboy.h"
-#include "log.h"
+#include "util/log.h"
 
 int main() {
     log_info("Hello world!");

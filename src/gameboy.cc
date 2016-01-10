@@ -1,5 +1,5 @@
 #include "gameboy.h"
-#include "log.h"
+#include "util/log.h"
 
 Gameboy::Gameboy() {
     log_info("Initialising Gameboy");
