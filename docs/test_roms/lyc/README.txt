@@ -1,0 +1,4 @@
+LYC.gb works using the STAT interrupt, specifically the LY=LYC test. It draws exactly 16 lines of the background before disabling the background altogether. This test was based on Super Mario Land which gave me some headaches. A real Game Boy always performs a comparison of LY and LYC after LY is modified in any way. You have to 1st render the current scanline, then increment LY and do the comparison. I noticed some emulators were rendering, comparing, then incrementing LY. This isn't documented clearly as far as I know, but from a hardware perspective, the first (and correct method) is the most logical. This test basically makes sure the order is correct. Output should be 16 lines of alternating color (last color should be the lighter one of the two) and after that the rest of the screen should be blank (white basically in a pure B/W monochrome palette). 
+
+Credits:
+Shonumi aka D.S. Baxter (https://github.com/shonumi)

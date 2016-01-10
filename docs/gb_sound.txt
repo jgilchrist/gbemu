@@ -1,0 +1,960 @@
+Nintendo(TM) Gameboy sound system (PAPU) guide, v0.99.19 (12/31/2002)
+Written by Jonathan Gevaryahu, with help from many others.
+lord_nightmare at users d0t sourceforge d0t net
+I can also be found on OPN/freenode #gnuboy or EFNET #gameboy and #gbdev
+(This document is written in the same style/context as Brad Taylor's very
+useful NESSOUND.txt; If you found NESSOUND.txt useful for NES work, you should
+find this just as useful for GB work)
+
+The latest version of this document can always be obtained from:
+http://www.netaxs.com/~gevaryah/GBSOUND.txt
+
+All results were obtained by studying prior information available, mainly the
+(in)famous Pan Docs, additional info added to the pan docs by Martin Korth of 
+NO$GMB fame, info from some of Jeff Frohwein's various tests, and from 
+information derived from my own experimentation.
+
+also, as Brad Taylor said so well:
+"A special thanks goes out to Matthew Conte, for his expertise on 
+pseudo-random number generation (amoung other things), which allowed for the 
+full reverse engineering of the NES's noise channel to take place. Without 
+his help, I would still be trying to find a needle in a haystack, as far as 
+the noise's method of pseudo-random number generation goes..."
+This applies here as well, since the Gameboy's PRNG is very similar to the NES'
+
+ANYHOW...
+
+
+/------------------\
+< **Introduction** >
+\------------------/
+
+The DMG-CPU/GBC-CPU/SGB-CPU (sometimes referred to as the GB-Z80 due to it's
+similarity with the Z80 microprocessor) has, internally, 4 semi-analog sound 
+channels. These can be output in a conditional (on or off) fashion to one or 
+both of the gameboy's output terminals, achieving a pseudo-stereo effect.
+The sound sometimes referred to as a PAPU, or Pseudo-Audio-Processing-Unit,
+Pseudo because it isn't actually a seperate unit. However, from a programming
+standpoint, for all intents and purposes it is a seperate circuit from the main
+processor.
+I'll go into as deep detail as I can when explaining the inner workings of this
+PAPU.
+
+
+
+/---------------------\
+< **Channel Details** >
+\---------------------/
+Each one of the four channels is different in it's own way:
+
+Channel 1 is a Squarewave channel with volume envelope and frequency sweep
+functions.
+
+Channel 2 is a Squarewave channel with volume envelope functions only.
+
+Channel 3 is a Voluntary Wave channel with 32 4-bit programmable samples, 
+played in sequence.
+
+Channel 4 is a 'white noise' channel with volume envelope functions.
+
+Channels 1-3 can produce frequencies of 64hz-131072hz
+Channel 4 can produce bit-frequencies of 2hz-1048576hz.
+
+NOTE:
+On the SGB-CPU, due to video sync issues, the processor runs approximately 2.4%
+faster than the handheld units, and, respectively, sounds are played at a 2.4% 
+higher frequency.
+
+
+
+/------------------------\
+< **Register Addresses** >
+\------------------------/
+
+The addresses through which the sound channels can be accessed are:
+Addr.(Register shorthand)
+$FF10 -- $FF14: Channel 1, Referred to as NR10-NR14
+$FF15 is unused, was probably going to be a sweep reg for channel 2 originally
+$FF16 -- $FF19: Channel 2, Referred to as NR21-NR24
+$FF1A -- $FF1E: Channel 3, Referred to as NR30-NR34
+$FF1F is unused, was probably going to be a sweep reg for channel 4 originally
+$FF20 -- $FF23: Channel 4, Referred to as NR41-NR44
+$FF24 controls the Vin status and volume, Referred to as NR50
+$FF25 selects which output each channel goes to, Referred to as NR51
+$FF26 is the status register, and also controls the sound circuit's power. 
+Referred to as NR52
+$FF27 -- $FF2F are unused.
+$FF30 -- $FF3F is the load register space for the 4-bit samples for channel 3
+
+All registers are read/writable, except for the sound length data (see below,
+set 2) which is unreadable, the low 4 bits of ff26 which have no effect if
+written to, the initialize flags for each channel, and ff30-ff3f, which are
+cleared (actually scrambled) after channel 3 is played.
+Unverified: The pan docs also state that the frequencies of channels 1-3 are
+write-only. I have yet to verify this, but it is probably correct.
+
+Writing a 0 to bit position 7 in register $FF26(NR52) disables the power to the
+audio processing unit, which can give a 15-20% increase in battery life if used
+properly. see note on power consumption for details.
+
+Each channel has 5 registers associated with it, and, like the NES, they are in
+sets:
+
+/-------\
+< Set 1 >
+\-------/
+Master on/off and Sweep Register 
+
+Channel 1 - $FF10(NR10)[sq1]
+---------------------------------------------
+7	Unused
+6-4	Sweep time(update rate) (if 0, sweeping is off)
+3	Sweep Direction (1: decrease, 0: increase)
+2-0	Sweep RtShift amount (if 0, sweeping is off)
+
+Channel 3 - $FF1A(NR30)[vlnt]
+---------------------------------------------
+7	Channel 3 Master on/off
+6-0	Unused
+
+Channels 2,4 - $FF15(NR20)[sq2], $FF1F(NR40)[noise]
+---------------------------------------------
+7-0	Unused
+
+
+/-------\
+< Set 2 >
+\-------/
+Wave pattern duty and Sound length Register
+
+Channels 1,2,4 - $FF11(NR11)[sq1], $FF16(NR21)[sq2], $FF20(NR41)[noise]
+---------------------------------------------
+7-6	Wave pattern duty (only on channels 1 and 2)
+5-0	Length counter load register
+
+Channel 3 - $FF1B(NR31)[vlnt]
+---------------------------------------------
+7-0	Length counter load register
+
+
+/-------\
+< Set 3 >
+\-------/
+Volume Envelope Control register
+
+Channels 1,2,4 - $FF12(NR12)[sq1], $FF17(NR22)[sq2], $FF21(NR42)[noise]
+---------------------------------------------
+7-4	(Initial) Channel Volume
+3	Volume sweep direction (0: down; 1: up)
+2-0	Length of each step in sweep (if 0, sweeping is off)
+NOTE: each step is n/64 seconds long, where n is 1-7
+
+Channel 3 - $FF1C(NR32)[vlnt]
+---------------------------------------------
+7	Unused
+6-5	Volume Level (0: Mute; 1: 100%; 2: 50% [rtshift 1]; 3: 25% [rtshift 2])
+4-0	Unused
+
+
+/-------\
+< Set 4 >
+\-------/
+Frequency LSbs and Noise options
+
+Channels 1,2,3 - $FF13(NR13)[sq1], $FF18(NR23)[sq2], $FF1D(NR33)[vlnt]
+---------------------------------------------
+7-0	8 Least Significant bits of frequency (3 MSBs are in set 5)
+
+Channel 4 - $FF22(NR43)[noise]
+---------------------------------------------
+7-4	Shift clock frequency (s)
+3	Shift Register width (0: 15 bits; 1: 7 bits)
+2-0	Dividing Ratio of frequency (r)
+Frequency = 524288 Hz / r / 2^(s+1)     ;For r=0 use r=0.5 instead
+
+
+/-------\
+< Set 5 >
+\-------/
+Playback flags and frequency MSbs
+
+Channels 1,2,3,4 - $FF14(NR14)[sq1], $FF19(NR24)[sq2], $FF1E(NR34)[vlnt],
+$FF23(NR44)[noise]
+---------------------------------------------
+7	Initialize (trigger channel start, AKA channel INIT)  (Write only)
+6	Consecutive select/length counter enable              (Read/Write)
+5-3	Unused
+2-0	3 Most Significant bits of frequency (channels 1,2,3) (Write only)
+
+
+/-------------\
+< Control Set >
+\-------------/
+
+$FF24(NR50) - Vin (input line on cart connector) / Main Output Volume Control
+---------------------------------------------
+7	Output Vin to SO2 terminal (1: on; 0: off)
+6-4	SO2 (Left) Main Output level (volume)
+3	Output Vin to SO1 terminal (1: on; 0: off)
+2-0	SO1 (Right) Main Output level (volume)
+
+$FF25(NR51) - Sound Output terminal select (1: enabled; 0: disabled)
+---------------------------------------------
+7	Channel 4 to SO2 (Left)
+6	Channel 3 to SO2 (Left)
+5	Channel 2 to SO2 (Left)
+4	Channel 1 to SO2 (Left)
+3	Channel 4 to SO1 (Right)
+2	Channel 3 to SO1 (Right)
+1	Channel 2 to SO1 (Right)
+0	Channel 1 to SO1 (Right)
+
+$FF26(NR52) - Master control and status flags
+---------------------------------------------
+7	Master sound circuitry power control (read/write)
+6-4	unused
+3	Channel 4 status flag (Read-only)
+2	Channel 3 status flag (Read-only)
+1	Channel 2 status flag (Read-only)
+0	Channel 1 status flag (Read-only)
+
+IMPORTANT NOTE ON POWER CONSUMPTION!!!
+Writing a 0 to bit position 7 in register $FF26(NR52) disables the power to the
+audio processing unit, which can give a 15-20% increase in battery life if used
+properly. When the PAPU is disabled, all registers in the range $FF10-$FF2F are
+unreadable and unwritable except for register $FF26(NR52). When the power is
+disabled, all register values, hidden or accessible, are lost, except for both
+the hidden internal and regular $FF30-FF3F wave pattern memory area. Reading
+from $FF26(NR52) while the audio processing unit is disabled will yield the
+values last written into the unused bits (0x70), all other bits are 0.
+NOTE: I recently discovered that the game 'Commander Keen' depends on 
+$FF30-$FF3F being writable while the audio processing unit is off. Previsous
+versions of this doc had that area listed as unreadable/unwritable, and it
+turns out that this is not the case. (it may be unreadable, but it definitely
+IS writable)
+
+
+/-------------------------\
+< Initial Register Values >
+\-------------------------/
+Upon a system reset, the registers will be loaded with the following values:
+$FF10(NR10) - 0x80
+$FF11(NR11) - 0xBF
+$FF12(NR12) - 0xF3
+$FF13(NR13) - No Change
+$FF14(NR14) - 0xBF
+$FF15(NR20) - No Change
+$FF16(NR21) - 0x3F
+$FF17(NR22) - 0x00
+$FF18(NR23) - No Change
+$FF19(NR24) - 0xBF
+$FF1A(NR30) - 0x7F
+$FF1B(NR31) - 0xFF
+$FF1C(NR32) - 0x9F
+$FF1D(NR33) - 0xBF
+$FF1E(NR34) - No Change
+$FF1F(NR40) - No Change
+$FF20(NR41) - 0xFF
+$FF21(NR42) - 0x00
+$FF22(NR43) - 0x00
+$FF23(NR44) - 0xBF
+$FF24(NR50) - 0x77
+$FF25(NR51) - 0xF3
+$FF26(NR52) - SEE BELOW
+Values marked 'No Change' are not reset to a particular value upon system reset
+Unverified: Upon initial power on they are most likely 0xFF.(thanks Martin 
+Korth)
+
+On the DMG/GBP/CGB, the value of $FF26(NR52) is 0xF_1_ due to the fact that
+channel 1 is on-but-faded-out, due to the two-toned 'gameboy startup sound'.
+On the SGB/SGB2, however, there IS no internal startup noise, and so the 
+initial value is 0xF_0_, and channel 1 is off.
+
+For initial values of $FF30-$FF3F, see section 'Wave pattern memory' below.
+
+
+
+/--------------------------\
+< **Channel Architecture** >
+\--------------------------/
+Here, I will try to describe the inner workings of the channels in as much
+detail as I can manage. Please note that a few of the points are not completely
+tested and/or understood (particularly the zombie state increment stuff, see
+'volume/envelope control unit')
+
+Device                        Square1  Square2  Voluntary  Noise
+------                        -------  -------  ---------  -----
+programmable timer                  X        X          X
+configurable timer                                             X
+length counter                      X        X          X      X
+unified length clock                <<COMMON TO ALL CHANNELS!>>
+4-bit DAC                           X        X          X      X
+volume/envelope control unit        X        X                 X
+master output control switch        *        *          X      *
+frequency sweep unit                X
+duty cycle generator                X        X
+pseudorandom number generator                                  X
+wave pattern memory                                     X
+wave pattern playback/volume shift unit                 X
+SO1/SO2 Control unit                *        *          *      *
+
+/--------------------\
+< Programmable timer >
+\--------------------/
+The programmable timer is an 11-bit presettable down counter, with reloading-
+upon-0. It is found in the two squarewave channels and the voluntary wave 
+channel. Some permutation of it may exist on the noise channel also, but for 
+all intents and purposes it doesn't exist there.
+
+Channels 1,2,3 - $FF13(NR13)[sq1], $FF18(NR23)[sq2], $FF1D(NR33)[vlnt]
+---------------------------------------------
+7-0	8 Least Significant bits of frequency, bits 7-0
+
+Channels 1,2,3 - $FF14(NR14)[sq1], $FF19(NR24)[sq2], $FF1E(NR34)[vlnt]
+---------------------------------------------
+2-0	3 Most Significant bits of frequency, bits A-8
+
+The 11-bit frequency value, upon either part being written, is binary-inverted
+(NOT), and the resulting number plus one is placed into the 11-bit counter.
+Another possibility is that the 11-bit frequency is subtracted from 2048, the
+result being written into the counter. (either way, the result is the same)
+
+Attempting to read the contents of these registers will yield a null result
+(either all 0's or all 1's, I haven't checked yet)
+
+The counter has 'syncronous reloading upon terminal count', meaning that it
+will count for N+1 clock cycles before arriving at 0 (the 'terminal count', at
+which the counter's TC line is raised), and then be reloaded, taking an
+additional cycle, and resume counting). This counter is clocked by the output
+of a 5-bit count-0-to-31-and-loop timer/divider, which itself is clocked by the
+gameboy's standard CPU clock input, 4.194304mhz.
+[the pitch doesn't double when in the CGB's doublespeed mode, because
+doublespeed mode only makes the *processor* clock on both the rising and
+falling edges of the clock signal, which stays constant at 4.194304mhz.]
+
+This makes the output frequency work like this as compared to the 11-bit freq:
+
+Hz = 4194304 / ((2048 - (11-bit-freq)) << 5)
+which could also be written like:
+Hz = 4194304 / ((~11-bit-freq + 1) << 5)
+or also like:
+Hz = 131072 / (~11-bit-freq + 1)
+
+The Terminal Count line is also connected to either the duty cycle generator,
+the wave pattern playback unit, or the pseudorandom number generator's trigger,
+depending on the channel.
+
+NOTE: channel 1's sweep unit will scramble its counter's contents, and will
+necessitate a fresh write of the frequency values. (see sweep unit)
+
+
+/--------------------\
+< Configurable Timer >
+\--------------------/
+The configurable timer is the noise channel (channel 4)'s equivalent of a
+programmable frequency timer. It is controlled by register $FF22(NR43), and
+consists of a customized 3-bit down counter, a 16-bit long down counter with
+reload-on-0 and only 1 initially-settable bit. The 3-bit down counter's
+initial/reload setting is determined by the setting of the frequency divide
+ratio.
+
+Channel 4 - $FF22(NR43)[noise]
+---------------------------------------------
+2-0	Frequency divide ratio
+
+The down counter is clocked at 2097152 hz, divided from the processor's
+4.194304Mhz frequency. The counter counts down until 0, and spends 1 clock
+cycle reloading the initial value from the freq divide ratio.
+
+clock freq:  \\\\\\\\\\\\\\\\\\\\\\\\\\\\ 2097152 hz
+ratio of:  0 _-_-_-_-_-_-_-_-_-_-_-_-_-_- 1048576 hz
+	   1 __--__--__--__--__--__--__--  524288 hz
+	   2 ___---___---___---___---___- ~370727.6 hz
+	   3 ____----____----____----____  262144 hz
+	   4 _____-----_____-----_____--- ~220435.95 hz
+	   5 ______------______------____ ~185363.8 hz
+	   6 _______-------_______------- ~155871.75 hz
+	   7 ________--------________----  131072 hz
+
+The terminal count/output of the counter is the clock input to the shift clock.
+
+The shift clock is a 16-bit long down counter which can have any single bit in
+it set as the initial/reload value, the position of that bit being read from
+the shift clock frequency register. reloading of the value is instantaneous.
+
+Channel 4 - $FF22(NR43)[noise]
+---------------------------------------------
+7-4	Shift clock frequency
+
+The terminal count of the shift clock is the input clock signal of the
+PseudoRandom Number Generator.
+
+PRNG Frequency = (1048576 Hz / (ratio + 1)) / 2 ^ (shiftclockfreq + 1)
+
+
+/----------------\
+< Length Counter >
+\----------------/
+The Gameboy's audio channels each feature a length counter, a conditionally
+clocked down counter. There are two types of length counters used in the
+Gameboy's PAPU: the 5-bit ones used on channels 1, 2, and 4, and the 8-bit one
+used on channel 3. The clock source for each counter is described below.
+
+Values can be loaded into the length counters for each channel using the
+following registers:
+
+Channels 1,2,4 - $FF11(NR11)[sq1], $FF16(NR21)[sq2], $FF20(NR41)[noise]
+---------------------------------------------
+5-0	Length counter load register
+
+The 5-bit value is binary-inverted (NOT) upon a register write, 1 is added to
+the result, and the resulting value is written to the counter. Another
+possibility is that the 5-bit length value is subtracted from 64, the result
+being written to the counter. (either way, the result is the same)
+
+These length counters are clocked at a rate of 1 count every 1/256th of a
+second, taken directly from the unified length clock (256hz, see below).
+Therefore: length in seconds = (64 - [length]) * (1/256)
+
+NOTE: In previous versions of this doc, I had the length counter clock for
+channels 1,2,4 being clocked once every 1/64th of a second. Subsequent testing
+proved that this was incorrect. Thanks to beware for asking me to check it.
+
+Channel 3 - $FF1B(NR31)[vlnt]
+---------------------------------------------
+7-0	Length counter load register
+
+The 8-bit value is binary-inverted (NOT) upon a register write, 1 is added to
+the result, and the resulting value is written to the counter. Another
+possibility is that the 8-bit length value is subtracted from 256, the result
+being written to the counter. (either way, the result is the same)
+
+This length counter is also clocked at a rate of 1 count every 1/256th of a
+second, taken directly from the unified length clock (256hz, see below).
+Therefore: length in seconds = (256 - [length]) * (1/256)
+
+Writing a value to a length counter will IMMEDIATELY start the counter counting
+down, regardless of the channel's current on/off state! This will happen ANY
+time that the length counter enable bit is on during a write. Several games,
+notably 'Mega Man 2' and 'Balloon Kid' prove this.
+
+NOTE: The length counters are NEVER reloaded to their last written value! They
+must be reloaded by hand EVERY TIME, as the values written are destroyed during
+the countdown itself! However, Initializing the channel (bit 7 of $FF14, $FF19,
+$FF1E, $FF23) will cause a maximum-length-possible-for-that-channel playback,
+BUT ONLY if the current counter is at terminal count (0)! VERIFIED.
+
+VERIFIED: If the counter is written to while the length counter enable bit (see
+below) is OFF, the value will remain intact until the enable bit is turned on.
+This is regardless of whether the channel is INITed then, although I'm fairly
+sure it was intended that one would start the counter and the channel during
+the same PAPU write.
+
+The clocking of the counter is enabled or disabled depending on the status of
+the 'length counter enable register' (AKA the 'consecutive' bit) in register
+set 5, a 1 enabling the counter, a 0 disabling it.
+
+Channels 1,2,3,4 - $FF14(NR14)[sq1], $FF19(NR24)[sq2], $FF1E(NR34)[vlnt],
+$FF23(NR44)[noise]
+---------------------------------------------
+6	Consecutive select/length counter enable              (Read/Write)
+
+The real-time status for the length counter of a given channel can be attained
+by reading register $FF26(NR52). a 1 indicates that the length counter is
+non-0, or that the consecutive/length counter enable bit is 0; 0 indicates that
+the length counter is 0, and subsequently that channel is off.
+
+$FF26(NR52) - Master control and status flags
+---------------------------------------------
+3	Channel 4 status flag (Read-only)
+2	Channel 3 status flag (Read-only)
+1	Channel 2 status flag (Read-only)
+0	Channel 1 status flag (Read-only)
+
+
+/----------------------\
+< Unified Length Clock >
+\----------------------/
+This is a recent discovery, pointed out to me by beware(of bgb fame). It is a
+single clock, running at 256hz, probably divided directly from the GB
+processor's clock (4.194304Mhz). It is used to clock the length counters of
+each channel, when the length counter enable bit (see above) for that
+particular channel is on. It is common to all channels, so when it clocks for
+one channel it clocks all of them.
+
+UNVERIFIED: It may also be used, after being divided by 2, to clock the 128hz
+sweep clock. The last test I did was inconclusive, probably due to some mistake
+I made during testing.
+
+
+/-----------\
+< 4-bit DAC >
+\-----------/
+This is a plain-old vanilla linear 4-bit DAC, 16 steps of output voltage. All
+of the sound channels use them for output.
+
+The output order for all the channels:
+[4-bit DAC] -> [Master channel switch] -> [SO1/SO2 output switches] -> SO1/SO2
+The SO1/SO2 output lines of the processor are connected to a pull-up? resistor,
+and a capacitor, then connected to the earphone terminal. A seperate tap of the
+SOx lines mixes the two together, and runs through a break-on-plug-presence
+switch in the earphone jack, and goes to the speaker on the front of the unit. 
+The GBC(/GBP?) have a different capacitor/resistor combination which isn't as
+smooth-sounding, but other than that, (and a cheaper speaker,) they seem to be
+the same as the DMG(/SGB?).
+
+Note: Older versions of the DMG (pre-DMG-CPU-05?) used a logarithmic DAC for
+channel 3 (others also?) instead of a linear one. see section 'Wave Pattern
+Memory' for a diagram.
+
+
+/--------------------------------\
+< Volume / Envelope Control unit >
+\--------------------------------/
+
+The Volume/Envelope control unit is a simple volume control which can also do
+fade-ins and fade-outs at a configurable rate. The channel volume level is
+controlled by a 4-bit delta counter (which can be incremented or decremented by
+1) with an overflow/underflow line. The 1-bit input from the duty cycle
+generator or PRNG is multiplied by 15, and binary AND'ed against the volume
+control (effectively multiplied by the volume control). Modifications to the
+volume control take effect upon the next channel INIT, and if the channel was
+on (length counter status was non-0, and master volume control switch was on;
+see below), then it will trigger a 'zombie mode' volume change (see below).
+
+Channels 1,2,4 - $FF12(NR12)[sq1], $FF17(NR22)[sq2], $FF21(NR42)[noise]
+---------------------------------------------
+7-4	(Initial) Channel Volume
+
+The volume sweep section consists of a 3-bit down counter(hereafter referred to
+as the 'step length counter') with switchable reload-upon-0, whose initial
+value is loaded from the sweep rate value on channel INIT.
+
+Channels 1,2,4 - $FF12(NR12)[sq1], $FF17(NR22)[sq2], $FF21(NR42)[noise]
+---------------------------------------------
+2-0	Length of each step in sweep
+
+The terminal count (value=0) line of this counter is output to a 1-of-2
+selector. This 1-of-2 selector is used to select an upward or downward volume
+sweep, getting the direction from the Volume/envelope register on channel INIT.
+
+Channels 1,2,4 - $FF12(NR12)[sq1], $FF17(NR22)[sq2], $FF21(NR42)[noise]
+---------------------------------------------
+3	Volume sweep direction (0: down; 1: up)
+
+if the direction is 0, the counter outputs its signal through the selector into
+the decrease (-) delta terminal of the volume counter. If the direction is 1,
+the counter outputs its signal through the selector into the increase (+) delta
+terminal of the volume counter.
+
+SPECULATION: The volume counter itself has an overflow/underflow line, which is
+connected to a switch that prevents the step length counter from reloading its
+original value when it reaches 0. When this occurs, the terminal count line of
+the step length counter is ON steadily, and unless the channel's length counter
+is enabled (and will shut the channel off), the channel enters 'zombie mode'. 
+
+ZOMBIE MODE: UNDEAD CHANNELS!
+The channel's volume is now whatever it was set to, or 0/15 if a sweep occured,
+and will sustain that volume indefinitely unless the length counter halts the
+channel. If any envelope register bits are now changed, the volume of the
+channel will increase by 1 or 2, looping around to 0 if necessary. (1 if the
+channel was INIT-ed with the sweep step number set to 0, 2 if otherwise;
+also 2 if the step number has been changed to a non-zero value since the INIT,
+even if it currently is 0)
+
+If the volume sweep direction bit is changed, however, the volume of the
+channel will increase by 4 instead of 2, for that write only. Direction of the
+change(1->0 or 0->1) is apparently irrelevant. While in zombie mode, if the
+step length register is set to 0, it will have no immediate effect other than
+increasing the volume by 2 (or 4 if the direction was also changed). (but it
+WILL change the step size to 1 if the channel is then re-INITed, see above)
+Setting the (Initial) Volume to 0 will disable the channel's master channel
+control switch, and silence the channel (see below, 'master channel control
+switch').
+ 
+Re-INITing the channel will pull it out of zombie mode: it will turn envelope 
+sweeping back on, unless the volume is 0, in which case the master volume 
+control switch will be off.
+
+
+/-------------------------------\
+< Master Channel Control Switch >
+\-------------------------------/
+The master channel control switch, which appears at first glance to be unique
+to channel 3, is actually not exclusive to that channel. It is present in all
+of the channels, but is embedded within the Initial Volume control, on the
+channels which have an Envelope Control unit (channels 1, 2, and 4).
+
+As mentioned above in the 'Volume/Envelope Control Unit' section, when a
+downward envelope sweep occurs, the channel is NOT shut off when the volume
+reaches 0. HOWEVER, writing a 0 to the (Initial) Volume section of the envelope
+register will cause that channel's 'hidden' master channel control switch to be
+turned off. This ONLY occurs if 0 is *WRITTEN* to the register, and only if the
+master channel control switch is not already off(it can't be turned off twice!)
+If the switch is off, it can be turned back on by writing any non-0 value to
+the (Initial) Volume section of the register. When the switch for a channel is
+off, it's length counter status will be 0.
+
+The switch causes a +11 or -12 'click' noise to be output to the SOx control
+unit depending on whether it is turned from off to on or vice-versa, due to the
+slightly raised voltage that all of the channels output when their master
+channel control switch is on.
+
+At system startup, channel 1's switch is on (turned on by the bootstrap rom),
+all other channels are off.
+
+
+/----------------------\
+< Frequency Sweep Unit >
+\----------------------/
+The sweep unit is exclusive to channel 1. The controlling register for the
+sweep unit is $FF10(NR10). The sweep unit, on channel INIT, grabs the the 11
+bits of channel 1's frequency register, and stores them into a hidden, internal
+register. any writes to the frequency registers during the sweep, will take
+effect until the sweep unit makes its next write to those registers, continuing
+the original sweep. IT WILL NOT SWEEP FROM THE NEW FREQUENCY! The sweep unit
+has the aforementioned hidden frequency register (an 11-bit accumulator), an
+adder, a 3-bit down counter with reload-on-0, a selector switch, and an
+up-to-3-bit rightshifter.
+
+The 3-bit down counter controls the frequency of sweep updates. It's initial
+(and reload) value is taken from the sweep time register. The value-reload
+takes 1 clock cycle.
+
+Channel 1 - $FF10(NR10)[sq1]
+---------------------------------------------
+6-4	Sweep time(update rate)
+
+The counter is clocked at 128hz, divided from the unified sound clock (256hz),
+so the frequency-of-sweep-update will be:
+freq(hz) = 128 / (sweep time + 1)
+
+NOTE: Writing 0 to the sweep time register disables the clock, and therefore
+disables sweeping.
+
+The frequency in the accumulator is first rightshifted by up to 7 bits,
+controllable by the Sweep RtShift amount register:
+
+Channel 1 - $FF10(NR10)[sq1]
+---------------------------------------------
+2-0	Sweep RtShift amount
+
+NOTE: Writing 0 to the Sweep RtShift amount disables sweeping. While the
+RtShift amount is 0, the sweep time register becomes sort of a length counter,
+and the channel will automatically terminate on it clocking.
+
+NOTE2: When set to sweep upward, the channel will do absolutely nothing on INIT
+unless the current frequency is below the 'sweep threshhold' for that
+particular rightshift amount. 
+
+The reason for this is because otherwise the channel's NEXT step would 
+IMMEDIATELY overflow the 11-bit frequency counter.
+(Values immediately below the threshholds will only play one note, since the 
+second step wouldn't overflow, but the third step would, and so only the first
+step is played. The sweep unit always works one step ahead of the current
+output, and on the next step outputs that result and calculates the next, etc.)
+
+The threshholds are: 
+0: 0x7ff(no threshhold, since sweeping is disabled)
+1: 0x556
+2: 0x667
+3: 0x71d
+4: 0x788
+5: 0x7c2
+6: 0x7e1
+7: 0x7f1
+
+So the above table is actually unnecessary, I'm just leaving it in as a 
+reference.
+
+The game 'Metroid 2' runs into this issue in a few places, apparently the 
+programmers didn't know about the above info. Also, the knife-throwing monsters
+in 'Wario Land: Super Mario Land 3' run into the issue, but there it is
+intentionally used to prevent their 'voices' from going too high.
+
+Upon reaching the terminal count (value=0), the counter sends a signal to a
+selector, which controls what direction the sweep will be by controlling the
+sign bit of the accumulator.
+
+Channel 1 - $FF10(NR10)[sq1]
+---------------------------------------------
+3	Sweep Direction (1: decrease, 0: increase)
+
+The adder then takes the accumulator, and adds that value to the 11-bit
+frequency value stored in registers $FF13 and $FF14. Therefore, because the
+registers are modified, the frequency must be rewritten in-between sweeps.
+
+
+/----------------------\
+< Duty Cycle Generator >
+\----------------------/
+The duty cycle generator is a 3-bit (down?) counter which produces output
+depending on the result of some binary operations against the bits of the
+counter, the operations selectable by changing the duty cycle bits in register.
+
+Channels 1,2 - $FF11(NR11)[sq1], $FF16(NR21)[sq2]
+---------------------------------------------
+7-6	Wave pattern duty
+
+The resulting waves are:
+
+Bits  Cyc%   0 1 2 3 4 5 6 7
+00  : 12.5%  ________==______
+01  : 25%    ________====____
+10  : 50%    ____========____
+11  : 75%    ========____====
+
+= is High
+_ is Low
+
+Note that 75% is just a binary NOT against 25%, and that the two are almost 
+indistinguishable to the human ear.
+
+The duty cycle is clocked by the output of the frequency counter for channels 1 and 2.
+
+Upon the channel INIT trigger bit being set for either channel 1
+or 2, the wave position's incrementing will be delayed by 1/12 of a full cycle.
+IT WILL *NOT* BE RESET TO 0 BY A CHANNEL INIT. 'Gauntlet II' does a very slick
+job of timing itself around this fact.
+
+Upon system reset, channel 1 will be set to the 50% duty cycle wave, channel 2
+to the 12.5% duty cycle wave. (see initial register values)
+
+
+/-------------------------------\
+< PseudoRandom Number Generator >
+\-------------------------------/
+The noise channel has a 1-bit pseudo-random number generator, or PRNG. This 
+particular type of PRNG is called an LFSR, a Linear Feedback Shift Register.
+It's based on a 15 or 7-bit shift register, and an exclusive OR gate (XOR). The
+mode is selectable by the Shift register width selector.
+
+Channel 4 - $FF22(NR43)[noise]
+---------------------------------------------
+3	Shift Register width (0: 15 bits; 1: 7 bits)
+
+The following diagram shows where the XOR taps are taken off the shift 
+register to produce the 1-bit pseudo-random number sequences for each mode.
+
+mode        <-----
+----   FEDCBA9876543210
+32K    %*.............R
+512    XXXXXXXX%*.....R
+
+X- N/A
+%- output and XOR tap
+*- XOR tap
+R- result of XOR, to be shifted in
+
+The current result of the XOR will be transferred into bit position 0 of the 
+shift register upon the next shift cycle. The 1-bit 'random' output is taken
+from the output, is inverted, then is sent to the volume/envelope hardware for
+the noise channel.
+
+VERIFIED: Upon the channel INIT trigger bit being set for this channel (4),
+the PRNG will be reloaded with a value of 0xFF. (Kirby 2)
+NOTE: There will be a 16-clock delay before the PRNG outputs any non-0 data 
+after an INIT. This means the value loaded on channel INIT isn't 0x01 as 
+previously written here, but is 0xFF. this will cause the channel to have a
+value of 0x01 16 clocks later. Again, thanks to beware for pointing this out.
+
+On system reset, this shift register is loaded with a value of 1.
+
+
+/---------------------\
+< Wave Pattern Memory >
+\---------------------/
+This is the 16-byte long 'hidden' internal memory area (hereafter referred to
+as 'wave pattern memory'), containing the 32 4-bit samples for channel 3. It
+can be written to by writing the 16-byte sample data into the wave pattern load
+register.
+
+Channel 3 - Wave pattern load register - $FF30-$FF3F
+----------------------------------------------
+FOR EACH BYTE IN $FF30-$FF3F:
+7-4	Sample 0
+3-0	Sample 1
+
+Setting the 'init' bit [bit 7] in $FF1E to 1 will destroy the contents at
+location $FF30-$FF3F, but the wave pattern memory will retain the proper values.
+This area cannot be written to while channel 3's master control switch is on.
+Sample playback is possible using this register, by turning off the switch and
+writing the next 16 4-bit samples, and turning it back on. However, doing this
+will create some click-distortion from the switch itself (especially on DMGs),
+and the first sample immediately after the switch is turned back on will be
+replaced (due to capacitance somewhere?) by the last COMPLETELY played back
+(partially played doesn't count) sample before the switch was shut off. (Thanks
+Jeff Frohwein)
+
+SPECULATION: The 1-sample error is NOT carried over to successive loops of the
+wave pattern data? (gauntlet 2 suggests otherwise...)
+
+On system power-on of the CGB, this internal area is loaded with:
+0x00, 0xff, 0x00, 0xff,	0x00, 0xff, 0x00, 0xff,
+0x00, 0xff, 0x00, 0xff,	0x00, 0xff, 0x00, 0xff
+
+On system power-on of the SGB?, GBP and DMG, the internal area isn't loaded
+with any particular value, however due to some unusual properties of the memory
+in question, the values present will almost always be roughly the same. 
+The game "R-Type", due to a programming error, doesn't load this area with
+anything, and therefore the initial value is played. When "R-Type" was
+re-released for the GBC in "R-Type DX", Irem made a very good approximation of
+the SGB/GBP/DMG's initial Wave pattern memory values. Those values are:
+0xac, 0xdd, 0xda, 0x48,	0x36, 0x02, 0xcf, 0x16,
+0x2c, 0x04, 0xe5, 0x2c,	0xac, 0xdd, 0xda, 0x48
+
+However on actual hardware, the values are pretty much completely random.
+
+On older versions (pre-DMG-CPU-05?) of the DMG, the scale of the DAC used on
+channel 3  (other channels too?) is logarithmic instead of linear. All later
+gameboy models (GBP,SGB,CGB,GBA) use only linear DACs. (Thanks Jeff Frohwein)
+Here are some scales for demonstration:
+
+Logarithmic:
+0---------------1--------------2-------------3------------4-----------5----------6---------7--------8-------9------A-----B----C---D--E-F
+
+Linear:
+0--------1--------2--------3--------4--------5--------6--------7--------8--------9--------A--------B--------C--------D--------E--------F
+
+
+/--------------------------------------\
+< Wave Pattern Playback / Shifter Unit >
+\--------------------------------------/
+This is effectively a 5-bit counter, which acts as a pointer to the current
+4-bit sample in the 16-byte, 32-sample wave pattern memory. Every clock from
+the programmable timer will cause a 4-bit sample (the wavepattern's
+[high-4-bits-of-counter]st byte's high or low 4 bits [depending on whether the
+counter's low bit is 0 or 1, respectively]) to be sent to the volume shifter
+unit. The volume shifter unit, depending on it's register, will output either
+0, the 4-bit sample, or the sample rightshifted by 1 or 2. This 4-bit result is
+then sent to the DAC.
+
+Channel 3 - $FF1C(NR32)[vlnt]
+---------------------------------------------
+6-5	Volume Level (0: Mute; 1: 100%; 2: 50% [rtshift 1]; 3: 25% [rtshift 2])
+
+Speculation/Unverified: On system startup, this counter is either 0, or at max
+so that after the next clock it will be 0, I've never checked, but the first
+situation is more likely.
+
+
+/------------------------\
+< SO1 / SO2 Control Unit >
+\------------------------/
+The SO1/SO2 control unit is a set of 8 on/off switches which turn on and off
+each channel's output to SO1(right) and SO2(left), and another set of switches
+which controls the absolute master volume for each SO 'channel', and the master
+control switches for Vin->SOx.
+
+$FF24(NR50) - Vin (input line on cart connector) / Main Output Volume Control
+---------------------------------------------
+7	Output Vin to SO2 (1: on; 0: off)
+6-4	SO2 (Left) Main Output level (volume)
+3	Output Vin to SO1 (1: on; 0: off)
+2-0	SO1 (Right) Main Output level (volume)
+
+Bits 7 and 3 are master control switches, they have the same -12/+11 voltage
+effect as the master volume control switches, except they don't go through a
+set of switches to divide their left/right component, they come pre-divided.
+They are added to SOx before the main output level control. 
+No known game actually uses them for their intended (Vin) purpose.
+(One Public Domain game does however use them for sound in a strange way, by
+taking advantage of the clicks and the main volume control: 'The Winnowing', by
+Plasma Works)
+Bits 6-4 and 2-0 regulate the volume on each channel in this fashion:
+volume = volume of SOx + (volume of SOx * Main Output Level of SOx)
+Thus, these controls cannot completely mute a particular SO 'channel'.
+
+$FF25(NR51) - Sound Output terminal select (1: enabled; 0: disabled)
+---------------------------------------------
+7	Channel 4 to SO2 (Left)
+6	Channel 3 to SO2 (Left)
+5	Channel 2 to SO2 (Left)
+4	Channel 1 to SO2 (Left)
+3	Channel 4 to SO1 (Right)
+2	Channel 3 to SO1 (Right)
+1	Channel 2 to SO1 (Right)
+0	Channel 1 to SO1 (Right)
+
+These switches control raw voltage, so if a channel's master channel control
+switch is on(slightly raising the voltage output by that channel), turning off
+(or on) that channel's SOx output switches will result in clicks on the
+respective speaker/headphone as the voltage suddenly drops or is raised. If the
+master output control switch is off, no clicking can occur, as the raised
+voltage never gets this far.
+
+WARNING!!! SPECULATION BELOW!
+The CGB and the DMG/GBP/SGB differ in the way that each of the channels is
+mixed with the rest.
+VERY UNVERIFIED (speculation): The CGB starts with 0 (or -127?), averages all
+the channels together and multiplies the result by 4[lftshifts it by 2]. this
+makes some of the channels cancel each other out almost completely instead of
+partially, which happens on the DMG.
+VERY UNVERIFIED (speculation): On the other hand, the DMG/GBP/SGB starts with
+-127, and adds each of the channels individually to that.
+This is noticible in a few games, but the game which demonstrates it
+particularly vividly is "Lock n' Chase". It sounds HORRIBLE on a GBC!
+Note: the above info is most probably wrong, so don't trust it at all.
+END OF SPECULATION
+
+/--------------------------\
+< ORGANIZATION OF CHANNELS >
+\--------------------------/
+   sweep unit --\  
+        freq counter ----*--Duty cycle generator-- TO |A|
+        length counter -/         or                                     
+                                  PRNG
+ 
+         
+           master channel ctrl --------\
+  |A| -----[volume/envelope]--- DAC ----*-----\-----\
+                                            SO1*  SO2* 
+					       |     |
+					       Right Left
+
+[volume/envelope]
+>(Init causes everything to be read from regs)
+                         (to master channel ctrl)
+                                 /  
+-[---------------------volume control------------]---...
+ Step length counter   +<--->-
+                 \       /
+                Direction select 
+
+* = switch, off if side input is 0
+
+
+/-------------------------------------------\
+< **Patent Numbers (for those interested)** >
+\-------------------------------------------/
+#5,184,830 - Compact Hand-held Video Game System
+This details a lot of information about memory maps, video hardware, and has
+flowcharts explaining the bootstrap rom.
+
+#5,134,391 - System for preventing the use of an unauthorized external memory
+This goes into the gory details about how the gameboy's bootstrap rom works.
+
+#5,095,798 - Electronic Gaming Device with Pseudo-Stereophonic Sound Generating
+Capabilities
+This gives a lot of information about the layout of the sound system in the
+Gameboy.
+
+
+/-------------\
+< **Credits** >
+\-------------/
+This document written by Jonathan Gevaryahu, AKA Lord Nightmare
+lord_nightmare at users dot sourceforge dot net
+
+Thanks to all the authors whose information I borrowed in order to make this
+document. Without their work, this doc would never have existed!
+
+Special Thanks to the people in #gameboy on EFNET for helping me out on a few
+points.
+
+Special Thanks to laguna for writing (most of) gnuboy and getting me interested
+in this documentation project in the first place.
+
+Special Thanks to beware for sharing his bgb sound generator source code, and
+coming up with a MUCH more plausable timing scheme for the sweep/envelope
+systems. Thanks beware!

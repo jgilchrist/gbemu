@@ -1,0 +1,38 @@
+ If I play the following 12800 long sample on
+GB sound channel 3...
+
+SineWaveSample:
+        REPT    400
+        DB      $8b,$df,$ff,$db,$84,$20,$00,$24
+        DB      $8b,$df,$ff,$db,$84,$20,$00,$24
+        ENDR
+
+ ... then I get the results that are shown in this 'gbsnd3.gif'.
+
+ As can be seen from the gif, the top sine wave appears
+relatively normal but the lower wave has a weighted appearance
+depending on the sample values.
+
+ The top wave has a small noise spike after reloading of wave
+RAM is complete but the bottom wave has a very large spike.
+This spike accounts for the very heavy buzz sound heard in
+these samples.
+
+ During the 'sample reload period' when snd chnl 3 is disabled
+the effective value being output is 7 1/2.
+
+ Also notice that the very first sample is identical to the last
+COMPLETE sample that was output before snd chnl 3 was turned off
+for reload.
+
+ Due to these artifacts there is a tremendous amount of distortion
+on the sound playback on older GB full-size models and a smaller
+amount (but still significant) in all late model older full-size GBs,
+GB Pockets, and GB Colors units.
+
+ It appears to me that snd chnl 3 was never designed for dynamic
+reload/updates in order to play raw audio samples due to the
+side-effects of doing that are described above.
+
+ Jeff
+
