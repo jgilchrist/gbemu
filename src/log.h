@@ -35,7 +35,7 @@ extern const char* COLOR_ERROR;
 
 #define log_debug(msg) log.log(LogLevel::Debug, __FILENAME__, __LINE__, msg);
 #define log_info(msg) log.log(LogLevel::Info, __FILENAME__, __LINE__, msg);
-#define log_warning(msg) log.log(LogLevel::Warning, __FILENAME__, __LINE__, msg);
+#define log_warn(msg) log.log(LogLevel::Warning, __FILENAME__, __LINE__, msg);
 #define log_error(msg) log.log(LogLevel::Error, __FILENAME__, __LINE__, msg);
 
 extern void log_set_level(LogLevel level);
