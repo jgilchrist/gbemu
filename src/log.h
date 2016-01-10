@@ -14,7 +14,7 @@ class Logger {
 public:
     Logger();
 
-    void log(LogLevel level, const std::string file, int line, const std::string msg);
+    void log(LogLevel level, const std::string file, int line, const char* msg, ...);
     void set_level(LogLevel level);
 
 private:
@@ -33,10 +33,10 @@ extern const char* COLOR_ERROR;
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define log_debug(msg) log.log(LogLevel::Debug, __FILENAME__, __LINE__, msg);
-#define log_info(msg) log.log(LogLevel::Info, __FILENAME__, __LINE__, msg);
-#define log_warn(msg) log.log(LogLevel::Warning, __FILENAME__, __LINE__, msg);
-#define log_error(msg) log.log(LogLevel::Error, __FILENAME__, __LINE__, msg);
+#define log_debug(fmt, ...) log.log(LogLevel::Debug, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
+#define log_info(fmt, ...) log.log(LogLevel::Info, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
+#define log_warn(fmt, ...) log.log(LogLevel::Warning, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
+#define log_error(fmt, ...) log.log(LogLevel::Error, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
 
 extern void log_set_level(LogLevel level);
 

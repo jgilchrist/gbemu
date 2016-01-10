@@ -1,5 +1,7 @@
 #include "log.h"
 
+#include "util/string.h"
+
 #include <ctime>
 
 Logger log;
@@ -10,10 +12,15 @@ const char* COLOR_ERROR = "\033[1;31m";
 
 Logger::Logger() {}
 
-void Logger::log(LogLevel level, const std::string file, int line, const std::string msg) {
+void Logger::log(LogLevel level, const std::string file, int line, const char* fmt, ...) {
     if (!should_log(level)) {
         return;
     }
+
+    va_list args;
+    va_start(args, fmt);
+    std::string msg = str_format(fmt, args);
+    va_end(args);
 
     time_t t = time(nullptr);
     struct tm local;

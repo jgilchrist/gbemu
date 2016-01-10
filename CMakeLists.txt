@@ -4,6 +4,7 @@ project(emulator)
 
 add_definitions(-std=c++14 -Wall -Wextra -Wpedantic -g -ferror-limit=10000)
 add_definitions(-Wno-unused-parameter)
+add_definitions(-Wno-gnu-zero-variadic-macro-arguments)
 
 add_executable(emulator
     src/address.cc
@@ -26,4 +27,5 @@ add_executable(emulator
     src/cpu/mmu.h
     src/cpu/register.cc
     src/cpu/register.h
+    src/util/string.cc
 )
