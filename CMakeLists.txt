@@ -2,9 +2,18 @@ cmake_minimum_required(VERSION 3.4)
 
 project(emulator)
 
-add_definitions(-std=c++14 -Wall -Wextra -Wpedantic -g -ferror-limit=10000)
-add_definitions(-Wno-unused-parameter)
+add_definitions(-std=c++14)
+add_definitions(-stdlib=libc++)
+add_definitions(-g)
+
+add_definitions(-Wall -Wextra -Wpedantic)
 add_definitions(-Wno-gnu-zero-variadic-macro-arguments)
+add_definitions(-ferror-limit=10000)
+
+# Temporarily silence warnings during development
+add_definitions(-Wno-unused-parameter)
+add_definitions(-Wno-unused-private-field)
+add_definitions(-Wno-unused-function)
 
 add_executable(emulator
     src/address.cc
