@@ -17,6 +17,7 @@ add_definitions(-Wno-unused-function)
 
 add_executable(emulator
     src/address.cc
+    src/cartridge.cc
     src/clock.cc
     src/gameboy.cc
     src/main.cc
