@@ -1,7 +1,7 @@
 NAME=emulator
 BUILD_DIR=build
 
-all: compile run
+all: compile
 
 .PHONY: cmake
 cmake:
