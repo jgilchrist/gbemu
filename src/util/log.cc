@@ -2,13 +2,12 @@
 
 #include "string.h"
 
-#include <ctime>
-
 Logger log;
 const char* COLOR_DEBUG = "\033[1;30m";
 const char* COLOR_INFO = "\033[1;34m";
 const char* COLOR_WARNING = "\033[1;33m";
 const char* COLOR_ERROR = "\033[1;31m";
+const char* COLOR_RESET = "\033[0m";
 
 Logger::Logger() {}
 
@@ -22,18 +21,11 @@ void Logger::log(LogLevel level, const std::string file, int line, const char* f
     std::string msg = str_format(fmt, args);
     va_end(args);
 
-    time_t t = time(nullptr);
-    struct tm local;
-    localtime_r(&t, &local);
-
-    char timeString[10];
-    strftime(timeString, 10, "%H:%M:%S", &local);
-
     std::string fileinfo = log_filename ? str_format(" (%s:%d)", file.c_str(), line) : "";
 
     fprintf((level < LogLevel::Error) ? stdout : stderr,
-        "%s%s \033[0m%s%s\n",
-        level_color(level), timeString, msg.c_str(), fileinfo.c_str());
+        "%s┃%s %s%s\n",
+        level_color(level), fileinfo.c_str(), COLOR_RESET, msg.c_str());
 }
 
 void Logger::set_level(LogLevel level) {

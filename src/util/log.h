@@ -30,6 +30,7 @@ extern const char* COLOR_DEBUG;
 extern const char* COLOR_INFO;
 extern const char* COLOR_WARNING;
 extern const char* COLOR_ERROR;
+extern const char* COLOR_RESET;
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
