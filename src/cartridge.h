@@ -1,5 +1,7 @@
 #pragma once
 
+#include "address.h"
+
 #include <string>
 #include <vector>
 
@@ -28,6 +30,8 @@ const int TITLE_LENGTH = 11;
 class Cartridge {
 public:
     Cartridge(string filename);
+
+    uint8_t read(const Address address) const;
 
     /* Cartridge header information */
     string game_title() const;
