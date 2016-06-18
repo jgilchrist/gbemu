@@ -9,14 +9,7 @@ Gameboy::Gameboy(Cartridge cartridge) :
 }
 
 void Gameboy::run() {
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
-    cpu.tick();
+    while (true) {
+        cpu.tick();
+    }
 }
