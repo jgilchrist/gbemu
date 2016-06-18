@@ -538,6 +538,11 @@ void CPU::execute_cb_opcode() {
     }
 }
 
+void unimplemented_opcode() {
+    log_error("Unimplemented opcode");
+    std::exit(1);
+}
+
 inline uint8_t CPU::get_byte_from_pc() {
     uint8_t byte = mmu.read_byte(Address(pc));
     pc.increment();
@@ -674,163 +679,163 @@ void CPU::opcode_add_a(const Address& addr) {
 
 
 void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_add_hl(const WordRegister& word_reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_add_sp() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_add_signed() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* AND */
 void CPU::opcode_and() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_and(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_and(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* BIT */
 void CPU::opcode_bit(const int bit, ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_bit(const int bit, Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* CALL */
 void CPU::opcode_call() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_call(Condition condition) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* CCF */
 void CPU::opcode_ccf() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* CP */
 void CPU::opcode_cp() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_cp(const ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_cp(const Address& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* CPL */
 void CPU::opcode_cpl() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* DAA */
 void CPU::opcode_daa() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* DEC */
 void CPU::opcode_dec(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_dec(RegisterPair& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_dec(WordRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_dec(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* DI */
 void CPU::opcode_di() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* EI */
 void CPU::opcode_ei() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* INC */
 void CPU::opcode_inc(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_inc(RegisterPair& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_inc(WordRegister& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_inc(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* JP */
 void CPU::opcode_jp() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_jp(Condition condition) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_jp(const Address& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* JR */
 void CPU::opcode_jr() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_jr(Condition condition) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* HALT */
 void CPU::opcode_halt() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
@@ -861,7 +866,7 @@ void CPU::opcode_ld(WordRegister& reg) {
 }
 
 void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
@@ -880,254 +885,254 @@ void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {
 
 
 void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* LDD */
 void CPU::opcode_ldd(const ByteRegister& reg, const Address& address) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* LDH */
 void CPU::opcode_ldh_into_a() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_ldh_into_data() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_ldh_into_c() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* LDHL */
 void CPU::opcode_ldhl() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* LDI */
 void CPU::opcode_ldi(const ByteRegister& reg, const Address& address) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* NOP */
 void CPU::opcode_nop() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* OR */
 void CPU::opcode_or() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_or(const ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_or(const Address& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* POP */
 void CPU::opcode_pop(const RegisterPair& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* PUSH */
 void CPU::opcode_push(const RegisterPair& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RES */
 void CPU::opcode_res(const int bit, ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_res(const int bit, Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RET */
 void CPU::opcode_ret() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_ret(Condition condition) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RETI */
 void CPU::opcode_reti() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RL */
 void CPU::opcode_rl(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_rl(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RLC */
 void CPU::opcode_rlc(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_rlc(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RR */
 void CPU::opcode_rr(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_rr(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RRC */
 void CPU::opcode_rrc(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_rrc(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* RST */
 // TODO: offset type
 void CPU::opcode_rst(const uint8_t offset) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SBC */
 void CPU::opcode_sbc() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sbc(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sbc(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SCF */
 void CPU::opcode_scf() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SET */
 void CPU::opcode_set(const int bit, ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_set(const int bit, Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SLA */
 void CPU::opcode_sla(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sla(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SRA */
 void CPU::opcode_sra(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sra(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SRL */
 void CPU::opcode_srl(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_srl(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* STOP */
 void CPU::opcode_stop() {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SUB */
 void CPU::opcode_sub() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sub(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_sub(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* SWAP */
 void CPU::opcode_swap(ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_swap(Address&& addr) {
-    // TODO
+    unimplemented_opcode();
 }
 
 
 /* XOR */
 void CPU::opcode_xor() {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_xor(const ByteRegister& reg) {
-    // TODO
+    unimplemented_opcode();
 }
 
 void CPU::opcode_xor(const Address& addr) {
-    // TODO
+    unimplemented_opcode();
 }
