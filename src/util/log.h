@@ -22,6 +22,7 @@ private:
 
     LogLevel current_level = LogLevel::Debug;
     bool enabled = true;
+    bool log_filename = false;
 };
 
 extern Logger log;

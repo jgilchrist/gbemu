@@ -29,9 +29,11 @@ void Logger::log(LogLevel level, const std::string file, int line, const char* f
     char timeString[10];
     strftime(timeString, 10, "%H:%M:%S", &local);
 
+    std::string fileinfo = log_filename ? str_format(" (%s:%d)", file.c_str(), line) : "";
+
     fprintf((level < LogLevel::Error) ? stdout : stderr,
-        "%s%s \033[0m%s (%s:%d)\n",
-        level_color(level), timeString, msg.c_str(), file.c_str(), line);
+        "%s%s \033[0m%s%s\n",
+        level_color(level), timeString, msg.c_str(), fileinfo.c_str());
 }
 
 void Logger::set_level(LogLevel level) {
