@@ -26,6 +26,7 @@ add_executable(emulator
     src/cpu/memory.cc
     src/cpu/mmu.cc
     src/cpu/register.cc
+    src/util/files.cc
     src/util/log.cc
     src/util/string.cc
 )
