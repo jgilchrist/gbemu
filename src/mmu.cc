@@ -10,9 +10,6 @@ MMU::MMU(Cartridge& inCartridge) :
 }
 
 uint8_t MMU::read(const Address address) const {
-    log_debug("Memory read: %d", address.value());
-
-
     if (address.in_range(0x0, 0x7FFF)) {
         if (address.in_range(0x0, 0xFF) && boot_rom_active()) {
             return bootDMG[address.value()];
@@ -20,7 +17,6 @@ uint8_t MMU::read(const Address address) const {
         return cartridge.read(address);
     }
 
-    log_warn("Attempting to read outside of cartridge memory: %d", address.value());
     return 0;
 }
 
