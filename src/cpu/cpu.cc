@@ -739,12 +739,21 @@ void CPU::opcode_and(Address&& addr) {
 
 
 /* BIT */
+void CPU::_opcode_bit_and_set_flags(const int bit, const uint8_t value) {
+    set_flags(Flags(
+        !check_bit(value, bit),
+        false,
+        true,
+        flag_carry()
+    ));
+}
+
 void CPU::opcode_bit(const int bit, ByteRegister& reg) {
-    unimplemented_opcode();
+    _opcode_bit_and_set_flags(bit, reg.value());
 }
 
 void CPU::opcode_bit(const int bit, Address&& addr) {
-    unimplemented_opcode();
+    _opcode_bit_and_set_flags(bit, mmu.read(addr));
 }
 
 
@@ -854,11 +863,20 @@ void CPU::opcode_jp(const Address& addr) {
 
 /* JR */
 void CPU::opcode_jr() {
-    unimplemented_opcode();
+    uint8_t n = get_byte_from_pc();
+    uint16_t old_pc = pc.value();
+
+    // TODO: why is it required to have this wrap?
+    // It should be a 16 bit value but the BIOS jump does
+    // not go to the correct location if this is true.
+    uint8_t new_pc = old_pc + n;
+    pc.set(new_pc);
 }
 
 void CPU::opcode_jr(Condition condition) {
-    unimplemented_opcode();
+    if (is_condition(condition)) {
+        opcode_jr();
+    }
 }
 
 
@@ -919,12 +937,17 @@ void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
 
 
 /* LDD */
-void CPU::opcode_ldd(const ByteRegister& reg, const Address& address) {
-    unimplemented_opcode();
+void CPU::opcode_ldd(ByteRegister& reg, const Address& address) {
+    // TODO: clean up
+    // two ways of doing ldd
+    // address is always that of HL
+    reg.set(mmu.read(address));
+    hl.decrement();
 }
 
 void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
-    unimplemented_opcode();
+    mmu.write(address, reg.value());
+    hl.decrement();
 }
 
 
@@ -1154,14 +1177,32 @@ void CPU::opcode_swap(Address&& addr) {
 
 
 /* XOR */
+uint8_t CPU::_opcode_xor_and_set_flags(uint8_t value) {
+    uint8_t reg = a.value();
+
+    uint8_t result = reg ^ value;
+
+    set_flags(Flags(
+        reg == 0,
+        false,
+        false,
+        false
+    ));
+
+    return result;
+}
+
 void CPU::opcode_xor() {
-    unimplemented_opcode();
+    uint8_t result = _opcode_xor_and_set_flags(get_byte_from_pc());
+    a.set(result);
 }
 
 void CPU::opcode_xor(const ByteRegister& reg) {
-    unimplemented_opcode();
+    uint8_t result = _opcode_xor_and_set_flags(reg.value());
+    a.set(result);
 }
 
 void CPU::opcode_xor(const Address& addr) {
-    unimplemented_opcode();
+    uint8_t result = _opcode_xor_and_set_flags(mmu.read(addr));
+    a.set(result);
 }

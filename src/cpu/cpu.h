@@ -119,6 +119,8 @@ private:
     void opcode_and(Address&& addr);
 
     /* BIT */
+    void _opcode_bit_and_set_flags(const int bit, const uint8_t value);
+
     void opcode_bit(const int bit, ByteRegister& reg);
     void opcode_bit(const int bit, Address&& addr);
 
@@ -188,7 +190,9 @@ private:
     void opcode_ld_to_addr(const ByteRegister& reg);
 
     /* LDD */
-    void opcode_ldd(const ByteRegister& reg, const Address& address);
+    uint8_t _opcode_ldd(uint8_t value);
+
+    void opcode_ldd(ByteRegister& reg, const Address& address);
     void opcode_ldd(const Address& address, const ByteRegister& reg);
 
     /* LDH */
@@ -288,6 +292,8 @@ private:
     void opcode_swap(Address&& addr);
 
     /* XOR */
+    uint8_t _opcode_xor_and_set_flags(uint8_t value);
+
     void opcode_xor();
     void opcode_xor(const ByteRegister& reg);
     void opcode_xor(const Address& addr);
