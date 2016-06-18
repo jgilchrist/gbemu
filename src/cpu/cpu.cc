@@ -1,8 +1,25 @@
-#include <stdexcept>
 #include "cpu.h"
-#include "../bitwise.h"
+#include "opcode_names.h"
 
-CPU::CPU() {}
+#include "../bitwise.h"
+#include "../util/log.h"
+
+#include <stdexcept>
+#include <cstdlib>
+
+CPU::CPU(MMU& inMMU) :
+    mmu(inMMU)
+{
+}
+
+void CPU::tick() {
+    log_debug("PC: 0x%x", pc.value());
+    auto opcode = get_byte_from_pc();
+    log_debug("Opcode: 0x%x | %s", opcode, opcode_names[opcode].c_str());
+    execute_opcode(opcode);
+
+    log_debug("SP: 0x%x", sp.value());
+}
 
 void CPU::execute_opcode(const uint8_t opcode) {
     if (opcode != 0xCB) {
@@ -544,7 +561,7 @@ void unimplemented_opcode() {
 }
 
 inline uint8_t CPU::get_byte_from_pc() {
-    uint8_t byte = mmu.read_byte(Address(pc));
+    uint8_t byte = mmu.read(Address(pc));
     pc.increment();
 
     return byte;
@@ -643,7 +660,7 @@ void CPU::opcode_adc(const ByteRegister& reg) {
 }
 
 void CPU::opcode_adc(const Address&& addr) {
-    uint8_t result = _opcode_adc_and_set_flags(mmu.read_byte(addr));
+    uint8_t result = _opcode_adc_and_set_flags(mmu.read(addr));
     a.set(result);
 }
 
@@ -673,7 +690,7 @@ void CPU::opcode_add_a(const ByteRegister& reg) {
 }
 
 void CPU::opcode_add_a(const Address& addr) {
-    uint8_t result = _opcode_add_and_set_flags(a.value(), mmu.read_byte(addr));
+    uint8_t result = _opcode_add_and_set_flags(a.value(), mmu.read(addr));
     a.set(result);
 }
 
@@ -850,7 +867,7 @@ void CPU::opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg) {
 }
 
 void CPU::opcode_ld(ByteRegister& reg, const Address& address) {
-    reg.set(mmu.read_byte(address));
+    reg.set(mmu.read(address));
 }
 
 
@@ -872,11 +889,11 @@ void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
 
 void CPU::opcode_ld(const Address& address) {
     uint8_t n = get_byte_from_pc();
-    mmu.write_byte(address, n);
+    mmu.write(address, n);
 }
 
 void CPU::opcode_ld(const Address& address, const ByteRegister& byte_reg) {
-    mmu.write_byte(address, byte_reg.value());
+    mmu.write(address, byte_reg.value());
 }
 
 void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {

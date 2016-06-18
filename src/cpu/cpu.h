@@ -1,10 +1,12 @@
 #pragma once
 
-#include <cstdint>
+#include "register.h"
+
 #include "../address.h"
 #include "../clock.h"
-#include "mmu.h"
-#include "register.h"
+#include "../mmu.h"
+
+#include <cstdint>
 
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.
@@ -32,7 +34,9 @@ struct Flags {
 
 class CPU {
 public:
-    CPU();
+    CPU(MMU& mmu);
+
+    void tick();
 
     void execute_opcode(const uint8_t opcode);
     void execute_normal_opcode(const uint8_t opcode);
@@ -40,7 +44,7 @@ public:
 
 private:
     Clock clock;
-    MMU mmu;
+    MMU& mmu;
 
     /* Basic registers */
     ByteRegister a, b, c, d, e, h, l;

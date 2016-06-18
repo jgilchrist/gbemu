@@ -21,11 +21,10 @@ add_executable(emulator
     src/clock.cc
     src/gameboy.cc
     src/main.cc
+    src/mmu.cc
     src/cpu/cpu.cc
     src/cpu/cpu_opcodes.cc
     src/cpu/cpu_opcodes_cb.cc
-    src/cpu/memory.cc
-    src/cpu/mmu.cc
     src/cpu/register.cc
     src/util/files.cc
     src/util/log.cc

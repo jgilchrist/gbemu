@@ -4,8 +4,11 @@
 
 class Gameboy {
 public:
-    Gameboy();
+    Gameboy(Cartridge cartridge);
+
+    void run();
 
 private:
+    MMU mmu;
     CPU cpu;
 };

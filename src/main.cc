@@ -14,4 +14,7 @@ int main(int argc, char* argv[]) {
     log_info("Loading rom from file: %s", rom_name.c_str());
 
     Cartridge cartridge(rom_name);
+    Gameboy gameboy(cartridge);
+
+    gameboy.run();
 }
