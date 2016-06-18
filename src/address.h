@@ -5,11 +5,13 @@
 
 class Address {
 public:
-    explicit Address(uint16_t location);
+    Address(uint16_t location);
     explicit Address(RegisterPair from);
     explicit Address(WordRegister from);
 
     uint16_t value() const;
+
+    bool in_range(Address low, Address high) const;
 
 private:
     uint16_t addr;

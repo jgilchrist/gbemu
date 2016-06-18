@@ -12,3 +12,7 @@ Address::Address(WordRegister from) : addr(from.value()) {
 uint16_t Address::value() const {
     return addr;
 }
+
+bool Address::in_range(Address low, Address high) const {
+    return low.value() <= value() && value() <= high.value();
+}
