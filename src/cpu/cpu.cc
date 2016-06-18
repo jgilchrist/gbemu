@@ -15,7 +15,6 @@ CPU::CPU(MMU& inMMU) :
 void CPU::tick() {
     log_debug("PC: 0x%x", pc.value());
     auto opcode = get_byte_from_pc();
-    log_debug("Opcode: 0x%x | %s", opcode, opcode_names[opcode].c_str());
     execute_opcode(opcode);
 }
 
@@ -28,6 +27,8 @@ void CPU::execute_opcode(const uint8_t opcode) {
 }
 
 void CPU::execute_normal_opcode(const uint8_t opcode) {
+    log_debug("%s (0x%x)", opcode_names[opcode].c_str(), opcode);
+
     switch (opcode) {
         case 0x00: opcode_00(); break;
         case 0x01: opcode_01(); break;
@@ -291,6 +292,7 @@ void CPU::execute_normal_opcode(const uint8_t opcode) {
 
 void CPU::execute_cb_opcode() {
     uint8_t cb_opcode = get_byte_from_pc();
+    log_debug("%s (CB 0x%x)", opcode_cb_names[cb_opcode].c_str(), cb_opcode);
 
     switch (cb_opcode) {
         case 0x00: opcode_CB_00(); break;
