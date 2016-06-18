@@ -6,7 +6,7 @@ all: compile run
 .PHONY: cmake
 cmake:
 	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR) && cmake ..
+	@cd $(BUILD_DIR) && cmake .. -DCMAKE_BUILD_TYPE=Debug
 
 .PHONY: compile
 compile: cmake
