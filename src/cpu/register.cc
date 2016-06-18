@@ -1,6 +1,8 @@
 #include "register.h"
 
-RegisterPair::RegisterPair(ByteRegister& low, ByteRegister& high) :
+#include "../util/log.h"
+
+RegisterPair::RegisterPair(ByteRegister& high, ByteRegister& low) :
         low_byte(low),
         high_byte(high)
 {

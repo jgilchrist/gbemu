@@ -568,27 +568,26 @@ inline uint8_t CPU::get_byte_from_pc() {
 }
 
 inline uint16_t CPU::get_word_from_pc() {
-    uint8_t high_byte = get_byte_from_pc();
     uint8_t low_byte = get_byte_from_pc();
+    uint8_t high_byte = get_byte_from_pc();
 
     return compose_bytes(low_byte, high_byte);
 }
 
 void CPU::set_flag_zero(bool b) {
-    f.set(set_bit(f.value(), 7));
+    f.set(set_bit_to(f.value(), 7, b));
 }
 
 void CPU::set_flag_subtract(bool b) {
-    f.set(set_bit(f.value(), 6));
+    f.set(set_bit_to(f.value(), 6, b));
 }
 
 void CPU::set_flag_half_carry(bool b) {
-    f.set(set_bit(f.value(), 5));
+    f.set(set_bit_to(f.value(), 5, b));
 }
 
 void CPU::set_flag_carry(bool b) {
-    f.set(set_bit(f.value(), 4));
-
+    f.set(set_bit_to(f.value(), 4, b));
 }
 
 void CPU::set_flags(Flags f) {
@@ -615,6 +614,19 @@ bool CPU::flag_half_carry() const {
 bool CPU::flag_carry() const {
     return check_bit(f.value(), 4);
 
+}
+
+bool CPU::is_condition(Condition condition) const {
+    switch (condition) {
+        case Condition::C:
+            return flag_carry();
+        case Condition::NC:
+            return !flag_carry();
+        case Condition::Z:
+            return flag_zero();
+        case Condition::NZ:
+            return !flag_zero();
+    }
 }
 
 uint8_t CPU::flag_half_carry_value() const {

@@ -76,6 +76,8 @@ private:
     bool flag_half_carry() const;
     bool flag_carry() const;
 
+    bool is_condition(Condition condition) const;
+
     uint8_t flag_half_carry_value() const;
     uint8_t flag_carry_value() const;
 

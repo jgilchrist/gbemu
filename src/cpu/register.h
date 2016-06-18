@@ -22,7 +22,7 @@ using WordRegister = Register<uint16_t>;
 
 class RegisterPair {
 public:
-    RegisterPair(ByteRegister& low, ByteRegister& high);
+    RegisterPair(ByteRegister& high, ByteRegister& low);
 
     void set_low(const uint8_t byte);
     void set_high(const uint8_t byte);
