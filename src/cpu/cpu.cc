@@ -17,8 +17,6 @@ void CPU::tick() {
     auto opcode = get_byte_from_pc();
     log_debug("Opcode: 0x%x | %s", opcode, opcode_names[opcode].c_str());
     execute_opcode(opcode);
-
-    log_debug("SP: 0x%x", sp.value());
 }
 
 void CPU::execute_opcode(const uint8_t opcode) {

@@ -14,8 +14,8 @@ public:
     void write(const Address address, const uint8_t byte) const;
     void write_word(const Address address, const uint16_t word) const;
 
+    bool boot_rom_active() const;
+
 private:
     Cartridge& cartridge;
-
-    bool boot_rom_loaded = true;
 };
