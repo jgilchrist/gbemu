@@ -13,6 +13,7 @@ add_definitions(-Wall -Wextra -Wpedantic)
 # Disable unnecessary warnings from -Weverything
 add_definitions(-Wno-c++98-compat)
 add_definitions(-Wno-c++98-compat-pedantic)
+add_definitions(-Wno-padded)
 
 # Temporarily silence warnings during development
 add_definitions(-Wno-unused-parameter)
