@@ -369,7 +369,7 @@ void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
 
 /* NOP */
 void CPU::opcode_nop() {
-    unimplemented_opcode();
+    // Do nothing
 }
 
 
