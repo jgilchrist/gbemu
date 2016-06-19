@@ -124,6 +124,8 @@ private:
     void opcode_ccf();
 
     /* CP */
+    void _opcode_cp(const u8 value);
+
     void opcode_cp();
     void opcode_cp(const ByteRegister& reg);
     void opcode_cp(const Address& addr);
@@ -275,6 +277,8 @@ private:
     void opcode_stop();
 
     /* SUB */
+    void _opcode_sub(u8 value);
+
     void opcode_sub();
     void opcode_sub(ByteRegister& reg);
     void opcode_sub(Address&& addr);

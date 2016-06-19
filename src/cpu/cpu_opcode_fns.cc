@@ -137,16 +137,34 @@ void CPU::opcode_ccf() {
 
 
 /* CP */
+void CPU::_opcode_cp(const u8 value) {
+    set_flag_subtract(true);
+
+    u8 av = a.value();
+
+    if (av < value) {
+        set_flag_carry(true);
+    }
+
+    if (av == value) {
+        set_flag_zero(true);
+    }
+
+    if (((av - value) & 0xF) > (av & 0xF)) {
+        set_flag_half_carry(true);
+    }
+}
+
 void CPU::opcode_cp() {
-    unimplemented_opcode();
+    _opcode_cp(get_byte_from_pc());
 }
 
 void CPU::opcode_cp(const ByteRegister& reg) {
-    unimplemented_opcode();
+    _opcode_cp(reg.value());
 }
 
 void CPU::opcode_cp(const Address& addr) {
-    unimplemented_opcode();
+    _opcode_cp(mmu.read(addr));
 }
 
 
@@ -310,7 +328,8 @@ void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {
 
 
 void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
-    unimplemented_opcode();
+    u16 address = get_word_from_pc();
+    mmu.write(Address(address), reg.value());
 }
 
 
@@ -331,7 +350,11 @@ void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
 
 /* LDH */
 void CPU::opcode_ldh_into_a() {
-    unimplemented_opcode();
+    u8 offset = get_byte_from_pc();
+    auto address = Address(0xFF00 + offset);
+
+    u8 value = mmu.read(address);
+    a.set(value);
 }
 
 void CPU::opcode_ldh_into_data() {
@@ -569,16 +592,26 @@ void CPU::opcode_stop() {
 
 
 /* SUB */
+void CPU::_opcode_sub(u8 value) {
+    u8 result = static_cast<u8>(a.value() - value);
+    u8 carry = a.value() ^ value ^ result;
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(true);
+    set_flag_half_carry((carry & 0x10) != 0);
+    set_flag_carry((carry & 0x100) != 0);
+}
+
 void CPU::opcode_sub() {
-    unimplemented_opcode();
+    _opcode_sub(get_byte_from_pc());
 }
 
 void CPU::opcode_sub(ByteRegister& reg) {
-    unimplemented_opcode();
+    _opcode_sub(reg.value());
 }
 
 void CPU::opcode_sub(Address&& addr) {
-    unimplemented_opcode();
+    _opcode_sub(mmu.read(addr));
 }
 
 
