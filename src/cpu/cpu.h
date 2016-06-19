@@ -77,10 +77,10 @@ private:
     s8 get_signed_byte_from_pc();
     u16 get_word_from_pc();
 
-    void stack_push(const WordRegister reg);
-    void stack_pop(WordRegister reg);
-    void stack_push(const RegisterPair reg);
-    void stack_pop(RegisterPair reg);
+    void stack_push(const WordRegister& reg);
+    void stack_pop(WordRegister& reg);
+    void stack_push(const RegisterPair& reg);
+    void stack_pop(RegisterPair& reg);
 
     /* Opcode Helper Functions */
 

@@ -104,14 +104,14 @@ u8 CPU::flag_carry_value() const {
     return static_cast<u8>(flag_carry() ? 1 : 0);
 }
 
-void CPU::stack_push(const WordRegister reg) {
+void CPU::stack_push(const WordRegister& reg) {
     sp.decrement();
     mmu.write(Address(sp), reg.high());
     sp.decrement();
     mmu.write(Address(sp), reg.low());
 }
 
-void CPU::stack_pop(WordRegister reg) {
+void CPU::stack_pop(WordRegister& reg) {
     u8 low_byte = mmu.read(Address(sp));
     sp.increment();
     u8 high_byte = mmu.read(Address(sp));
@@ -122,14 +122,14 @@ void CPU::stack_pop(WordRegister reg) {
 }
 
 // TODO: reduce duplication with a WordValue interface
-void CPU::stack_push(const RegisterPair reg) {
+void CPU::stack_push(const RegisterPair& reg) {
     sp.decrement();
     mmu.write(Address(sp), reg.high());
     sp.decrement();
     mmu.write(Address(sp), reg.low());
 }
 
-void CPU::stack_pop(RegisterPair reg) {
+void CPU::stack_pop(RegisterPair& reg) {
     u8 low_byte = mmu.read(Address(sp));
     sp.increment();
     u8 high_byte = mmu.read(Address(sp));
