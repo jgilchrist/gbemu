@@ -161,19 +161,21 @@ void CPU::opcode_daa() {
 
 /* DEC */
 void CPU::opcode_dec(ByteRegister& reg) {
-    unimplemented_opcode();
+    reg.decrement();
 }
 
 void CPU::opcode_dec(RegisterPair& reg) {
-    unimplemented_opcode();
+    reg.decrement();
 }
 
 void CPU::opcode_dec(WordRegister& reg) {
-    unimplemented_opcode();
+    reg.decrement();
 }
 
 void CPU::opcode_dec(Address&& addr) {
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 result = static_cast<u8>(value - 1);
+    mmu.write(addr, result);
 }
 
 
@@ -200,12 +202,14 @@ void CPU::opcode_inc(RegisterPair& reg) {
     reg.increment();
 }
 
-void CPU::opcode_inc(WordRegister& addr) {
-    unimplemented_opcode();
+void CPU::opcode_inc(WordRegister& reg) {
+    reg.increment();
 }
 
 void CPU::opcode_inc(Address&& addr) {
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 result = static_cast<u8>(value + 1);
+    mmu.write(addr, result);
 }
 
 
