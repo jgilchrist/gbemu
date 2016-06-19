@@ -29,6 +29,11 @@ u8 CPU::get_byte_from_pc() {
     return byte;
 }
 
+s8 CPU::get_signed_byte_from_pc() {
+    u8 byte = get_byte_from_pc();
+    return static_cast<s8>(byte);
+}
+
 u16 CPU::get_word_from_pc() {
     u8 low_byte = get_byte_from_pc();
     u8 high_byte = get_byte_from_pc();

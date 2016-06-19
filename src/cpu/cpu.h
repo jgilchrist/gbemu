@@ -73,6 +73,7 @@ private:
     WordRegister sp;
 
     u8 get_byte_from_pc();
+    s8 get_signed_byte_from_pc();
     u16 get_word_from_pc();
 
     void stack_push(WordRegister reg);
@@ -107,10 +108,10 @@ private:
     void opcode_and(Address&& addr);
 
     /* BIT */
-    void _opcode_bit(const int bit, const u8 value);
+    void _opcode_bit(const u8 bit, const u8 value);
 
-    void opcode_bit(const int bit, ByteRegister& reg);
-    void opcode_bit(const int bit, Address&& addr);
+    void opcode_bit(const u8 bit, ByteRegister& reg);
+    void opcode_bit(const u8 bit, Address&& addr);
 
     /* CALL */
     void opcode_call();

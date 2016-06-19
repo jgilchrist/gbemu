@@ -98,17 +98,17 @@ void CPU::opcode_and(Address&& addr) {
 
 
 /* BIT */
-void CPU::_opcode_bit(const int bit, const u8 value) {
+void CPU::_opcode_bit(const u8 bit, const u8 value) {
     set_flag_zero(!check_bit(value, bit));
     set_flag_subtract(false);
     set_flag_half_carry(true);
 }
 
-void CPU::opcode_bit(const int bit, ByteRegister& reg) {
+void CPU::opcode_bit(const u8 bit, ByteRegister& reg) {
     _opcode_bit(bit, reg.value());
 }
 
-void CPU::opcode_bit(const int bit, Address&& addr) {
+void CPU::opcode_bit(const u8 bit, Address&& addr) {
     _opcode_bit(bit, mmu.read(addr));
 }
 
@@ -225,10 +225,10 @@ void CPU::opcode_jp(const Address& addr) {
 
 /* JR */
 void CPU::opcode_jr() {
-    s8 n = get_byte_from_pc();
+    s8 n = get_signed_byte_from_pc();
     u16 old_pc = pc.value();
 
-    u16 new_pc = old_pc + n;
+    u16 new_pc = static_cast<u16>(old_pc + n);
     pc.set(new_pc);
 }
 
