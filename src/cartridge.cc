@@ -11,20 +11,14 @@ Cartridge::Cartridge(string filename) {
 
     data = rom_data;
 
-    log_info("Info:")
     log_info("\tTitle: %s", game_title().c_str());
-    log_info("\tmanufacturer_code: %d", data[0x13F]);
-    log_info("\tcgb_flag: %d", data[0x143]);
-    log_info("\tnew_license_code: %d", data[0x144]);
-    log_info("\tsgb_flag: %d", data[0x146]);
-    log_info("\tcartridge_type: %d", data[0x147]);
-    log_info("\trom_size: %d", data[0x148]);
-    log_info("\tram_size: %d", data[0x149]);
-    log_info("\tdestination_code: %d", data[0x14A]);
-    log_info("\told_license_code: %d", data[0x14B]);
-    log_info("\tversion_number: %d", data[0x14C]);
-    log_info("\theader_checksum: %d", data[0x14D]);
-    log_info("\tglobal_checksum: %d", data[0x14E]);
+    log_info("\tManufacturer: %d", data[0x13F]);
+    log_info("\tSupports Color: %d", data[0x143]);
+    log_info("\tCartridge Type: %d", data[0x147]);
+    log_info("\tRom Size: %d", data[0x148]);
+    log_info("\tRam Size: %d", data[0x149]);
+    log_info("\tLicense Code: %d", data[0x144]);
+    log_info("\tVersion Number: %d", data[0x14C]);
 }
 
 u8 Cartridge::read(const Address address) const {
