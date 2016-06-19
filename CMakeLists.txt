@@ -5,10 +5,14 @@ project(emulator)
 add_definitions(-std=c++14)
 add_definitions(-stdlib=libc++)
 add_definitions(-g)
-
-add_definitions(-Wall -Wextra -Wpedantic)
-add_definitions(-Wno-gnu-zero-variadic-macro-arguments)
 add_definitions(-ferror-limit=10000)
+
+add_definitions(-Weverything)
+add_definitions(-Wall -Wextra -Wpedantic)
+
+# Disable unnecessary warnings from -Weverything
+add_definitions(-Wno-c++98-compat)
+add_definitions(-Wno-c++98-compat-pedantic)
 
 # Temporarily silence warnings during development
 add_definitions(-Wno-unused-parameter)
