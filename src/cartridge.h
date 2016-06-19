@@ -36,5 +36,5 @@ public:
     std::string game_designation() const;
 
 private:
-    std::vector<char> data;
+    std::vector<u8> data;
 };
