@@ -25,6 +25,8 @@ add_executable(emulator
     src/cpu/cpu.cc
     src/cpu/cpu_opcodes.cc
     src/cpu/cpu_opcodes_cb.cc
+    src/cpu/cpu_opcode_mapping.cc
+    src/cpu/cpu_opcode_fns.cc
     src/cpu/register.cc
     src/util/files.cc
     src/util/log.cc
