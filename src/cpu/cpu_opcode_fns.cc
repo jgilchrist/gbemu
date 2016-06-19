@@ -5,7 +5,7 @@
 
 #include <cstdlib>
 
-inline void unimplemented_opcode() {
+[[noreturn]] inline void unimplemented_opcode() {
     log_error("Unimplemented opcode");
     std::exit(1);
 }

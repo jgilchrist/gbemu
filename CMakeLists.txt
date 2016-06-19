@@ -22,6 +22,7 @@ add_definitions(-Wno-format-nonliteral)
 add_definitions(-Wno-unused-parameter)
 add_definitions(-Wno-unused-private-field)
 add_definitions(-Wno-unused-function)
+add_definitions(-Wno-missing-noreturn)
 
 add_executable(emulator
     src/address.cc
