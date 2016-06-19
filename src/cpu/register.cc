@@ -2,6 +2,14 @@
 
 #include "../util/log.h"
 
+u8 WordRegister::low() const {
+    return static_cast<u8>(val);
+}
+
+u8 WordRegister::high() const {
+    return static_cast<u8>((val) >> 8);
+}
+
 RegisterPair::RegisterPair(ByteRegister& high, ByteRegister& low) :
         low_byte(low),
         high_byte(high)

@@ -75,6 +75,9 @@ private:
     u8 get_byte_from_pc();
     u16 get_word_from_pc();
 
+    void stack_push(WordRegister reg);
+    void stack_pop(WordRegister reg);
+
     /* Opcode Helper Functions */
 
     /* ADC */

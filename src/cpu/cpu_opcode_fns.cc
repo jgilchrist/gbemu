@@ -115,7 +115,9 @@ void CPU::opcode_bit(const int bit, Address&& addr) {
 
 /* CALL */
 void CPU::opcode_call() {
-    unimplemented_opcode();
+    u16 address = get_word_from_pc();
+    stack_push(pc);
+    pc.set(address);
 }
 
 void CPU::opcode_call(Condition condition) {

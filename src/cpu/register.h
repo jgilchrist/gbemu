@@ -2,23 +2,36 @@
 
 #include "../definitions.h"
 
-template <typename T>
-class Register {
+class ByteRegister {
 public:
-    Register() {};
+    ByteRegister() {};
 
-    void set(const T new_value) { val = new_value; };
-    T value() const { return val; };
+    void set(const u8 new_value) { val = new_value; };
+    u8 value() const { return val; };
 
     void increment() { val += 1; };
     void decrement() { val -= 1; };
 
 private:
-    T val;
+    u8 val;
 };
 
-using ByteRegister = Register<u8>;
-using WordRegister = Register<u16>;
+class WordRegister {
+public:
+    WordRegister() {};
+
+    void set(const u16 new_value) { val = new_value; };
+    u16 value() const { return val; };
+
+    u8 low() const;
+    u8 high() const;
+
+    void increment() { val += 1; };
+    void decrement() { val -= 1; };
+
+private:
+    u16 val;
+};
 
 class RegisterPair {
 public:
