@@ -863,13 +863,10 @@ void CPU::opcode_jp(const Address& addr) {
 
 /* JR */
 void CPU::opcode_jr() {
-    uint8_t n = get_byte_from_pc();
+    int8_t n = get_byte_from_pc();
     uint16_t old_pc = pc.value();
 
-    // TODO: why is it required to have this wrap?
-    // It should be a 16 bit value but the BIOS jump does
-    // not go to the correct location if this is true.
-    uint8_t new_pc = old_pc + n;
+    uint16_t new_pc = old_pc + n;
     pc.set(new_pc);
 }
 
