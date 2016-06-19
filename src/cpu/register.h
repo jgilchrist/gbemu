@@ -4,13 +4,13 @@
 
 class ByteRegister {
 public:
-    ByteRegister() {};
+    ByteRegister() {}
 
-    void set(const u8 new_value) { val = new_value; };
-    u8 value() const { return val; };
+    void set(const u8 new_value) { val = new_value; }
+    u8 value() const { return val; }
 
-    void increment() { val += 1; };
-    void decrement() { val -= 1; };
+    void increment() { val += 1; }
+    void decrement() { val -= 1; }
 
 private:
     u8 val;
@@ -18,16 +18,16 @@ private:
 
 class WordRegister {
 public:
-    WordRegister() {};
+    WordRegister() {}
 
-    void set(const u16 new_value) { val = new_value; };
-    u16 value() const { return val; };
+    void set(const u16 new_value) { val = new_value; }
+    u16 value() const { return val; }
 
     u8 low() const;
     u8 high() const;
 
-    void increment() { val += 1; };
-    void decrement() { val -= 1; };
+    void increment() { val += 1; }
+    void decrement() { val -= 1; }
 
 private:
     u16 val;
@@ -60,8 +60,8 @@ private:
 
 class Offset {
 public:
-    Offset(u8 val) : val(val) {};
-    Offset(ByteRegister& reg) : val(reg.value()) {};
+    Offset(u8 val) : val(val) {}
+    Offset(ByteRegister& reg) : val(reg.value()) {}
 
     u8 value() { return val; }
 
