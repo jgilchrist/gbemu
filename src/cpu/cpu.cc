@@ -36,20 +36,20 @@ u16 CPU::get_word_from_pc() {
     return compose_bytes(high_byte, low_byte);
 }
 
-void CPU::set_flag_zero(bool b) {
-    f.set(set_bit_to(f.value(), 7, b));
+void CPU::set_flag_zero(bool set) {
+    f.set(set_bit_to(f.value(), 7, set));
 }
 
-void CPU::set_flag_subtract(bool b) {
-    f.set(set_bit_to(f.value(), 6, b));
+void CPU::set_flag_subtract(bool set) {
+    f.set(set_bit_to(f.value(), 6, set));
 }
 
-void CPU::set_flag_half_carry(bool b) {
-    f.set(set_bit_to(f.value(), 5, b));
+void CPU::set_flag_half_carry(bool set) {
+    f.set(set_bit_to(f.value(), 5, set));
 }
 
-void CPU::set_flag_carry(bool b) {
-    f.set(set_bit_to(f.value(), 4, b));
+void CPU::set_flag_carry(bool set) {
+    f.set(set_bit_to(f.value(), 4, set));
 }
 
 bool CPU::flag_zero() const {
