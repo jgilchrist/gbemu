@@ -31,6 +31,8 @@ private:
     Clock clock;
     MMU& mmu;
 
+    bool interrupts_enabled = false;
+
     /* Basic registers */
     ByteRegister a, b, c, d, e, h, l;
 

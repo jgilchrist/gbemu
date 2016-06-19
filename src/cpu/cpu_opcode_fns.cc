@@ -175,23 +175,25 @@ void CPU::opcode_dec(Address&& addr) {
 
 /* DI */
 void CPU::opcode_di() {
-    unimplemented_opcode();
+    // TODO: should this write a value into memory?
+    interrupts_enabled = false;
 }
 
 
 /* EI */
 void CPU::opcode_ei() {
-    unimplemented_opcode();
+    // TODO: should this write a value into memory?
+    interrupts_enabled = true;
 }
 
 
 /* INC */
 void CPU::opcode_inc(ByteRegister& reg) {
-    unimplemented_opcode();
+    reg.increment();
 }
 
 void CPU::opcode_inc(RegisterPair& reg) {
-    unimplemented_opcode();
+    reg.increment();
 }
 
 void CPU::opcode_inc(WordRegister& addr) {
@@ -310,11 +312,17 @@ void CPU::opcode_ldh_into_a() {
 }
 
 void CPU::opcode_ldh_into_data() {
-    unimplemented_opcode();
+    u8 offset = get_byte_from_pc();
+    auto address = Address(0xFF00 + offset);
+
+    mmu.write(address, a.value());
 }
 
 void CPU::opcode_ldh_into_c() {
-    unimplemented_opcode();
+    u8 offset = c.value();
+    auto address = Address(0xFF00 + offset);
+
+    mmu.write(address, a.value());
 }
 
 
