@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 namespace header {
     const int entry_point = 0x100;
     const int logo = 0x104;
@@ -29,14 +27,14 @@ const int TITLE_LENGTH = 11;
 
 class Cartridge {
 public:
-    Cartridge(string filename);
+    Cartridge(std::string filename);
 
     u8 read(const Address address) const;
 
     /* Cartridge header information */
-    string game_title() const;
-    string game_designation() const;
+    std::string game_title() const;
+    std::string game_designation() const;
 
 private:
-    vector<char> data;
+    std::vector<char> data;
 };

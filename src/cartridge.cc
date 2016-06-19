@@ -3,9 +3,7 @@
 #include "util/files.h"
 #include "util/log.h"
 
-#include <vector>
-
-Cartridge::Cartridge(string filename) {
+Cartridge::Cartridge(std::string filename) {
     auto rom_data = read_bytes(filename);
     log_info("Loaded %d KB", rom_data.size() / 1024);
 
@@ -26,13 +24,13 @@ u8 Cartridge::read(const Address address) const {
     return data[address.value()];
 }
 
-string Cartridge::game_title() const {
+std::string Cartridge::game_title() const {
     char name[TITLE_LENGTH] = {0};
 
     for (int i = 0; i < TITLE_LENGTH; i++) {
         name[i] = data[header::title + i];
     }
 
-    return string(name);
+    return std::string(name);
 
 }
