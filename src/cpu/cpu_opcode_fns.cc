@@ -121,7 +121,9 @@ void CPU::opcode_call() {
 }
 
 void CPU::opcode_call(Condition condition) {
-    unimplemented_opcode();
+    if (is_condition(condition)) {
+        opcode_call();
+    }
 }
 
 
