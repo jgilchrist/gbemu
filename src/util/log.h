@@ -3,6 +3,7 @@
 #include <string>
 
 enum class LogLevel {
+    Trace,
     Debug,
     Info,
     Warning,
@@ -26,6 +27,7 @@ private:
 };
 
 extern Logger log;
+extern const char* COLOR_TRACE;
 extern const char* COLOR_DEBUG;
 extern const char* COLOR_INFO;
 extern const char* COLOR_WARNING;
@@ -34,6 +36,7 @@ extern const char* COLOR_RESET;
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
+#define log_trace(fmt, ...) log.log(LogLevel::Trace, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
 #define log_debug(fmt, ...) log.log(LogLevel::Debug, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
 #define log_info(fmt, ...) log.log(LogLevel::Info, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);
 #define log_warn(fmt, ...) log.log(LogLevel::Warning, __FILENAME__, __LINE__, fmt, ##__VA_ARGS__);

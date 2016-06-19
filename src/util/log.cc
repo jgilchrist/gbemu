@@ -3,7 +3,8 @@
 #include "string.h"
 
 Logger log;
-const char* COLOR_DEBUG = "\033[1;30m";
+const char* COLOR_TRACE = "\033[1;30m";
+const char* COLOR_DEBUG = "\033[1;37m";
 const char* COLOR_INFO = "\033[1;34m";
 const char* COLOR_WARNING = "\033[1;33m";
 const char* COLOR_ERROR = "\033[1;31m";
@@ -38,6 +39,8 @@ bool Logger::should_log(LogLevel level) const {
 
 inline const char* Logger::level_color(LogLevel level) const {
     switch (level) {
+        case LogLevel::Trace:
+            return COLOR_TRACE;
         case LogLevel::Debug:
             return COLOR_DEBUG;
         case LogLevel::Info:
