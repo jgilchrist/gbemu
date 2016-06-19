@@ -3,10 +3,10 @@
 Address::Address(u16 location) : addr(location) {
 }
 
-Address::Address(RegisterPair from) : addr(from.value()) {
+Address::Address(RegisterPair& from) : addr(from.value()) {
 }
 
-Address::Address(WordRegister from) : addr(from.value()) {
+Address::Address(WordRegister& from) : addr(from.value()) {
 }
 
 u16 Address::value() const {

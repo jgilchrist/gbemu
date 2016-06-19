@@ -37,10 +37,10 @@ private:
     ByteRegister a, b, c, d, e, h, l;
 
     /* 'Group' registers for operations which use two registers as a word */
-    RegisterPair af = RegisterPair(a, f);
-    RegisterPair bc = RegisterPair(b, c);
-    RegisterPair de = RegisterPair(d, e);
-    RegisterPair hl = RegisterPair(h, l);
+    RegisterPair af;
+    RegisterPair bc;
+    RegisterPair de;
+    RegisterPair hl;
 
     /*
      * Flags set dependant on the result of the last operation

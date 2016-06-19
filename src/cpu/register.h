@@ -2,7 +2,7 @@
 
 #include "../definitions.h"
 
-class ByteRegister {
+class ByteRegister : Noncopyable {
 public:
     ByteRegister() {}
 
@@ -16,7 +16,7 @@ private:
     u8 val;
 };
 
-class WordRegister {
+class WordRegister : Noncopyable {
 public:
     WordRegister() {}
 
@@ -33,7 +33,7 @@ private:
     u16 val;
 };
 
-class RegisterPair {
+class RegisterPair : Noncopyable {
 public:
     RegisterPair(ByteRegister& high, ByteRegister& low);
 

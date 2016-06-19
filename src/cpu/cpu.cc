@@ -4,7 +4,11 @@
 #include "../util/log.h"
 
 CPU::CPU(MMU& inMMU) :
-    mmu(inMMU)
+    mmu(inMMU),
+    af(a, f),
+    bc(b, c),
+    de(d, e),
+    hl(h, l)
 {
 }
 
