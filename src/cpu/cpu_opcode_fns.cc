@@ -162,6 +162,10 @@ void CPU::opcode_daa() {
 /* DEC */
 void CPU::opcode_dec(ByteRegister& reg) {
     reg.decrement();
+
+    set_flag_zero(reg.value() == 0);
+    set_flag_subtract(true);
+    set_flag_half_carry((reg.value() & 0x0F) == 0x0F);
 }
 
 void CPU::opcode_dec(RegisterPair& reg) {
@@ -176,6 +180,10 @@ void CPU::opcode_dec(Address&& addr) {
     u8 value = mmu.read(addr);
     u8 result = static_cast<u8>(value - 1);
     mmu.write(addr, result);
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(true);
+    set_flag_half_carry((result & 0x0F) == 0x0F);
 }
 
 
