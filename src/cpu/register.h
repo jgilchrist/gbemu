@@ -60,7 +60,7 @@ private:
 
 class Offset {
 public:
-    Offset(u8 val) : val(val) {}
+    Offset(u8 inVal) : val(inVal) {}
     Offset(ByteRegister& reg) : val(reg.value()) {}
 
     u8 value() { return val; }
