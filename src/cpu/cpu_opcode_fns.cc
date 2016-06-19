@@ -123,6 +123,9 @@ void CPU::opcode_call() {
 void CPU::opcode_call(Condition condition) {
     if (is_condition(condition)) {
         opcode_call();
+    } else {
+        // Consume unused word argument
+        get_word_from_pc();
     }
 }
 
@@ -247,6 +250,9 @@ void CPU::opcode_jr() {
 void CPU::opcode_jr(Condition condition) {
     if (is_condition(condition)) {
         opcode_jr();
+    } else {
+        // Consume unused argument
+        get_signed_byte_from_pc();
     }
 }
 
