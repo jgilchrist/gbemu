@@ -211,7 +211,7 @@ private:
     void opcode_or(const Address& addr);
 
     /* POP */
-    void opcode_pop(const RegisterPair& reg);
+    void opcode_pop(RegisterPair& reg);
 
     /* PUSH */
     void opcode_push(const RegisterPair& reg);

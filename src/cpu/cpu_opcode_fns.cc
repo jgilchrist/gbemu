@@ -382,7 +382,7 @@ void CPU::opcode_or(const Address& addr) {
 
 
 /* POP */
-void CPU::opcode_pop(const RegisterPair& reg) {
+void CPU::opcode_pop(RegisterPair& reg) {
     stack_pop(reg);
 }
 
