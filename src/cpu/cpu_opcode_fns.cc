@@ -396,11 +396,13 @@ void CPU::opcode_res(const int bit, Address&& addr) {
 
 /* RET */
 void CPU::opcode_ret() {
-    unimplemented_opcode();
+    stack_pop(pc);
 }
 
 void CPU::opcode_ret(Condition condition) {
-    unimplemented_opcode();
+    if (is_condition(condition)) {
+        opcode_ret();
+    }
 }
 
 
