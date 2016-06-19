@@ -374,7 +374,7 @@ void CPU::opcode_pop(const RegisterPair& reg) {
 
 /* PUSH */
 void CPU::opcode_push(const RegisterPair& reg) {
-    unimplemented_opcode();
+    stack_push(reg);
 }
 
 
@@ -406,11 +406,39 @@ void CPU::opcode_reti() {
 
 /* RL */
 void CPU::opcode_rl(ByteRegister& reg) {
-    unimplemented_opcode();
+    u8 carry = flag_carry_value();
+    u8 value = reg.value();
+
+    // TODO: in other emulators, flags are only reset if carry flag is not set
+    reset_flags();
+
+    bool will_carry = check_bit(value, 7);
+    set_flag_carry(will_carry);
+
+    u8 result = static_cast<u8>(value << 1);
+    result |= carry;
+
+    set_flag_zero(result == 0);
+
+    reg.set(result);
 }
 
 void CPU::opcode_rl(Address&& addr) {
-    unimplemented_opcode();
+    u8 old_carry = flag_carry_value();
+    u8 value = mmu.read(addr);
+
+    // TODO: in other emulators, flags are only reset if carry flag is not set
+    reset_flags();
+
+    bool will_carry = check_bit(value, 7);
+    set_flag_carry(will_carry);
+
+    u8 result = static_cast<u8>(value << 1);
+    result |= old_carry;
+
+    set_flag_zero(result == 0);
+
+    mmu.write(addr, result);
 }
 
 
