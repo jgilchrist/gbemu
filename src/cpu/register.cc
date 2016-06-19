@@ -1,5 +1,6 @@
 #include "register.h"
 
+#include "../bitwise.h"
 #include "../util/log.h"
 
 u8 WordRegister::low() const {
@@ -49,7 +50,7 @@ u8 RegisterPair::high() const {
 }
 
 u16 RegisterPair::value() const {
-    return (high_byte.value() << 8) + low_byte.value();
+    return compose_bytes(high_byte.value(), low_byte.value());
 }
 
 void RegisterPair::increment() {
