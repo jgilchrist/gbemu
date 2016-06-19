@@ -34,12 +34,12 @@ extern const char* COLOR_WARNING;
 extern const char* COLOR_ERROR;
 extern const char* COLOR_RESET;
 
-#define __SHORTFILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define SHORTFILENAME (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define log_trace(fmt, ...) log.log(LogLevel::Trace, __SHORTFILENAME__, __LINE__, fmt, ##__VA_ARGS__);
-#define log_debug(fmt, ...) log.log(LogLevel::Debug, __SHORTFILENAME__, __LINE__, fmt, ##__VA_ARGS__);
-#define log_info(fmt, ...) log.log(LogLevel::Info, __SHORTFILENAME__, __LINE__, fmt, ##__VA_ARGS__);
-#define log_warn(fmt, ...) log.log(LogLevel::Warning, __SHORTFILENAME__, __LINE__, fmt, ##__VA_ARGS__);
-#define log_error(fmt, ...) log.log(LogLevel::Error, __SHORTFILENAME__, __LINE__, fmt, ##__VA_ARGS__);
+#define log_trace(fmt, ...) log.log(LogLevel::Trace, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
+#define log_debug(fmt, ...) log.log(LogLevel::Debug, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
+#define log_info(fmt, ...) log.log(LogLevel::Info, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
+#define log_warn(fmt, ...) log.log(LogLevel::Warning, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
+#define log_error(fmt, ...) log.log(LogLevel::Error, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
 
 extern void log_set_level(LogLevel level);
