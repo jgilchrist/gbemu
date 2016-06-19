@@ -3,8 +3,6 @@
 #include "../bitwise.h"
 #include "../util/log.h"
 
-#include <stdexcept>
-
 CPU::CPU(MMU& inMMU) :
     mmu(inMMU)
 {
