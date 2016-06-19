@@ -3,7 +3,7 @@
 #include "definitions.h"
 #include "util/log.h"
 
-inline u16 compose_bytes(const u8 low, const u8 high) {
+inline u16 compose_bytes(const u8 high, const u8 low) {
     return (high << 8) + low;
 }
 

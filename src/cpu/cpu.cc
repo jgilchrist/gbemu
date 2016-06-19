@@ -33,7 +33,7 @@ u16 CPU::get_word_from_pc() {
     u8 low_byte = get_byte_from_pc();
     u8 high_byte = get_byte_from_pc();
 
-    return compose_bytes(low_byte, high_byte);
+    return compose_bytes(high_byte, low_byte);
 }
 
 void CPU::set_flag_zero(bool b) {
@@ -105,6 +105,6 @@ void CPU::stack_pop(WordRegister reg) {
     u8 high_byte = mmu.read(Address(sp));
     sp.increment();
 
-    u16 value = compose_bytes(low_byte, high_byte);
+    u16 value = compose_bytes(high_byte, low_byte);
     reg.set(value);
 }
