@@ -368,7 +368,7 @@ void CPU::opcode_or(const Address& addr) {
 
 /* POP */
 void CPU::opcode_pop(const RegisterPair& reg) {
-    unimplemented_opcode();
+    stack_pop(reg);
 }
 
 
