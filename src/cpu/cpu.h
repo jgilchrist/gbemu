@@ -55,6 +55,7 @@ private:
     void set_flag_subtract(bool b);
     void set_flag_half_carry(bool b);
     void set_flag_carry(bool b);
+    void reset_flags();
 
     bool flag_zero() const;
     bool flag_subtract() const;
