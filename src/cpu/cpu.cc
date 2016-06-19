@@ -52,13 +52,6 @@ void CPU::set_flag_carry(bool b) {
     f.set(set_bit_to(f.value(), 4, b));
 }
 
-void CPU::set_flags(Flags f) {
-    set_flag_zero(f.zero);
-    set_flag_subtract(f.subtract);
-    set_flag_half_carry(f.half_carry);
-    set_flag_carry(f.carry);
-}
-
 bool CPU::flag_zero() const {
     return check_bit(f.value(), 7);
 }
@@ -93,10 +86,8 @@ bool CPU::is_condition(Condition condition) const {
 
 u8 CPU::flag_half_carry_value() const {
     return static_cast<u8>(flag_half_carry() ? 1 : 0);
-
 }
 
 u8 CPU::flag_carry_value() const {
     return static_cast<u8>(flag_carry() ? 1 : 0);
-
 }

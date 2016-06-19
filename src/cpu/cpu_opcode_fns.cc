@@ -18,12 +18,10 @@ inline u8 CPU::_opcode_adc_and_set_flags(u8 value) {
 
     u16 result = reg + value + carry;
 
-    set_flags(Flags(
-        reg == 0,
-        false,
-        ((reg ^ value ^ result) & 0x10) != 0,
-        (result & 0x100) != 0
-    ));
+    set_flag_zero(reg == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(((reg ^ value ^ result) & 0x10) != 0);
+    set_flag_carry((result & 0x100) != 0);
 
     return static_cast<u8>(result);
 }
@@ -48,12 +46,10 @@ void CPU::opcode_adc(const Address&& addr) {
 inline u8 CPU::_opcode_add_and_set_flags(u8 reg, u8 value) {
     u16 result = reg + value;
 
-    set_flags(Flags(
-        a.value() == 0,
-        false,
-        ((reg ^ value ^ result) & 0x10) != 0,
-        (result & 0x100) != 0
-    ));
+    set_flag_zero(a.value() == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(((reg ^ value ^ result) & 0x10) != 0);
+    set_flag_carry((result & 0x100) != 0);
 
     return static_cast<u8>(result);
 }
@@ -107,12 +103,9 @@ void CPU::opcode_and(Address&& addr) {
 
 /* BIT */
 void CPU::_opcode_bit_and_set_flags(const int bit, const u8 value) {
-    set_flags(Flags(
-        !check_bit(value, bit),
-        false,
-        true,
-        flag_carry()
-    ));
+    set_flag_zero(!check_bit(value, bit));
+    set_flag_subtract(false);
+    set_flag_half_carry(true);
 }
 
 void CPU::opcode_bit(const int bit, ByteRegister& reg) {
@@ -546,12 +539,10 @@ u8 CPU::_opcode_xor_and_set_flags(u8 value) {
 
     u8 result = reg ^ value;
 
-    set_flags(Flags(
-        reg == 0,
-        false,
-        false,
-        false
-    ));
+    set_flag_zero(reg == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+    set_flag_carry(false);
 
     return result;
 }

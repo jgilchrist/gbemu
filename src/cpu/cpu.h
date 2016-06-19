@@ -17,19 +17,6 @@ enum class Condition {
     C,
 };
 
-struct Flags {
-    Flags(bool zero, bool subtract, bool half_carry, bool carry) :
-        zero(zero),
-        subtract(subtract),
-        half_carry(half_carry),
-        carry(carry) {}
-
-    const bool zero;
-    const bool subtract;
-    const bool half_carry;
-    const bool carry;
-};
-
 class CPU {
 public:
     CPU(MMU& mmu);
@@ -66,8 +53,6 @@ private:
     void set_flag_subtract(bool b);
     void set_flag_half_carry(bool b);
     void set_flag_carry(bool b);
-
-    void set_flags(Flags f);
 
     bool flag_zero() const;
     bool flag_subtract() const;
