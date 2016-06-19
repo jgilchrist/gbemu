@@ -298,6 +298,7 @@ void CPU::opcode_ld(const Address& address, const ByteRegister& byte_reg) {
 }
 
 void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {
+    // TODO: can this be done without a write_word function?
     mmu.write_word(address, word_reg.value());
 }
 
