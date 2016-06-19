@@ -199,7 +199,7 @@ private:
     void opcode_ldhl();
 
     /* LDI */
-    void opcode_ldi(const ByteRegister& reg, const Address& address);
+    void opcode_ldi(ByteRegister& reg, const Address& address);
     void opcode_ldi(const Address& address, const ByteRegister& reg);
 
     /* NOP */

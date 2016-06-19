@@ -341,12 +341,14 @@ void CPU::opcode_ldhl() {
 
 
 /* LDI */
-void CPU::opcode_ldi(const ByteRegister& reg, const Address& address) {
-    unimplemented_opcode();
+void CPU::opcode_ldi(ByteRegister& reg, const Address& address) {
+    reg.set(mmu.read(address));
+    hl.increment();
 }
 
 void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
-    unimplemented_opcode();
+    mmu.write(address, reg.value());
+    hl.increment();
 }
 
 
