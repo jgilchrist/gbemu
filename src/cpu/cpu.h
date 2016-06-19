@@ -76,14 +76,14 @@ private:
     /* Opcode Helper Functions */
 
     /* ADC */
-    u8 _opcode_adc_and_set_flags(u8 value);
+    u8 _opcode_adc(u8 value);
 
     void opcode_adc();
     void opcode_adc(const ByteRegister& reg);
     void opcode_adc(const Address&& addr);
 
     /* ADD */
-    u8 _opcode_add_and_set_flags(u8 reg, u8 value);
+    u8 _opcode_add(u8 reg, u8 value);
 
     void opcode_add_a();
     void opcode_add_a(const ByteRegister& reg);
@@ -102,7 +102,7 @@ private:
     void opcode_and(Address&& addr);
 
     /* BIT */
-    void _opcode_bit_and_set_flags(const int bit, const u8 value);
+    void _opcode_bit(const int bit, const u8 value);
 
     void opcode_bit(const int bit, ByteRegister& reg);
     void opcode_bit(const int bit, Address&& addr);
@@ -275,7 +275,7 @@ private:
     void opcode_swap(Address&& addr);
 
     /* XOR */
-    u8 _opcode_xor_and_set_flags(u8 value);
+    u8 _opcode_xor(u8 value);
 
     void opcode_xor();
     void opcode_xor(const ByteRegister& reg);
