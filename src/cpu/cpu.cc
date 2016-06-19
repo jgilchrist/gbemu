@@ -9,7 +9,7 @@ CPU::CPU(MMU& inMMU) :
 }
 
 void CPU::tick() {
-    log_trace("PC: 0x%x", pc.value());
+    log_trace("PC: 0x%04X", pc.value());
     auto opcode = get_byte_from_pc();
     execute_opcode(opcode);
 }
