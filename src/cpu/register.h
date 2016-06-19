@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include "../definitions.h"
 
 template <typename T>
 class Register {
@@ -17,25 +17,25 @@ private:
     T val;
 };
 
-using ByteRegister = Register<uint8_t>;
-using WordRegister = Register<uint16_t>;
+using ByteRegister = Register<u8>;
+using WordRegister = Register<u16>;
 
 class RegisterPair {
 public:
     RegisterPair(ByteRegister& high, ByteRegister& low);
 
-    void set_low(const uint8_t byte);
-    void set_high(const uint8_t byte);
+    void set_low(const u8 byte);
+    void set_high(const u8 byte);
 
     void set_low(const ByteRegister& byte);
     void set_high(const ByteRegister& byte);
 
-    void set(const uint16_t word);
+    void set(const u16 word);
 
-    uint8_t low() const;
-    uint8_t high() const;
+    u8 low() const;
+    u8 high() const;
 
-    uint16_t value() const;
+    u16 value() const;
 
     void increment();
     void decrement();
@@ -47,11 +47,11 @@ private:
 
 class Offset {
 public:
-    Offset(uint8_t val) : val(val) {};
+    Offset(u8 val) : val(val) {};
     Offset(ByteRegister& reg) : val(reg.value()) {};
 
-    uint8_t value() { return val; }
+    u8 value() { return val; }
 
 private:
-    uint8_t val;
+    u8 val;
 };

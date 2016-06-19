@@ -18,7 +18,7 @@ void CPU::tick() {
     execute_opcode(opcode);
 }
 
-void CPU::execute_opcode(const uint8_t opcode) {
+void CPU::execute_opcode(const u8 opcode) {
     if (opcode != 0xCB) {
         execute_normal_opcode(opcode);
     } else {
@@ -26,7 +26,7 @@ void CPU::execute_opcode(const uint8_t opcode) {
     }
 }
 
-void CPU::execute_normal_opcode(const uint8_t opcode) {
+void CPU::execute_normal_opcode(const u8 opcode) {
     log_debug("%s (0x%x)", opcode_names[opcode].c_str(), opcode);
 
     switch (opcode) {
@@ -291,7 +291,7 @@ void CPU::execute_normal_opcode(const uint8_t opcode) {
 }
 
 void CPU::execute_cb_opcode() {
-    uint8_t cb_opcode = get_byte_from_pc();
+    u8 cb_opcode = get_byte_from_pc();
     log_debug("%s (CB 0x%x)", opcode_cb_names[cb_opcode].c_str(), cb_opcode);
 
     switch (cb_opcode) {
@@ -560,16 +560,16 @@ void unimplemented_opcode() {
     std::exit(1);
 }
 
-inline uint8_t CPU::get_byte_from_pc() {
-    uint8_t byte = mmu.read(Address(pc));
+inline u8 CPU::get_byte_from_pc() {
+    u8 byte = mmu.read(Address(pc));
     pc.increment();
 
     return byte;
 }
 
-inline uint16_t CPU::get_word_from_pc() {
-    uint8_t low_byte = get_byte_from_pc();
-    uint8_t high_byte = get_byte_from_pc();
+inline u16 CPU::get_word_from_pc() {
+    u8 low_byte = get_byte_from_pc();
+    u8 high_byte = get_byte_from_pc();
 
     return compose_bytes(low_byte, high_byte);
 }
@@ -629,13 +629,13 @@ bool CPU::is_condition(Condition condition) const {
     }
 }
 
-uint8_t CPU::flag_half_carry_value() const {
-    return static_cast<uint8_t>(flag_half_carry() ? 1 : 0);
+u8 CPU::flag_half_carry_value() const {
+    return static_cast<u8>(flag_half_carry() ? 1 : 0);
 
 }
 
-uint8_t CPU::flag_carry_value() const {
-    return static_cast<uint8_t>(flag_carry() ? 1 : 0);
+u8 CPU::flag_carry_value() const {
+    return static_cast<u8>(flag_carry() ? 1 : 0);
 
 }
 
@@ -645,11 +645,11 @@ uint8_t CPU::flag_carry_value() const {
  */
 
 /* ADC */
-inline uint8_t CPU::_opcode_adc_and_set_flags(uint8_t value) {
-    uint8_t reg = a.value();
-    uint8_t carry = flag_carry_value();
+inline u8 CPU::_opcode_adc_and_set_flags(u8 value) {
+    u8 reg = a.value();
+    u8 carry = flag_carry_value();
 
-    uint16_t result = reg + value + carry;
+    u16 result = reg + value + carry;
 
     set_flags(Flags(
         reg == 0,
@@ -658,28 +658,28 @@ inline uint8_t CPU::_opcode_adc_and_set_flags(uint8_t value) {
         (result & 0x100) != 0
     ));
 
-    return static_cast<uint8_t>(result);
+    return static_cast<u8>(result);
 }
 
 void CPU::opcode_adc() {
-    uint8_t result = _opcode_adc_and_set_flags(get_byte_from_pc());
+    u8 result = _opcode_adc_and_set_flags(get_byte_from_pc());
     a.set(result);
 }
 
 void CPU::opcode_adc(const ByteRegister& reg) {
-    uint8_t result = _opcode_adc_and_set_flags(reg.value());
+    u8 result = _opcode_adc_and_set_flags(reg.value());
     a.set(result);
 }
 
 void CPU::opcode_adc(const Address&& addr) {
-    uint8_t result = _opcode_adc_and_set_flags(mmu.read(addr));
+    u8 result = _opcode_adc_and_set_flags(mmu.read(addr));
     a.set(result);
 }
 
 
 /* ADD */
-inline uint8_t CPU::_opcode_add_and_set_flags(uint8_t reg, uint8_t value) {
-    uint16_t result = reg + value;
+inline u8 CPU::_opcode_add_and_set_flags(u8 reg, u8 value) {
+    u16 result = reg + value;
 
     set_flags(Flags(
         a.value() == 0,
@@ -688,21 +688,21 @@ inline uint8_t CPU::_opcode_add_and_set_flags(uint8_t reg, uint8_t value) {
         (result & 0x100) != 0
     ));
 
-    return static_cast<uint8_t>(result);
+    return static_cast<u8>(result);
 }
 
 void CPU::opcode_add_a() {
-    uint8_t result = _opcode_add_and_set_flags(a.value(), get_byte_from_pc());
+    u8 result = _opcode_add_and_set_flags(a.value(), get_byte_from_pc());
     a.set(result);
 }
 
 void CPU::opcode_add_a(const ByteRegister& reg) {
-    uint8_t result = _opcode_add_and_set_flags(a.value(), reg.value());
+    u8 result = _opcode_add_and_set_flags(a.value(), reg.value());
     a.set(result);
 }
 
 void CPU::opcode_add_a(const Address& addr) {
-    uint8_t result = _opcode_add_and_set_flags(a.value(), mmu.read(addr));
+    u8 result = _opcode_add_and_set_flags(a.value(), mmu.read(addr));
     a.set(result);
 }
 
@@ -739,7 +739,7 @@ void CPU::opcode_and(Address&& addr) {
 
 
 /* BIT */
-void CPU::_opcode_bit_and_set_flags(const int bit, const uint8_t value) {
+void CPU::_opcode_bit_and_set_flags(const int bit, const u8 value) {
     set_flags(Flags(
         !check_bit(value, bit),
         false,
@@ -863,10 +863,10 @@ void CPU::opcode_jp(const Address& addr) {
 
 /* JR */
 void CPU::opcode_jr() {
-    int8_t n = get_byte_from_pc();
-    uint16_t old_pc = pc.value();
+    s8 n = get_byte_from_pc();
+    u16 old_pc = pc.value();
 
-    uint16_t new_pc = old_pc + n;
+    u16 new_pc = old_pc + n;
     pc.set(new_pc);
 }
 
@@ -885,7 +885,7 @@ void CPU::opcode_halt() {
 
 /* LD */
 void CPU::opcode_ld(ByteRegister& reg) {
-    uint8_t n = get_byte_from_pc();
+    u8 n = get_byte_from_pc();
     reg.set(n);
 }
 
@@ -899,13 +899,13 @@ void CPU::opcode_ld(ByteRegister& reg, const Address& address) {
 
 
 void CPU::opcode_ld(RegisterPair& reg) {
-    uint16_t nn = get_word_from_pc();
+    u16 nn = get_word_from_pc();
     reg.set(nn);
 }
 
 
 void CPU::opcode_ld(WordRegister& reg) {
-    uint16_t nn = get_word_from_pc();
+    u16 nn = get_word_from_pc();
     reg.set(nn);
 }
 
@@ -915,7 +915,7 @@ void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
 
 
 void CPU::opcode_ld(const Address& address) {
-    uint8_t n = get_byte_from_pc();
+    u8 n = get_byte_from_pc();
     mmu.write(address, n);
 }
 
@@ -1078,7 +1078,7 @@ void CPU::opcode_rrc(Address&& addr) {
 
 /* RST */
 // TODO: offset type
-void CPU::opcode_rst(const uint8_t offset) {
+void CPU::opcode_rst(const u8 offset) {
     unimplemented_opcode();
 }
 
@@ -1174,10 +1174,10 @@ void CPU::opcode_swap(Address&& addr) {
 
 
 /* XOR */
-uint8_t CPU::_opcode_xor_and_set_flags(uint8_t value) {
-    uint8_t reg = a.value();
+u8 CPU::_opcode_xor_and_set_flags(u8 value) {
+    u8 reg = a.value();
 
-    uint8_t result = reg ^ value;
+    u8 result = reg ^ value;
 
     set_flags(Flags(
         reg == 0,
@@ -1190,16 +1190,16 @@ uint8_t CPU::_opcode_xor_and_set_flags(uint8_t value) {
 }
 
 void CPU::opcode_xor() {
-    uint8_t result = _opcode_xor_and_set_flags(get_byte_from_pc());
+    u8 result = _opcode_xor_and_set_flags(get_byte_from_pc());
     a.set(result);
 }
 
 void CPU::opcode_xor(const ByteRegister& reg) {
-    uint8_t result = _opcode_xor_and_set_flags(reg.value());
+    u8 result = _opcode_xor_and_set_flags(reg.value());
     a.set(result);
 }
 
 void CPU::opcode_xor(const Address& addr) {
-    uint8_t result = _opcode_xor_and_set_flags(mmu.read(addr));
+    u8 result = _opcode_xor_and_set_flags(mmu.read(addr));
     a.set(result);
 }

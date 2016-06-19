@@ -31,7 +31,7 @@ class Cartridge {
 public:
     Cartridge(string filename);
 
-    uint8_t read(const Address address) const;
+    u8 read(const Address address) const;
 
     /* Cartridge header information */
     string game_title() const;

@@ -8,11 +8,11 @@ RegisterPair::RegisterPair(ByteRegister& high, ByteRegister& low) :
 {
 }
 
-void RegisterPair::set_low(const uint8_t byte) {
+void RegisterPair::set_low(const u8 byte) {
     low_byte.set(byte);
 }
 
-void RegisterPair::set_high(const uint8_t byte) {
+void RegisterPair::set_high(const u8 byte) {
     high_byte.set(byte);
 }
 
@@ -24,23 +24,23 @@ void RegisterPair::set_high(const ByteRegister& byte) {
     low_byte.set(byte.value());
 }
 
-void RegisterPair::set(const uint16_t word) {
+void RegisterPair::set(const u16 word) {
     /* Discard the upper byte */
-    low_byte.set(static_cast<uint8_t>(word));
+    low_byte.set(static_cast<u8>(word));
 
     /* Discard the lower byte */
-    high_byte.set(static_cast<uint8_t>((word) >> 8));
+    high_byte.set(static_cast<u8>((word) >> 8));
 }
 
-uint8_t RegisterPair::low() const {
+u8 RegisterPair::low() const {
     return low_byte.value();
 }
 
-uint8_t RegisterPair::high() const {
+u8 RegisterPair::high() const {
     return high_byte.value();
 }
 
-uint16_t RegisterPair::value() const {
+u16 RegisterPair::value() const {
     return (high_byte.value() << 8) + low_byte.value();
 }
 

@@ -1,18 +1,18 @@
 #pragma once
 
-#include <cstdint>
+#include "definitions.h"
 #include "cpu/register.h"
 
 class Address {
 public:
-    Address(uint16_t location);
+    Address(u16 location);
     explicit Address(RegisterPair from);
     explicit Address(WordRegister from);
 
-    uint16_t value() const;
+    u16 value() const;
 
     bool in_range(Address low, Address high) const;
 
 private:
-    uint16_t addr;
+    u16 addr;
 };

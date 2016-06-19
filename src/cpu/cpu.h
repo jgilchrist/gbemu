@@ -6,8 +6,6 @@
 #include "../clock.h"
 #include "../mmu.h"
 
-#include <cstdint>
-
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.
  */
@@ -38,8 +36,8 @@ public:
 
     void tick();
 
-    void execute_opcode(const uint8_t opcode);
-    void execute_normal_opcode(const uint8_t opcode);
+    void execute_opcode(const u8 opcode);
+    void execute_normal_opcode(const u8 opcode);
     void execute_cb_opcode();
 
 private:
@@ -78,8 +76,8 @@ private:
 
     bool is_condition(Condition condition) const;
 
-    uint8_t flag_half_carry_value() const;
-    uint8_t flag_carry_value() const;
+    u8 flag_half_carry_value() const;
+    u8 flag_carry_value() const;
 
     /* Program counter */
     WordRegister pc;
@@ -87,20 +85,20 @@ private:
     /* Stack pointer */
     WordRegister sp;
 
-    uint8_t get_byte_from_pc();
-    uint16_t get_word_from_pc();
+    u8 get_byte_from_pc();
+    u16 get_word_from_pc();
 
     /* Opcode Helper Functions */
 
     /* ADC */
-    uint8_t _opcode_adc_and_set_flags(uint8_t value);
+    u8 _opcode_adc_and_set_flags(u8 value);
 
     void opcode_adc();
     void opcode_adc(const ByteRegister& reg);
     void opcode_adc(const Address&& addr);
 
     /* ADD */
-    uint8_t _opcode_add_and_set_flags(uint8_t reg, uint8_t value);
+    u8 _opcode_add_and_set_flags(u8 reg, u8 value);
 
     void opcode_add_a();
     void opcode_add_a(const ByteRegister& reg);
@@ -119,7 +117,7 @@ private:
     void opcode_and(Address&& addr);
 
     /* BIT */
-    void _opcode_bit_and_set_flags(const int bit, const uint8_t value);
+    void _opcode_bit_and_set_flags(const int bit, const u8 value);
 
     void opcode_bit(const int bit, ByteRegister& reg);
     void opcode_bit(const int bit, Address&& addr);
@@ -190,7 +188,7 @@ private:
     void opcode_ld_to_addr(const ByteRegister& reg);
 
     /* LDD */
-    uint8_t _opcode_ldd(uint8_t value);
+    u8 _opcode_ldd(u8 value);
 
     void opcode_ldd(ByteRegister& reg, const Address& address);
     void opcode_ldd(const Address& address, const ByteRegister& reg);
@@ -253,7 +251,7 @@ private:
 
     /* RST */
     // TODO: offset type
-    void opcode_rst(const uint8_t offset);
+    void opcode_rst(const u8 offset);
 
     /* SBC */
     void opcode_sbc();
@@ -292,7 +290,7 @@ private:
     void opcode_swap(Address&& addr);
 
     /* XOR */
-    uint8_t _opcode_xor_and_set_flags(uint8_t value);
+    u8 _opcode_xor_and_set_flags(u8 value);
 
     void opcode_xor();
     void opcode_xor(const ByteRegister& reg);

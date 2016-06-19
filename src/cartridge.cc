@@ -27,7 +27,7 @@ Cartridge::Cartridge(string filename) {
     log_info("\tglobal_checksum: %d", data[0x14E]);
 }
 
-uint8_t Cartridge::read(const Address address) const {
+u8 Cartridge::read(const Address address) const {
     // TODO: check this address is in sensible bounds
     return data[address.value()];
 }

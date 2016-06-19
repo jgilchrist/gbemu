@@ -1,10 +1,10 @@
 #pragma once
 
-#include <cstdint>
+#include "definitions.h"
 
 class Clock {
 public:
     Clock();
 
-    void add_time(const uint8_t timestep);
+    void add_time(const u8 timestep);
 };

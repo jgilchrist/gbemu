@@ -38,7 +38,7 @@ void CPU::opcode_07() {
 }
 
 void CPU::opcode_08() {
-    uint16_t nn = get_word_from_pc();
+    u16 nn = get_word_from_pc();
     opcode_ld(Address(nn), sp);
 }
 
