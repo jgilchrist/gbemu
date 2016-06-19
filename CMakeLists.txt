@@ -18,6 +18,7 @@ add_definitions(-Wno-global-constructors)
 add_definitions(-Wno-gnu-zero-variadic-macro-arguments)
 add_definitions(-Wno-format-nonliteral)
 add_definitions(-Wno-exit-time-destructors)
+add_definitions(-Wno-weak-vtables)
 
 # Temporarily silence warnings during development
 add_definitions(-Wno-unused-parameter)
