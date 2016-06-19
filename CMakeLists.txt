@@ -15,6 +15,7 @@ add_definitions(-Wno-c++98-compat)
 add_definitions(-Wno-c++98-compat-pedantic)
 add_definitions(-Wno-padded)
 add_definitions(-Wno-global-constructors)
+add_definitions(-Wno-gnu-zero-variadic-macro-arguments)
 
 # Temporarily silence warnings during development
 add_definitions(-Wno-unused-parameter)
