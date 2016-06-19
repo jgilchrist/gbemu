@@ -24,6 +24,11 @@ u8 MMU::read(const Address address) const {
         return memory_read(address);
     }
 
+    if (address.value() == 0xFF44) {
+        log_warn("Read from unknown address 0x%x", address.value());
+        exit(1);
+    }
+
     /* Disable boot rom switch */
     if (address.value() == 0xFF50) {
         return memory_read(address);
@@ -84,6 +89,26 @@ void MMU::write(const Address address, const u8 byte) {
     }
 
     if (address.value() == 0xFF26) {
+        log_warn("Wrote to unknown address 0x%x", address.value());
+        memory_write(address, byte);
+        return;
+    }
+
+    /* Switch on LCD */
+    if (address.value() == 0xFF40) {
+        log_warn("Wrote to unknown address 0x%x", address.value());
+        memory_write(address, byte);
+        return;
+    }
+
+    /* Vertical Scroll Register */
+    if (address.value() == 0xFF42) {
+        log_warn("Wrote to unknown address 0x%x", address.value());
+        memory_write(address, byte);
+        return;
+    }
+
+    if (address.value() == 0xFF44) {
         log_warn("Wrote to unknown address 0x%x", address.value());
         memory_write(address, byte);
         return;
