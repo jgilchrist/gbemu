@@ -29,6 +29,7 @@ add_definitions(-Wno-missing-noreturn)
 add_executable(emulator
     src/address.cc
     src/cartridge.cc
+    src/cartridge_info.cc
     src/clock.cc
     src/gameboy.cc
     src/main.cc

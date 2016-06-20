@@ -12,14 +12,20 @@ Cartridge::Cartridge(std::string filename) {
         data.push_back(static_cast<u8>(v));
     }
 
-    log_info("\tTitle: %s", game_title().c_str());
-    log_info("\tManufacturer: %d", data[0x13F]);
-    log_info("\tSupports Color: %d", data[0x143]);
-    log_info("\tCartridge Type: %d", data[0x147]);
-    log_info("\tRom Size: %d", data[0x148]);
-    log_info("\tRam Size: %d", data[0x149]);
-    log_info("\tLicense Code: %d", data[0x144]);
-    log_info("\tVersion Number: %d", data[0x14C]);
+    u8 type_code = data[header::cartridge_type];
+    u8 version_code = data[header::version_number];
+    u8 rom_size_code = data[header::rom_size];
+    u8 ram_size_code = data[header::ram_size];
+
+    type = get_type(type_code);
+    version = version_code;
+    rom_size = get_rom_size(rom_size_code);
+    ram_size = get_ram_size(ram_size_code);
+
+    log_info("Title:\t\t %s (version %d)", game_title().c_str(), version);
+    log_info("Cartridge:\t\t %s", describe(type).c_str());
+    log_info("Rom Size:\t\t %s", describe(rom_size).c_str());
+    log_info("Ram Size:\t\t %s", describe(ram_size).c_str());
 }
 
 u8 Cartridge::read(const Address address) const {
