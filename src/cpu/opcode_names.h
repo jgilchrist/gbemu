@@ -37,7 +37,7 @@ static const std::string opcode_names[256] = {
 
     "JR NZ,n",
     "LD HL,nn",
-    "LD (HLI),A",
+    "LD (HL+),A",
     "INC HL",
     "INC H",
     "DEC H",
@@ -54,7 +54,7 @@ static const std::string opcode_names[256] = {
 
     "JR NC,n",
     "LD SP,nn",
-    "LD (HLD),A",
+    "LD (HL-),A",
     "INC SP",
     "INC (HL)",
     "DEC (HL)",
