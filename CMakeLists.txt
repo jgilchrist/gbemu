@@ -44,6 +44,7 @@ add_executable(emulator
     src/cpu/cpu_opcode_fns.cc
 
     src/video/video.cc
+    src/video/framebuffer.cc
 
     src/util/files.cc
     src/util/log.cc
