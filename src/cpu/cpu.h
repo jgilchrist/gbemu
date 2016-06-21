@@ -17,6 +17,27 @@ enum class Condition {
     C,
 };
 
+/* TODO: RST names */
+namespace rst {
+    const int rst1 = 0x00;
+    const int rst2 = 0x08;
+    const int rst3 = 0x10;
+    const int rst4 = 0x19;
+    const int rst5 = 0x21;
+    const int rst6 = 0x28;
+    const int rst7 = 0x30;
+    const int rst8 = 0x38;
+}
+
+/* TODO: Interrupt names */
+namespace interrupts {
+    const int int1 = 0x40;
+    const int int2 = 0x48;
+    const int int3 = 0x50;
+    const int int4 = 0x58;
+    const int int5 = 0x60;
+}
+
 class CPU {
 public:
     CPU(MMU& mmu);
