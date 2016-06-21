@@ -14,9 +14,9 @@ public:
     void write(const Address address, const u8 byte);
     void write_word(const Address address, const u16 word);
 
+private:
     bool boot_rom_active() const;
 
-private:
     u8 memory_read(const Address address) const;
     void memory_write(const Address address, const u8 byte);
 
