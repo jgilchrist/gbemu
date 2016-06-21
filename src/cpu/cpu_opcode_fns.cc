@@ -244,15 +244,21 @@ void CPU::opcode_inc(Address&& addr) {
 
 /* JP */
 void CPU::opcode_jp() {
-    unimplemented_opcode();
+    u16 address = get_word_from_pc();
+    pc.set(address);
 }
 
 void CPU::opcode_jp(Condition condition) {
-    unimplemented_opcode();
+    if (is_condition(condition)) {
+        opcode_jp();
+    } else {
+        // Consume unused word argument
+        get_word_from_pc();
+    }
 }
 
 void CPU::opcode_jp(const Address& addr) {
-    unimplemented_opcode();
+    pc.set(hl.value());
 }
 
 
