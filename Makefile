@@ -15,7 +15,3 @@ compile: cmake
 .PHONY: clean
 clean:
 	@rm -rf $(BUILD_DIR)
-
-.PHONY: run
-run:
-	@./$(BUILD_DIR)/$(NAME)
