@@ -31,11 +31,11 @@ namespace rst {
 
 /* TODO: Interrupt names */
 namespace interrupts {
-    const int int1 = 0x40;
-    const int int2 = 0x48;
-    const int int3 = 0x50;
-    const int int4 = 0x58;
-    const int int5 = 0x60;
+    const int vblank = 0x40;
+    const int lcdc_status = 0x48;
+    const int timer = 0x50;
+    const int serial = 0x58;
+    const int joypad = 0x60;
 }
 
 class CPU {
