@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/etc/build" ${CMAKE_MODULE_PATH})
 
 project(emulator)
 
@@ -43,4 +44,11 @@ add_executable(emulator
     src/util/files.cc
     src/util/log.cc
     src/util/string.cc
+    src/video/screens/sfml.cc
 )
+
+find_package(SFML 2 REQUIRED system window graphics network audio)
+if(SFML_FOUND)
+  include_directories(${SFML_INCLUDE_DIR})
+  target_link_libraries(emulator ${SFML_LIBRARIES})
+endif()

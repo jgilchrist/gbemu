@@ -1,7 +1,8 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(Cartridge cartridge) :
+Gameboy::Gameboy(Screen& inScreen, Cartridge cartridge) :
+    screen(inScreen),
     mmu(cartridge),
     cpu(mmu)
 {
@@ -9,7 +10,9 @@ Gameboy::Gameboy(Cartridge cartridge) :
 }
 
 void Gameboy::run() {
-    while (true) {
+    while (screen.is_open()) {
         cpu.tick();
+        FrameBuffer buffer;
+        screen.draw(buffer);
     }
 }

@@ -2,6 +2,8 @@
 
 #include "gameboy.h"
 #include "cartridge.h"
+#include "video/screen.h"
+#include "video/screens/sfml.h"
 #include "util/log.h"
 
 int main(int argc, char* argv[]) {
@@ -16,7 +18,8 @@ int main(int argc, char* argv[]) {
     log_info("Loading rom from file: %s", rom_name.c_str());
 
     Cartridge cartridge(rom_name);
-    Gameboy gameboy(cartridge);
+    SFMLScreen screen;
+    Gameboy gameboy(screen, cartridge);
 
     gameboy.run();
 }

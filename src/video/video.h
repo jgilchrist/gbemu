@@ -1,5 +1,10 @@
 #pragma once
 
+#include "../register.h"
+
+const int GAMEBOY_WIDTH = 160;
+const int GAMEBOY_HEIGHT = 144;
+
 class Video {
 public:
     Video();
