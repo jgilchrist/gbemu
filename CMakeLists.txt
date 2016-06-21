@@ -32,6 +32,7 @@ add_executable(emulator
     src/cartridge_info.cc
     src/clock.cc
     src/gameboy.cc
+    src/register.cc
     src/main.cc
     src/mmu.cc
     src/cpu/cpu.cc
@@ -39,7 +40,6 @@ add_executable(emulator
     src/cpu/cpu_opcodes_cb.cc
     src/cpu/cpu_opcode_mapping.cc
     src/cpu/cpu_opcode_fns.cc
-    src/cpu/register.cc
     src/util/files.cc
     src/util/log.cc
     src/util/string.cc

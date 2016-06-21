@@ -1,9 +1,8 @@
 #pragma once
 
-#include "register.h"
-
 #include "../address.h"
 #include "../clock.h"
+#include "../register.h"
 #include "../mmu.h"
 
 /**

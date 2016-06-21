@@ -1,7 +1,7 @@
 #include "register.h"
 
-#include "../util/bitwise.h"
-#include "../util/log.h"
+#include "util/bitwise.h"
+#include "util/log.h"
 
 u8 WordRegister::low() const {
     return static_cast<u8>(val);

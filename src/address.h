@@ -1,7 +1,7 @@
 #pragma once
 
 #include "definitions.h"
-#include "cpu/register.h"
+#include "register.h"
 
 class Address {
 public:
