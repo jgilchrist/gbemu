@@ -7,6 +7,9 @@ SFMLScreen::SFMLScreen() :
     window.setVerticalSyncEnabled(true);
 }
 
+SFMLScreen::~SFMLScreen() {
+}
+
 void SFMLScreen::draw(FrameBuffer& buffer) {
     window.clear(sf::Color::Black);
 

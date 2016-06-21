@@ -5,6 +5,7 @@
 class SFMLScreen : public Screen {
 public:
     SFMLScreen();
+    ~SFMLScreen();
 
     virtual void draw(FrameBuffer& buffer);
     virtual bool is_open();
