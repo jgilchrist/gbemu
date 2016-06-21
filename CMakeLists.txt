@@ -49,7 +49,7 @@ add_executable(emulator
     src/util/log.cc
     src/util/string.cc
 
-    src/video/screens/sfml.cc
+    src/video/screens/sfml_screen.cc
 )
 
 find_package(SFML 2 REQUIRED system window graphics network audio)

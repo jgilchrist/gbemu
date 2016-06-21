@@ -1,4 +1,4 @@
-#include "sfml.h"
+#include "sfml_screen.h"
 
 SFMLScreen::SFMLScreen() :
     window(sf::VideoMode(GAMEBOY_WIDTH, GAMEBOY_HEIGHT), "Emulator")

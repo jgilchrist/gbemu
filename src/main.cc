@@ -3,8 +3,9 @@
 #include "gameboy.h"
 #include "cartridge.h"
 #include "video/screen.h"
-#include "video/screens/sfml.h"
 #include "util/log.h"
+
+#include "video/screens/sfml_screen.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
