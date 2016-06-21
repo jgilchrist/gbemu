@@ -1,15 +1,18 @@
 #pragma once
 
 #include "../register.h"
+#include "../mmu.h"
 
 const int GAMEBOY_WIDTH = 160;
 const int GAMEBOY_HEIGHT = 144;
 
 class Video {
 public:
-    Video();
+    Video(MMU& mmu);
 
 private:
+    MMU& mmu;
+
     /* TODO: Annotate each register with its register name */
 
     ByteRegister lcd_control;

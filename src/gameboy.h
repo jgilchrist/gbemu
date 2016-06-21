@@ -13,4 +13,5 @@ private:
     Screen& screen;
     MMU mmu;
     CPU cpu;
+    Video video;
 };
