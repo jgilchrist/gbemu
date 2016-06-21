@@ -1,21 +1,15 @@
 #pragma once
 
+#include "framebuffer.h"
+
 #include "../register.h"
 #include "../mmu.h"
-
-const int GAMEBOY_WIDTH = 160;
-const int GAMEBOY_HEIGHT = 144;
-
-enum class Color {
-    Color1,
-    Color2,
-    Color3,
-    Color4
-};
 
 class Video {
 public:
     Video(MMU& mmu);
+
+    FrameBuffer get_framebuffer() const;
 
 private:
     MMU& mmu;

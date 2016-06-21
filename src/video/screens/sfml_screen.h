@@ -12,4 +12,7 @@ public:
 
 private:
     sf::RenderWindow window;
+
+    void set_pixels(sf::Image& image, const FrameBuffer& buffer);
+    sf::Color get_color(Color color);
 };

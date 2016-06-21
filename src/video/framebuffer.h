@@ -1,16 +1,16 @@
 #pragma once
 
-#include "video.h"
+#include "../definitions.h"
 
 class FrameBuffer {
 public:
     FrameBuffer();
 
-    void set_pixel(int x, int y, Color color);
-    Color get_pixel(int x, int y) const;
+    void set_pixel(uint x, uint y, Color color);
+    Color get_pixel(uint x, uint y) const;
 
 private:
-    int pixel_index(int x, int y) const;
+    uint pixel_index(uint x, uint y) const;
 
     Color buffer[GAMEBOY_HEIGHT*GAMEBOY_WIDTH];
 };

@@ -13,7 +13,6 @@ Gameboy::Gameboy(Screen& inScreen, Cartridge cartridge) :
 void Gameboy::run() {
     while (screen.is_open()) {
         cpu.tick();
-        FrameBuffer buffer;
-        screen.draw(buffer);
+        screen.draw(video.get_framebuffer());
     }
 }
