@@ -10,7 +10,7 @@ SFMLScreen::SFMLScreen() :
 SFMLScreen::~SFMLScreen() {
 }
 
-void SFMLScreen::draw(FrameBuffer& buffer) {
+void SFMLScreen::draw(const FrameBuffer& buffer) {
     window.clear(sf::Color::Black);
 
     sf::Event event;

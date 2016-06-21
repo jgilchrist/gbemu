@@ -7,7 +7,7 @@ NullScreen::NullScreen()
 NullScreen::~NullScreen() {
 }
 
-void NullScreen::draw(FrameBuffer& buffer) {
+void NullScreen::draw(const FrameBuffer& buffer) {
     return;
 }
 

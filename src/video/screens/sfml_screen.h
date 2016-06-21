@@ -7,7 +7,7 @@ public:
     SFMLScreen();
     ~SFMLScreen();
 
-    virtual void draw(FrameBuffer& buffer);
+    virtual void draw(const FrameBuffer& buffer);
     virtual bool is_open();
 
 private:
