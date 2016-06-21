@@ -12,7 +12,7 @@
 
 
 /* ADC */
-inline void CPU::_opcode_adc(u8 value) {
+void CPU::_opcode_adc(u8 value) {
     u8 reg = a.value();
     u8 carry = flag_carry_value();
 
@@ -41,7 +41,7 @@ void CPU::opcode_adc(const Address&& addr) {
 
 
 /* ADD */
-inline void CPU::_opcode_add(u8 reg, u8 value) {
+void CPU::_opcode_add(u8 reg, u8 value) {
     u16 result16 = reg + value;
 
     set_flag_zero(a.value() == 0);
