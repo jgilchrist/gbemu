@@ -51,6 +51,11 @@ u8 MMU::read(const Address address) const {
         return memory_read(address);
     }
 
+    /* Interrupt Enable register */
+    if (address.value() == 0xFFFF) {
+        return memory_read(address);
+    }
+
     log_error("Attempted to read from unmapped memory address %X", address.value());
     exit(1);
 }
@@ -124,6 +129,12 @@ void MMU::write(const Address address, const u8 byte) {
 
     /* Zero Page ram */
     if (address.in_range(0xFF80, 0xFFFE)) {
+        memory_write(address, byte);
+        return;
+    }
+
+    /* Interrupt Enable register */
+    if (address.value() == 0xFFFF) {
         memory_write(address, byte);
         return;
     }
