@@ -1,6 +1,6 @@
 #include "cpu.h"
 
-#include "../bitwise.h"
+#include "../util/bitwise.h"
 #include "../util/log.h"
 
 #include <cstdlib>

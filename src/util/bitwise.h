@@ -1,7 +1,7 @@
 #pragma once
 
-#include "definitions.h"
-#include "util/log.h"
+#include "log.h"
+#include "../definitions.h"
 
 inline u16 compose_bytes(const u8 high, const u8 low) {
     return static_cast<u16>((high << 8) + low);

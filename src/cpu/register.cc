@@ -1,6 +1,6 @@
 #include "register.h"
 
-#include "../bitwise.h"
+#include "../util/bitwise.h"
 #include "../util/log.h"
 
 u8 WordRegister::low() const {
