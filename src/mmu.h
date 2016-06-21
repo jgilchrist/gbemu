@@ -17,6 +17,9 @@ public:
 private:
     bool boot_rom_active() const;
 
+    u8 read_io(const Address address) const;
+    void write_io(const Address address, const u8 byte);
+
     u8 memory_read(const Address address) const;
     void memory_write(const Address address, const u8 byte);
 
