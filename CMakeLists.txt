@@ -49,6 +49,7 @@ add_executable(emulator
     src/util/log.cc
     src/util/string.cc
 
+    src/video/screens/null_screen.cc
     src/video/screens/sfml_screen.cc
 )
 

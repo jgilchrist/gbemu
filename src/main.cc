@@ -5,6 +5,7 @@
 #include "video/screen.h"
 #include "util/log.h"
 
+#include "video/screens/null_screen.h"
 #include "video/screens/sfml_screen.h"
 
 int main(int argc, char* argv[]) {
