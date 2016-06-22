@@ -11,6 +11,8 @@ using s8  = int8_t;
 const int GAMEBOY_WIDTH = 160;
 const int GAMEBOY_HEIGHT = 144;
 
+const int CLOCK_RATE = 4194304;
+
 enum class Color {
     Color0, /* White */
     Color1, /* Light gray */
