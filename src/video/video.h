@@ -2,31 +2,24 @@
 
 #include "framebuffer.h"
 #include "screen.h"
+#include "video_mode.h"
 
-#include "../register.h"
+#include "../cycles.h"
 #include "../mmu.h"
-
-const int CLOCKS_PER_HBLANK = 204; /* Mode 0 */
-const int CLOCKS_PER_SCANLINE_OAM = 80; /* Mode 2 */
-const int CLOCKS_PER_SCANLINE_VRAM = 172; /* Mode 3 */
-const int CLOCKS_PER_SCANLINE = \
-    (CLOCKS_PER_SCANLINE_OAM + CLOCKS_PER_SCANLINE_VRAM + CLOCKS_PER_HBLANK);
-
-const int CLOCKS_PER_VBLANK = 4560; /* Mode 1 */
-const int SCANLINES_PER_FRAME = 144;
-const int CLOCKS_PER_FRAME = \
-    (CLOCKS_PER_SCANLINE * SCANLINES_PER_FRAME) + CLOCKS_PER_VBLANK;
+#include "../register.h"
 
 class Video {
 public:
     Video(Screen& screen, MMU& mmu);
 
-    const FrameBuffer& get_framebuffer();
+    void tick(Cycles cycles);
 
 private:
     Screen& screen;
     MMU& mmu;
     FrameBuffer frame_buffer;
+
+    VideoModeManager video_mode;
 
     /* TODO: Annotate each register with its register name */
 

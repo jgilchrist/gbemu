@@ -6,6 +6,6 @@ Video::Video(Screen& inScreen, MMU& inMMU) :
 {
 }
 
-const FrameBuffer& Video::get_framebuffer() {
-    return frame_buffer;
+void Video::tick(Cycles cycles) {
+    video_mode.tick(cycles);
 }

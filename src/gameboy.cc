@@ -11,8 +11,14 @@ Gameboy::Gameboy(Screen& inScreen, Cartridge cartridge) :
 }
 
 void Gameboy::run() {
+    unsigned elapsed_cycles = 0;
+
     while (screen.is_open()) {
-        cpu.tick();
-        screen.draw(video.get_framebuffer());
+        auto cycles = cpu.tick();
+        elapsed_cycles += cycles.cycles;
+
+        log_debug("Cycles: %d", elapsed_cycles);
+
+        video.tick(cycles);
     }
 }

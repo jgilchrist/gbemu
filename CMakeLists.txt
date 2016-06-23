@@ -43,6 +43,7 @@ add_executable(emulator
 
     src/video/video.cc
     src/video/framebuffer.cc
+    src/video/video_mode.cc
 
     src/util/files.cc
     src/util/log.cc
