@@ -52,6 +52,7 @@ private:
     MMU& mmu;
 
     bool interrupts_enabled = false;
+    bool branch_taken = false;
 
     /* Basic registers */
     ByteRegister a, b, c, d, e, h, l;
@@ -82,7 +83,10 @@ private:
     bool flag_half_carry() const;
     bool flag_carry() const;
 
-    bool is_condition(Condition condition) const;
+    /* Note: Not const because this also sets the 'branch_taken' member
+     * variable if a branch is taken. This allows the correct cycle
+     * count to be used */
+    bool is_condition(Condition condition);
 
     u8 flag_half_carry_value() const;
     u8 flag_carry_value() const;

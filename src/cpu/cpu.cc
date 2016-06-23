@@ -87,17 +87,28 @@ bool CPU::flag_carry() const {
 
 }
 
-bool CPU::is_condition(Condition condition) const {
+bool CPU::is_condition(Condition condition) {
+    bool should_branch;
+
     switch (condition) {
         case Condition::C:
-            return flag_carry();
+            should_branch = flag_carry();
+            break;
         case Condition::NC:
-            return !flag_carry();
+            should_branch = !flag_carry();
+            break;
         case Condition::Z:
-            return flag_zero();
+            should_branch = flag_zero();
+            break;
         case Condition::NZ:
-            return !flag_zero();
+            should_branch = !flag_zero();
+            break;
     }
+
+    /* If the branch is taken, remember so that the correct processor cycles
+     * can be used */
+    branch_taken = should_branch;
+    return should_branch;
 }
 
 u8 CPU::flag_half_carry_value() const {
