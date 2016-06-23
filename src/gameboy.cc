@@ -5,7 +5,7 @@ Gameboy::Gameboy(Screen& inScreen, Cartridge cartridge) :
     screen(inScreen),
     mmu(cartridge),
     cpu(mmu),
-    video(mmu)
+    video(screen, mmu)
 {
     log_info("Initialising Gameboy");
 }

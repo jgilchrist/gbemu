@@ -2,6 +2,7 @@
 
 #include "cpu/cpu.h"
 #include "video/screen.h"
+#include "video/video.h"
 
 class Gameboy {
 public:

@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "video.h"
 #include "framebuffer.h"
 
 class Screen {

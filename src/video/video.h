@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framebuffer.h"
+#include "screen.h"
 
 #include "../register.h"
 #include "../mmu.h"
@@ -18,12 +19,13 @@ const int CLOCKS_PER_FRAME = \
 
 class Video {
 public:
-    Video(MMU& mmu);
+    Video(Screen& screen, MMU& mmu);
 
     const FrameBuffer& get_framebuffer();
 
 private:
     MMU& mmu;
+    Screen& screen;
     FrameBuffer frame_buffer;
 
     /* TODO: Annotate each register with its register name */

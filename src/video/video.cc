@@ -1,6 +1,7 @@
 #include "video.h"
 
-Video::Video(MMU& inMMU) :
+Video::Video(Screen& inScreen, MMU& inMMU) :
+    screen(inScreen),
     mmu(inMMU)
 {
 }
