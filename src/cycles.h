@@ -2,7 +2,7 @@
 
 class Cycles {
 public:
-    Cycles(int nCycles) : cycles(nCycles) {}
+    Cycles(unsigned nCycles) : cycles(nCycles) {}
 
-    const int cycles;
+    const unsigned cycles;
 };
