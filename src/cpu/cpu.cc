@@ -1,5 +1,6 @@
 #include "cpu.h"
 
+#include "opcode_cycles.h"
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
@@ -12,17 +13,26 @@ CPU::CPU(MMU& inMMU) :
 {
 }
 
-void CPU::tick() {
+Cycles CPU::tick() {
     log_trace("PC: 0x%04X", pc.value());
     auto opcode = get_byte_from_pc();
-    execute_opcode(opcode);
+    return execute_opcode(opcode);
 }
 
-void CPU::execute_opcode(const u8 opcode) {
+Cycles CPU::execute_opcode(const u8 opcode) {
+    branch_taken = false;
+
     if (opcode != 0xCB) {
         execute_normal_opcode(opcode);
+
+        if (!branch_taken) {
+            return opcode_cycles[opcode];
+        } else {
+            return opcode_cycles_branched[opcode];
+        }
     } else {
         execute_cb_opcode();
+        return opcode_cycles_cb[opcode];
     }
 }
 

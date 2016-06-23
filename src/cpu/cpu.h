@@ -2,6 +2,7 @@
 
 #include "../address.h"
 #include "../clock.h"
+#include "../cycles.h"
 #include "../register.h"
 #include "../mmu.h"
 
@@ -41,9 +42,10 @@ class CPU {
 public:
     CPU(MMU& mmu);
 
-    void tick();
+    Cycles tick();
 
-    void execute_opcode(const u8 opcode);
+    Cycles execute_opcode(const u8 opcode);
+
     void execute_normal_opcode(const u8 opcode);
     void execute_cb_opcode();
 
