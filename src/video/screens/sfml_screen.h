@@ -12,7 +12,10 @@ public:
 
 private:
     sf::RenderWindow window;
+    sf::Image image;
+    sf::Texture texture;
+    sf::Sprite sprite;
 
-    void set_pixels(sf::Image& image, const FrameBuffer& buffer);
+    void set_pixels(const FrameBuffer& buffer);
     sf::Color get_color(Color color);
 };

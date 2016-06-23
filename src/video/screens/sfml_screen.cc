@@ -5,8 +5,9 @@
 SFMLScreen::SFMLScreen() :
     window(sf::VideoMode(GAMEBOY_WIDTH, GAMEBOY_HEIGHT), "Emulator")
 {
-    window.setFramerateLimit(60);
-    window.setVerticalSyncEnabled(true);
+    image.create(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
+    window.setFramerateLimit(0);
+    window.setVerticalSyncEnabled(false);
 }
 
 SFMLScreen::~SFMLScreen() {
@@ -23,14 +24,8 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
         }
     }
 
-    sf::Image image;
-    image.create(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
-    set_pixels(image, buffer);
-
-    sf::Texture texture;
+    set_pixels(buffer);
     texture.loadFromImage(image);
-
-    sf::Sprite sprite;
     sprite.setTexture(texture, true);
 
     window.draw(sprite);
@@ -38,7 +33,7 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
     window.display();
 }
 
-void SFMLScreen::set_pixels(sf::Image& image, const FrameBuffer& buffer) {
+void SFMLScreen::set_pixels(const FrameBuffer& buffer) {
     for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
         for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
             image.setPixel(x, y, get_color(buffer.get_pixel(x, y)));
