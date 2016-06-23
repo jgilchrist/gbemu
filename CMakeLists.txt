@@ -5,8 +5,6 @@ project(emulator)
 
 add_definitions(-std=c++14)
 add_definitions(-stdlib=libc++)
-add_definitions(-g)
-add_definitions(-ferror-limit=10000)
 
 add_definitions(-Weverything)
 add_definitions(-Wall -Wextra -Wpedantic)
