@@ -39,8 +39,8 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
 }
 
 void SFMLScreen::set_pixels(sf::Image& image, const FrameBuffer& buffer) {
-    for (unsigned int x = 0; x < GAMEBOY_WIDTH; x++) {
-        for (unsigned int y = 0; y < GAMEBOY_HEIGHT; y++) {
+    for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
+        for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
             image.setPixel(x, y, get_color(buffer.get_pixel(x, y)));
         }
     }

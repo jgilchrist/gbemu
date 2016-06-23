@@ -2,8 +2,8 @@
 
 FrameBuffer::FrameBuffer() {
     /* Set the whole framebuffer to be black */
-    for (unsigned int x = 0; x < GAMEBOY_WIDTH; x++) {
-        for (unsigned int y = 0; y < GAMEBOY_HEIGHT; y++) {
+    for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
+        for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
             set_pixel(x, y, Color::Color3);
         }
     }
