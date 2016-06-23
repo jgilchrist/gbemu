@@ -24,8 +24,8 @@ public:
     const FrameBuffer& get_framebuffer();
 
 private:
-    MMU& mmu;
     Screen& screen;
+    MMU& mmu;
     FrameBuffer frame_buffer;
 
     /* TODO: Annotate each register with its register name */
