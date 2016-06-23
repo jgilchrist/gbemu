@@ -1,3 +1,3 @@
-build/
-debug
-run
+/build/
+/debug
+/run
