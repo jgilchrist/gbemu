@@ -20,10 +20,11 @@ class Video {
 public:
     Video(MMU& mmu);
 
-    FrameBuffer get_framebuffer() const;
+    const FrameBuffer& get_framebuffer();
 
 private:
     MMU& mmu;
+    FrameBuffer frame_buffer;
 
     /* TODO: Annotate each register with its register name */
 
