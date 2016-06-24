@@ -41,5 +41,4 @@ std::string Cartridge::game_title() const {
     }
 
     return std::string(name);
-
 }

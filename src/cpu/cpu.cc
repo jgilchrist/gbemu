@@ -84,17 +84,14 @@ bool CPU::flag_zero() const {
 
 bool CPU::flag_subtract() const {
     return check_bit(f.value(), 6);
-
 }
 
 bool CPU::flag_half_carry() const {
     return check_bit(f.value(), 5);
-
 }
 
 bool CPU::flag_carry() const {
     return check_bit(f.value(), 4);
-
 }
 
 bool CPU::is_condition(Condition condition) {
