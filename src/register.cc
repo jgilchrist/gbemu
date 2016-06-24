@@ -3,6 +3,22 @@
 #include "util/bitwise.h"
 #include "util/log.h"
 
+bool ByteRegister::check_bit(u8 bit) const {
+    return bitwise::check_bit(val, bit);
+}
+
+void ByteRegister::set_bit(u8 bit) {
+    val = bitwise::set_bit(val, bit);
+}
+
+void ByteRegister::clear_bit(u8 bit) {
+    val = bitwise::clear_bit(val, bit);
+}
+
+void ByteRegister::set_bit_to(u8 bit, bool set) {
+    val = bitwise::set_bit_to(val, bit, set);
+}
+
 u8 WordRegister::low() const {
     return static_cast<u8>(val);
 }
@@ -50,7 +66,7 @@ u8 RegisterPair::high() const {
 }
 
 u16 RegisterPair::value() const {
-    return compose_bytes(high_byte.value(), low_byte.value());
+    return bitwise::compose_bytes(high_byte.value(), low_byte.value());
 }
 
 void RegisterPair::increment() {

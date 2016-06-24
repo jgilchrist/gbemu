@@ -5,6 +5,8 @@
 
 #include <cstdlib>
 
+using namespace bitwise;
+
 [[noreturn]] inline void unimplemented_opcode() {
     log_error("Unimplemented opcode");
     std::exit(1);

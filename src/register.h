@@ -9,6 +9,11 @@ public:
     void set(const u8 new_value) { val = new_value; }
     u8 value() const { return val; }
 
+    bool check_bit(u8 bit) const;
+    void set_bit(u8 bit);
+    void clear_bit(u8 bit);
+    void set_bit_to(u8 bit, bool set);
+
     void increment() { val += 1; }
     void decrement() { val -= 1; }
 

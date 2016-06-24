@@ -3,6 +3,8 @@
 #include "log.h"
 #include "../definitions.h"
 
+namespace bitwise {
+
 inline u16 compose_bytes(const u8 high, const u8 low) {
     return static_cast<u16>((high << 8) + low);
 }
@@ -27,4 +29,6 @@ inline u8 set_bit_to(const u8 value, const u8 bit, bool bit_on) {
     } else {
         return clear_bit(value, bit);
     }
+}
+
 }

@@ -4,6 +4,8 @@
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
+using namespace bitwise;
+
 CPU::CPU(MMU& inMMU) :
     mmu(inMMU),
     af(a, f),
@@ -56,19 +58,19 @@ u16 CPU::get_word_from_pc() {
 }
 
 void CPU::set_flag_zero(bool set) {
-    f.set(set_bit_to(f.value(), 7, set));
+    f.set_bit_to(7, set);
 }
 
 void CPU::set_flag_subtract(bool set) {
-    f.set(set_bit_to(f.value(), 6, set));
+    f.set_bit_to(6, set);
 }
 
 void CPU::set_flag_half_carry(bool set) {
-    f.set(set_bit_to(f.value(), 5, set));
+    f.set_bit_to(5, set);
 }
 
 void CPU::set_flag_carry(bool set) {
-    f.set(set_bit_to(f.value(), 4, set));
+    f.set_bit_to(4, set);
 }
 
 void CPU::reset_flags() {
@@ -79,19 +81,19 @@ void CPU::reset_flags() {
 }
 
 bool CPU::flag_zero() const {
-    return check_bit(f.value(), 7);
+    return f.check_bit(7);
 }
 
 bool CPU::flag_subtract() const {
-    return check_bit(f.value(), 6);
+    return f.check_bit(6);
 }
 
 bool CPU::flag_half_carry() const {
-    return check_bit(f.value(), 5);
+    return f.check_bit(5);
 }
 
 bool CPU::flag_carry() const {
-    return check_bit(f.value(), 4);
+    return f.check_bit(4);
 }
 
 bool CPU::is_condition(Condition condition) {
