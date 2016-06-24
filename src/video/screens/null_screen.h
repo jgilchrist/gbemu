@@ -7,6 +7,6 @@ public:
     NullScreen();
     ~NullScreen();
 
-    virtual void draw(const FrameBuffer& buffer);
-    virtual bool is_open();
+    virtual void draw(const FrameBuffer& buffer) override;
+    virtual bool is_open() override;
 };

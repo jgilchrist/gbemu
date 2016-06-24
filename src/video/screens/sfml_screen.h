@@ -7,8 +7,8 @@ public:
     SFMLScreen();
     ~SFMLScreen();
 
-    virtual void draw(const FrameBuffer& buffer);
-    virtual bool is_open();
+    virtual void draw(const FrameBuffer& buffer) override;
+    virtual bool is_open() override;
 
 private:
     sf::RenderWindow window;
