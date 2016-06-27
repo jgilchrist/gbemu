@@ -17,6 +17,6 @@ Color FrameBuffer::get_pixel(uint x, uint y) const {
     return buffer[pixel_index(x, y)];
 }
 
-inline uint FrameBuffer::pixel_index(uint x, uint y) const {
+inline uint FrameBuffer::pixel_index(uint x, uint y) {
     return (y * GAMEBOY_HEIGHT) + x;
 }

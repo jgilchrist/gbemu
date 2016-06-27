@@ -10,7 +10,7 @@ public:
     Color get_pixel(uint x, uint y) const;
 
 private:
-    uint pixel_index(uint x, uint y) const;
+    static uint pixel_index(uint x, uint y);
 
     Color buffer[GAMEBOY_HEIGHT*GAMEBOY_WIDTH];
 };
