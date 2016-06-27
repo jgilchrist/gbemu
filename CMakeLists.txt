@@ -53,7 +53,7 @@ add_executable(emulator
     src/video/screens/sfml_screen.cc
 )
 
-find_package(SFML 2 REQUIRED system window graphics network audio)
+find_package(SFML 2 REQUIRED system window graphics)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
   target_link_libraries(emulator ${SFML_LIBRARIES})
