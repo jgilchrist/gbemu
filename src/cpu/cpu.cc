@@ -4,7 +4,7 @@
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
-using namespace bitwise;
+using bitwise::compose_bytes;
 
 CPU::CPU(MMU& inMMU) :
     mmu(inMMU),

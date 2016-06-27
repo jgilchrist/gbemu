@@ -5,7 +5,7 @@
 
 #include <cstdlib>
 
-using namespace bitwise;
+using bitwise::check_bit;
 
 [[noreturn]] inline void unimplemented_opcode() {
     log_error("Unimplemented opcode");
