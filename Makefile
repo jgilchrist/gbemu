@@ -1,26 +1,38 @@
 NAME=emulator
 BUILD_DIR=build
 
-all: compile
+all: compile-debug
 
-.PHONY: cmake
-cmake:
-	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR) && cmake .. -DCMAKE_BUILD_TYPE=Debug
+#################
+# Utility targets
+#################
 
-.PHONY: cmake-release
-cmake-release:
+.PHONY: build-dir
+build-dir:
 	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR) && cmake .. -DCMAKE_BUILD_TYPE=Release
 
 .PHONY: compile
-compile: cmake
-	@cd $(BUILD_DIR) && make
-
-.PHONY: release
-release: cmake-release
+compile:
 	@cd $(BUILD_DIR) && make
 
 .PHONY: clean
 clean:
 	@rm -rf $(BUILD_DIR)
+
+###################
+# Commands to build
+###################
+
+.PHONY: cmake
+cmake-debug: build-dir
+	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=on ..
+
+.PHONY: cmake-release
+cmake-release: build-dir
+	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Release ..
+
+.PHONY: compile-debug
+compile-debug: cmake-debug compile
+
+.PHONY: compile-release
+compile-release: cmake-release compile
