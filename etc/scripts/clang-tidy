@@ -1,0 +1,22 @@
+#!/bin/bash
+
+CHECKS="*"
+
+# Disable warnings about missing header guards
+# (use #pragma once instead)
+CHECKS+=",-llvm-header-guard"
+
+# Disable warnings about missing comments on closing
+# braces
+CHECKS+=",-google-readability-namespace-comments"
+CHECKS+=",-llvm-namespace-comment"
+
+# Disable necessary explicit constructors
+CHECKS+=",-google-explicit-constructor"
+
+# Disable warnings about unsorted imports
+CHECKS+=",-llvm-include-order"
+
+for i in $(find src -name "*.cc"); do
+    clang-tidy -p="build" -checks=${CHECKS} -header-filter='.*' $i;
+done
