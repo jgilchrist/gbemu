@@ -3,7 +3,7 @@
 #include "../../util/log.h"
 
 SFMLScreen::SFMLScreen() :
-    window(sf::VideoMode(GAMEBOY_WIDTH, GAMEBOY_HEIGHT), "Emulator")
+    window(sf::VideoMode(GAMEBOY_WIDTH, GAMEBOY_HEIGHT), "Emulator", sf::Style::Titlebar | sf::Style::Close)
 {
     image.create(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
     window.setFramerateLimit(0);
