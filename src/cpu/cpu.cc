@@ -145,7 +145,7 @@ void CPU::stack_pop(WordRegister& reg) {
     reg.set(value);
 }
 
-// TODO: reduce duplication with a WordValue interface
+/* TODO: reduce duplication with a WordValue interface */
 void CPU::stack_push(const RegisterPair& reg) {
     sp.decrement();
     mmu.write(Address(sp), reg.high());

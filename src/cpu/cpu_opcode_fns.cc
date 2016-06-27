@@ -126,7 +126,7 @@ void CPU::opcode_call(Condition condition) {
     if (is_condition(condition)) {
         opcode_call();
     } else {
-        // Consume unused word argument
+        /* Consume unused word argument */
         get_word_from_pc();
     }
 }
@@ -252,7 +252,7 @@ void CPU::opcode_jp(Condition condition) {
     if (is_condition(condition)) {
         opcode_jp();
     } else {
-        // Consume unused word argument
+        /* Consume unused word argument */
         get_word_from_pc();
     }
 }
@@ -275,7 +275,7 @@ void CPU::opcode_jr(Condition condition) {
     if (is_condition(condition)) {
         opcode_jr();
     } else {
-        // Consume unused argument
+        /* Consume unused argument */
         get_signed_byte_from_pc();
     }
 }
@@ -328,7 +328,7 @@ void CPU::opcode_ld(const Address& address, const ByteRegister& byte_reg) {
 }
 
 void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {
-    // TODO: can this be done without a write_word function?
+    /* TODO: can this be done without a write_word function? */
     mmu.write_word(address, word_reg.value());
 }
 
@@ -341,9 +341,9 @@ void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
 
 /* LDD */
 void CPU::opcode_ldd(ByteRegister& reg, const Address& address) {
-    // TODO: clean up
-    // two ways of doing ldd
-    // address is always that of HL
+    /* TODO: clean up
+     * two ways of doing ldd
+     * address is always that of HL */
     reg.set(mmu.read(address));
     hl.decrement();
 }
@@ -398,7 +398,7 @@ void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
 
 /* NOP */
 void CPU::opcode_nop() {
-    // Do nothing
+    /* Do nothing */
 }
 
 
@@ -461,7 +461,7 @@ void CPU::opcode_rl(ByteRegister& reg) {
     u8 carry = flag_carry_value();
     u8 value = reg.value();
 
-    // TODO: in other emulators, flags are only reset if carry flag is not set
+    /* TODO: in other emulators, flags are only reset if carry flag is not set */
     reset_flags();
 
     bool will_carry = check_bit(value, 7);
@@ -479,7 +479,7 @@ void CPU::opcode_rl(Address&& addr) {
     u8 old_carry = flag_carry_value();
     u8 value = mmu.read(addr);
 
-    // TODO: in other emulators, flags are only reset if carry flag is not set
+    /* TODO: in other emulators, flags are only reset if carry flag is not set */
     reset_flags();
 
     bool will_carry = check_bit(value, 7);
@@ -525,7 +525,7 @@ void CPU::opcode_rrc(Address&& addr) {
 
 
 /* RST */
-// TODO: offset type
+/* TODO: offset type */
 void CPU::opcode_rst(const u8 offset) {
     unimplemented_opcode();
 }

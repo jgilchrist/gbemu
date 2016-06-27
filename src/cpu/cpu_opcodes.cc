@@ -819,7 +819,7 @@ void CPU::opcode_CA() {
 }
 
 void CPU::opcode_CB() {
-    // TODO: External Ops
+    /* TODO: External Ops */
 }
 
 void CPU::opcode_CC() {
@@ -851,7 +851,7 @@ void CPU::opcode_D2() {
 }
 
 void CPU::opcode_D3() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_D4() {
@@ -883,7 +883,7 @@ void CPU::opcode_DA() {
 }
 
 void CPU::opcode_DB() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_DC() {
@@ -891,7 +891,7 @@ void CPU::opcode_DC() {
 }
 
 void CPU::opcode_DD() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_DE() {
@@ -915,11 +915,11 @@ void CPU::opcode_E2() {
 }
 
 void CPU::opcode_E3() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_E4() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_E5() {
@@ -947,15 +947,15 @@ void CPU::opcode_EA() {
 }
 
 void CPU::opcode_EB() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_EC() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_ED() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_EE() {
@@ -975,7 +975,7 @@ void CPU::opcode_F1() {
 }
 
 void CPU::opcode_F2() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_F3() {
@@ -983,7 +983,7 @@ void CPU::opcode_F3() {
 }
 
 void CPU::opcode_F4() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_F5() {
@@ -1015,11 +1015,11 @@ void CPU::opcode_FB() {
 }
 
 void CPU::opcode_FC() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_FD() {
-    // Undefined
+    /* Undefined */
 }
 
 void CPU::opcode_FE() {

@@ -26,7 +26,7 @@ u8 MMU::read(const Address address) const {
 
     /* External (cartridge) RAM */
     if (address.in_range(0xA000, 0xBFFF)) {
-        log_warn("Attempting to read from cartridge RAM");
+        /* log_warn("Attempting to read from cartridge RAM"); */
         return memory_read(address);
     }
 
@@ -36,7 +36,7 @@ u8 MMU::read(const Address address) const {
     }
 
     if (address.in_range(0xE000, 0xFDFF)) {
-        log_warn("Attempting to read from mirrored work RAM");
+        /* log_warn("Attempting to read from mirrored work RAM"); */
         auto mirrored_address = Address(address.value() - 0x2000);
         return memory_read(mirrored_address);
     }
@@ -67,13 +67,13 @@ u8 MMU::memory_read(const Address address) const {
 u8 MMU::read_io(const Address address) const {
     switch (address.value()) {
         case 0xFF42:
-            // TODO
-            log_warn("Read from unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Read from unknown address 0x%x", address.value()); */
             return 0xFF;
 
         case 0xFF44:
-            // TODO
-            log_warn("Read from unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Read from unknown address 0x%x", address.value()); */
             return 0x90;
 
         /* Disable boot rom switch */
@@ -88,7 +88,7 @@ u8 MMU::read_io(const Address address) const {
 
 void MMU::write(const Address address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
-        log_warn("Attempting to write to cartridge ROM");
+        /* log_warn("Attempting to write to cartridge ROM"); */
     }
 
     /* VRAM */
@@ -111,7 +111,7 @@ void MMU::write(const Address address, const u8 byte) {
 
     /* Mirrored RAM */
     if (address.in_range(0xE000, 0xFDFF)) {
-        log_warn("Attempting to write to mirrored work RAM");
+        /* log_warn("Attempting to write to mirrored work RAM"); */
         auto mirrored_address = Address(address.value() - 0x2000);
         memory_write(mirrored_address, byte);
         return;
@@ -124,7 +124,7 @@ void MMU::write(const Address address, const u8 byte) {
     }
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
-        log_warn("Attempting to write to unusable memory");
+        /* log_warn("Attempting to write to unusable memory"); */
     }
 
     /* Zero Page ram */
@@ -147,81 +147,81 @@ void MMU::write_io(const Address address, const u8 byte) {
     switch (address.value()) {
         /* Serial data transfer (SB) */
         case 0xFF01:
-            // TODO
-            log_warn("%c", byte);
+            /* TODO */
+            /* log_warn("%c", byte); */
             return;
 
         case 0xFF11:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF12:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF13:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF14:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF24:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF25:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF26:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
             /* Switch on LCD */
         case 0xFF40:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
             /* Vertical Scroll Register */
         case 0xFF42:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF44:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
         case 0xFF47:
-            // TODO
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* TODO */
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             memory_write(address, byte);
             return;
 
             /* Disable boot rom switch */
         case 0xFF50:
-            // TODO
+            /* TODO */
             memory_write(address, byte);
             return;
     }

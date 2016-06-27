@@ -277,7 +277,7 @@ private:
     void opcode_rrc(Address&& addr);
 
     /* RST */
-    // TODO: offset type
+    /* TODO: offset type */
     void opcode_rst(const u8 offset);
 
     /* SBC */

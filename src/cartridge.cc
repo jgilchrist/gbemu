@@ -7,7 +7,7 @@ Cartridge::Cartridge(std::string filename) {
     auto rom_data = read_bytes(filename);
     log_info("Loaded %d KB", rom_data.size() / 1024);
 
-    // TODO: Is there a better way to convert a vector<char> to vector<uint8_t>?
+    /* TODO: Is there a better way to convert a vector<char> to vector<uint8_t>? */
     for (const auto v : rom_data) {
         data.push_back(static_cast<u8>(v));
     }
@@ -29,7 +29,7 @@ Cartridge::Cartridge(std::string filename) {
 }
 
 u8 Cartridge::read(const Address address) const {
-    // TODO: check this address is in sensible bounds
+    /* TODO: check this address is in sensible bounds */
     return data[address.value()];
 }
 
