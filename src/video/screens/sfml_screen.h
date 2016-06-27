@@ -5,10 +5,10 @@
 class SFMLScreen : public Screen {
 public:
     SFMLScreen();
-    ~SFMLScreen();
+    ~SFMLScreen() override;
 
-    virtual void draw(const FrameBuffer& buffer) override;
-    virtual bool is_open() override;
+    void draw(const FrameBuffer& buffer) override;
+    bool is_open() override;
 
 private:
     sf::RenderWindow window;
