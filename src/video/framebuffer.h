@@ -12,5 +12,5 @@ public:
 private:
     static uint pixel_index(uint x, uint y);
 
-    Color buffer[GAMEBOY_HEIGHT*GAMEBOY_WIDTH];
+    Color buffer[GAMEBOY_HEIGHT * GAMEBOY_WIDTH];
 };
