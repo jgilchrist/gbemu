@@ -13,5 +13,5 @@ CHECKS+=",-google-explicit-constructor"
 CHECKS+=",-llvm-include-order"
 
 for i in $(find src -name "*.cc"); do
-    clang-tidy -p="build" -checks=${CHECKS} -header-filter='.*' $i;
+    clang-tidy -p="build" -checks=${CHECKS} -header-filter='.*' -fix $i;
 done

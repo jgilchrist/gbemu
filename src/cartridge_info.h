@@ -20,7 +20,7 @@ const int old_license_code = 0x14B;
 const int version_number = 0x14C;
 const int header_checksum = 0x14D;
 const int global_checksum = 0x14E;
-}
+} // namespace header
 
 enum class CartridgeType {
     ROMOnly,

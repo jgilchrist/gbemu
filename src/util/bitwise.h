@@ -31,4 +31,4 @@ inline u8 set_bit_to(const u8 value, const u8 bit, bool bit_on) {
     }
 }
 
-}
+} // namespace bitwise

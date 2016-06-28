@@ -27,7 +27,7 @@ const int rst5 = 0x21;
 const int rst6 = 0x28;
 const int rst7 = 0x30;
 const int rst8 = 0x38;
-}
+} // namespace rst
 
 /* TODO: Interrupt names */
 namespace interrupts {
@@ -36,7 +36,7 @@ const int lcdc_status = 0x48;
 const int timer = 0x50;
 const int serial = 0x58;
 const int joypad = 0x60;
-}
+} // namespace interrupts
 
 /* NOTE: CPU is not fully defined in this file.
  * In order to prevent this file from becoming extremely long, the
