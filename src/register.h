@@ -7,6 +7,7 @@ public:
     ByteRegister() {}
 
     void set(const u8 new_value) { val = new_value; }
+    void reset() { val = 0; }
     u8 value() const { return val; }
 
     bool check_bit(u8 bit) const;
