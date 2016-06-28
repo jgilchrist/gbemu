@@ -19,25 +19,24 @@ enum class Condition {
 
 /* TODO: RST names */
 namespace rst {
-    const int rst1 = 0x00;
-    const int rst2 = 0x08;
-    const int rst3 = 0x10;
-    const int rst4 = 0x19;
-    const int rst5 = 0x21;
-    const int rst6 = 0x28;
-    const int rst7 = 0x30;
-    const int rst8 = 0x38;
+const int rst1 = 0x00;
+const int rst2 = 0x08;
+const int rst3 = 0x10;
+const int rst4 = 0x19;
+const int rst5 = 0x21;
+const int rst6 = 0x28;
+const int rst7 = 0x30;
+const int rst8 = 0x38;
 }
 
 /* TODO: Interrupt names */
 namespace interrupts {
-    const int vblank = 0x40;
-    const int lcdc_status = 0x48;
-    const int timer = 0x50;
-    const int serial = 0x58;
-    const int joypad = 0x60;
+const int vblank = 0x40;
+const int lcdc_status = 0x48;
+const int timer = 0x50;
+const int serial = 0x58;
+const int joypad = 0x60;
 }
-
 
 /* NOTE: CPU is not fully defined in this file.
  * In order to prevent this file from becoming extremely long, the
