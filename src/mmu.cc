@@ -69,14 +69,10 @@ u8 MMU::memory_read(const Address address) const {
 u8 MMU::read_io(const Address address) const {
     switch (address.value()) {
         case 0xFF42:
-            /* TODO */
-            /* log_warn("Read from unknown address 0x%x", address.value()); */
-            return 0xFF;
+            return video.scroll_y.value();
 
         case 0xFF44:
-            /* TODO */
-            /* log_warn("Read from unknown address 0x%x", address.value()); */
-            return 0x90;
+            return video.line.value();
 
         /* Disable boot rom switch */
         case 0xFF50:
@@ -202,17 +198,15 @@ void MMU::write_io(const Address address, const u8 byte) {
             memory_write(address, byte);
             return;
 
-            /* Vertical Scroll Register */
+        /* Vertical Scroll Register */
         case 0xFF42:
-            /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            memory_write(address, byte);
+            video.scroll_y.set(byte);
             return;
 
+        /* LY - Line Y coordinate */
         case 0xFF44:
-            /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            memory_write(address, byte);
+            /* "Writing will reset the counter */
+            log_warn("Writing to FF44 will reset the line counter");
             return;
 
         case 0xFF47:
