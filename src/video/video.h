@@ -21,18 +21,6 @@ public:
 
     void tick(Cycles cycles);
 
-private:
-    void write_scanline(u8 line);
-    void draw();
-
-    Screen& screen;
-    MMU& mmu;
-    FrameBuffer frame_buffer;
-
-    VideoMode current_mode;
-    unsigned cycle_counter;
-    u8 line;
-
     /* TODO: Annotate each register with its register name */
 
     ByteRegister lcd_control;
@@ -42,7 +30,7 @@ private:
     ByteRegister scroll_x;
 
     /* LCDC Y-coordinate */
-    ByteRegister ly;
+    ByteRegister line; /* Line y-position: register LY */
     ByteRegister ly_compare;
 
     ByteRegister window_y;
@@ -58,6 +46,18 @@ private:
     ByteRegister dma_transfer; /* DMA */
 
     /* TODO: LCD VRAM DMA Transfers */
+
+private:
+    void write_scanline(u8 line);
+    void draw();
+
+    Screen& screen;
+    MMU& mmu;
+    FrameBuffer frame_buffer;
+
+    VideoMode current_mode;
+    unsigned cycle_counter;
+
 };
 
 const int CLOCKS_PER_HBLANK = 204; /* Mode 0 */
