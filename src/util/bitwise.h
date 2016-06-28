@@ -1,7 +1,7 @@
 #pragma once
 
-#include "log.h"
 #include "../definitions.h"
+#include "log.h"
 
 namespace bitwise {
 

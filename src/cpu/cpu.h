@@ -3,8 +3,8 @@
 #include "../address.h"
 #include "../clock.h"
 #include "../cycles.h"
-#include "../register.h"
 #include "../mmu.h"
+#include "../register.h"
 
 /**
  * The Gameboy CPU is a Z80 (8-bit) chip.
