@@ -3,7 +3,8 @@
 #include <fstream>
 
 std::vector<char> read_bytes(const std::string filename) {
-    using namespace std;
+    using std::ifstream;
+    using std::ios;
 
     ifstream stream(filename.c_str(), ios::binary|ios::ate);
     ifstream::pos_type position = stream.tellg();
