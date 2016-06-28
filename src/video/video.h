@@ -7,7 +7,6 @@
 #include "../mmu.h"
 #include "../register.h"
 
-
 enum class VideoMode {
     ACCESS_OAM,
     ACCESS_VRAM,

@@ -271,7 +271,6 @@ void opcode_FD();
 void opcode_FE();
 void opcode_FF();
 
-
 /* CB Opcodes */
 void opcode_CB_00();
 void opcode_CB_01();
