@@ -57,13 +57,13 @@ private:
 
     VideoMode current_mode;
     unsigned cycle_counter;
-
 };
 
 const int CLOCKS_PER_HBLANK = 204; /* Mode 0 */
 const int CLOCKS_PER_SCANLINE_OAM = 80; /* Mode 2 */
 const int CLOCKS_PER_SCANLINE_VRAM = 172; /* Mode 3 */
-const int CLOCKS_PER_SCANLINE = (CLOCKS_PER_SCANLINE_OAM + CLOCKS_PER_SCANLINE_VRAM + CLOCKS_PER_HBLANK);
+const int CLOCKS_PER_SCANLINE =
+    (CLOCKS_PER_SCANLINE_OAM + CLOCKS_PER_SCANLINE_VRAM + CLOCKS_PER_HBLANK);
 
 const int CLOCKS_PER_VBLANK = 4560; /* Mode 1 */
 const int SCANLINES_PER_FRAME = 144;
