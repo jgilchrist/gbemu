@@ -3,7 +3,7 @@
 
 Gameboy::Gameboy(Screen& inScreen, Cartridge cartridge) :
     screen(inScreen),
-    mmu(cartridge),
+    mmu(cartridge, video),
     cpu(mmu),
     video(screen, mmu)
 {

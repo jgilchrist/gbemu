@@ -2,11 +2,13 @@
 
 #include "boot.h"
 #include "util/log.h"
+#include "video/video.h"
 
 #include <cstdlib>
 
-MMU::MMU(Cartridge& inCartridge) :
-    cartridge(inCartridge)
+MMU::MMU(Cartridge& inCartridge, Video& inVideo) :
+    cartridge(inCartridge),
+    video(inVideo)
 {
     memory = std::vector<u8>(0xFFFF);
 }
