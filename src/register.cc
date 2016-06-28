@@ -3,6 +3,18 @@
 #include "util/bitwise.h"
 #include "util/log.h"
 
+void ByteRegister::set(const u8 new_value) {
+    val = new_value;
+}
+
+void ByteRegister::reset() {
+    val = 0;
+}
+
+u8 ByteRegister::value() const {
+    return val;
+}
+
 bool ByteRegister::check_bit(u8 bit) const {
     return bitwise::check_bit(val, bit);
 }
@@ -19,12 +31,34 @@ void ByteRegister::set_bit_to(u8 bit, bool set) {
     val = bitwise::set_bit_to(val, bit, set);
 }
 
+void ByteRegister::increment() {
+    val += 1;
+}
+void ByteRegister::decrement() {
+    val -= 1;
+}
+
+
+void WordRegister::set(const u16 new_value) {
+    val = new_value;
+}
+u16 WordRegister::value() const {
+    return val;
+}
+
 u8 WordRegister::low() const {
     return static_cast<u8>(val);
 }
 
 u8 WordRegister::high() const {
     return static_cast<u8>((val) >> 8);
+}
+
+void WordRegister::increment() {
+    val += 1;
+}
+void WordRegister::decrement() {
+    val -= 1;
 }
 
 RegisterPair::RegisterPair(ByteRegister& high, ByteRegister& low) :
