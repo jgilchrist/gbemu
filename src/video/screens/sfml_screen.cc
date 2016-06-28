@@ -14,7 +14,7 @@ SFMLScreen::~SFMLScreen() {
 }
 
 void SFMLScreen::draw(const FrameBuffer& buffer) {
-    window.clear(sf::Color::Black);
+    window.clear(sf::Color::White);
 
     sf::Event event;
 
