@@ -21,7 +21,7 @@ enum class Color {
 };
 
 struct Noncopyable {
-    Noncopyable &operator=(const Noncopyable &) = delete;
-    Noncopyable(const Noncopyable &) = delete;
+    Noncopyable& operator=(const Noncopyable&) = delete;
+    Noncopyable(const Noncopyable&) = delete;
     Noncopyable() = default;
 };
