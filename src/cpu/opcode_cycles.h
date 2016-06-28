@@ -1,4 +1,5 @@
 #pragma once
+/* clang-format off */
 
 const u8 opcode_cycles[256] = {
     1, 3, 2, 2, 1, 1, 2, 1, 5, 2, 2, 2, 1, 1, 2, 1,

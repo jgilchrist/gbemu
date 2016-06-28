@@ -1,4 +1,5 @@
 #pragma once
+/* clang-format off */
 
 static const std::string opcode_names[256] = {
     "NOP",

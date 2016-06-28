@@ -1,4 +1,5 @@
 #pragma once
+/* clang-format off */
 
 /* From the Gearboy emulator */
 const u8 bootDMG[256] = {
