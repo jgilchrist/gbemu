@@ -324,5 +324,5 @@ private:
     void opcode_xor(const ByteRegister& reg);
     void opcode_xor(const Address& addr);
 
-    #include "opcode_list.h"
+#include "opcode_list.h"
 };
