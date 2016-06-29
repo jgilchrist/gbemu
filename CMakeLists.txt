@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.4)
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/etc/build" ${CMAKE_MODULE_PATH})
 
 project(emulator)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/etc/build)
 
 add_definitions(-std=c++14)
 add_definitions(-stdlib=libc++)
 
 add_definitions(-Weverything)
 add_definitions(-Wall -Wextra -Wpedantic)
+
+find_package(SFML 2 REQUIRED system window graphics)
 
 # Disable unnecessary warnings from -Weverything
 add_definitions(-Wno-c++98-compat)
@@ -52,8 +55,5 @@ add_executable(emulator
     src/video/screens/sfml_screen.cc
 )
 
-find_package(SFML 2 REQUIRED system window graphics)
-if(SFML_FOUND)
-  include_directories(${SFML_INCLUDE_DIR})
-  target_link_libraries(emulator ${SFML_LIBRARIES})
-endif()
+include_directories(${SFML_INCLUDE_DIR})
+target_link_libraries(emulator ${SFML_LIBRARIES})
