@@ -14,7 +14,7 @@ class Logger {
 public:
     Logger();
 
-    void log(LogLevel level, const std::string file, int line, const char* msg, ...);
+    void log(LogLevel level, const std::string file, int line, const char* fmt, ...);
     void set_level(LogLevel level);
 
 private:

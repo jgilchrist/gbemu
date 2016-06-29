@@ -24,18 +24,19 @@ Cycles CPU::tick() {
 Cycles CPU::execute_opcode(const u8 opcode) {
     branch_taken = false;
 
-    if (opcode != 0xCB) {
-        execute_normal_opcode(opcode);
-
-        if (!branch_taken) {
-            return opcode_cycles[opcode];
-        } else {
-            return opcode_cycles_branched[opcode];
-        }
-    } else {
+    if (opcode == 0xCB) {
         execute_cb_opcode();
-        return opcode_cycles_cb[opcode];
+        unsigned cycles = opcode_cycles_cb[opcode];
+        return cycles;
     }
+
+    execute_normal_opcode(opcode);
+
+    unsigned cycles = !branch_taken ?
+        opcode_cycles[opcode] :
+        opcode_cycles_branched[opcode];
+
+    return cycles;
 }
 
 u8 CPU::get_byte_from_pc() {

@@ -5,7 +5,7 @@
 class SFMLScreen : public Screen {
 public:
     SFMLScreen();
-    ~SFMLScreen() override;
+    ~SFMLScreen() override = default;
 
     void draw(const FrameBuffer& buffer) override;
     bool is_open() override;

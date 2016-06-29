@@ -14,6 +14,7 @@ std::vector<char> read_bytes(const std::string filename) {
 
     stream.seekg(0, ios::beg);
     stream.read(&result[0], position);
+    stream.close();
 
     return result;
 }

@@ -2,6 +2,9 @@
 
 CHECKS="*"
 
+# Disable unused parameters check, which is done by clang
+CHECKS+=",-misc-unused-parameters"
+
 # Disable warnings about missing header guards
 # (use #pragma once instead)
 CHECKS+=",-llvm-header-guard"
@@ -12,6 +15,24 @@ CHECKS+=",-google-explicit-constructor"
 # Disable warnings about unsorted imports
 CHECKS+=",-llvm-include-order"
 
+# Disable warnings about statically allocated objects
+CHECKS+=",-cert-err58-cpp"
+
+# FIXME
+CHECKS+=",-cppcoreguidelines-pro-bounds-array-to-pointer-decay"
+
+# FIXME
+CHECKS+=",-cppcoreguidelines-pro-bounds-constant-array-index"
+
+# FIXME
+CHECKS+=",-cert-dcl50-cpp"
+
+# FIXME - Causes an error on Clang 3.8
+CHECKS+=",-misc-virtual-near-miss"
+
+# FIXME - Disable warnings about calling vararg functions
+CHECKS+=",-cppcoreguidelines-pro-type-vararg"
+
 for i in $(find src -name "*.cc"); do
-    clang-tidy -p="build" -checks=${CHECKS} -header-filter='.*' $i;
+    clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i;
 done

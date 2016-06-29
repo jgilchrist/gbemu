@@ -44,7 +44,7 @@ const int joypad = 0x60;
  * opcode_CB_00 to opcode_CB_FF is defined in opcode_list.h */
 class CPU {
 public:
-    CPU(MMU& mmu);
+    CPU(MMU& inMMU);
 
     Cycles tick();
 
@@ -78,10 +78,10 @@ private:
      */
     ByteRegister f;
 
-    void set_flag_zero(bool b);
-    void set_flag_subtract(bool b);
-    void set_flag_half_carry(bool b);
-    void set_flag_carry(bool b);
+    void set_flag_zero(bool set);
+    void set_flag_subtract(bool set);
+    void set_flag_half_carry(bool set);
+    void set_flag_carry(bool set);
     void reset_flags();
 
     bool flag_zero() const;

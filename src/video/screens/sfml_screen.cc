@@ -10,9 +10,6 @@ SFMLScreen::SFMLScreen() :
     window.setVerticalSyncEnabled(false);
 }
 
-SFMLScreen::~SFMLScreen() {
-}
-
 void SFMLScreen::draw(const FrameBuffer& buffer) {
     window.clear(sf::Color::White);
 

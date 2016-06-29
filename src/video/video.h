@@ -16,7 +16,7 @@ enum class VideoMode {
 
 class Video {
 public:
-    Video(Screen& screen, MMU& mmu);
+    Video(Screen& inScreen, MMU& inMMU);
 
     void tick(Cycles cycles);
 
@@ -47,7 +47,7 @@ public:
     /* TODO: LCD VRAM DMA Transfers */
 
 private:
-    void write_scanline(u8 line);
+    void write_scanline(u8 drawn_line);
     void draw();
 
     Screen& screen;

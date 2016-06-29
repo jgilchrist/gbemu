@@ -11,7 +11,7 @@ class Video;
 
 class MMU {
 public:
-    MMU(Cartridge& cartridge, Video& video);
+    MMU(Cartridge& inCartridge, Video& inVideo);
 
     u8 read(const Address address) const;
 
