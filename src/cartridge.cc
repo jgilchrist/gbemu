@@ -7,10 +7,8 @@ Cartridge::Cartridge(std::string filename) {
     auto rom_data = read_bytes(filename);
     log_info("Loaded %d KB", rom_data.size() / 1024);
 
-    /* TODO: Is there a better way to convert a vector<char> to vector<uint8_t>? */
-    for (const auto v : rom_data) {
-        data.push_back(static_cast<u8>(v));
-    }
+    /* Copy the cartridge ROM */
+    data = std::vector<u8>(rom_data.begin(), rom_data.end());
 
     u8 type_code = data[header::cartridge_type];
     u8 version_code = data[header::version_number];
