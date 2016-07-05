@@ -19,6 +19,10 @@ compile:
 clean:
 	@rm -rf $(BUILD_DIR)
 
+.PHONY: tags
+tags:
+	@ctags .
+
 ###################
 # Commands to build
 ###################
@@ -32,7 +36,7 @@ cmake-release: build-dir
 	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Release ..
 
 .PHONY: compile-debug
-compile-debug: cmake-debug compile
+compile-debug: tags cmake-debug compile
 
 .PHONY: compile-release
 compile-release: cmake-release compile
