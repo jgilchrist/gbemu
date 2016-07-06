@@ -325,4 +325,6 @@ private:
     void opcode_xor(const Address& addr);
 
 #include "opcode_list.h"
+
+    friend class Debugger;
 };

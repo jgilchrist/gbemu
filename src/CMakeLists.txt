@@ -3,6 +3,7 @@ add_sources(
     cartridge.cc
     cartridge_info.cc
     clock.cc
+    debugger.cc
     gameboy.cc
     main.cc
     mmu.cc
