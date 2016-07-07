@@ -22,7 +22,7 @@ u8 MMU::read(const Address address) const {
     }
 
     /* VRAM */
-    if (address.in_range(0x9000, 0x9FFF)) {
+    if (address.in_range(0x8000, 0x9FFF)) {
         return memory_read(address);
     }
 
