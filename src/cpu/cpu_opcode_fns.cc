@@ -86,16 +86,29 @@ void CPU::opcode_add_signed() {
 
 
 /* AND */
+void CPU::_opcode_and(u8 value) {
+    u8 reg = a.value();
+
+    u8 result = reg & value;
+
+    set_flag_zero(result == 0);
+    set_flag_half_carry(true);
+    set_flag_carry(false);
+    set_flag_subtract(false);
+
+    a.set(result);
+}
+
 void CPU::opcode_and() {
-    unimplemented_opcode();
+    _opcode_and(get_byte_from_pc());
 }
 
 void CPU::opcode_and(ByteRegister& reg) {
-    unimplemented_opcode();
+    _opcode_and(reg.value());
 }
 
 void CPU::opcode_and(Address&& addr) {
-    unimplemented_opcode();
+    _opcode_and(mmu.read(addr));
 }
 
 
@@ -395,16 +408,29 @@ void CPU::opcode_nop() {
 
 
 /* OR */
+void CPU::_opcode_or(u8 value) {
+    u8 reg = a.value();
+
+    u8 result = reg | value;
+
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_carry(false);
+    set_flag_subtract(false);
+
+    a.set(result);
+}
+
 void CPU::opcode_or() {
-    unimplemented_opcode();
+    _opcode_or(get_byte_from_pc());
 }
 
 void CPU::opcode_or(const ByteRegister& reg) {
-    unimplemented_opcode();
+    _opcode_or(reg.value());
 }
 
 void CPU::opcode_or(const Address& addr) {
-    unimplemented_opcode();
+    _opcode_or(mmu.read(addr));
 }
 
 

@@ -136,6 +136,8 @@ private:
     void opcode_add_signed();
 
     /* AND */
+    void _opcode_and(u8 value);
+
     void opcode_and();
     void opcode_and(ByteRegister& reg);
     void opcode_and(Address&& addr);
@@ -238,6 +240,8 @@ private:
     void opcode_nop();
 
     /* OR */
+    void _opcode_or(u8 value);
+
     void opcode_or();
     void opcode_or(const ByteRegister& reg);
     void opcode_or(const Address& addr);
