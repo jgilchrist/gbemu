@@ -14,6 +14,7 @@ enum class CommandType {
     Step,
 
     Registers,
+    Flags,
     Memory,
 
     Steps,
@@ -44,6 +45,7 @@ private:
     /* Commands */
     bool command_step(Args args);
     void command_registers(Args args);
+    void command_flags(Args args);
     void command_memory(Args args);
     void command_steps(Args args);
     void command_exit(Args args);

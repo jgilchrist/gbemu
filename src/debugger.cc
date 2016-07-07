@@ -41,6 +41,10 @@ bool Debugger::execute(Command command) {
             command_registers(command.args);
             break;
 
+        case CommandType::Flags:
+            command_flags(command.args);
+            break;
+
         case CommandType::Memory:
             command_memory(command.args);
             break;
@@ -99,18 +103,30 @@ bool Debugger::command_step(Args args) {
 
 void Debugger::command_registers(Args args) {
     printf("Registers:\n");
+
     printf("A: %02X | B: %02X | C: %02X | D: %02X | E: %02X | F: %02X\n",
         gameboy.cpu.a.value(),
         gameboy.cpu.b.value(),
         gameboy.cpu.c.value(),
         gameboy.cpu.d.value(),
         gameboy.cpu.e.value(),
-        gameboy.cpu.f.value()
-    );
+        gameboy.cpu.f.value());
 
-    printf("HL: %02X\n", gameboy.cpu.hl.value());
-    printf("SP: %02X\n", gameboy.cpu.sp.value());
-    printf("PC: %02X\n", gameboy.cpu.pc.value());
+    printf("AF: %04X | BC: %04X | DE: %04X\n",
+        gameboy.cpu.af.value(),
+        gameboy.cpu.bc.value(),
+        gameboy.cpu.de.value());
+
+    printf("HL: %04X\n", gameboy.cpu.hl.value());
+    printf("SP: %04X\n", gameboy.cpu.sp.value());
+    printf("PC: %04X\n", gameboy.cpu.pc.value());
+}
+
+void Debugger::command_flags(Args args) {
+    printf("Zero: %d\n", gameboy.cpu.flag_zero());
+    printf("Subtract: %d\n", gameboy.cpu.flag_subtract());
+    printf("Half Carry: %d\n", gameboy.cpu.flag_half_carry());
+    printf("Carry: %d\n", gameboy.cpu.flag_carry());
 }
 
 void Debugger::command_memory(Args args) {
@@ -125,7 +141,13 @@ void Debugger::command_memory(Args args) {
     }
 
     /* TODO: Error handling for mis-parsed arguments */
-    uint memory_location = static_cast<uint>(std::stoul(args[0], nullptr, 16));
+    u16 memory_location = static_cast<u16>(std::stoul(args[0], nullptr, 16));
+
+    if (args.size() == 1) {
+        printf("0x%02X\n", gameboy.mmu.read(memory_location));
+        return;
+    }
+
     uint lines = static_cast<uint>(std::stoi(args[1]));
 
     for (uint i = 0; i < lines; i++) {
@@ -186,6 +208,7 @@ CommandType Debugger::parse_command(std::string cmd) const {
 
     if (cmd == "step") return CommandType::Step;
     if (cmd == "regs") return CommandType::Registers;
+    if (cmd == "flags") return CommandType::Flags;
     if (cmd == "mem") return CommandType::Memory;
 
     if (cmd == "steps") return CommandType::Steps;
