@@ -147,6 +147,7 @@ void CPU::stack_pop(WordRegister& reg) {
 }
 
 /* TODO: reduce duplication with a WordValue interface */
+/* TODO: Should this write the value before decrementing the stack pointer? */
 void CPU::stack_push(const RegisterPair& reg) {
     sp.decrement();
     mmu.write(Address(sp), reg.high());
