@@ -1,5 +1,7 @@
 #pragma once
 
+#include "definitions.h"
+
 #include <string>
 #include <vector>
 
@@ -36,10 +38,10 @@ public:
 private:
     Command get_command() const;
 
-    void execute(Command command);
+    bool execute(Command command);
 
     /* Commands */
-    void command_step(Args args);
+    bool command_step(Args args);
     void command_registers(Args args);
     void command_steps(Args args);
     void command_exit(Args args);
@@ -50,7 +52,7 @@ private:
 
 
     int steps = 0;
-    int counter = 0;
+    uint counter = 0;
 
     Gameboy& gameboy;
 };

@@ -23,41 +23,74 @@ void Debugger::cycle() {
     while (true) {
         Command cmd = get_command();
 
-        execute(cmd);
+        bool should_continue = execute(cmd);
 
-        if (cmd.type == CommandType::Step) break;
+        if (should_continue) break;
     }
 }
 
-void Debugger::execute(Command command) {
+bool Debugger::execute(Command command) {
     switch (command.type) {
         case CommandType::Step:
-            command_step(command.args);
-            return;
+            /* Note: 'Step' allows the program to break
+             * out of the debugger loop so the boolean
+             * return value of this function is returned */
+            return command_step(command.args);
 
         case CommandType::Registers:
             command_registers(command.args);
-            return;
+            break;
 
         case CommandType::Steps:
             command_steps(command.args);
-            return;
+            break;
 
         case CommandType::Exit:
             command_exit(command.args);
-            return;
+            break;
 
         case CommandType::Help:
             command_help(command.args);
-            return;
+            break;
 
         case CommandType::Unknown:
             printf("Unknown command\n");
-            return;
+            break;
     }
+
+    return false;
 }
 
-void Debugger::command_step(Args args) {
+bool Debugger::command_step(Args args) {
+    switch (args.size()) {
+        case 0:
+            return true;
+        case 1:
+            /* TODO: Clean this up
+             * Try/catch should be moved somewhere (could use optional?)
+             * Should be able to avoid subtracting 1 */
+            try {
+                int nsteps = std::stoi(args[0]);
+                if (nsteps == 0) {
+                    log_error("Cannot step zero times");
+                    return false;
+                }
+                if (nsteps < 0) {
+                    log_error("Cannot step a negative number of times");
+                    return false;
+                }
+                counter = static_cast<uint>(nsteps - 1);
+            } catch (std::invalid_argument) {
+                log_error("Invalid number of steps: %s", args[0].c_str());
+                /* If an invalid argument was encountered, the program
+                 * should not step at all, thus false is returned */
+                return false;
+            }
+            return true;
+        default:
+            log_error("Invalid arguments to 'step'");
+            return false;
+    }
 }
 
 void Debugger::command_registers(Args args) {
