@@ -10,3 +10,17 @@
 - Run `make`
 
 [sfml]: http://www.sfml-dev.org
+
+### Usage
+
+##### Running a game
+
+```sh
+$ ./build/emulator rom_file
+```
+
+##### Using the integrated debugger
+
+```sh
+$ ./build/emulator rom_file -d
+```
