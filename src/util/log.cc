@@ -25,7 +25,7 @@ void Logger::log(LogLevel level, const std::string file, int line, const char* f
     std::string fileinfo = log_filename ? str_format(" (%s:%d)", file.c_str(), line) : "";
 
     fprintf((level < LogLevel::Error) ? stdout : stderr,
-        "%s┃%s %s%s\n",
+        "%s|%s %s%s\n",
         level_color(level), fileinfo.c_str(), COLOR_RESET, msg.c_str());
 }
 
