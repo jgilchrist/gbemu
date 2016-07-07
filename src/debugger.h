@@ -14,6 +14,7 @@ enum class CommandType {
     Step,
 
     Registers,
+    Memory,
 
     Steps,
     Exit,
@@ -43,13 +44,13 @@ private:
     /* Commands */
     bool command_step(Args args);
     void command_registers(Args args);
+    void command_memory(Args args);
     void command_steps(Args args);
     void command_exit(Args args);
     void command_help(Args args);
 
     Command parse(std::string input) const;
     CommandType parse_command(std::string cmd) const;
-
 
     int steps = 0;
     uint counter = 0;

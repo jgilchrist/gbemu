@@ -41,6 +41,10 @@ bool Debugger::execute(Command command) {
             command_registers(command.args);
             break;
 
+        case CommandType::Memory:
+            command_memory(command.args);
+            break;
+
         case CommandType::Steps:
             command_steps(command.args);
             break;
@@ -109,6 +113,34 @@ void Debugger::command_registers(Args args) {
     printf("PC: %02X\n", gameboy.cpu.pc.value());
 }
 
+void Debugger::command_memory(Args args) {
+    if (args.size() > 3) {
+        log_error("Invalid arguments to command");
+        return;
+    }
+
+    uint line_length = 16;
+    if (args.size() == 3) {
+        line_length = static_cast<uint>(std::stoul(args[2]));
+    }
+
+    /* TODO: Error handling for mis-parsed arguments */
+    uint memory_location = static_cast<uint>(std::stoul(args[0], nullptr, 16));
+    uint lines = static_cast<uint>(std::stoi(args[1]));
+
+    for (uint i = 0; i < lines; i++) {
+        Address addr = static_cast<u16>(memory_location + i * line_length);
+        printf("0x%04X | ", addr.value());
+
+        for (uint cell = 0; cell < line_length; cell++) {
+            Address cell_addr = static_cast<u16>(addr.value() + cell);
+            printf("%02X ", gameboy.mmu.read(cell_addr));
+        }
+
+        printf("\n");
+    }
+}
+
 void Debugger::command_steps(Args args) {
     printf("Steps: %d\n", steps);
 }
@@ -154,6 +186,7 @@ CommandType Debugger::parse_command(std::string cmd) const {
 
     if (cmd == "step") return CommandType::Step;
     if (cmd == "regs") return CommandType::Registers;
+    if (cmd == "mem") return CommandType::Memory;
 
     if (cmd == "steps") return CommandType::Steps;
     if (cmd == "exit") return CommandType::Exit;
