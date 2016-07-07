@@ -30,4 +30,6 @@ private:
     Cartridge& cartridge;
     Video& video;
     std::vector<u8> memory;
+
+    friend class Debugger;
 };

@@ -4,6 +4,9 @@
 
 #include "framebuffer.h"
 
+class CPU;
+class MMU;
+
 class Screen {
 public:
     virtual ~Screen() = default;
