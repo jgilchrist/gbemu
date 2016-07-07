@@ -90,7 +90,7 @@ void MMU::write(const Address address, const u8 byte) {
     }
 
     /* VRAM */
-    if (address.in_range(0x7FFF, 0x9FFF)) {
+    if (address.in_range(0x8000, 0x9FFF)) {
         memory_write(address, byte);
         return;
     }
