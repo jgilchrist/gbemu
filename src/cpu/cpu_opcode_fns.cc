@@ -711,6 +711,8 @@ void CPU::_opcode_sub(u8 value) {
     set_flag_subtract(true);
     set_flag_half_carry((carry & 0x10) != 0);
     set_flag_carry((carry & 0x100) != 0);
+
+    a.set(result);
 }
 
 void CPU::opcode_sub() {
