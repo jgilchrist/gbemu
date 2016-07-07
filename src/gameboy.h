@@ -7,7 +7,7 @@
 
 class Gameboy {
 public:
-    Gameboy(Screen& inScreen, Cartridge& cartridge);
+    Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug = false);
 
     void run();
 

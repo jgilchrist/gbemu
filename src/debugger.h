@@ -36,11 +36,13 @@ struct Command {
 
 class Debugger {
 public:
-    Debugger(Gameboy& inGameboy);
+    Debugger(Gameboy& inGameboy, bool should_debug);
 
     void cycle();
 
 private:
+    Gameboy& gameboy;
+
     Command get_command() const;
 
     bool execute(Command command);
@@ -61,11 +63,11 @@ private:
     Command parse(std::string input) const;
     CommandType parse_command(std::string cmd) const;
 
+    bool enabled;
+
     int steps = 0;
     uint counter = 0;
 
     u16 breakpoint_addr = 0;
     bool debugger_enabled = true;
-
-    Gameboy& gameboy;
 };

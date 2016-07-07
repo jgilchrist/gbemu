@@ -9,9 +9,14 @@
 int main(int argc, char* argv[]) {
     log_set_level(LogLevel::Trace);
 
-    if (argc != 2) {
+    if (argc < 2) {
         log_error("Please provide a ROM file to run")
         return 1;
+    }
+
+    bool should_debug = (argc == 3);
+    if (should_debug) {
+        log_info("Enabling debugger...");
     }
 
     std::string rom_name = argv[1];
@@ -19,6 +24,6 @@ int main(int argc, char* argv[]) {
 
     SFMLScreen screen;
 
-    Gameboy gameboy(screen, cartridge);
+    Gameboy gameboy(screen, cartridge, should_debug);
     gameboy.run();
 }

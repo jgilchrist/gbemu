@@ -1,12 +1,12 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge) :
+Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug) :
     screen(inScreen),
     mmu(cartridge, video),
     cpu(mmu),
     video(screen, mmu),
-    debugger(*this)
+    debugger(*this, should_debug)
 {
     log_info("Initialising Gameboy");
     log_info("");

@@ -7,12 +7,15 @@
 
 #include <iostream>
 
-Debugger::Debugger(Gameboy& inGameboy) :
-    gameboy(inGameboy)
+Debugger::Debugger(Gameboy& inGameboy, bool should_debug) :
+    gameboy(inGameboy),
+    enabled(should_debug)
 {
 }
 
 void Debugger::cycle() {
+    if (!enabled) return;
+
     steps++;
 
     if (breakpoint_addr != 0) {
