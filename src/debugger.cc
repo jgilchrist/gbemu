@@ -15,6 +15,14 @@ Debugger::Debugger(Gameboy& inGameboy) :
 void Debugger::cycle() {
     steps++;
 
+    if (breakpoint_addr != 0) {
+        if (gameboy.cpu.pc.value() != breakpoint_addr) { return; }
+        breakpoint_addr = 0;
+        debugger_enabled = true;
+    }
+
+    if (!debugger_enabled) { return; }
+
     if (counter > 0) {
         counter--;
         return;
@@ -36,6 +44,14 @@ bool Debugger::execute(Command command) {
              * out of the debugger loop so the boolean
              * return value of this function is returned */
             return command_step(command.args);
+
+        case CommandType::Run:
+            debugger_enabled = false;
+            return true;
+
+        case CommandType::BreakAddr:
+            command_breakaddr(command.args);
+            break;
 
         case CommandType::Registers:
             command_registers(command.args);
@@ -163,6 +179,12 @@ void Debugger::command_memory(Args args) {
     }
 }
 
+void Debugger::command_breakaddr(Args args) {
+    u16 addr = static_cast<u16>(std::stoul(args[0], nullptr, 16));
+    breakpoint_addr = addr;
+    log_info("Breakpoint set for address 0x%04X", breakpoint_addr);
+}
+
 void Debugger::command_steps(Args args) {
     printf("Steps: %d\n", steps);
 }
@@ -207,9 +229,13 @@ CommandType Debugger::parse_command(std::string cmd) const {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
     if (cmd == "step") return CommandType::Step;
+    if (cmd == "run") return CommandType::Run;
+
     if (cmd == "regs") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
     if (cmd == "mem") return CommandType::Memory;
+
+    if (cmd == "breakaddr") return CommandType::BreakAddr;
 
     if (cmd == "steps") return CommandType::Steps;
     if (cmd == "exit") return CommandType::Exit;

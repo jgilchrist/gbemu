@@ -12,10 +12,13 @@ static const char* PROMPT = "> ";
 
 enum class CommandType {
     Step,
+    Run,
 
     Registers,
     Flags,
     Memory,
+
+    BreakAddr,
 
     Steps,
     Exit,
@@ -44,9 +47,13 @@ private:
 
     /* Commands */
     bool command_step(Args args);
+
     void command_registers(Args args);
     void command_flags(Args args);
     void command_memory(Args args);
+
+    void command_breakaddr(Args args);
+
     void command_steps(Args args);
     void command_exit(Args args);
     void command_help(Args args);
@@ -56,6 +63,9 @@ private:
 
     int steps = 0;
     uint counter = 0;
+
+    u16 breakpoint_addr = 0;
+    bool debugger_enabled = true;
 
     Gameboy& gameboy;
 };
