@@ -144,17 +144,9 @@ void CPU::_opcode_cp(const u8 value) {
 
     u8 av = a.value();
 
-    if (av < value) {
-        set_flag_carry(true);
-    }
-
-    if (av == value) {
-        set_flag_zero(true);
-    }
-
-    if (((av - value) & 0xF) > (av & 0xF)) {
-        set_flag_half_carry(true);
-    }
+    set_flag_carry(av < value);
+    set_flag_zero(av == value);
+    set_flag_half_carry(((av - value) & 0xF) > (av & 0xF));
 }
 
 void CPU::opcode_cp() {
