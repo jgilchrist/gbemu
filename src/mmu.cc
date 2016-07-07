@@ -43,6 +43,17 @@ u8 MMU::read(const Address address) const {
         return memory_read(mirrored_address);
     }
 
+    /* OAM */
+    if (address.in_range(0xFE00, 0xFE9F)) {
+        return memory_read(address);
+    }
+
+    if (address.in_range(0xFEA0, 0xFEFF)) {
+        log_warn("Attempting to read from unusable memory");
+        /* TODO: does this always return 0? */
+        return 0;
+    }
+
     /* Mapped IO */
     if (address.in_range(0xFF00, 0xFF7F)) {
         return read_io(address);
@@ -68,6 +79,18 @@ u8 MMU::memory_read(const Address address) const {
 
 u8 MMU::read_io(const Address address) const {
     switch (address.value()) {
+        case 0xFF00:
+            log_warn("Attempted to read joypad register");
+            return 0xFF;
+
+        case 0xFF01:
+            log_warn("Attempted to read serial transfer data");
+            return 0xFF;
+
+        case 0xFF02:
+            log_warn("Attempted to read serial transfer control");
+            return 0xFF;
+
         case 0xFF42:
             return video.scroll_y.value();
 
@@ -115,14 +138,20 @@ void MMU::write(const Address address, const u8 byte) {
         return;
     }
 
-    /* Mapped IO */
-    if (address.in_range(0xFF00, 0xFF7F)) {
-        write_io(address, byte);
+    /* OAM */
+    if (address.in_range(0xFE00, 0xFE9F)) {
+        memory_write(address, byte);
         return;
     }
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
         log_warn("Attempting to write to unusable memory");
+    }
+
+    /* Mapped IO */
+    if (address.in_range(0xFF00, 0xFF7F)) {
+        write_io(address, byte);
+        return;
     }
 
     /* Zero Page ram */
