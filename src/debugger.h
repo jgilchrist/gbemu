@@ -17,6 +17,7 @@ enum class CommandType {
     Registers,
     Flags,
     Memory,
+    MemoryCell,
 
     BreakAddr,
 
@@ -53,6 +54,7 @@ private:
     void command_registers(Args args);
     void command_flags(Args args);
     void command_memory(Args args);
+    void command_memory_cell(Args args);
 
     void command_breakaddr(Args args);
 

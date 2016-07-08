@@ -68,6 +68,10 @@ bool Debugger::execute(Command command) {
             command_memory(command.args);
             break;
 
+        case CommandType::MemoryCell:
+            command_memory_cell(command.args);
+            break;
+
         case CommandType::Steps:
             command_steps(command.args);
             break;
@@ -154,20 +158,18 @@ void Debugger::command_memory(Args args) {
         return;
     }
 
+    /* TODO: Error handling for mis-parsed arguments */
+    u16 memory_location = static_cast<u16>(std::stoul(args[0], nullptr, 16));
+
+    uint lines = 10;
+    if (args.size() >= 2) {
+        lines = static_cast<uint>(std::stoi(args[1]));
+    }
+
     uint line_length = 16;
     if (args.size() == 3) {
         line_length = static_cast<uint>(std::stoul(args[2]));
     }
-
-    /* TODO: Error handling for mis-parsed arguments */
-    u16 memory_location = static_cast<u16>(std::stoul(args[0], nullptr, 16));
-
-    if (args.size() == 1) {
-        printf("0x%02X\n", gameboy.mmu.read(memory_location));
-        return;
-    }
-
-    uint lines = static_cast<uint>(std::stoi(args[1]));
 
     for (uint i = 0; i < lines; i++) {
         Address addr = static_cast<u16>(memory_location + i * line_length);
@@ -180,6 +182,18 @@ void Debugger::command_memory(Args args) {
 
         printf("\n");
     }
+}
+
+void Debugger::command_memory_cell(Args args) {
+    if (args.size() != 1) {
+        log_error("Invalid arguments to command");
+        return;
+    }
+
+    u16 memory_location = static_cast<u16>(std::stoul(args[0], nullptr, 16));
+
+    printf("0x%02X\n", gameboy.mmu.read(memory_location));
+    return;
 }
 
 void Debugger::command_breakaddr(Args args) {
@@ -237,6 +251,7 @@ CommandType Debugger::parse_command(std::string cmd) const {
     if (cmd == "regs") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
     if (cmd == "mem") return CommandType::Memory;
+    if (cmd == "memcell") return CommandType::MemoryCell;
 
     if (cmd == "breakaddr") return CommandType::BreakAddr;
 
