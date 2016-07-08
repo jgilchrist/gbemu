@@ -34,7 +34,7 @@ void CPU::opcode_06() {
 }
 
 void CPU::opcode_07() {
-    opcode_rlc(a);
+    opcode_rlca();
 }
 
 void CPU::opcode_08() {
@@ -67,7 +67,7 @@ void CPU::opcode_0E() {
 }
 
 void CPU::opcode_0F() {
-    opcode_rrc(a);
+    opcode_rrca();
 }
 
 void CPU::opcode_10() {
@@ -99,7 +99,7 @@ void CPU::opcode_16() {
 }
 
 void CPU::opcode_17() {
-    opcode_rl(a);
+    opcode_rla();
 }
 
 void CPU::opcode_18() {
@@ -131,7 +131,7 @@ void CPU::opcode_1E() {
 }
 
 void CPU::opcode_1F() {
-    opcode_rr(a);
+    opcode_rra();
 }
 
 void CPU::opcode_20() {

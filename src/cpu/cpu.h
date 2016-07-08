@@ -264,18 +264,22 @@ private:
     void opcode_reti();
 
     /* RL */
+    void opcode_rla();
     void opcode_rl(ByteRegister& reg);
     void opcode_rl(Address&& addr);
 
     /* RLC */
+    void opcode_rlca();
     void opcode_rlc(ByteRegister& reg);
     void opcode_rlc(Address&& addr);
 
     /* RR */
+    void opcode_rra();
     void opcode_rr(ByteRegister& reg);
     void opcode_rr(Address&& addr);
 
     /* RRC */
+    void opcode_rrca();
     void opcode_rrc(ByteRegister& reg);
     void opcode_rrc(Address&& addr);
 

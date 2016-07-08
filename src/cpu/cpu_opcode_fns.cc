@@ -153,10 +153,9 @@ void CPU::opcode_ccf() {
 
 /* CP */
 void CPU::_opcode_cp(const u8 value) {
-    set_flag_subtract(true);
-
     u8 av = a.value();
 
+    set_flag_subtract(true);
     set_flag_carry(av < value);
     set_flag_zero(av == value);
     set_flag_half_carry(((av - value) & 0xF) > (av & 0xF));
@@ -475,12 +474,14 @@ void CPU::opcode_reti() {
 
 
 /* RL */
+void CPU::opcode_rla() {
+    opcode_rl(a);
+    set_flag_zero(false);
+}
+
 void CPU::opcode_rl(ByteRegister& reg) {
     u8 carry = flag_carry_value();
     u8 value = reg.value();
-
-    /* TODO: in other emulators, flags are only reset if carry flag is not set */
-    reset_flags();
 
     bool will_carry = check_bit(value, 7);
     set_flag_carry(will_carry);
@@ -490,6 +491,9 @@ void CPU::opcode_rl(ByteRegister& reg) {
 
     set_flag_zero(result == 0);
 
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+
     reg.set(result);
 }
 
@@ -498,7 +502,6 @@ void CPU::opcode_rl(Address&& addr) {
     u8 value = mmu.read(addr);
 
     /* TODO: in other emulators, flags are only reset if carry flag is not set */
-    reset_flags();
 
     bool will_carry = check_bit(value, 7);
     set_flag_carry(will_carry);
@@ -508,11 +511,18 @@ void CPU::opcode_rl(Address&& addr) {
 
     set_flag_zero(result == 0);
 
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+
     mmu.write(addr, result);
 }
 
 
 /* RLC */
+void CPU::opcode_rlca() {
+    unimplemented_opcode();
+}
+
 void CPU::opcode_rlc(ByteRegister& reg) {
     unimplemented_opcode();
 }
@@ -523,6 +533,10 @@ void CPU::opcode_rlc(Address&& addr) {
 
 
 /* RR */
+void CPU::opcode_rra() {
+    unimplemented_opcode();
+}
+
 void CPU::opcode_rr(ByteRegister& reg) {
     unimplemented_opcode();
 }
@@ -533,6 +547,10 @@ void CPU::opcode_rr(Address&& addr) {
 
 
 /* RRC */
+void CPU::opcode_rrca() {
+    unimplemented_opcode();
+}
+
 void CPU::opcode_rrc(ByteRegister& reg) {
     unimplemented_opcode();
 }
