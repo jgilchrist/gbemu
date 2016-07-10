@@ -7,7 +7,7 @@
 #include "video/screens/sfml_screen.h"
 
 int main(int argc, char* argv[]) {
-    log_set_level(LogLevel::Trace);
+    log_set_level(LogLevel::Info);
 
     if (argc < 2) {
         log_error("Please provide a ROM file to run")
