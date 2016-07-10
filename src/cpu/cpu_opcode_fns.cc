@@ -558,15 +558,44 @@ void CPU::opcode_rlc(Address&& addr) {
 
 /* RR */
 void CPU::opcode_rra() {
-    unimplemented_opcode();
+    opcode_rr(a);
+    set_flag_zero(false);
 }
 
 void CPU::opcode_rr(ByteRegister& reg) {
-    unimplemented_opcode();
+    u8 carry = flag_carry_value();
+    u8 value = reg.value();
+
+    bool will_carry = check_bit(value, 0);
+    set_flag_carry(will_carry);
+
+    u8 result = static_cast<u8>(value >> 1);
+    result |= (carry << 7);
+
+    set_flag_zero(result == 0);
+
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+
+    reg.set(result);
 }
 
 void CPU::opcode_rr(Address&& addr) {
-    unimplemented_opcode();
+    u8 carry = flag_carry_value();
+    u8 value = mmu.read(addr);
+
+    bool will_carry = check_bit(value, 0);
+    set_flag_carry(will_carry);
+
+    u8 result = static_cast<u8>(value >> 1);
+    result |= (carry << 7);
+
+    set_flag_zero(result == 0);
+
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+
+    mmu.write(addr, result);
 }
 
 
@@ -643,11 +672,27 @@ void CPU::opcode_sra(Address&& addr) {
 
 /* SRL */
 void CPU::opcode_srl(ByteRegister& reg) {
-    unimplemented_opcode();
+    u8 value = reg.value();
+
+    bool least_bit_set = check_bit(value, 0);
+
+    u8 result = (value >> 1);
+    set_flag_carry(least_bit_set);
+    set_flag_zero(result == 0);
+
+    reg.set(result);
 }
 
 void CPU::opcode_srl(Address&& addr) {
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+
+    bool least_bit_set = check_bit(value, 0);
+
+    u8 result = (value >> 1);
+    set_flag_carry(least_bit_set);
+    set_flag_zero(result == 0);
+
+    mmu.write(addr, result);
 }
 
 
