@@ -61,6 +61,5 @@ void Video::write_scanline(u8 drawn_line) {
 }
 
 void Video::draw() {
-    log_debug("Drawing to screen");
     screen.draw(frame_buffer);
 }
