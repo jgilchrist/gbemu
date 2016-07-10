@@ -110,6 +110,7 @@ u8 MMU::read_io(const Address address) const {
 void MMU::write(const Address address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
         log_warn("Attempting to write to cartridge ROM");
+        return;
     }
 
     /* VRAM */
