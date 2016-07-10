@@ -109,7 +109,7 @@ u8 MMU::read_io(const Address address) const {
 
 void MMU::write(const Address address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
-        log_warn("Attempting to write to cartridge ROM");
+        log_warn("Attempting to write to cartridge ROM: %04X - %X", address.value(), byte);
         return;
     }
 
@@ -193,31 +193,31 @@ void MMU::write_io(const Address address, const u8 byte) {
 
         case 0xFF13:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             /* memory_write(address, byte); */
             return;
 
         case 0xFF14:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             /* memory_write(address, byte); */
             return;
 
         case 0xFF24:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             /* memory_write(address, byte); */
             return;
 
         case 0xFF25:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             /* memory_write(address, byte); */
             return;
 
         case 0xFF26:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
             /* memory_write(address, byte); */
             return;
 
