@@ -38,6 +38,10 @@ void ByteRegister::decrement() {
     val -= 1;
 }
 
+bool ByteRegister::operator==(u8 other) const {
+    return val == other;
+}
+
 
 void WordRegister::set(const u16 new_value) {
     val = new_value;

@@ -13,6 +13,7 @@ public:
 
     bool in_range(Address low, Address high) const;
 
+    bool operator==(u16 other) const;
     Address operator+(uint other) const;
     Address operator-(uint other) const;
 

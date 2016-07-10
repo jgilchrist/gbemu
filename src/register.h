@@ -16,6 +16,8 @@ public:
     void increment();
     void decrement();
 
+    bool operator==(u8 other) const;
+
 private:
     u8 val;
 };

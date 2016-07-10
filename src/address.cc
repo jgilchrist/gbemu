@@ -17,6 +17,10 @@ bool Address::in_range(Address low, Address high) const {
     return low.value() <= value() && value() <= high.value();
 }
 
+bool Address::operator==(u16 other) const {
+    return addr == other;
+}
+
 Address Address::operator+(uint other) const {
     u16 new_addr = static_cast<u16>(addr + other);
     return Address(new_addr);

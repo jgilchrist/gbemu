@@ -33,7 +33,7 @@ void Video::tick(Cycles cycles) {
                 cycle_counter = cycle_counter % CLOCKS_PER_HBLANK;
 
                 /* Line 145 (index 144) is the first line of VBLANK */
-                if (line.value() == 144) {
+                if (line == 144) {
                     current_mode = VideoMode::VBLANK;
                 } else {
                     current_mode = VideoMode::ACCESS_OAM;
@@ -47,7 +47,7 @@ void Video::tick(Cycles cycles) {
                 cycle_counter = cycle_counter % CLOCKS_PER_SCANLINE;
 
                 /* Line 155 (index 154) is the last line */
-                if (line.value() == 154) {
+                if (line == 154) {
                     draw();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;

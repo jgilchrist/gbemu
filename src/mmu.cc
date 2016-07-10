@@ -65,7 +65,7 @@ u8 MMU::read(const Address address) const {
     }
 
     /* Interrupt Enable register */
-    if (address.value() == 0xFFFF) {
+    if (address == 0xFFFF) {
         return memory_read(address);
     }
 
@@ -161,7 +161,7 @@ void MMU::write(const Address address, const u8 byte) {
     }
 
     /* Interrupt Enable register */
-    if (address.value() == 0xFFFF) {
+    if (address == 0xFFFF) {
         memory_write(address, byte);
         return;
     }
