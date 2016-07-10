@@ -1,5 +1,6 @@
 #include "files.h"
 
+#include "../definitions.h"
 #include "log.h"
 #include <fstream>
 
@@ -13,7 +14,7 @@ std::vector<char> read_bytes(const std::string filename) {
 
     if (file_size == -1) {
         log_error("Cannot read from file: %s", filename.c_str());
-        exit(1);
+        fatal_error();
     }
 
     std::vector<char> result(file_size);
