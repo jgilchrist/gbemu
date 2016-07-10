@@ -14,9 +14,7 @@ public:
     MMU(Cartridge& inCartridge, Video& inVideo);
 
     u8 read(const Address address) const;
-
     void write(const Address address, const u8 byte);
-    void write_word(const Address address, const u16 word);
 
 private:
     bool boot_rom_active() const;

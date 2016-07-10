@@ -256,9 +256,6 @@ void MMU::memory_write(const Address address, const u8 byte) {
     memory[address.value()] = byte;
 }
 
-void MMU::write_word(const Address address, const u16 word) {
-}
-
 bool MMU::boot_rom_active() const {
     return read(0xFF50) != 0x1;
 }
