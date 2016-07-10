@@ -11,6 +11,6 @@ class Screen {
 public:
     virtual ~Screen() = default;
 
-    virtual void draw(const FrameBuffer& buffer) = 0;
+    virtual void draw(const FrameBuffer& buffer, const BGPalette& bg_palette) = 0;
     virtual bool is_open() = 0;
 };

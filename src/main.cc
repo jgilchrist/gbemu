@@ -24,7 +24,7 @@ static Options get_options(int argc, char* argv[]) {
 
     if (argc < 2) {
         log_error("Please provide a ROM file to run");
-        fatal_error();
+        fatal_error("");
     }
 
     bool debugger = flag_set(begin, end, "-d", "--debug");

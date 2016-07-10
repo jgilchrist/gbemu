@@ -59,7 +59,9 @@ private:
 
     TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
 
-    Color get_color(u8 pixel_value) const;
+    GBColor get_color(u8 pixel_value) const;
+    Color get_real_color(u8 pixel_value) const;
+    BGPalette get_bg_palette() const;
     std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
 
     Screen& screen;

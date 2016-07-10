@@ -240,8 +240,8 @@ void MMU::write_io(const Address address, const u8 byte) {
 
         case 0xFF47:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
-            /* memory_write(address, byte); */
+            video.bg_palette.set(byte);
+            log_warn("Set video palette: %x", byte);
             return;
 
         /* Disable boot rom switch */

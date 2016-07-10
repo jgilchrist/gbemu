@@ -14,13 +14,27 @@ const int GAMEBOY_HEIGHT = 144;
 
 const int CLOCK_RATE = 4194304;
 
-#define fatal_error() log_error("Fatal error: %s:%d", __FILE__, __LINE__); exit(1);
+#define fatal_error(msg) log_error("Fatal error: %s:%d (%s)", __FILE__, __LINE__, msg); exit(1);
 
-enum class Color {
+enum class GBColor {
     Color0, /* White */
     Color1, /* Light gray */
     Color2, /* Dark gray */
     Color3, /* Black */
+};
+
+enum class Color {
+    White,
+    LightGray,
+    DarkGray,
+    Black,
+};
+
+struct BGPalette {
+    Color color0 = Color::White;
+    Color color1 = Color::LightGray;
+    Color color2 = Color::DarkGray;
+    Color color3 = Color::Black;
 };
 
 struct Noncopyable {

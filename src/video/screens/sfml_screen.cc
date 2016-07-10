@@ -14,7 +14,7 @@ SFMLScreen::SFMLScreen(uint _magnification) :
     window.setVerticalSyncEnabled(true);
 }
 
-void SFMLScreen::draw(const FrameBuffer& buffer) {
+void SFMLScreen::draw(const FrameBuffer& buffer, const BGPalette& bg_palette) {
     window.clear(sf::Color::White);
 
     sf::Event event;
@@ -25,7 +25,7 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
         }
     }
 
-    set_pixels(buffer);
+    set_pixels(buffer, bg_palette);
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
 
@@ -34,10 +34,11 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
     window.display();
 }
 
-void SFMLScreen::set_pixels(const FrameBuffer& buffer) {
+void SFMLScreen::set_pixels(const FrameBuffer& buffer, const BGPalette& bg_palette) {
     for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
         for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
-            sf::Color pixel_color = get_color(buffer.get_pixel(x, y));
+            Color gbcolor = get_color(buffer.get_pixel(x, y), bg_palette);
+            sf::Color pixel_color = get_real_color(gbcolor);
 
             set_large_pixel(x, y, pixel_color);
         }
@@ -52,12 +53,21 @@ void SFMLScreen::set_large_pixel(uint x, uint y, sf::Color color) {
     }
 }
 
-sf::Color SFMLScreen::get_color(Color color) {
+Color SFMLScreen::get_color(GBColor color, const BGPalette& bg_palette) {
     switch (color) {
-        case Color::Color0: return sf::Color(255, 255, 255);
-        case Color::Color1: return sf::Color(170, 170, 170);
-        case Color::Color2: return sf::Color( 85,  85,  85);
-        case Color::Color3: return sf::Color(  0,   0,   0);
+        case GBColor::Color0: return bg_palette.color0;
+        case GBColor::Color1: return bg_palette.color1;
+        case GBColor::Color2: return bg_palette.color2;
+        case GBColor::Color3: return bg_palette.color3;
+    }
+}
+
+sf::Color SFMLScreen::get_real_color(Color color) {
+    switch (color) {
+        case Color::White: return sf::Color(255, 255, 255);
+        case Color::LightGray: return sf::Color(170, 170, 170);
+        case Color::DarkGray: return sf::Color( 85,  85,  85);
+        case Color::Black: return sf::Color(  0,   0,   0);
     }
 }
 

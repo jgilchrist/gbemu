@@ -118,7 +118,9 @@ void Video::write_scanline(u8 current_line) {
 
     for (uint screen_x = 0; screen_x < GAMEBOY_WIDTH; screen_x++) {
         u8 pixel_value = current_tile.pixels[x];
-        Color pixel_color = get_color(pixel_value);
+
+        /* TODO: If the palette is switched, do all pixels retroactively switch? */
+        GBColor pixel_color = get_color(pixel_value);
         frame_buffer.set_pixel(screen_x, current_line, pixel_color);
         x++;
 
@@ -170,22 +172,50 @@ std::vector<u8> Video::get_pixel_line(u8 byte1, u8 byte2) const {
     return pixel_line;
 }
 
-Color Video::get_color(u8 pixel_value) const {
+GBColor Video::get_color(u8 pixel_value) const {
     switch (pixel_value) {
         case 0:
-            return Color::Color0;
+            return GBColor::Color0;
         case 1:
-            return Color::Color1;
+            return GBColor::Color1;
         case 2:
-            return Color::Color2;
+            return GBColor::Color2;
         case 3:
-            return Color::Color3;
+            return GBColor::Color3;
         default:
             log_error("Invalid color value: %d", pixel_value);
             exit(1);
     }
 }
 
+BGPalette Video::get_bg_palette() const {
+    using bitwise::compose_bits;
+    using bitwise::bit_value;
+
+    /* TODO: Reduce duplication */
+    u8 color0 = compose_bits(bit_value(bg_palette.value(), 1), bit_value(bg_palette.value(), 0));
+    u8 color1 = compose_bits(bit_value(bg_palette.value(), 3), bit_value(bg_palette.value(), 2));
+    u8 color2 = compose_bits(bit_value(bg_palette.value(), 5), bit_value(bg_palette.value(), 4));
+    u8 color3 = compose_bits(bit_value(bg_palette.value(), 7), bit_value(bg_palette.value(), 6));
+
+    Color real_color_0 = get_real_color(color0);
+    Color real_color_1 = get_real_color(color1);
+    Color real_color_2 = get_real_color(color2);
+    Color real_color_3 = get_real_color(color3);
+
+    return { real_color_0, real_color_1, real_color_2, real_color_3 };
+}
+
+Color Video::get_real_color(u8 color_value) const {
+    switch (color_value) {
+        case 0: return Color::White;
+        case 1: return Color::LightGray;
+        case 2: return Color::DarkGray;
+        case 3: return Color::Black;
+        default: fatal_error("Invalid color value");
+    }
+}
+
 void Video::draw() {
-    screen.draw(frame_buffer);
+    screen.draw(frame_buffer, get_bg_palette());
 }
