@@ -69,8 +69,16 @@ void CPU::opcode_add_a(const Address& addr) {
 
 
 void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
-    unused(reg_pair);
-    unimplemented_opcode();
+    u16 reg = hl.value();
+    u16 value = reg_pair.value();
+
+    u16 result16 = reg + value;
+
+    set_flag_subtract(false);
+    set_flag_half_carry((reg ^ value ^ (result16 & 0xFFFF)) & 0x1000);
+    set_flag_carry((result16 & 0x10000) != 0);
+
+    hl.set(result16);
 }
 
 void CPU::opcode_add_hl(const WordRegister& word_reg) {
@@ -178,7 +186,12 @@ void CPU::opcode_cp(const Address& addr) {
 
 /* CPL */
 void CPU::opcode_cpl() {
-    unimplemented_opcode();
+    u8 reg = a.value();
+    u8 result = !reg;
+    a.set(result);
+
+    set_flag_subtract(true);
+    set_flag_half_carry(true);
 }
 
 
@@ -627,8 +640,8 @@ void CPU::opcode_rrc(Address&& addr) {
 /* RST */
 /* TODO: offset type */
 void CPU::opcode_rst(const u8 offset) {
-    unused(offset);
-    unimplemented_opcode();
+    stack_push(pc);
+    pc.set(offset);
 }
 
 
@@ -750,8 +763,18 @@ void CPU::opcode_sub(Address&& addr) {
 
 /* SWAP */
 void CPU::opcode_swap(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    u8 value = reg.value();
+
+    u8 lower_nibble = value & 0x0F;
+    u8 upper_nibble = value & 0xF0;
+
+    u8 result = (lower_nibble < 4) | upper_nibble;
+    reg.set(result);
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+    set_flag_carry(false);
 }
 
 void CPU::opcode_swap(Address&& addr) {
