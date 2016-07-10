@@ -2,12 +2,16 @@
 
 #include "../../util/log.h"
 
-SFMLScreen::SFMLScreen() :
-    window(sf::VideoMode(GAMEBOY_WIDTH, GAMEBOY_HEIGHT), "Emulator", sf::Style::Titlebar | sf::Style::Close)
+SFMLScreen::SFMLScreen(uint _magnification) :
+    magnification(_magnification),
+    width(GAMEBOY_WIDTH*magnification),
+    height(GAMEBOY_HEIGHT*magnification),
+    pixel_size(magnification),
+    window(sf::VideoMode(width, height), "Emulator", sf::Style::Titlebar | sf::Style::Close)
 {
-    image.create(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
-    window.setFramerateLimit(0);
-    window.setVerticalSyncEnabled(false);
+    image.create(width, height);
+    window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
 }
 
 void SFMLScreen::draw(const FrameBuffer& buffer) {
@@ -33,7 +37,17 @@ void SFMLScreen::draw(const FrameBuffer& buffer) {
 void SFMLScreen::set_pixels(const FrameBuffer& buffer) {
     for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
         for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
-            image.setPixel(x, y, get_color(buffer.get_pixel(x, y)));
+            sf::Color pixel_color = get_color(buffer.get_pixel(x, y));
+
+            set_large_pixel(x, y, pixel_color);
+        }
+    }
+}
+
+void SFMLScreen::set_large_pixel(uint x, uint y, sf::Color color) {
+    for (unsigned w = 0; w < pixel_size; w++) {
+        for (unsigned h = 0; h < pixel_size; h++) {
+            image.setPixel(x * pixel_size + w, y * pixel_size + h, color);
         }
     }
 }
