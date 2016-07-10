@@ -9,13 +9,14 @@ std::vector<char> read_bytes(const std::string filename) {
     using std::ios;
 
     ifstream stream(filename.c_str(), ios::binary|ios::ate);
-    ifstream::pos_type position = stream.tellg();
-    size_t file_size = static_cast<size_t>(position);
 
-    if (file_size == -1) {
+    if (!stream.good()) {
         log_error("Cannot read from file: %s", filename.c_str());
         fatal_error();
     }
+
+    ifstream::pos_type position = stream.tellg();
+    size_t file_size = static_cast<size_t>(position);
 
     std::vector<char> result(file_size);
 

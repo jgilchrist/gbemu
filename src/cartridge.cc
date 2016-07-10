@@ -4,6 +4,9 @@
 #include "util/log.h"
 
 Cartridge::Cartridge(std::string filename) {
+    unused(destination, header_checksum, global_checksum);
+    unused(supports_cgb, supports_sgb);
+
     auto rom_data = read_bytes(filename);
     log_info("Loaded %d KB", rom_data.size() / 1024);
 

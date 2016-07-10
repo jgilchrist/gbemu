@@ -23,7 +23,4 @@ include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(emulator ${SFML_LIBRARIES})
 
 # FIXME: Temporarily silence warnings during development
-add_definitions(-Wno-unused-parameter)
-add_definitions(-Wno-unused-private-field)
-add_definitions(-Wno-unused-function)
 add_definitions(-Wno-missing-noreturn)

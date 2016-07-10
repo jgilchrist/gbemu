@@ -69,10 +69,12 @@ void CPU::opcode_add_a(const Address& addr) {
 
 
 void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
+    unused(reg_pair);
     unimplemented_opcode();
 }
 
 void CPU::opcode_add_hl(const WordRegister& word_reg) {
+    unused(word_reg);
     unimplemented_opcode();
 }
 
@@ -286,6 +288,7 @@ void CPU::opcode_jp(Condition condition) {
 }
 
 void CPU::opcode_jp(const Address& addr) {
+    /* FIXME: Should this jump to HL, or the address at HL? */
     pc.set(hl.value());
 }
 
@@ -342,6 +345,7 @@ void CPU::opcode_ld(WordRegister& reg) {
 }
 
 void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
+    unused(reg, reg_pair);
     unimplemented_opcode();
 }
 
@@ -472,10 +476,12 @@ void CPU::opcode_push(const RegisterPair& reg) {
 
 /* RES */
 void CPU::opcode_res(const int bit, ByteRegister& reg) {
+    unused(bit, reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_res(const int bit, Address&& addr) {
+    unused(bit, addr);
     unimplemented_opcode();
 }
 
@@ -549,10 +555,12 @@ void CPU::opcode_rlca() {
 }
 
 void CPU::opcode_rlc(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_rlc(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 
@@ -606,10 +614,12 @@ void CPU::opcode_rrca() {
 }
 
 void CPU::opcode_rrc(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_rrc(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 
@@ -617,6 +627,7 @@ void CPU::opcode_rrc(Address&& addr) {
 /* RST */
 /* TODO: offset type */
 void CPU::opcode_rst(const u8 offset) {
+    unused(offset);
     unimplemented_opcode();
 }
 
@@ -627,10 +638,12 @@ void CPU::opcode_sbc() {
 }
 
 void CPU::opcode_sbc(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_sbc(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 
@@ -643,30 +656,36 @@ void CPU::opcode_scf() {
 
 /* SET */
 void CPU::opcode_set(const int bit, ByteRegister& reg) {
+    unused(bit, reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_set(const int bit, Address&& addr) {
+    unused(bit, addr);
     unimplemented_opcode();
 }
 
 
 /* SLA */
 void CPU::opcode_sla(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_sla(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 
 
 /* SRA */
 void CPU::opcode_sra(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_sra(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 
@@ -731,10 +750,12 @@ void CPU::opcode_sub(Address&& addr) {
 
 /* SWAP */
 void CPU::opcode_swap(ByteRegister& reg) {
+    unused(reg);
     unimplemented_opcode();
 }
 
 void CPU::opcode_swap(Address&& addr) {
+    unused(addr);
     unimplemented_opcode();
 }
 

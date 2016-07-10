@@ -76,6 +76,8 @@ std::string describe(CartridgeType type) {
 
 
 std::string get_license(u16 old_license, u16 new_license) {
+    /* TODO */
+    unused(old_license, new_license);
     log_error("License not implemented");
     return "";
 }

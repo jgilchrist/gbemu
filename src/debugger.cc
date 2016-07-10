@@ -125,6 +125,8 @@ bool Debugger::command_step(Args args) {
 }
 
 void Debugger::command_registers(Args args) {
+    unused(args);
+
     printf("Registers:\n");
 
     printf("A: %02X | B: %02X | C: %02X | D: %02X | E: %02X | F: %02X\n",
@@ -146,6 +148,8 @@ void Debugger::command_registers(Args args) {
 }
 
 void Debugger::command_flags(Args args) {
+    unused(args);
+
     printf("Zero: %d\n", gameboy.cpu.flag_zero());
     printf("Subtract: %d\n", gameboy.cpu.flag_subtract());
     printf("Half Carry: %d\n", gameboy.cpu.flag_half_carry());
@@ -197,21 +201,29 @@ void Debugger::command_memory_cell(Args args) {
 }
 
 void Debugger::command_breakaddr(Args args) {
+    unused(args);
+
     u16 addr = static_cast<u16>(std::stoul(args[0], nullptr, 16));
     breakpoint_addr = addr;
     log_info("Breakpoint set for address 0x%04X", breakpoint_addr);
 }
 
 void Debugger::command_steps(Args args) {
+    unused(args);
+
     printf("Steps: %d\n", steps);
 }
 
 void Debugger::command_exit(Args args) {
+    unused(args);
+
     log_error("Exiting");
     exit(1);
 }
 
 void Debugger::command_help(Args args) {
+    unused(args);
+
     printf("Commands:\n");
     printf("Step: Run a single cycle\n");
     printf("Exit: Exit the program\n");
