@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstdlib>
 
 using uint = unsigned int;
 
@@ -12,6 +13,8 @@ const int GAMEBOY_WIDTH = 160;
 const int GAMEBOY_HEIGHT = 144;
 
 const int CLOCK_RATE = 4194304;
+
+#define fatal_error() log_error("Fatal error: %s:%d", __FILE__, __LINE__); exit(1);
 
 enum class Color {
     Color0, /* White */

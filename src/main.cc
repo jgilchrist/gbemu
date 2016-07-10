@@ -6,24 +6,46 @@
 #include "video/screens/null_screen.h"
 #include "video/screens/sfml_screen.h"
 
-int main(int argc, char* argv[]) {
-    log_set_level(LogLevel::Debug);
+struct Options {
+    bool debugger;
+    bool trace;
+    std::string filename;
+};
+
+static bool flag_set(char** begin, char** end, const std::string& short_option, const std::string& long_option) {
+    bool short_option_found = std::find(begin, end, short_option) != end;
+    bool long_option_found = std::find(begin, end, long_option) != end;
+    return short_option_found || long_option_found;
+}
+
+static Options get_options(int argc, char* argv[]) {
+    char** begin = argv;
+    char** end = argv + argc;
 
     if (argc < 2) {
-        log_error("Please provide a ROM file to run")
-        return 1;
+        log_error("Please provide a ROM file to run");
+        fatal_error();
     }
 
-    bool should_debug = (argc == 3);
-    if (should_debug) {
-        log_info("Enabling debugger...");
-    }
+    bool debugger = flag_set(begin, end, "-d", "--debug");
+    bool trace = flag_set(begin, end, "-t", "--trace");
 
-    std::string rom_name = argv[1];
-    Cartridge cartridge(rom_name);
+    std::string filename = argv[1];
 
+    return Options { debugger, trace, filename };
+}
+
+int main(int argc, char* argv[]) {
+    Options options = get_options(argc, argv);
+
+    auto log_level = options.trace ?
+        LogLevel::Trace : LogLevel::Debug;
+
+    log_set_level(log_level);
+
+    Cartridge cartridge(options.filename);
     SFMLScreen screen;
 
-    Gameboy gameboy(screen, cartridge, should_debug);
+    Gameboy gameboy(screen, cartridge, options.debugger);
     gameboy.run();
 }
