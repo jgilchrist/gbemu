@@ -7,11 +7,18 @@
 #include "../mmu.h"
 #include "../register.h"
 
+#include <vector>
+
 enum class VideoMode {
     ACCESS_OAM,
     ACCESS_VRAM,
     HBLANK,
     VBLANK,
+};
+
+struct TileInfo {
+    u8 line;
+    std::vector<u8> pixels;
 };
 
 class Video {
@@ -50,6 +57,11 @@ private:
     void write_scanline(u8 drawn_line);
     void draw();
 
+    TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
+
+    Color get_color(u8 pixel_value) const;
+    std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
+
     Screen& screen;
     MMU& mmu;
     FrameBuffer frame_buffer;
@@ -67,3 +79,16 @@ const int CLOCKS_PER_SCANLINE =
 const int CLOCKS_PER_VBLANK = 4560; /* Mode 1 */
 const int SCANLINES_PER_FRAME = 144;
 const int CLOCKS_PER_FRAME = (CLOCKS_PER_SCANLINE * SCANLINES_PER_FRAME) + CLOCKS_PER_VBLANK;
+
+const uint TILES_PER_LINE = 32;
+const uint TILE_HEIGHT_PX = 8;
+const uint TILE_WIDTH_PX = 8;
+
+const Address TILE_SET_ZERO_LOCATION = 0x8000;
+const Address TILE_SET_ONE_LOCATION = 0x8800;
+
+const Address TILE_MAP_ZERO_LOCATION = 0x9800;
+const Address TILE_MAP_ONE_LOCATION = 0x9C00;
+
+/* A single tile contains 8 lines, each of which is two bytes */
+const uint TILE_BYTES = 2 * 8;
