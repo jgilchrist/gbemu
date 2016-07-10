@@ -19,14 +19,14 @@ enum class Condition {
 
 /* TODO: RST names */
 namespace rst {
-const int rst1 = 0x00;
-const int rst2 = 0x08;
-const int rst3 = 0x10;
-const int rst4 = 0x19;
-const int rst5 = 0x21;
-const int rst6 = 0x28;
-const int rst7 = 0x30;
-const int rst8 = 0x38;
+const uint rst1 = 0x00;
+const uint rst2 = 0x08;
+const uint rst3 = 0x10;
+const uint rst4 = 0x18;
+const uint rst5 = 0x20;
+const uint rst6 = 0x28;
+const uint rst7 = 0x30;
+const uint rst8 = 0x38;
 } // namespace rst
 
 /* TODO: Interrupt names */

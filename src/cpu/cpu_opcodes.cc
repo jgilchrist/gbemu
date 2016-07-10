@@ -803,7 +803,7 @@ void CPU::opcode_C6() {
 }
 
 void CPU::opcode_C7() {
-    opcode_rst(0);
+    opcode_rst(rst::rst1);
 }
 
 void CPU::opcode_C8() {
@@ -835,7 +835,7 @@ void CPU::opcode_CE() {
 }
 
 void CPU::opcode_CF() {
-    opcode_rst(8);
+    opcode_rst(rst::rst2);
 }
 
 void CPU::opcode_D0() {
@@ -867,7 +867,7 @@ void CPU::opcode_D6() {
 }
 
 void CPU::opcode_D7() {
-    opcode_rst(10);
+    opcode_rst(rst::rst3);
 }
 
 void CPU::opcode_D8() {
@@ -899,7 +899,7 @@ void CPU::opcode_DE() {
 }
 
 void CPU::opcode_DF() {
-    opcode_rst(18);
+    opcode_rst(rst::rst4);
 }
 
 void CPU::opcode_E0() {
@@ -931,7 +931,7 @@ void CPU::opcode_E6() {
 }
 
 void CPU::opcode_E7() {
-    opcode_rst(20);
+    opcode_rst(rst::rst5);
 }
 
 void CPU::opcode_E8() {
@@ -963,7 +963,7 @@ void CPU::opcode_EE() {
 }
 
 void CPU::opcode_EF() {
-    opcode_rst(28);
+    opcode_rst(rst::rst6);
 }
 
 void CPU::opcode_F0() {
@@ -995,7 +995,7 @@ void CPU::opcode_F6() {
 }
 
 void CPU::opcode_F7() {
-    opcode_rst(30);
+    opcode_rst(rst::rst7);
 }
 
 void CPU::opcode_F8() {
@@ -1027,5 +1027,5 @@ void CPU::opcode_FE() {
 }
 
 void CPU::opcode_FF() {
-    opcode_rst(38);
+    opcode_rst(rst::rst8);
 }
