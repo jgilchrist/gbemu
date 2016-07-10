@@ -220,11 +220,11 @@ void MMU::write_io(const Address address, const u8 byte) {
             /* memory_write(address, byte); */
             return;
 
-            /* Switch on LCD */
+        /* Switch on LCD */
         case 0xFF40:
             /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            memory_write(address, byte);
+            log_warn("Wrote to unknown address 0x%x", address.value());
+            /* memory_write(address, byte); */
             return;
 
         /* Vertical Scroll Register */

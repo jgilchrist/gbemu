@@ -13,6 +13,10 @@ inline bool check_bit(const u8 value, const u8 bit) {
     return (value & (1 << bit)) != 0;
 }
 
+inline u8 bit_value(const u8 value, const u8 bit) {
+    return (value >> bit) & 1;
+}
+
 inline u8 set_bit(const u8 value, const u8 bit) {
     auto value_set = value | (1 << bit);
     return static_cast<u8>(value_set);
