@@ -17,7 +17,6 @@ enum class Condition {
     C,
 };
 
-/* TODO: RST names */
 namespace rst {
 const uint rst1 = 0x00;
 const uint rst2 = 0x08;
@@ -29,7 +28,6 @@ const uint rst7 = 0x30;
 const uint rst8 = 0x38;
 } // namespace rst
 
-/* TODO: Interrupt names */
 namespace interrupts {
 const int vblank = 0x40;
 const int lcdc_status = 0x48;
@@ -37,6 +35,7 @@ const int timer = 0x50;
 const int serial = 0x58;
 const int joypad = 0x60;
 } // namespace interrupts
+
 
 /* NOTE: CPU is not fully defined in this file.
  * In order to prevent this file from becoming extremely long, the
