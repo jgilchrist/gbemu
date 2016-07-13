@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
     if (options.disable_logs) log_set_level(LogLevel::Error);
 
     Cartridge cartridge(options.filename);
-    SFMLScreen screen;
+    SFMLScreen screen{10};
 
     Gameboy gameboy(screen, cartridge, options.debugger);
     gameboy.run();
