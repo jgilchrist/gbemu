@@ -9,6 +9,7 @@
 struct Options {
     bool debugger;
     bool trace;
+    bool disable_logs;
     std::string filename;
 };
 
@@ -29,10 +30,11 @@ static Options get_options(int argc, char* argv[]) {
 
     bool debugger = flag_set(begin, end, "-d", "--debug");
     bool trace = flag_set(begin, end, "-t", "--trace");
+    bool disable_logs = flag_set(begin, end, "-n", "--nolog");
 
     std::string filename = argv[1];
 
-    return Options { debugger, trace, filename };
+    return Options { debugger, trace, disable_logs, filename };
 }
 
 int main(int argc, char* argv[]) {
@@ -42,6 +44,8 @@ int main(int argc, char* argv[]) {
         LogLevel::Trace : LogLevel::Debug;
 
     log_set_level(log_level);
+
+    if (options.disable_logs) log_set_level(LogLevel::Error);
 
     Cartridge cartridge(options.filename);
     SFMLScreen screen;
