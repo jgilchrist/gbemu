@@ -163,12 +163,14 @@ void CPU::opcode_ccf() {
 
 /* CP */
 void CPU::_opcode_cp(const u8 value) {
-    u8 av = a.value();
+    u8 reg = a.value();
+    u8 result = static_cast<u8>(reg - value);
 
+    /* FIXME: Should this be set if the result is 0? */
+    set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_carry(av < value);
-    set_flag_zero(av == value);
-    set_flag_half_carry(((av - value) & 0xF) > (av & 0xF));
+    set_flag_half_carry((reg & 0xf) < (value & 0xf));
+    set_flag_carry(reg < value);
 }
 
 void CPU::opcode_cp() {
@@ -731,19 +733,19 @@ void CPU::opcode_srl(Address&& addr) {
 
 /* STOP */
 void CPU::opcode_stop() {
-    unimplemented_opcode();
+    /* unimplemented_opcode(); */
 }
 
 
 /* SUB */
 void CPU::_opcode_sub(u8 value) {
-    u8 result = static_cast<u8>(a.value() - value);
-    u8 carry = a.value() ^ value ^ result;
+    u8 reg = a.value();
+    u8 result = static_cast<u8>(reg - value);
 
     set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_half_carry((carry & 0x10) != 0);
-    set_flag_carry((carry & 0x100) != 0);
+    set_flag_half_carry((reg & 0xf) < (value & 0xf));
+    set_flag_carry(reg < value);
 
     a.set(result);
 }
