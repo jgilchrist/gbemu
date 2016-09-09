@@ -304,6 +304,7 @@ void CPU::opcode_jp(Condition condition) {
 
 void CPU::opcode_jp(const Address& addr) {
     /* FIXME: Should this jump to HL, or the address at HL? */
+    unused(addr);
     pc.set(hl.value());
 }
 
