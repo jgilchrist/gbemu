@@ -311,10 +311,10 @@ void CPU::opcode_jp(const Address& addr) {
 
 /* JR */
 void CPU::opcode_jr() {
-    s8 n = get_signed_byte_from_pc();
+    s8 offset = get_signed_byte_from_pc();
     u16 old_pc = pc.value();
 
-    u16 new_pc = static_cast<u16>(old_pc + n);
+    u16 new_pc = static_cast<u16>(old_pc + offset);
     pc.set(new_pc);
 }
 
