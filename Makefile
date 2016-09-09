@@ -1,7 +1,7 @@
 NAME=emulator
 BUILD_DIR=build
 
-all: compile-debug
+default: compile-debug
 
 #################
 # Utility targets
