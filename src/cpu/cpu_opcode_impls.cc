@@ -22,7 +22,7 @@ void CPU::_opcode_adc(u8 value) {
 
     set_flag_zero(reg == 0);
     set_flag_subtract(false);
-    set_flag_half_carry(((reg ^ value ^ result16) & 0x10) != 0);
+    set_flag_half_carry((reg & 0xf) + (value & 0xf) + (carry & 0xf) > 0xf);
     set_flag_carry((result16 & 0x100) != 0);
 
     u8 result = static_cast<u8>(result16);
@@ -48,7 +48,7 @@ void CPU::_opcode_add(u8 reg, u8 value) {
 
     set_flag_zero(a.value() == 0);
     set_flag_subtract(false);
-    set_flag_half_carry(((reg ^ value ^ result16) & 0x10) != 0);
+    set_flag_half_carry((reg & 0xf) + (value & 0xf) > 0xf);
     set_flag_carry((result16 & 0x100) != 0);
 
     u8 result = static_cast<u8>(result16);
@@ -75,7 +75,7 @@ void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
     u16 result16 = reg + value;
 
     set_flag_subtract(false);
-    set_flag_half_carry((reg ^ value ^ (result16 & 0xFFFF)) & 0x1000);
+    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
     set_flag_carry((result16 & 0x10000) != 0);
 
     hl.set(result16);
@@ -169,7 +169,7 @@ void CPU::_opcode_cp(const u8 value) {
     /* FIXME: Should this be set if the result is 0? */
     set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_half_carry((reg & 0xf) < (value & 0xf));
+    set_flag_half_carry((int)(reg & 0xf) - (int)(value & 0xf) < 0);
     set_flag_carry(reg < value);
 }
 
@@ -745,7 +745,7 @@ void CPU::_opcode_sub(u8 value) {
 
     set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_half_carry((reg & 0xf) < (value & 0xf));
+    set_flag_half_carry((int)(reg & 0xf) - (int)(value & 0xf) < 0);
     set_flag_carry(reg < value);
 
     a.set(result);
