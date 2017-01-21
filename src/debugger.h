@@ -13,15 +13,14 @@ static const char* PROMPT = "> ";
 enum class CommandType {
     Step,
     Run,
+    BreakAddr,
 
     Registers,
     Flags,
     Memory,
     MemoryCell,
-
-    BreakAddr,
-
     Steps,
+
     Exit,
     Help,
 

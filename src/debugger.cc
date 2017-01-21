@@ -224,9 +224,23 @@ void Debugger::command_exit(Args args) {
 void Debugger::command_help(Args args) {
     unused(args);
 
-    printf("Commands:\n");
-    printf("Step: Run a single cycle\n");
-    printf("Exit: Exit the program\n");
+    printf("\n");
+    printf("= Flow Control\n");
+    printf("step $steps=1       Run $steps cycles\n");
+    printf("run                 Run until the next breakpoint\n");
+    printf("breakaddr $addr     Set a breakpoint at $addr\n");
+    printf("\n");
+    printf("= Debug Information\n");
+    printf("registers           Print a dump of the CPU registers\n");
+    printf("flags               Print a dump of the CPU flags\n");
+    printf("memory $start $end  Print a dump of memory from $start to $end\n");
+    printf("memorycell $addr    Print the value of the memory at $addr\n");
+    printf("\n");
+    printf("= Other\n");
+    printf("steps               Print the number of steps so far\n");
+    printf("help                Print this help page\n");
+    printf("exit                Exit the emulator\n");
+    printf("\n");
 }
 
 Command Debugger::get_command() const {
