@@ -13,6 +13,7 @@ static const char* PROMPT = "> ";
 enum class CommandType {
     Step,
     Run,
+
     BreakAddr,
 
     Registers,
@@ -20,6 +21,8 @@ enum class CommandType {
     Memory,
     MemoryCell,
     Steps,
+
+    Log,
 
     Exit,
     Help,
@@ -56,6 +59,8 @@ private:
     void command_memory_cell(Args args);
 
     void command_breakaddr(Args args);
+
+    void command_log(Args args);
 
     void command_steps(Args args);
     void command_exit(Args args);

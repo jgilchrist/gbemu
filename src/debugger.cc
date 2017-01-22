@@ -76,6 +76,10 @@ bool Debugger::execute(Command command) {
             command_steps(command.args);
             break;
 
+        case CommandType::Log:
+            command_log(command.args);
+            break;
+
         case CommandType::Exit:
             command_exit(command.args);
             break;
@@ -217,6 +221,29 @@ void Debugger::command_steps(Args args) {
     printf("Steps: %d\n", steps);
 }
 
+void Debugger::command_log(Args args) {
+    if (args.size() != 1) {
+        log_error("Invalid arguments to command");
+        return;
+    }
+
+    std::string desired_log_level = args[0];
+    std::transform(desired_log_level.begin(), desired_log_level.end(), desired_log_level.begin(), ::tolower);
+
+    if (desired_log_level == "error") {
+        log_set_level(LogLevel::Error);
+        log_info("Log level: Error");
+    } else if (desired_log_level == "debug") {
+        log_set_level(LogLevel::Debug);
+        log_info("Log level: Debug");
+    } else if (desired_log_level == "trace") {
+        log_set_level(LogLevel::Trace);
+        log_info("Log level: Trace");
+    } else {
+        log_error("Invalid log level");
+    }
+}
+
 void Debugger::command_exit(Args args) {
     unused(args);
 
@@ -277,14 +304,16 @@ CommandType Debugger::parse_command(std::string cmd) const {
     if (cmd == "step") return CommandType::Step;
     if (cmd == "run") return CommandType::Run;
 
+    if (cmd == "breakaddr") return CommandType::BreakAddr;
+
     if (cmd == "regs") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
     if (cmd == "mem") return CommandType::Memory;
     if (cmd == "memcell") return CommandType::MemoryCell;
-
-    if (cmd == "breakaddr") return CommandType::BreakAddr;
-
     if (cmd == "steps") return CommandType::Steps;
+
+    if (cmd == "log") return CommandType::Log;
+
     if (cmd == "exit") return CommandType::Exit;
     if (cmd == "help") return CommandType::Help;
 
