@@ -40,8 +40,9 @@ static Options get_options(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     Options options = get_options(argc, argv);
 
-    auto log_level = options.trace ?
-        LogLevel::Trace : LogLevel::Debug;
+    auto log_level = options.trace
+        ? LogLevel::Trace
+        : LogLevel::Debug;
 
     log_set_level(log_level);
 

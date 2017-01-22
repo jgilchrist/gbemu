@@ -32,9 +32,9 @@ Cycles CPU::execute_opcode(const u8 opcode) {
 
     execute_normal_opcode(opcode);
 
-    unsigned cycles = !branch_taken ?
-        opcode_cycles[opcode] :
-        opcode_cycles_branched[opcode];
+    unsigned cycles = !branch_taken
+        ? opcode_cycles[opcode]
+        : opcode_cycles_branched[opcode];
 
     return cycles;
 }

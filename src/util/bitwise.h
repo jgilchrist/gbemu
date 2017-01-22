@@ -32,7 +32,9 @@ inline u8 clear_bit(const u8 value, const u8 bit) {
 }
 
 inline u8 set_bit_to(const u8 value, const u8 bit, bool bit_on) {
-    return bit_on ? set_bit(value, bit) : clear_bit(value, bit);
+    return bit_on
+        ? set_bit(value, bit)
+        : clear_bit(value, bit);
 }
 
 } // namespace bitwise

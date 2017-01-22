@@ -64,11 +64,13 @@ void Video::write_scanline(u8 current_line) {
     bool tile_set_zero = true;
     bool tile_map_zero = true;
 
-    Address tile_set_location = tile_set_zero ?
-        TILE_SET_ZERO_LOCATION : TILE_SET_ONE_LOCATION;
+    Address tile_set_location = tile_set_zero
+        ? TILE_SET_ZERO_LOCATION
+        : TILE_SET_ONE_LOCATION;
 
-    Address tile_map_location = tile_map_zero ?
-        TILE_MAP_ZERO_LOCATION : TILE_MAP_ONE_LOCATION;
+    Address tile_map_location = tile_map_zero
+        ? TILE_MAP_ZERO_LOCATION
+        : TILE_MAP_ONE_LOCATION;
 
     /* Step 1:
      * Using scroll x, scroll y and the current line to determine the start tile
