@@ -230,15 +230,18 @@ void Debugger::command_log(Args args) {
     std::string desired_log_level = args[0];
     std::transform(desired_log_level.begin(), desired_log_level.end(), desired_log_level.begin(), ::tolower);
 
-    if (desired_log_level == "error") {
+    if (desired_log_level == "none") {
         log_set_level(LogLevel::Error);
-        log_info("Log level: Error");
+        printf("Log level: Error\n");
+    } else if (desired_log_level == "error") {
+        log_set_level(LogLevel::Error);
+        printf("Log level: Error\n");
     } else if (desired_log_level == "debug") {
         log_set_level(LogLevel::Debug);
-        log_info("Log level: Debug");
+        printf("Log level: Debug\n");
     } else if (desired_log_level == "trace") {
         log_set_level(LogLevel::Trace);
-        log_info("Log level: Trace");
+        printf("Log level: Trace\n");
     } else {
         log_error("Invalid log level");
     }
