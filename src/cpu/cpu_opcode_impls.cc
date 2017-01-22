@@ -348,6 +348,10 @@ void CPU::opcode_ld(ByteRegister& reg, const Address& address) {
     reg.set(mmu.read(address));
 }
 
+void CPU::opcode_ld_from_addr(ByteRegister& reg) {
+    u16 nn = get_word_from_pc();
+    reg.set(mmu.read(nn));
+}
 
 void CPU::opcode_ld(RegisterPair& reg) {
     u16 nn = get_word_from_pc();

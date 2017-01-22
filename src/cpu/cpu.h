@@ -213,6 +213,7 @@ private:
 
     // (nn), A
     void opcode_ld_to_addr(const ByteRegister& reg);
+    void opcode_ld_from_addr(ByteRegister& reg);
 
     /* LDD */
     u8 _opcode_ldd(u8 value);

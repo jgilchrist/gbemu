@@ -255,7 +255,7 @@ void CPU::opcode_F6() { opcode_or(); }
 void CPU::opcode_F7() { opcode_rst(rst::rst7); }
 void CPU::opcode_F8() { opcode_ldhl(); }
 void CPU::opcode_F9() { opcode_ld(sp, hl); }
-void CPU::opcode_FA() { opcode_ld(a); }
+void CPU::opcode_FA() { opcode_ld_from_addr(a); }
 void CPU::opcode_FB() { opcode_ei(); }
 void CPU::opcode_FC() { /* Undefined */ }
 void CPU::opcode_FD() { /* Undefined */ }
