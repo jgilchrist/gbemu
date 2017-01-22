@@ -214,18 +214,10 @@ void CPU::opcode_dec(ByteRegister& reg) {
 
 void CPU::opcode_dec(RegisterPair& reg) {
     reg.decrement();
-
-    set_flag_zero(reg.value() == 0);
-    set_flag_subtract(true);
-    set_flag_half_carry((reg.value() & 0x0F) == 0x0F);
 }
 
 void CPU::opcode_dec(WordRegister& reg) {
     reg.decrement();
-
-    set_flag_zero(reg.value() == 0);
-    set_flag_subtract(true);
-    set_flag_half_carry((reg.value() & 0x0F) == 0x0F);
 }
 
 void CPU::opcode_dec(Address&& addr) {
@@ -262,18 +254,10 @@ void CPU::opcode_inc(ByteRegister& reg) {
 
 void CPU::opcode_inc(RegisterPair& reg) {
     reg.increment();
-
-    set_flag_zero(reg.value() == 0);
-    set_flag_subtract(false);
-    set_flag_half_carry((reg.value() & 0x0F) == 0x00);
 }
 
 void CPU::opcode_inc(WordRegister& reg) {
     reg.increment();
-
-    set_flag_zero(reg.value() == 0);
-    set_flag_subtract(false);
-    set_flag_half_carry((reg.value() & 0x0F) == 0x00);
 }
 
 void CPU::opcode_inc(Address&& addr) {
