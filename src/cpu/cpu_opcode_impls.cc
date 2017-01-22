@@ -46,7 +46,7 @@ void CPU::opcode_adc(const Address&& addr) {
 void CPU::_opcode_add(u8 reg, u8 value) {
     u16 result16 = reg + value;
 
-    set_flag_zero(a.value() == 0);
+    set_flag_zero(result16 == 0);
     set_flag_subtract(false);
     set_flag_half_carry((reg & 0xf) + (value & 0xf) > 0xf);
     set_flag_carry((result16 & 0x100) != 0);
