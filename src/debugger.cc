@@ -141,11 +141,9 @@ void Debugger::command_registers(Args args) {
         gameboy.cpu.e.value(),
         gameboy.cpu.f.value());
 
-    printf("AF: %04X | BC: %04X | DE: %04X\n",
-        gameboy.cpu.af.value(),
-        gameboy.cpu.bc.value(),
-        gameboy.cpu.de.value());
-
+    printf("AF: %04X\n", gameboy.cpu.af.value());
+    printf("BC: %04X\n", gameboy.cpu.bc.value());
+    printf("DE: %04X\n", gameboy.cpu.de.value());
     printf("HL: %04X\n", gameboy.cpu.hl.value());
     printf("SP: %04X\n", gameboy.cpu.sp.value());
     printf("PC: %04X\n", gameboy.cpu.pc.value());
