@@ -201,7 +201,10 @@ void Debugger::command_memory_cell(Args args) {
 }
 
 void Debugger::command_breakaddr(Args args) {
-    unused(args);
+    if (args.size() != 1) {
+        log_error("Invalid arguments to command");
+        return;
+    }
 
     u16 addr = static_cast<u16>(std::stoul(args[0], nullptr, 16));
     breakpoint_addr = addr;
