@@ -5,10 +5,8 @@ project(emulator)
 include(add_sources)
 
 # C++ definitions
-add_definitions(-std=c++14)
-add_definitions(-stdlib=libc++)
-add_definitions(-Weverything)
-add_definitions(-Wall -Wextra -Wpedantic)
+add_definitions(-std=c++14 -stdlib=libc++)
+add_definitions(-Weverything -Wall -Wextra -Wpedantic)
 include(silence_weverything)
 
 add_subdirectory(src)
