@@ -6,13 +6,13 @@ function(add_sources)
 
         set_property(
             GLOBAL APPEND PROPERTY
-            "EMULATOR_SRCS"
+            "ALL_SRC_FILES"
             "${source}"
         )
     endforeach()
 endfunction()
 
 function(declare_executable binary_name)
-    get_property(sources GLOBAL PROPERTY EMULATOR_SRCS)
+    get_property(sources GLOBAL PROPERTY ALL_SRC_FILES)
     add_executable("${binary_name}" "${sources}")
 endfunction()
