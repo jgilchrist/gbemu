@@ -1,9 +1,9 @@
 #pragma once
 
 #include "cpu/cpu.h"
+#include "debugger.h"
 #include "video/screen.h"
 #include "video/video.h"
-#include "debugger.h"
 
 class Gameboy {
 public:

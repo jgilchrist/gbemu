@@ -17,7 +17,9 @@ const int CLOCK_RATE = 4194304;
 
 template <typename... T> void unused(T&&...) {}
 
-#define fatal_error() log_error("Fatal error: %s:%d", __FILE__, __LINE__); exit(1);
+#define fatal_error()                                                                              \
+    log_error("Fatal error: %s:%d", __FILE__, __LINE__);                                           \
+    exit(1);
 
 enum class GBColor {
     Color0, /* White */
