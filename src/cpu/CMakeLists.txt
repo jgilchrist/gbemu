@@ -1,5 +1,5 @@
 add_sources(
     cpu.cc
-    opcode_impls.cc
+    opcode_mapping.cc
     opcodes.cc
 )
