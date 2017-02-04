@@ -117,7 +117,7 @@ bool Debugger::command_step(Args args) {
                     return false;
                 }
                 counter = static_cast<uint>(nsteps - 1);
-            } catch (std::invalid_argument) {
+            } catch (std::invalid_argument&) {
                 log_error("Invalid number of steps: %s", args[0].c_str());
                 /* If an invalid argument was encountered, the program
                  * should not step at all, thus false is returned */
@@ -154,10 +154,10 @@ void Debugger::command_registers(Args args) {
 void Debugger::command_flags(Args args) {
     unused(args);
 
-    printf("Zero: %d\n", gameboy.cpu.flag_zero());
-    printf("Subtract: %d\n", gameboy.cpu.flag_subtract());
-    printf("Half Carry: %d\n", gameboy.cpu.flag_half_carry());
-    printf("Carry: %d\n", gameboy.cpu.flag_carry());
+    printf("Zero: %d\n", gameboy.cpu.flag_zero_value());
+    printf("Subtract: %d\n", gameboy.cpu.flag_subtract_value());
+    printf("Half Carry: %d\n", gameboy.cpu.flag_half_carry_value());
+    printf("Carry: %d\n", gameboy.cpu.flag_carry_value());
 }
 
 void Debugger::command_memory(Args args) {

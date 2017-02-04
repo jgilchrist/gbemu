@@ -93,6 +93,8 @@ private:
      * count to be used */
     bool is_condition(Condition condition);
 
+    u8 flag_zero_value() const;
+    u8 flag_subtract_value() const;
     u8 flag_half_carry_value() const;
     u8 flag_carry_value() const;
 

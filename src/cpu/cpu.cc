@@ -115,6 +115,14 @@ bool CPU::is_condition(Condition condition) {
     return should_branch;
 }
 
+u8 CPU::flag_zero_value() const {
+    return static_cast<u8>(flag_zero() ? 1 : 0);
+}
+
+u8 CPU::flag_subtract_value() const {
+    return static_cast<u8>(flag_subtract() ? 1 : 0);
+}
+
 u8 CPU::flag_half_carry_value() const {
     return static_cast<u8>(flag_half_carry() ? 1 : 0);
 }

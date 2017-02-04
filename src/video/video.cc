@@ -208,8 +208,8 @@ BGPalette Video::get_bg_palette() const {
     return { real_color_0, real_color_1, real_color_2, real_color_3 };
 }
 
-Color Video::get_real_color(u8 color_value) const {
-    switch (color_value) {
+Color Video::get_real_color(u8 pixel_value) const {
+    switch (pixel_value) {
         case 0: return Color::White;
         case 1: return Color::LightGray;
         case 2: return Color::DarkGray;

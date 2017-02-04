@@ -54,7 +54,7 @@ public:
     /* TODO: LCD VRAM DMA Transfers */
 
 private:
-    void write_scanline(u8 drawn_line);
+    void write_scanline(u8 current_line);
     void draw();
 
     TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;

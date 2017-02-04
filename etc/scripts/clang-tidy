@@ -36,6 +36,14 @@ CHECKS+=",-cppcoreguidelines-pro-type-vararg"
 # FIXME - Disable warnings about pointer arithmetic (for SHORTFILENAME)
 CHECKS+=",-cppcoreguidelines-pro-bounds-pointer-arithmetic"
 
+# FIXME - Disable warnings about braces around statements (I find same-line
+# statements more readable without braces
+CHECKS+=",-readability-braces-around-statements"
+
+# FIXME - Disable warnings about streams not being closed (this warning appears
+# not to work
+CHECKS+=",-clang-analyzer-alpha.unix.Stream"
+
 for i in $(find src -name "*.cc"); do
     clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i \
         2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2)
