@@ -33,6 +33,9 @@ CHECKS+=",-misc-virtual-near-miss"
 # FIXME - Disable warnings about calling vararg functions
 CHECKS+=",-cppcoreguidelines-pro-type-vararg"
 
+# FIXME - Disable warnings about pointer arithmetic (for SHORTFILENAME)
+CHECKS+=",-cppcoreguidelines-pro-bounds-pointer-arithmetic"
+
 for i in $(find src -name "*.cc"); do
     clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i;
 done
