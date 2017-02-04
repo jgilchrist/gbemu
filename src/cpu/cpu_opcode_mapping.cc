@@ -1,9 +1,10 @@
 #include "cpu.h"
 
 #include "opcode_names.h"
+#include "opcode_cycles.h"
 #include "../util/log.h"
 
-void CPU::execute_normal_opcode(const u8 opcode) {
+Cycles CPU::execute_normal_opcode(const u8 opcode) {
     log_trace("%s (0x%x)", opcode_names[opcode].c_str(), opcode);
 
     switch (opcode) {
@@ -264,9 +265,13 @@ void CPU::execute_normal_opcode(const u8 opcode) {
         case 0xFE: opcode_FE(); break;
         case 0xFF: opcode_FF(); break;
     }
+
+    return !branch_taken
+        ? opcode_cycles[opcode]
+        : opcode_cycles_branched[opcode];
 }
 
-void CPU::execute_cb_opcode() {
+Cycles CPU::execute_cb_opcode() {
     u8 cb_opcode = get_byte_from_pc();
     log_trace("%s (CB 0x%x)", opcode_cb_names[cb_opcode].c_str(), cb_opcode);
 
@@ -528,4 +533,6 @@ void CPU::execute_cb_opcode() {
         case 0xFE: opcode_CB_FE(); break;
         case 0xFF: opcode_CB_FF(); break;
     }
+
+    return opcode_cycles_cb[cb_opcode];
 }

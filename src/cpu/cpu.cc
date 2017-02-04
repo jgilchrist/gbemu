@@ -1,6 +1,5 @@
 #include "cpu.h"
 
-#include "opcode_cycles.h"
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
@@ -25,18 +24,10 @@ Cycles CPU::execute_opcode(const u8 opcode) {
     branch_taken = false;
 
     if (opcode == 0xCB) {
-        execute_cb_opcode();
-        unsigned cycles = opcode_cycles_cb[opcode];
-        return cycles;
+        return execute_cb_opcode();
     }
 
-    execute_normal_opcode(opcode);
-
-    unsigned cycles = !branch_taken
-        ? opcode_cycles[opcode]
-        : opcode_cycles_branched[opcode];
-
-    return cycles;
+    return execute_normal_opcode(opcode);
 }
 
 u8 CPU::get_byte_from_pc() {

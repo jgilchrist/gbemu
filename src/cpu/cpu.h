@@ -49,8 +49,8 @@ public:
 
     Cycles execute_opcode(const u8 opcode);
 
-    void execute_normal_opcode(const u8 opcode);
-    void execute_cb_opcode();
+    Cycles execute_normal_opcode(const u8 opcode);
+    Cycles execute_cb_opcode();
 
 private:
     Clock clock;
