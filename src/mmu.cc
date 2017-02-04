@@ -69,8 +69,7 @@ u8 MMU::read(const Address address) const {
         return memory_read(address);
     }
 
-    log_error("Attempted to read from unmapped memory address %X", address.value());
-    fatal_error();
+    fatal_error("Attempted to read from unmapped memory address %X", address.value());
 }
 
 u8 MMU::memory_read(const Address address) const {
@@ -167,8 +166,7 @@ void MMU::write(const Address address, const u8 byte) {
         return;
     }
 
-    log_error("Attempted to write to unmapped memory address %X", address.value());
-    fatal_error();
+    fatal_error("Attempted to write to unmapped memory address %X", address.value());
 }
 
 void MMU::write_io(const Address address, const u8 byte) {

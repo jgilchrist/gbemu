@@ -11,8 +11,7 @@ std::vector<char> read_bytes(const std::string filename) {
     ifstream stream(filename.c_str(), ios::binary|ios::ate);
 
     if (!stream.good()) {
-        log_error("Cannot read from file: %s", filename.c_str());
-        fatal_error();
+        fatal_error("Cannot read from file: %s", filename.c_str());
     }
 
     ifstream::pos_type position = stream.tellg();

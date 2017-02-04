@@ -24,8 +24,7 @@ static Options get_options(int argc, char* argv[]) {
     char** end = argv + argc;
 
     if (argc < 2) {
-        log_error("Please provide a ROM file to run");
-        fatal_error();
+        fatal_error("Please provide a ROM file to run");
     }
 
     bool debugger = flag_set(begin, end, "-d", "--debug");
@@ -45,6 +44,8 @@ int main(int argc, char* argv[]) {
         : LogLevel::Debug;
 
     log_set_level(log_level);
+
+    fatal_error("Please provide a ROM file to run");
 
     if (options.disable_logs) log_set_level(LogLevel::Error);
 

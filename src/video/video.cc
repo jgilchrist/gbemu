@@ -185,8 +185,7 @@ GBColor Video::get_color(u8 pixel_value) const {
         case 3:
             return GBColor::Color3;
         default:
-            log_error("Invalid color value: %d", pixel_value);
-            fatal_error();
+            fatal_error("Invalid color value: %d", pixel_value);
     }
 }
 
@@ -215,8 +214,7 @@ Color Video::get_real_color(u8 pixel_value) const {
         case 2: return Color::DarkGray;
         case 3: return Color::Black;
         default:
-            log_error("Invalid color value");
-            fatal_error();
+            fatal_error("Invalid color value");
     }
 }
 
