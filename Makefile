@@ -23,6 +23,14 @@ clean:
 tags:
 	@ctags .
 
+.PHONY: format
+format:
+	@./etc/scripts/clang-format
+
+.PHONY: tidy
+tidy:
+	@./etc/scripts/clang-tidy
+
 ###################
 # Commands to build
 ###################
