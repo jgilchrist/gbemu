@@ -242,7 +242,7 @@ void MMU::write_io(const Address address, const u8 byte) {
         case 0xFF47:
             /* TODO */
             video.bg_palette.set(byte);
-            log_warn("Set video palette: %x", byte);
+            log_trace("Set video palette: %x", byte);
             return;
 
         /* Disable boot rom switch */
