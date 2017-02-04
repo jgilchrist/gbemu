@@ -168,7 +168,7 @@ void CPU::_opcode_cp(const u8 value) {
     /* FIXME: Should this be set if the result is 0? */
     set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_half_carry((int)(reg & 0xf) - (int)(value & 0xf) < 0);
+    set_flag_half_carry((reg & 0xf - value & 0xf) < 0);
     set_flag_carry(reg < value);
 }
 
@@ -734,7 +734,7 @@ void CPU::_opcode_sub(u8 value) {
 
     set_flag_zero(a.value() == 0);
     set_flag_subtract(true);
-    set_flag_half_carry((int)(reg & 0xf) - (int)(value & 0xf) < 0);
+    set_flag_half_carry((reg & 0xf - value & 0xf) < 0);
     set_flag_carry(reg < value);
 }
 
