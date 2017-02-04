@@ -15,7 +15,10 @@ const int GAMEBOY_HEIGHT = 144;
 
 const int CLOCK_RATE = 4194304;
 
-template <typename... T> void unused(T&&...) {}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+template <typename... T> void unused(T&&... unused_vars) {}
+#pragma clang diagnostic pop
 
 #define fatal_error()                                                                              \
     log_error("Fatal error: %s:%d", __FILE__, __LINE__);                                           \
