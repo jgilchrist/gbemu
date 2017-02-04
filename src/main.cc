@@ -45,8 +45,6 @@ int main(int argc, char* argv[]) {
 
     log_set_level(log_level);
 
-    fatal_error("Please provide a ROM file to run");
-
     if (options.disable_logs) log_set_level(LogLevel::Error);
 
     Cartridge cartridge(options.filename);
