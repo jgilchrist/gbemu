@@ -37,5 +37,9 @@ CHECKS+=",-cppcoreguidelines-pro-type-vararg"
 CHECKS+=",-cppcoreguidelines-pro-bounds-pointer-arithmetic"
 
 for i in $(find src -name "*.cc"); do
-    clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i;
+    clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i \
+        2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2)
+        # Silence 'x warnings generated'
+        # Silence 'Suppressed x warnings (x in non-user code)'
+        # Silence 'Use -header-filter=* to display errors from all non-system headers
 done
