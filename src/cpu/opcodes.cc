@@ -188,7 +188,7 @@ void CPU::opcode_cp(const Address& addr) {
 /* CPL */
 void CPU::opcode_cpl() {
     u8 reg = a.value();
-    u8 result = !reg;
+    u8 result = ~reg;
     a.set(result);
 
     set_flag_subtract(true);
@@ -753,12 +753,14 @@ void CPU::opcode_sub(Address&& addr) {
 
 /* SWAP */
 void CPU::opcode_swap(ByteRegister& reg) {
+    using bitwise::compose_nibbles;
+
     u8 value = reg.value();
 
     u8 lower_nibble = value & 0x0F;
     u8 upper_nibble = value & 0xF0;
 
-    u8 result = (lower_nibble < 4) | upper_nibble;
+    u8 result = compose_nibbles(lower_nibble, upper_nibble);
     reg.set(result);
 
     set_flag_zero(result == 0);
