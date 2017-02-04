@@ -476,12 +476,12 @@ void CPU::opcode_push(const RegisterPair& reg) {
 
 
 /* RES */
-void CPU::opcode_res(const int bit, ByteRegister& reg) {
+void CPU::opcode_res(const u8 bit, ByteRegister& reg) {
     unused(bit, reg);
     unimplemented_opcode();
 }
 
-void CPU::opcode_res(const int bit, Address&& addr) {
+void CPU::opcode_res(const u8 bit, Address&& addr) {
     unused(bit, addr);
     unimplemented_opcode();
 }
@@ -655,12 +655,12 @@ void CPU::opcode_scf() {
 
 
 /* SET */
-void CPU::opcode_set(const int bit, ByteRegister& reg) {
+void CPU::opcode_set(const u8 bit, ByteRegister& reg) {
     unused(bit, reg);
     unimplemented_opcode();
 }
 
-void CPU::opcode_set(const int bit, Address&& addr) {
+void CPU::opcode_set(const u8 bit, Address&& addr) {
     unused(bit, addr);
     unimplemented_opcode();
 }

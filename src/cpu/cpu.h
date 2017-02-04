@@ -251,8 +251,8 @@ private:
     void opcode_push(const RegisterPair& reg);
 
     /* RES */
-    void opcode_res(const int bit, ByteRegister& reg);
-    void opcode_res(const int bit, Address&& addr);
+    void opcode_res(const u8 bit, ByteRegister& reg);
+    void opcode_res(const u8 bit, Address&& addr);
 
     /* RET */
     void opcode_ret();
@@ -294,8 +294,8 @@ private:
     void opcode_scf();
 
     /* SET */
-    void opcode_set(const int bit, ByteRegister& reg);
-    void opcode_set(const int bit, Address&& addr);
+    void opcode_set(const u8 bit, ByteRegister& reg);
+    void opcode_set(const u8 bit, Address&& addr);
 
     /* SLA */
     void opcode_sla(ByteRegister& reg);
