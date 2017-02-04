@@ -7,11 +7,9 @@
 
 using bitwise::check_bit;
 
-[[noreturn]] inline void unimplemented_opcode() {
-    log_error("Unimplemented opcode");
+#define unimplemented_opcode() \
+    log_error("Unimplemented opcode: %s", __FUNCTION__); \
     std::exit(1);
-}
-
 
 /* ADC */
 void CPU::_opcode_adc(u8 value) {
