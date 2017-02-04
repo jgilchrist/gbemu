@@ -626,7 +626,6 @@ void CPU::opcode_rrc(Address&& addr) {
 
 
 /* RST */
-/* TODO: offset type */
 void CPU::opcode_rst(const u8 offset) {
     stack_push(pc);
     pc.set(offset);

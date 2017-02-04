@@ -6,10 +6,6 @@
 #include "../mmu.h"
 #include "../register.h"
 
-/**
- * The Gameboy CPU is a Z80 (8-bit) chip.
- */
-
 enum class Condition {
     NZ,
     Z,
