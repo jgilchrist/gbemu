@@ -2,10 +2,13 @@
 
 #include "../../util/log.h"
 
-SFMLScreen::SFMLScreen(uint _magnification) :
+SFMLScreen::SFMLScreen(uint _magnification, bool _whole_framebuffer) :
     magnification(_magnification),
-    width(GAMEBOY_WIDTH*magnification),
-    height(GAMEBOY_HEIGHT*magnification),
+    whole_framebuffer(_whole_framebuffer),
+    logical_width(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_WIDTH),
+    logical_height(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_HEIGHT),
+    width(logical_width*magnification),
+    height(logical_height*magnification),
     pixel_size(magnification),
     window(sf::VideoMode(width, height), "Emulator", sf::Style::Titlebar | sf::Style::Close)
 {
@@ -35,10 +38,15 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
 }
 
 void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
-    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
-        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+    for (uint y = 0; y < logical_height; y++) {
+        for (uint x = 0; x < logical_width; x++) {
             uint y_in_framebuffer = scroll_y + y;
             uint x_in_framebuffer = scroll_x + x;
+
+            if (whole_framebuffer) {
+                y_in_framebuffer = y;
+                x_in_framebuffer = x;
+            }
 
             Color color = get_color(buffer.get_pixel(x_in_framebuffer, y_in_framebuffer), bg_palette);
             sf::Color pixel_color = get_real_color(color);

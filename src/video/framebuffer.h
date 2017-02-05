@@ -4,6 +4,8 @@
 
 #include <vector>
 
+const uint FRAMEBUFFER_SIZE = 255;
+
 class FrameBuffer {
 public:
     FrameBuffer(uint width, uint height);
