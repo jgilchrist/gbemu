@@ -177,21 +177,11 @@ void MMU::write_io(const Address address, const u8 byte) {
 
         case 0xFF01:
             /* Serial data transfer (SB) */
-            /* TODO */
-            serial_byte = byte;
+            printf("%c", byte);
             return;
 
         case 0xFF02:
             /* Serial data transfer (SB) */
-            /* FIXME: Why is every second character written here incorrect? */
-            if (should_write_serial) {
-                printf("%c", serial_byte);
-            }
-            should_write_serial = !should_write_serial;
-            return;
-
-        case 0xFF03:
-            /* FIXME: Unknown */
             return;
 
         case 0xFF07:

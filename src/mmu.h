@@ -29,8 +29,5 @@ private:
     Video& video;
     std::vector<u8> memory;
 
-    u8 serial_byte = 0;
-    bool should_write_serial = false;
-
     friend class Debugger;
 };
