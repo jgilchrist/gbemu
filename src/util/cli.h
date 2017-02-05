@@ -4,6 +4,7 @@ struct Options {
     bool debugger;
     bool trace;
     bool disable_logs;
+    bool show_full_framebuffer;
     std::string filename;
 };
 

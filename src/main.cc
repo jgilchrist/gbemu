@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     log_set_level(get_log_level(options));
 
     Cartridge cartridge(options.filename);
-    SFMLScreen screen{10};
+    SFMLScreen screen(5, options.show_full_framebuffer);
 
     Gameboy gameboy(screen, cartridge, options.debugger);
     gameboy.run();
