@@ -73,7 +73,7 @@ u8 MMU::read(const Address address) const {
 }
 
 u8 MMU::memory_read(const Address address) const {
-    return memory[address.value()];
+    return memory.at(address.value());
 }
 
 u8 MMU::read_io(const Address address) const {
@@ -252,7 +252,7 @@ void MMU::write_io(const Address address, const u8 byte) {
 }
 
 void MMU::memory_write(const Address address, const u8 byte) {
-    memory[address.value()] = byte;
+    memory.at(address.value()) = byte;
 }
 
 bool MMU::boot_rom_active() const {
