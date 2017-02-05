@@ -71,7 +71,7 @@ private:
      *  0x20 - lower half of the byte overflowed 15
      *  0x10 - overflowed 255 or underflowed 0 for additions/subtractions
      */
-    ByteRegister f;
+    ByteRegister f{true};
 
     void set_flag_zero(bool set);
     void set_flag_subtract(bool set);

@@ -4,6 +4,8 @@
 
 class ByteRegister : Noncopyable {
 public:
+    ByteRegister(bool _is_flags = false);
+
     void set(const u8 new_value);
     void reset();
     u8 value() const;
@@ -20,6 +22,7 @@ public:
 
 private:
     u8 val;
+    bool is_flags;
 };
 
 class WordRegister : Noncopyable {

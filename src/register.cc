@@ -3,8 +3,13 @@
 #include "util/bitwise.h"
 #include "util/log.h"
 
+ByteRegister::ByteRegister(bool _is_flags) : is_flags(_is_flags) {
+}
+
 void ByteRegister::set(const u8 new_value) {
     val = new_value;
+
+    if (is_flags) { val = val & 0xF0; }
 }
 
 void ByteRegister::reset() {
