@@ -49,7 +49,7 @@ u8 MMU::read(const Address address) const {
     }
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
-        log_warn("Attempting to read from unusable memory");
+        log_warn("Attempting to read from unusable memory 0x%x", address.value());
         /* TODO: does this always return 0? */
         return 0;
     }
@@ -88,6 +88,14 @@ u8 MMU::read_io(const Address address) const {
 
         case 0xFF02:
             log_warn("Attempted to read serial transfer control");
+            return 0xFF;
+
+        case 0xFF40:
+            log_warn("Attempted to read LCD control register");
+            return 0xFF;
+
+        case 0xFF41:
+            log_warn("Attempted to read LCD stat register");
             return 0xFF;
 
         case 0xFF42:
@@ -145,7 +153,8 @@ void MMU::write(const Address address, const u8 byte) {
     }
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
-        log_warn("Attempting to write to unusable memory");
+        log_warn("Attempting to write to unusable memory 0x%x - 0x%x", address.value(), byte);
+        return;
     }
 
     /* Mapped IO */
@@ -265,6 +274,11 @@ void MMU::write_io(const Address address, const u8 byte) {
             log_warn("Wrote to LCD control register 0x%x - 0x%x", address.value(), byte);
             return;
 
+        case 0xFF41:
+            /* TODO */
+            log_warn("Wrote to LCD stat register 0x%x - 0x%x", address.value(), byte);
+            return;
+
         /* Vertical Scroll Register */
         case 0xFF42:
             video.scroll_y.set(byte);
@@ -284,6 +298,12 @@ void MMU::write_io(const Address address, const u8 byte) {
         case 0xFF47:
             video.bg_palette.set(byte);
             log_trace("Set video palette: 0x%x", byte);
+            return;
+
+        /* TODO: Object Palette 0/1 Data */
+        case 0xFF48:
+        case 0xFF49:
+            log_warn("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
             return;
 
         /* Disable boot rom switch */
