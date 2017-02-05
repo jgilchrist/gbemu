@@ -7,7 +7,7 @@ public:
     SFMLScreen(uint _magnification = 4);
     ~SFMLScreen() override = default;
 
-    void draw(const FrameBuffer& buffer, const BGPalette& bg_palette) override;
+    void draw(const FrameBuffer& buffer, const uint scrollx, const uint scrolly, const BGPalette& bg_palette) override;
     bool is_open() override;
 
 private:
@@ -21,7 +21,7 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
 
-    void set_pixels(const FrameBuffer& buffer, const BGPalette& bg_palette);
+    void set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette);
     void set_large_pixel(uint x, uint y, sf::Color color);
     Color get_color(GBColor color, const BGPalette& bg_palette);
     sf::Color get_real_color(Color color);

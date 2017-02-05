@@ -6,7 +6,7 @@
 Video::Video(Screen& inScreen, MMU& inMMU) :
     screen(inScreen),
     mmu(inMMU),
-    screen_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)
+    buffer(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE)
 {
 }
 
@@ -60,27 +60,9 @@ void Video::tick(Cycles cycles) {
 }
 
 void Video::write_scanline(u8 current_line) {
-    FrameBuffer buffer(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
-
     for (unsigned tile_y = 0; tile_y < TILES_PER_LINE; tile_y++) {
         for (unsigned tile_x = 0; tile_x < TILES_PER_LINE; tile_x++) {
             draw_tile(buffer, tile_x, tile_y);
-        }
-    }
-
-    /* Work out the x,y coordinates of the top left pixel of the 160x144 screen in
-     * the 256x256 background map */
-    const uint y_pixel_start = current_line;
-    const uint x_pixel_start = scroll_x.value();
-
-    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
-        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
-            uint y_in_framebuffer = y_pixel_start + y; // + scroll_y.value();
-            uint x_in_framebuffer = x_pixel_start + x;
-
-            GBColor color = buffer.get_pixel(x_in_framebuffer, y_in_framebuffer);
-
-            screen_buffer.set_pixel(x, y, color);
         }
     }
 }
@@ -155,5 +137,5 @@ Color Video::get_real_color(u8 pixel_value) const {
 }
 
 void Video::draw() {
-    screen.draw(screen_buffer, get_bg_palette());
+    screen.draw(buffer, scroll_x.value(), scroll_y.value(), get_bg_palette());
 }

@@ -66,7 +66,7 @@ private:
 
     Screen& screen;
     MMU& mmu;
-    FrameBuffer screen_buffer;
+    FrameBuffer buffer;
 
     VideoMode current_mode;
     unsigned cycle_counter;

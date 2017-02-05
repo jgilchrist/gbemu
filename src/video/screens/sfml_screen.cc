@@ -14,7 +14,7 @@ SFMLScreen::SFMLScreen(uint _magnification) :
     window.setVerticalSyncEnabled(true);
 }
 
-void SFMLScreen::draw(const FrameBuffer& buffer, const BGPalette& bg_palette) {
+void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
     window.clear(sf::Color::White);
 
     sf::Event event;
@@ -25,7 +25,7 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const BGPalette& bg_palette) {
         }
     }
 
-    set_pixels(buffer, bg_palette);
+    set_pixels(buffer, scroll_x, scroll_y, bg_palette);
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
 
@@ -34,11 +34,14 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const BGPalette& bg_palette) {
     window.display();
 }
 
-void SFMLScreen::set_pixels(const FrameBuffer& buffer, const BGPalette& bg_palette) {
-    for (unsigned x = 0; x < GAMEBOY_WIDTH; x++) {
-        for (unsigned y = 0; y < GAMEBOY_HEIGHT; y++) {
-            Color gbcolor = get_color(buffer.get_pixel(x, y), bg_palette);
-            sf::Color pixel_color = get_real_color(gbcolor);
+void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
+    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
+        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+            uint y_in_framebuffer = scroll_y + y;
+            uint x_in_framebuffer = scroll_x + x;
+
+            Color color = get_color(buffer.get_pixel(x_in_framebuffer, y_in_framebuffer), bg_palette);
+            sf::Color pixel_color = get_real_color(color);
 
             set_large_pixel(x, y, pixel_color);
         }
