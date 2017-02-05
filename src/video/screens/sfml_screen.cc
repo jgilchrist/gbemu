@@ -40,8 +40,8 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
 void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
     for (uint y = 0; y < logical_height; y++) {
         for (uint x = 0; x < logical_width; x++) {
-            uint y_in_framebuffer = scroll_y + y;
-            uint x_in_framebuffer = scroll_x + x;
+            uint y_in_framebuffer = (scroll_y + y) % FRAMEBUFFER_SIZE;
+            uint x_in_framebuffer = (scroll_x + x) % FRAMEBUFFER_SIZE;
 
             if (whole_framebuffer) {
                 y_in_framebuffer = y;
