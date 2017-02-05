@@ -57,7 +57,7 @@ public:
 private:
     void write_scanline(u8 current_line);
     void draw();
-    void draw_tile(FrameBuffer& buffer, const uint tile_x, const uint tile_y);
+    void draw_tile(const uint tile_x, const uint tile_y);
 
     TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
 

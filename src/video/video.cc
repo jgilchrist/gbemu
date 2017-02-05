@@ -62,12 +62,12 @@ void Video::tick(Cycles cycles) {
 void Video::write_scanline(u8 current_line) {
     for (unsigned tile_y = 0; tile_y < TILES_PER_LINE; tile_y++) {
         for (unsigned tile_x = 0; tile_x < TILES_PER_LINE; tile_x++) {
-            draw_tile(buffer, tile_x, tile_y);
+            draw_tile(tile_x, tile_y);
         }
     }
 }
 
-void Video::draw_tile(FrameBuffer& buffer, const uint tile_x, const uint tile_y) {
+void Video::draw_tile(const uint tile_x, const uint tile_y) {
     /* TODO: Support tilemap switching */
     /* TODO: Support tileset switching */
     /* Note: tileset two uses signed numbering to share half the tiles with tileset 1 */
