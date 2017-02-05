@@ -1,7 +1,7 @@
 NAME=emulator
 BUILD_DIR=build
 
-default: compile-debug
+default: release
 
 #################
 # Utility targets
@@ -43,8 +43,8 @@ cmake-debug: build-dir
 cmake-release: build-dir
 	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Release ..
 
-.PHONY: compile-debug
-compile-debug: tags cmake-debug compile
+.PHONY: debug
+debug: tags cmake-debug compile
 
-.PHONY: compile-release
-compile-release: cmake-release compile
+.PHONY: release
+release: cmake-release compile
