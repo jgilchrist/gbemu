@@ -187,6 +187,7 @@ void MMU::write_io(const Address address, const u8 byte) {
         case 0xFF01:
             /* Serial data transfer (SB) */
             printf("%c", byte);
+            fflush(stdout);
             return;
 
         case 0xFF02:
