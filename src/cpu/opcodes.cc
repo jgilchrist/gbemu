@@ -6,6 +6,8 @@
 #include <cstdlib>
 
 using bitwise::check_bit;
+using bitwise::clear_bit;
+using bitwise::set_bit;
 
 #define unimplemented_opcode() \
     log_error("Unimplemented opcode: %s", __FUNCTION__); \
@@ -477,13 +479,14 @@ void CPU::opcode_push(const RegisterPair& reg) {
 
 /* RES */
 void CPU::opcode_res(const u8 bit, ByteRegister& reg) {
-    unused(bit, reg);
-    unimplemented_opcode();
+    u8 result = clear_bit(reg.value(), bit);
+    reg.set(result);
 }
 
 void CPU::opcode_res(const u8 bit, Address&& addr) {
-    unused(bit, addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 result = clear_bit(value, bit);
+    mmu.write(addr, result);
 }
 
 
@@ -501,7 +504,8 @@ void CPU::opcode_ret(Condition condition) {
 
 /* RETI */
 void CPU::opcode_reti() {
-    unimplemented_opcode();
+    opcode_ret();
+    opcode_ei();
 }
 
 
@@ -656,13 +660,14 @@ void CPU::opcode_scf() {
 
 /* SET */
 void CPU::opcode_set(const u8 bit, ByteRegister& reg) {
-    unused(bit, reg);
-    unimplemented_opcode();
+    u8 result = set_bit(reg.value(), bit);
+    reg.set(result);
 }
 
 void CPU::opcode_set(const u8 bit, Address&& addr) {
-    unused(bit, addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 result = set_bit(value, bit);
+    mmu.write(addr, result);
 }
 
 
