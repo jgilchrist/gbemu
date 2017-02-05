@@ -364,8 +364,7 @@ void CPU::opcode_ld(WordRegister& reg) {
 }
 
 void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
-    unused(reg, reg_pair);
-    unimplemented_opcode();
+    reg.set(reg_pair.value());
 }
 
 
@@ -432,7 +431,17 @@ void CPU::opcode_ldh_into_c() {
 
 /* LDHL */
 void CPU::opcode_ldhl() {
-    unimplemented_opcode();
+    u16 reg = sp.value();
+    s8 value = get_signed_byte_from_pc();
+
+    u16 result16 = static_cast<u16>(reg + value);
+
+    set_flag_zero(false);
+    set_flag_subtract(false);
+    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
+    set_flag_carry((result16 & 0x10000) != 0);
+
+    hl.set(result16);
 }
 
 
