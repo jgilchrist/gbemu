@@ -28,6 +28,8 @@ public:
 
     void tick(Cycles cycles);
 
+    u8 control_byte;
+
     /* TODO: Annotate each register with its register name */
 
     ByteRegister lcd_control;
@@ -58,6 +60,15 @@ private:
     void write_scanline(u8 current_line);
     void draw();
     void draw_tile(const uint tile_x, const uint tile_y);
+
+    bool display_enabled() const;
+    bool window_tile_map() const;
+    bool window_enabled() const;
+    bool bg_window_tile_data() const;
+    bool bg_tile_map_display() const;
+    bool sprite_size() const;
+    bool sprites_enabled() const;
+    bool bg_enabled() const;
 
     TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
 

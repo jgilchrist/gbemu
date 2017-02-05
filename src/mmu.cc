@@ -91,8 +91,7 @@ u8 MMU::read_io(const Address address) const {
             return 0xFF;
 
         case 0xFF40:
-            log_warn("Attempted to read LCD control register");
-            return 0xFF;
+            return video.control_byte;
 
         case 0xFF41:
             log_warn("Attempted to read LCD stat register");
@@ -271,8 +270,7 @@ void MMU::write_io(const Address address, const u8 byte) {
 
         /* Switch on LCD */
         case 0xFF40:
-            /* TODO */
-            log_warn("Wrote to LCD control register 0x%x - 0x%x", address.value(), byte);
+            video.control_byte = byte;
             return;
 
         case 0xFF41:

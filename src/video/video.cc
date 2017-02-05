@@ -3,6 +3,8 @@
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
+using bitwise::check_bit;
+
 Video::Video(Screen& inScreen, MMU& inMMU) :
     screen(inScreen),
     mmu(inMMU),
@@ -59,20 +61,31 @@ void Video::tick(Cycles cycles) {
     }
 }
 
+bool Video::display_enabled() const { return check_bit(control_byte, 7); }
+bool Video::window_tile_map() const { return check_bit(control_byte, 6); }
+bool Video::window_enabled() const { return check_bit(control_byte, 5); }
+bool Video::bg_window_tile_data() const { return check_bit(control_byte, 4); }
+bool Video::bg_tile_map_display() const { return check_bit(control_byte, 3); }
+bool Video::sprite_size() const { return check_bit(control_byte, 2); }
+bool Video::sprites_enabled() const { return check_bit(control_byte, 1); }
+bool Video::bg_enabled() const { return check_bit(control_byte, 0); }
+
 void Video::write_scanline(u8 current_line) {
-    for (unsigned tile_y = 0; tile_y < TILES_PER_LINE; tile_y++) {
-        for (unsigned tile_x = 0; tile_x < TILES_PER_LINE; tile_x++) {
-            draw_tile(tile_x, tile_y);
+    if (!display_enabled()) { return; }
+
+    if (bg_enabled()) {
+        for (unsigned tile_y = 0; tile_y < TILES_PER_LINE; tile_y++) {
+            for (unsigned tile_x = 0; tile_x < TILES_PER_LINE; tile_x++) {
+                draw_tile(tile_x, tile_y);
+            }
         }
     }
 }
 
 void Video::draw_tile(const uint tile_x, const uint tile_y) {
-    /* TODO: Support tilemap switching */
-    /* TODO: Support tileset switching */
     /* Note: tileset two uses signed numbering to share half the tiles with tileset 1 */
-    bool tile_set_zero = true;
-    bool tile_map_zero = true;
+    bool tile_set_zero = bg_window_tile_data();
+    bool tile_map_zero = !bg_tile_map_display();
 
     Address tile_set_location = tile_set_zero
         ? TILE_SET_ZERO_LOCATION
