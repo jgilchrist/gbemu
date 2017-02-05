@@ -42,7 +42,7 @@ void CPU::opcode_21() { opcode_ld(hl); }
 void CPU::opcode_22() { opcode_ldi(Address(hl), a); }
 void CPU::opcode_23() { opcode_inc(hl); }
 void CPU::opcode_24() { opcode_inc(h); }
-void CPU::opcode_25() { opcode_inc(l); }
+void CPU::opcode_25() { opcode_dec(h); }
 void CPU::opcode_26() { opcode_ld(h); }
 void CPU::opcode_27() { opcode_daa(); }
 void CPU::opcode_28() { opcode_jr(Condition::Z); }
