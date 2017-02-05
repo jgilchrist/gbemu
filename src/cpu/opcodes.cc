@@ -156,7 +156,9 @@ void CPU::opcode_call(Condition condition) {
 
 /* CCF */
 void CPU::opcode_ccf() {
-    unimplemented_opcode();
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+    set_flag_carry(!flag_carry());
 }
 
 
@@ -772,8 +774,20 @@ void CPU::opcode_swap(ByteRegister& reg) {
 }
 
 void CPU::opcode_swap(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    using bitwise::compose_nibbles;
+
+    u8 value = mmu.read(addr);
+
+    u8 lower_nibble = value & 0x0F;
+    u8 upper_nibble = value & 0xF0;
+
+    u8 result = compose_nibbles(lower_nibble, upper_nibble);
+    mmu.write(addr, result);
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+    set_flag_carry(false);
 }
 
 
