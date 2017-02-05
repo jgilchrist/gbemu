@@ -679,7 +679,7 @@ void CPU::opcode_sbc(Address&& addr) {
 
 /* SCF */
 void CPU::opcode_scf() {
-    unimplemented_opcode();
+    set_flag_carry(true);
 }
 
 
