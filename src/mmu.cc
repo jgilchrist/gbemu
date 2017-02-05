@@ -10,7 +10,7 @@ MMU::MMU(Cartridge& inCartridge, Video& inVideo) :
     cartridge(inCartridge),
     video(inVideo)
 {
-    memory = std::vector<u8>(0xFFFF);
+    memory = std::vector<u8>(0x10000);
 }
 
 u8 MMU::read(const Address address) const {
