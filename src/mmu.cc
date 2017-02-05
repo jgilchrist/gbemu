@@ -69,7 +69,7 @@ u8 MMU::read(const Address address) const {
         return memory_read(address);
     }
 
-    fatal_error("Attempted to read from unmapped memory address %X", address.value());
+    fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
 }
 
 u8 MMU::memory_read(const Address address) const {
@@ -108,7 +108,7 @@ u8 MMU::read_io(const Address address) const {
 
 void MMU::write(const Address address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
-        log_warn("Attempting to write to cartridge ROM: %04X - %X", address.value(), byte);
+        log_warn("Attempting to write to cartridge ROM: %04X - 0x%X", address.value(), byte);
         return;
     }
 
@@ -166,69 +166,123 @@ void MMU::write(const Address address, const u8 byte) {
         return;
     }
 
-    fatal_error("Attempted to write to unmapped memory address %X", address.value());
+    fatal_error("Attempted to write to unmapped memory address 0x%X", address.value());
 }
 
 void MMU::write_io(const Address address, const u8 byte) {
     switch (address.value()) {
-        /* Serial data transfer (SB) */
+        case 0xFF00:
+            /* TODO: Joypad */
+            return;
+
         case 0xFF01:
+            /* Serial data transfer (SB) */
             /* TODO */
-            /* log_warn("%c", byte); */
+            serial_byte = byte;
             return;
 
+        case 0xFF02:
+            /* Serial data transfer (SB) */
+            /* FIXME: Why is every second character written here incorrect? */
+            if (should_write_serial) {
+                printf("%c", serial_byte);
+            }
+            should_write_serial = !should_write_serial;
+            return;
+
+        case 0xFF03:
+            /* FIXME: Unknown */
+            return;
+
+        case 0xFF07:
+            /* TODO: Time control */
+            return;
+
+        case 0xFF0F:
+            /* TODO: Interrupt flag */
+            log_warn("Wrote to interrupt flag register 0x%x - 0x%x", address.value(), byte);
+            return;
+
+        /* TODO: Audio - Channel 1: Tone & Sweep */
+        case 0xFF10:
         case 0xFF11:
-            /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
-            /* memory_write(address, byte); */
-            return;
-
         case 0xFF12:
-            /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
-            /* memory_write(address, byte); */
-            return;
-
         case 0xFF13:
-            /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            /* memory_write(address, byte); */
-            return;
-
         case 0xFF14:
-            /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            /* memory_write(address, byte); */
             return;
 
+        /* TODO: Audio - Channel 2: Tone */
+        case 0xFF16:
+        case 0xFF17:
+        case 0xFF18:
+        case 0xFF19:
+            return;
+
+        /* TODO: Audio - Channel 3: Wave Output */
+        case 0xFF1A:
+        case 0xFF1B:
+        case 0xFF1C:
+        case 0xFF1D:
+        case 0xFF1E:
+            return;
+
+        /* TODO: Audio - Channel 4: Noise */
+        case 0xFF20:
+        case 0xFF21:
+        case 0xFF22:
+        case 0xFF23:
+            return;
+
+        /* TODO: Audio - Sound Control Registers */
         case 0xFF24:
             /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            /* memory_write(address, byte); */
+            log_trace("Wrote to channel control address 0x%x - 0x%x", address.value(), byte);
             return;
 
         case 0xFF25:
             /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            /* memory_write(address, byte); */
+            log_trace("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte);
             return;
 
         case 0xFF26:
             /* TODO */
-            /* log_warn("Wrote to unknown address 0x%x", address.value()); */
-            /* memory_write(address, byte); */
+            log_trace("Wrote to sound on/off address 0x%x - 0x%x", address.value(), byte);
+            return;
+
+        /* TODO: Audio - Wave Pattern RAM */
+        case 0xFF30:
+        case 0xFF31:
+        case 0xFF32:
+        case 0xFF33:
+        case 0xFF34:
+        case 0xFF35:
+        case 0xFF36:
+        case 0xFF37:
+        case 0xFF38:
+        case 0xFF39:
+        case 0xFF3A:
+        case 0xFF3B:
+        case 0xFF3C:
+        case 0xFF3D:
+        case 0xFF3E:
+        case 0xFF3F:
+            memory_write(address, byte);
             return;
 
         /* Switch on LCD */
         case 0xFF40:
             /* TODO */
-            log_warn("Wrote to unknown address 0x%x", address.value());
-            /* memory_write(address, byte); */
+            log_warn("Wrote to LCD control register 0x%x - 0x%x", address.value(), byte);
             return;
 
         /* Vertical Scroll Register */
         case 0xFF42:
             video.scroll_y.set(byte);
+            return;
+
+        /* Horizontal Scroll Register */
+        case 0xFF43:
+            video.scroll_x.set(byte);
             return;
 
         /* LY - Line Y coordinate */
@@ -238,16 +292,25 @@ void MMU::write_io(const Address address, const u8 byte) {
             return;
 
         case 0xFF47:
-            /* TODO */
             video.bg_palette.set(byte);
-            log_trace("Set video palette: %x", byte);
+            log_trace("Set video palette: 0x%x", byte);
             return;
 
         /* Disable boot rom switch */
         case 0xFF50:
-            /* TODO */
             memory_write(address, byte);
+            log_info("Boot rom was disabled");
             return;
+
+        case 0xFFFF:
+            /* TODO: Interrupt Enable register */
+            log_warn("Wrote to interrupt enable register 0x%x - 0x%x", address.value(), byte);
+            return;
+
+        default:
+            /* TODO */
+            log_error("Wrote to unknown address 0x%x - 0x%x", address.value(), byte);
+            /* memory_write(address, byte); */
     }
 }
 
