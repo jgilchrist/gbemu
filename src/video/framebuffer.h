@@ -2,15 +2,20 @@
 
 #include "../definitions.h"
 
+#include <vector>
+
 class FrameBuffer {
 public:
-    FrameBuffer();
+    FrameBuffer(uint width, uint height);
 
     void set_pixel(uint x, uint y, GBColor color);
     GBColor get_pixel(uint x, uint y) const;
 
 private:
-    static uint pixel_index(uint x, uint y);
+    uint width;
+    uint height;
 
-    GBColor buffer[GAMEBOY_HEIGHT * GAMEBOY_WIDTH];
+    uint pixel_index(uint x, uint y) const;
+
+    std::vector<GBColor> buffer;
 };

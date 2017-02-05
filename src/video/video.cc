@@ -5,7 +5,8 @@
 
 Video::Video(Screen& inScreen, MMU& inMMU) :
     screen(inScreen),
-    mmu(inMMU)
+    mmu(inMMU),
+    screen_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)
 {
 }
 
@@ -27,7 +28,7 @@ void Video::tick(Cycles cycles) {
             break;
         case VideoMode::HBLANK:
             if (cycle_counter >= CLOCKS_PER_HBLANK) {
-                write_scanline(line.value());
+                /* write_scanline(line.value()); */
                 line.increment();
 
                 cycle_counter = cycle_counter % CLOCKS_PER_HBLANK;
@@ -48,6 +49,7 @@ void Video::tick(Cycles cycles) {
 
                 /* Line 155 (index 154) is the last line */
                 if (line == 154) {
+                    write_scanline(0);
                     draw();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;
@@ -58,6 +60,32 @@ void Video::tick(Cycles cycles) {
 }
 
 void Video::write_scanline(u8 current_line) {
+    FrameBuffer buffer(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
+
+    for (unsigned tile_y = 0; tile_y < TILES_PER_LINE; tile_y++) {
+        for (unsigned tile_x = 0; tile_x < TILES_PER_LINE; tile_x++) {
+            draw_tile(buffer, tile_x, tile_y);
+        }
+    }
+
+    /* Work out the x,y coordinates of the top left pixel of the 160x144 screen in
+     * the 256x256 background map */
+    const uint y_pixel_start = current_line;
+    const uint x_pixel_start = scroll_x.value();
+
+    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
+        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+            uint y_in_framebuffer = y_pixel_start + y; // + scroll_y.value();
+            uint x_in_framebuffer = x_pixel_start + x;
+
+            GBColor color = buffer.get_pixel(x_in_framebuffer, y_in_framebuffer);
+
+            screen_buffer.set_pixel(x, y, color);
+        }
+    }
+}
+
+void Video::draw_tile(FrameBuffer& buffer, const uint tile_x, const uint tile_y) {
     /* TODO: Support tilemap switching */
     /* TODO: Support tileset switching */
     /* Note: tileset two uses signed numbering to share half the tiles with tileset 1 */
@@ -72,120 +100,28 @@ void Video::write_scanline(u8 current_line) {
         ? TILE_MAP_ZERO_LOCATION
         : TILE_MAP_ONE_LOCATION;
 
-    /* Step 1:
-     * Using scroll x, scroll y and the current line to determine the start tile
-     * and work out the tile index */
-
-    /* Work out the x,y coordinates of the top left pixel of the 160x144 screen in
-     * the 256x256 background map */
-    const uint y_pixel_start = current_line + scroll_y.value();
-    const uint x_pixel_start = scroll_x.value();
-
-    /* Work out which tile contains the top left pixel of the screen. This is the
-     * 'start tile' */
-    const uint tile_y = y_pixel_start / TILE_HEIGHT_PX;
-    const uint tile_x = x_pixel_start / TILE_WIDTH_PX;
-
     /* Work out the index of the tile in the array of all tiles */
-    uint tile_address_index = tile_y * TILES_PER_LINE + tile_x;
+    uint tile_index = tile_y * TILES_PER_LINE + tile_x;
 
+    /* Work out the address of the tile ID from the tile map */
+    Address tile_id_address = tile_map_location + tile_index;
 
-    /* Step 2:
-     * Using scroll y and scroll x, determine which line of pixels to use in the tiles
-     * This is achieved by masking with 0111 */
-
-    const u8 TILE_MASK = 7;
-
-    const u8 y = y_pixel_start & TILE_MASK;
-    u8 x = x_pixel_start & TILE_MASK;
-
-
-    /* Step 3:
-     * Grab the tile number from the tile map */
-
-    Address tile_id_address = tile_map_location + tile_address_index;
-
+    /* Grab the tile number from the tile map */
     u8 tile_id = mmu.read(tile_id_address);
 
-
-    /* Step 4:
-     * Grab the tile specified by the tile number from the tile set */
-
-    TileInfo current_tile = get_tile_info(tile_set_location, tile_id, y);
-
-
-    /* Step 5:
-     * Loop down the tiles to draw each pixel in the line */
-    /* TODO: Stop working pixel-by-pixel, work tile-by-tile instead */
-
-    for (uint screen_x = 0; screen_x < GAMEBOY_WIDTH; screen_x++) {
-        u8 pixel_value = current_tile.pixels[x];
-
-        /* TODO: If the palette is switched, do all pixels retroactively switch? */
-        GBColor pixel_color = get_color(pixel_value);
-        frame_buffer.set_pixel(screen_x, current_line, pixel_color);
-        x++;
-
-        /* When x is 8, we have crossed over into another tile, so the tile
-         * indexes should be updated; */
-        if (x == 8) {
-            x = 0;
-
-            /* We move to the next tile in the line */
-            tile_address_index = tile_address_index + 1;
-            tile_id_address = tile_map_location + tile_address_index;
-
-            /* Read the new tile ID */
-            tile_id = mmu.read(tile_id_address);
-
-            current_tile = get_tile_info(tile_set_location, tile_id, y);
-        }
-    }
-}
-
-TileInfo Video::get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const {
     uint tile_offset = tile_id * TILE_BYTES;
     Address tile_address = tile_set_location + tile_offset;
 
-    /* 2 (bytes per line of pixels) * y (lines) */
-    uint index_into_tile = 2 * tile_line;
-    Address line_start = tile_address + index_into_tile;
+    Tile tile(tile_address, mmu);
 
-    u8 pixels_1 = mmu.read(line_start);
-    u8 pixels_2 = mmu.read(line_start + 1);
+    uint y_in_framebuffer = TILE_HEIGHT_PX * tile_y;
+    uint x_in_framebuffer = TILE_WIDTH_PX * tile_x;
 
-    std::vector<u8> pixel_line = get_pixel_line(pixels_1, pixels_2);
-
-    return TileInfo {
-        tile_line,
-        pixel_line
-    };
-}
-
-std::vector<u8> Video::get_pixel_line(u8 byte1, u8 byte2) const {
-    using bitwise::bit_value;
-
-    std::vector<u8> pixel_line;
-    for (u8 i = 0; i < 8; i++) {
-        u8 color_value = static_cast<u8>((bit_value(byte2, 7-i) << 1) | bit_value(byte1, 7-i));
-        pixel_line.push_back(color_value);
-    }
-
-    return pixel_line;
-}
-
-GBColor Video::get_color(u8 pixel_value) const {
-    switch (pixel_value) {
-        case 0:
-            return GBColor::Color0;
-        case 1:
-            return GBColor::Color1;
-        case 2:
-            return GBColor::Color2;
-        case 3:
-            return GBColor::Color3;
-        default:
-            fatal_error("Invalid color value: %d", pixel_value);
+    for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
+        for (uint x = 0; x < TILE_WIDTH_PX; x++) {
+            GBColor color = tile.get_pixel(x, y);
+            buffer.set_pixel(x_in_framebuffer + x, y_in_framebuffer + y, color);
+        }
     }
 }
 
@@ -219,5 +155,5 @@ Color Video::get_real_color(u8 pixel_value) const {
 }
 
 void Video::draw() {
-    screen.draw(frame_buffer, get_bg_palette());
+    screen.draw(screen_buffer, get_bg_palette());
 }
