@@ -237,7 +237,7 @@ void CPU::opcode_E4() { /* Undefined */ }
 void CPU::opcode_E5() { opcode_push(hl); }
 void CPU::opcode_E6() { opcode_and(); }
 void CPU::opcode_E7() { opcode_rst(rst::rst5); }
-void CPU::opcode_E8() { opcode_add_signed(); }
+void CPU::opcode_E8() { opcode_add_sp(); }
 void CPU::opcode_E9() { opcode_jp(Address(hl)); }
 void CPU::opcode_EA() { opcode_ld_to_addr(a); }
 void CPU::opcode_EB() { /* Undefined */ }

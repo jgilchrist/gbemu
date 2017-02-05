@@ -82,16 +82,30 @@ void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
 }
 
 void CPU::opcode_add_hl(const WordRegister& word_reg) {
-    unused(word_reg);
-    unimplemented_opcode();
+    u16 reg = hl.value();
+    u16 value = word_reg.value();
+
+    u16 result16 = reg + value;
+
+    set_flag_subtract(false);
+    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
+    set_flag_carry((result16 & 0x10000) != 0);
+
+    hl.set(result16);
 }
 
 void CPU::opcode_add_sp() {
-    unimplemented_opcode();
-}
+    u16 reg = sp.value();
+    s8 value = get_signed_byte_from_pc();
 
-void CPU::opcode_add_signed() {
-    unimplemented_opcode();
+    u16 result16 = static_cast<u16>(reg + value);
+
+    set_flag_zero(false);
+    set_flag_subtract(false);
+    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
+    set_flag_carry((result16 & 0x10000) != 0);
+
+    sp.set(result16);
 }
 
 
