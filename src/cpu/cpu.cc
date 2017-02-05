@@ -17,7 +17,6 @@ CPU::CPU(MMU& inMMU) :
 }
 
 Cycles CPU::tick() {
-    log_trace("PC: 0x%04X", pc.value());
     auto opcode = get_byte_from_pc();
     return execute_opcode(opcode);
 }
@@ -168,7 +167,7 @@ void CPU::stack_pop(RegisterPair& reg) {
 }
 
 Cycles CPU::execute_normal_opcode(const u8 opcode) {
-    log_trace("%s (0x%x)", opcode_names[opcode].c_str(), opcode);
+    log_trace("0x%04X: %s (0x%x)", pc.value(), opcode_names[opcode].c_str(), opcode);
 
     switch (opcode) {
         case 0x00: opcode_00(); break; case 0x01: opcode_01(); break; case 0x02: opcode_02(); break; case 0x03: opcode_03(); break; case 0x04: opcode_04(); break; case 0x05: opcode_05(); break; case 0x06: opcode_06(); break; case 0x07: opcode_07(); break; case 0x08: opcode_08(); break; case 0x09: opcode_09(); break; case 0x0A: opcode_0A(); break; case 0x0B: opcode_0B(); break; case 0x0C: opcode_0C(); break; case 0x0D: opcode_0D(); break; case 0x0E: opcode_0E(); break; case 0x0F: opcode_0F(); break;
@@ -195,7 +194,7 @@ Cycles CPU::execute_normal_opcode(const u8 opcode) {
 }
 
 Cycles CPU::execute_cb_opcode(const u8 opcode) {
-    log_trace("%s (CB 0x%x)", opcode_cb_names[opcode].c_str(), opcode);
+    log_trace("0x%04X: %s (CB 0x%x)", pc.value(), opcode_cb_names[opcode].c_str(), opcode);
 
     switch (opcode) {
         case 0x00: opcode_CB_00(); break; case 0x01: opcode_CB_01(); break; case 0x02: opcode_CB_02(); break; case 0x03: opcode_CB_03(); break; case 0x04: opcode_CB_04(); break; case 0x05: opcode_CB_05(); break; case 0x06: opcode_CB_06(); break; case 0x07: opcode_CB_07(); break; case 0x08: opcode_CB_08(); break; case 0x09: opcode_CB_09(); break; case 0x0A: opcode_CB_0A(); break; case 0x0B: opcode_CB_0B(); break; case 0x0C: opcode_CB_0C(); break; case 0x0D: opcode_CB_0D(); break; case 0x0E: opcode_CB_0E(); break; case 0x0F: opcode_CB_0F(); break;
