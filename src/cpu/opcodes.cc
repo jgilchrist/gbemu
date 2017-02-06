@@ -790,7 +790,7 @@ void CPU::opcode_srl(Address&& addr) {
 
 /* STOP */
 void CPU::opcode_stop() {
-    /* unimplemented_opcode(); */
+    fatal_error("Stopped");
 }
 
 
