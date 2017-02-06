@@ -133,15 +133,13 @@ bool Debugger::command_step(Args args) {
 void Debugger::command_registers(Args args) {
     unused(args);
 
-    printf("Registers:\n");
-
-    printf("A: %02X | B: %02X | C: %02X | D: %02X | E: %02X | F: %02X\n",
-        gameboy.cpu.a.value(),
-        gameboy.cpu.b.value(),
-        gameboy.cpu.c.value(),
-        gameboy.cpu.d.value(),
-        gameboy.cpu.e.value(),
-        gameboy.cpu.f.value());
+    /* printf("A: %02X | B: %02X | C: %02X | D: %02X | E: %02X | F: %02X\n", */
+        /* gameboy.cpu.a.value(), */
+        /* gameboy.cpu.b.value(), */
+        /* gameboy.cpu.c.value(), */
+        /* gameboy.cpu.d.value(), */
+        /* gameboy.cpu.e.value(), */
+        /* gameboy.cpu.f.value()); */
 
     printf("AF: %04X\n", gameboy.cpu.af.value());
     printf("BC: %04X\n", gameboy.cpu.bc.value());
