@@ -52,8 +52,8 @@ void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, cons
 }
 
 void SFMLScreen::set_large_pixel(uint x, uint y, sf::Color color) {
-    for (unsigned w = 0; w < pixel_size; w++) {
-        for (unsigned h = 0; h < pixel_size; h++) {
+    for (uint w = 0; w < pixel_size; w++) {
+        for (uint h = 0; h < pixel_size; h++) {
             image.setPixel(x * pixel_size + w, y * pixel_size + h, color);
         }
     }

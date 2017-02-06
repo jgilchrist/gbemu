@@ -7,8 +7,8 @@ using bitwise::bit_value;
 
 Tile::Tile(Address& tile_address, MMU& mmu) {
     /* Set the whole framebuffer to be black */
-    for (unsigned x = 0; x < TILE_WIDTH_PX; x++) {
-        for (unsigned y = 0; y < TILE_HEIGHT_PX; y++) {
+    for (uint x = 0; x < TILE_WIDTH_PX; x++) {
+        for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
             buffer[pixel_index(x, y)] = GBColor::Color0;
         }
     }

@@ -13,7 +13,7 @@ Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug) :
 }
 
 void Gameboy::run() {
-    unsigned elapsed_cycles = 0;
+    uint elapsed_cycles = 0;
 
     while (screen.is_open()) {
         debugger.cycle();

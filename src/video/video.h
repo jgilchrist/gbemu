@@ -80,7 +80,7 @@ private:
     FrameBuffer buffer;
 
     VideoMode current_mode;
-    unsigned cycle_counter;
+    uint cycle_counter;
 };
 
 const uint CLOCKS_PER_HBLANK = 204; /* Mode 0 */
