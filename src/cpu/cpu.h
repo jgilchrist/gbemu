@@ -273,6 +273,8 @@ private:
     void opcode_rst(const u8 offset);
 
     /* SBC */
+    void _opcode_sbc(const u8 value);
+
     void opcode_sbc();
     void opcode_sbc(ByteRegister& reg);
     void opcode_sbc(Address&& addr);

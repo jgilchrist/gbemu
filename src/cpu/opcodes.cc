@@ -662,18 +662,28 @@ void CPU::opcode_rst(const u8 offset) {
 
 
 /* SBC */
+void CPU::_opcode_sbc(const u8 value) {
+    u8 carry = f.flag_carry_value();
+    u8 reg = a.value();
+
+    u8 result = static_cast<u8>(reg - value - carry);
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(true);
+    set_flag_carry(reg < (value + carry));
+    set_flag_half_carry((reg & 0xf) < ((value & 0xf) + carry));
+}
+
 void CPU::opcode_sbc() {
-    unimplemented_opcode();
+    _opcode_sbc(get_byte_from_pc());
 }
 
 void CPU::opcode_sbc(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    _opcode_sbc(reg.value());
 }
 
 void CPU::opcode_sbc(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    _opcode_sbc(mmu.read(addr));
 }
 
 
