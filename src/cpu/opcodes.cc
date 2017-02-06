@@ -708,25 +708,57 @@ void CPU::opcode_set(const u8 bit, Address&& addr) {
 
 /* SLA */
 void CPU::opcode_sla(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    u8 value = reg.value();
+    u8 carry_bit = check_bit(value, 7);
+
+    u8 result = static_cast<u8>(value << 1);
+
+    reg.set(result);
+
+    set_flag_zero(result == 0);
+    set_flag_carry(carry_bit);
 }
 
 void CPU::opcode_sla(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 carry_bit = check_bit(value, 7);
+
+    u8 result = static_cast<u8>(value << 1);
+
+    mmu.write(addr, result);
+
+    set_flag_zero(result == 0);
+    set_flag_carry(carry_bit);
 }
 
 
 /* SRA */
 void CPU::opcode_sra(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    u8 value = reg.value();
+    u8 carry_bit = check_bit(value, 0);
+    u8 top_bit = check_bit(value, 7);
+
+    u8 result = static_cast<u8>(value >> 1);
+    result = bitwise::set_bit_to(result, 7, top_bit);
+
+    reg.set(result);
+
+    set_flag_zero(result == 0);
+    set_flag_carry(carry_bit);
 }
 
 void CPU::opcode_sra(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+    u8 carry_bit = check_bit(value, 0);
+    u8 top_bit = check_bit(value, 7);
+
+    u8 result = static_cast<u8>(value >> 1);
+    result = bitwise::set_bit_to(result, 7, top_bit);
+
+    mmu.write(addr, result);
+
+    set_flag_zero(result == 0);
+    set_flag_carry(carry_bit);
 }
 
 
