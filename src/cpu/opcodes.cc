@@ -16,7 +16,7 @@ using bitwise::set_bit;
 /* ADC */
 void CPU::_opcode_adc(u8 value) {
     u8 reg = a.value();
-    u8 carry = flag_carry_value();
+    u8 carry = f.flag_carry_value();
 
     u16 result16 = reg + value + carry;
 
@@ -172,7 +172,7 @@ void CPU::opcode_call(Condition condition) {
 void CPU::opcode_ccf() {
     set_flag_subtract(false);
     set_flag_half_carry(false);
-    set_flag_carry(!flag_carry());
+    set_flag_carry(!f.flag_carry());
 }
 
 
@@ -541,7 +541,7 @@ void CPU::opcode_rla() {
 }
 
 void CPU::opcode_rl(ByteRegister& reg) {
-    u8 carry = flag_carry_value();
+    u8 carry = f.flag_carry_value();
     u8 value = reg.value();
 
     bool will_carry = check_bit(value, 7);
@@ -559,7 +559,7 @@ void CPU::opcode_rl(ByteRegister& reg) {
 }
 
 void CPU::opcode_rl(Address&& addr) {
-    u8 old_carry = flag_carry_value();
+    u8 old_carry = f.flag_carry_value();
     u8 value = mmu.read(addr);
 
     /* TODO: in other emulators, flags are only reset if carry flag is not set */
@@ -602,7 +602,7 @@ void CPU::opcode_rra() {
 }
 
 void CPU::opcode_rr(ByteRegister& reg) {
-    u8 carry = flag_carry_value();
+    u8 carry = f.flag_carry_value();
     u8 value = reg.value();
 
     bool will_carry = check_bit(value, 0);
@@ -620,7 +620,7 @@ void CPU::opcode_rr(ByteRegister& reg) {
 }
 
 void CPU::opcode_rr(Address&& addr) {
-    u8 carry = flag_carry_value();
+    u8 carry = f.flag_carry_value();
     u8 value = mmu.read(addr);
 
     bool will_carry = check_bit(value, 0);

@@ -154,10 +154,10 @@ void Debugger::command_registers(Args args) {
 void Debugger::command_flags(Args args) {
     unused(args);
 
-    printf("Zero: %d\n", gameboy.cpu.flag_zero_value());
-    printf("Subtract: %d\n", gameboy.cpu.flag_subtract_value());
-    printf("Half Carry: %d\n", gameboy.cpu.flag_half_carry_value());
-    printf("Carry: %d\n", gameboy.cpu.flag_carry_value());
+    printf("Zero: %d\n", gameboy.cpu.f.flag_zero_value());
+    printf("Subtract: %d\n", gameboy.cpu.f.flag_subtract_value());
+    printf("Half Carry: %d\n", gameboy.cpu.f.flag_half_carry_value());
+    printf("Carry: %d\n", gameboy.cpu.f.flag_carry_value());
 }
 
 void Debugger::command_memory(Args args) {

@@ -23,9 +23,25 @@ protected:
 };
 
 class FlagRegister : public ByteRegister {
+public:
     /* Specialise behaviour for the flag register 'f'.
      * (its lower nibble is always 0s */
     void set(const u8 new_value) override;
+
+    void set_flag_zero(bool set);
+    void set_flag_subtract(bool set);
+    void set_flag_half_carry(bool set);
+    void set_flag_carry(bool set);
+
+    bool flag_zero() const;
+    bool flag_subtract() const;
+    bool flag_half_carry() const;
+    bool flag_carry() const;
+
+    u8 flag_zero_value() const;
+    u8 flag_subtract_value() const;
+    u8 flag_half_carry_value() const;
+    u8 flag_carry_value() const;
 };
 
 class WordRegister : Noncopyable {

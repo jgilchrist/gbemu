@@ -78,20 +78,10 @@ private:
     void set_flag_half_carry(bool set);
     void set_flag_carry(bool set);
 
-    bool flag_zero() const;
-    bool flag_subtract() const;
-    bool flag_half_carry() const;
-    bool flag_carry() const;
-
     /* Note: Not const because this also sets the 'branch_taken' member
      * variable if a branch is taken. This allows the correct cycle
      * count to be used */
     bool is_condition(Condition condition);
-
-    u8 flag_zero_value() const;
-    u8 flag_subtract_value() const;
-    u8 flag_half_carry_value() const;
-    u8 flag_carry_value() const;
 
     /* Program counter */
     WordRegister pc;

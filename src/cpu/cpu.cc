@@ -51,53 +51,26 @@ u16 CPU::get_word_from_pc() {
     return compose_bytes(high_byte, low_byte);
 }
 
-void CPU::set_flag_zero(bool set) {
-    f.set_bit_to(7, set);
-}
-
-void CPU::set_flag_subtract(bool set) {
-    f.set_bit_to(6, set);
-}
-
-void CPU::set_flag_half_carry(bool set) {
-    f.set_bit_to(5, set);
-}
-
-void CPU::set_flag_carry(bool set) {
-    f.set_bit_to(4, set);
-}
-
-bool CPU::flag_zero() const {
-    return f.check_bit(7);
-}
-
-bool CPU::flag_subtract() const {
-    return f.check_bit(6);
-}
-
-bool CPU::flag_half_carry() const {
-    return f.check_bit(5);
-}
-
-bool CPU::flag_carry() const {
-    return f.check_bit(4);
-}
+void CPU::set_flag_zero(bool set) { f.set_flag_zero(set); }
+void CPU::set_flag_subtract(bool set) { f.set_flag_subtract(set); }
+void CPU::set_flag_half_carry(bool set) { f.set_flag_half_carry(set); }
+void CPU::set_flag_carry(bool set) { f.set_flag_carry(set); }
 
 bool CPU::is_condition(Condition condition) {
     bool should_branch;
 
     switch (condition) {
         case Condition::C:
-            should_branch = flag_carry();
+            should_branch = f.flag_carry();
             break;
         case Condition::NC:
-            should_branch = !flag_carry();
+            should_branch = !f.flag_carry();
             break;
         case Condition::Z:
-            should_branch = flag_zero();
+            should_branch = f.flag_zero();
             break;
         case Condition::NZ:
-            should_branch = !flag_zero();
+            should_branch = !f.flag_zero();
             break;
     }
 
@@ -105,22 +78,6 @@ bool CPU::is_condition(Condition condition) {
      * can be used */
     branch_taken = should_branch;
     return should_branch;
-}
-
-u8 CPU::flag_zero_value() const {
-    return static_cast<u8>(flag_zero() ? 1 : 0);
-}
-
-u8 CPU::flag_subtract_value() const {
-    return static_cast<u8>(flag_subtract() ? 1 : 0);
-}
-
-u8 CPU::flag_half_carry_value() const {
-    return static_cast<u8>(flag_half_carry() ? 1 : 0);
-}
-
-u8 CPU::flag_carry_value() const {
-    return static_cast<u8>(flag_carry() ? 1 : 0);
 }
 
 void CPU::stack_push(const WordRegister& reg) {

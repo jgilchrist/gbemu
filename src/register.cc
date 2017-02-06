@@ -6,10 +6,6 @@ void ByteRegister::set(const u8 new_value) {
     val = new_value;
 }
 
-void FlagRegister::set(const u8 new_value) {
-    val = new_value & 0xF0;
-}
-
 void ByteRegister::reset() {
     val = 0;
 }
@@ -92,4 +88,57 @@ void RegisterPair::increment() {
 
 void RegisterPair::decrement() {
     set(value() - 1);
+}
+
+
+void FlagRegister::set(const u8 new_value) {
+    val = new_value & 0xF0;
+}
+
+void FlagRegister::set_flag_zero(bool set) {
+    set_bit_to(7, set);
+}
+
+void FlagRegister::set_flag_subtract(bool set) {
+    set_bit_to(6, set);
+}
+
+void FlagRegister::set_flag_half_carry(bool set) {
+    set_bit_to(5, set);
+}
+
+void FlagRegister::set_flag_carry(bool set) {
+    set_bit_to(4, set);
+}
+
+bool FlagRegister::flag_zero() const {
+    return check_bit(7);
+}
+
+bool FlagRegister::flag_subtract() const {
+    return check_bit(6);
+}
+
+bool FlagRegister::flag_half_carry() const {
+    return check_bit(5);
+}
+
+bool FlagRegister::flag_carry() const {
+    return check_bit(4);
+}
+
+u8 FlagRegister::flag_zero_value() const {
+    return static_cast<u8>(flag_zero() ? 1 : 0);
+}
+
+u8 FlagRegister::flag_subtract_value() const {
+    return static_cast<u8>(flag_subtract() ? 1 : 0);
+}
+
+u8 FlagRegister::flag_half_carry_value() const {
+    return static_cast<u8>(flag_half_carry() ? 1 : 0);
+}
+
+u8 FlagRegister::flag_carry_value() const {
+    return static_cast<u8>(flag_carry() ? 1 : 0);
 }
