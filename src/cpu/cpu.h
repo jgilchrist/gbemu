@@ -43,10 +43,10 @@ public:
 
     Cycles tick();
 
-    Cycles execute_opcode(const u8 opcode);
+    Cycles execute_opcode(const u8 opcode, u16 opcode_pc);
 
-    Cycles execute_normal_opcode(const u8 opcode);
-    Cycles execute_cb_opcode(const u8 opcode);
+    Cycles execute_normal_opcode(const u8 opcode, u16 opcode_pc);
+    Cycles execute_cb_opcode(const u8 opcode, u16 opcode_pc);
 
 private:
     Clock clock;
