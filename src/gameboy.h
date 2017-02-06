@@ -13,9 +13,9 @@ public:
 
 private:
     Screen& screen;
-    MMU mmu;
     CPU cpu;
     Video video;
+    MMU mmu;
 
     Debugger debugger;
 

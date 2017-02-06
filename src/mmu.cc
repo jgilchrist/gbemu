@@ -2,12 +2,14 @@
 
 #include "boot.h"
 #include "util/log.h"
+#include "cpu/cpu.h"
 #include "video/video.h"
 
 #include <cstdlib>
 
-MMU::MMU(Cartridge& inCartridge, Video& inVideo) :
+MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo) :
     cartridge(inCartridge),
+    cpu(inCPU),
     video(inVideo)
 {
     memory = std::vector<u8>(0x10000);
@@ -90,6 +92,9 @@ u8 MMU::read_io(const Address address) const {
             log_warn("Attempted to read serial transfer control");
             return 0xFF;
 
+        case 0xFF0F:
+            return cpu.interrupt_flag.value();
+
         case 0xFF40:
             return video.control_byte;
 
@@ -102,6 +107,10 @@ u8 MMU::read_io(const Address address) const {
 
         case 0xFF44:
             return video.line.value();
+
+        case 0xFF4D:
+            log_warn("Attempted to read from 'Prepare Speed Switch' register");
+            return 0x0;
 
         /* Disable boot rom switch */
         case 0xFF50:
@@ -198,8 +207,7 @@ void MMU::write_io(const Address address, const u8 byte) {
             return;
 
         case 0xFF0F:
-            /* TODO: Interrupt flag */
-            log_warn("Wrote to interrupt flag register 0x%x - 0x%x", address.value(), byte);
+            cpu.interrupt_flag.set(byte);
             return;
 
         /* TODO: Audio - Channel 1: Tone & Sweep */

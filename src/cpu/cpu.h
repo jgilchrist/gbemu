@@ -44,11 +44,14 @@ public:
     Cycles execute_normal_opcode(const u8 opcode, u16 opcode_pc);
     Cycles execute_cb_opcode(const u8 opcode, u16 opcode_pc);
 
+    ByteRegister interrupt_flag;
+
 private:
     Clock clock;
     MMU& mmu;
 
     bool interrupts_enabled = false;
+
     bool branch_taken = false;
 
     /* Basic registers */

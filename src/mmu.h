@@ -8,10 +8,11 @@
 /* TODO: Can this forward declaration be avoided by
  * avoiding a dependency cycle between Video/MMU? */
 class Video;
+class CPU;
 
 class MMU {
 public:
-    MMU(Cartridge& inCartridge, Video& inVideo);
+    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo);
 
     u8 read(const Address address) const;
     void write(const Address address, const u8 byte);
@@ -26,6 +27,7 @@ private:
     void memory_write(const Address address, const u8 byte);
 
     Cartridge& cartridge;
+    CPU& cpu;
     Video& video;
     std::vector<u8> memory;
 

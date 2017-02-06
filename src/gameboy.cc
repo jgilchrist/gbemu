@@ -3,9 +3,9 @@
 
 Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug) :
     screen(inScreen),
-    mmu(cartridge, video),
     cpu(mmu),
     video(screen, mmu),
+    mmu(cartridge, cpu, video),
     debugger(*this, should_debug)
 {
     log_info("Initialising Gameboy");
