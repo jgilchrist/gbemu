@@ -33,10 +33,6 @@ const int joypad = 0x60;
 } // namespace interrupts
 
 
-/* NOTE: CPU is not fully defined in this file.
- * In order to prevent this file from becoming extremely long, the
- * list of opcode functions from opcode_00 to opcode_FF and
- * opcode_CB_00 to opcode_CB_FF is defined in opcode_list.h */
 class CPU {
 public:
     CPU(MMU& inMMU);
