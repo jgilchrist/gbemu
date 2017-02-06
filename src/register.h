@@ -4,15 +4,13 @@
 
 class ByteRegister : Noncopyable {
 public:
-    ByteRegister(bool _is_flags = false);
+    virtual ~ByteRegister() = default;
 
-    void set(const u8 new_value);
+    virtual void set(const u8 new_value);
     void reset();
     u8 value() const;
 
     bool check_bit(u8 bit) const;
-    void set_bit(u8 bit);
-    void clear_bit(u8 bit);
     void set_bit_to(u8 bit, bool set);
 
     void increment();
@@ -20,9 +18,14 @@ public:
 
     bool operator==(u8 other) const;
 
-private:
+protected:
     u8 val;
-    bool is_flags;
+};
+
+class FlagRegister : public ByteRegister {
+    /* Specialise behaviour for the flag register 'f'.
+     * (its lower nibble is always 0s */
+    void set(const u8 new_value) override;
 };
 
 class WordRegister : Noncopyable {
@@ -43,12 +46,6 @@ private:
 class RegisterPair : Noncopyable {
 public:
     RegisterPair(ByteRegister& high, ByteRegister& low);
-
-    void set_low(const u8 byte);
-    void set_high(const u8 byte);
-
-    void set_low(const ByteRegister& byte);
-    void set_high(const ByteRegister& byte);
 
     void set(const u16 word);
 

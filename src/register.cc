@@ -1,15 +1,13 @@
 #include "register.h"
 
 #include "util/bitwise.h"
-#include "util/log.h"
-
-ByteRegister::ByteRegister(bool _is_flags) : is_flags(_is_flags) {
-}
 
 void ByteRegister::set(const u8 new_value) {
     val = new_value;
+}
 
-    if (is_flags) { val = val & 0xF0; }
+void FlagRegister::set(const u8 new_value) {
+    val = new_value & 0xF0;
 }
 
 void ByteRegister::reset() {
@@ -22,14 +20,6 @@ u8 ByteRegister::value() const {
 
 bool ByteRegister::check_bit(u8 bit) const {
     return bitwise::check_bit(val, bit);
-}
-
-void ByteRegister::set_bit(u8 bit) {
-    val = bitwise::set_bit(val, bit);
-}
-
-void ByteRegister::clear_bit(u8 bit) {
-    val = bitwise::clear_bit(val, bit);
 }
 
 void ByteRegister::set_bit_to(u8 bit, bool set) {
@@ -74,22 +64,6 @@ RegisterPair::RegisterPair(ByteRegister& high, ByteRegister& low) :
         low_byte(low),
         high_byte(high)
 {
-}
-
-void RegisterPair::set_low(const u8 byte) {
-    low_byte.set(byte);
-}
-
-void RegisterPair::set_high(const u8 byte) {
-    high_byte.set(byte);
-}
-
-void RegisterPair::set_low(const ByteRegister& byte) {
-    low_byte.set(byte.value());
-}
-
-void RegisterPair::set_high(const ByteRegister& byte) {
-    low_byte.set(byte.value());
 }
 
 void RegisterPair::set(const u16 word) {

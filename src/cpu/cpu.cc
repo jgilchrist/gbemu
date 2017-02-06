@@ -67,13 +67,6 @@ void CPU::set_flag_carry(bool set) {
     f.set_bit_to(4, set);
 }
 
-void CPU::reset_flags() {
-    set_flag_zero(false);
-    set_flag_subtract(false);
-    set_flag_half_carry(false);
-    set_flag_carry(false);
-}
-
 bool CPU::flag_zero() const {
     return f.check_bit(7);
 }
