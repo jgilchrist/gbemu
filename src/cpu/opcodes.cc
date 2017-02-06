@@ -581,17 +581,32 @@ void CPU::opcode_rl(Address&& addr) {
 
 /* RLC */
 void CPU::opcode_rlca() {
-    unimplemented_opcode();
+    opcode_rlc(a);
+    set_flag_zero(false);
 }
 
 void CPU::opcode_rlc(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    u8 value = reg.value();
+
+    u8 carry_flag = check_bit(value, 7);
+    u8 truncated_bit = check_bit(value, 7);
+    u8 result = static_cast<u8>((value << 1) | truncated_bit);
+
+    reg.set(result);
+
+    set_flag_carry(carry_flag);
 }
 
 void CPU::opcode_rlc(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+
+    u8 carry_flag = check_bit(value, 7);
+    u8 truncated_bit = check_bit(value, 7);
+    u8 result = static_cast<u8>((value << 1) | truncated_bit);
+
+    mmu.write(addr, result);
+
+    set_flag_carry(carry_flag);
 }
 
 
@@ -640,17 +655,32 @@ void CPU::opcode_rr(Address&& addr) {
 
 /* RRC */
 void CPU::opcode_rrca() {
-    unimplemented_opcode();
+    opcode_rrc(a);
+    set_flag_zero(false);
 }
 
 void CPU::opcode_rrc(ByteRegister& reg) {
-    unused(reg);
-    unimplemented_opcode();
+    u8 value = reg.value();
+
+    u8 carry_flag = check_bit(value, 0);
+    u8 truncated_bit = check_bit(value, 0);
+    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 8));
+
+    reg.set(result);
+
+    set_flag_carry(carry_flag);
 }
 
 void CPU::opcode_rrc(Address&& addr) {
-    unused(addr);
-    unimplemented_opcode();
+    u8 value = mmu.read(addr);
+
+    u8 carry_flag = check_bit(value, 0);
+    u8 truncated_bit = check_bit(value, 0);
+    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 8));
+
+    mmu.write(addr, result);
+
+    set_flag_carry(carry_flag);
 }
 
 
