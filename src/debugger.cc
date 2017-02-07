@@ -18,11 +18,9 @@ void Debugger::cycle() {
 
     steps++;
 
-    if (breakpoint_addr != 0) {
+    if (breakpoint_addr != 0 && !debugger_enabled) {
         if (gameboy.cpu.pc.value() != breakpoint_addr) { return; }
-        breakpoint_addr = 0;
         debugger_enabled = true;
-        log_set_level(LogLevel::Trace);
     }
 
     if (!debugger_enabled) { return; }
@@ -51,7 +49,6 @@ bool Debugger::execute(Command command) {
 
         case CommandType::Run:
             debugger_enabled = false;
-            log_set_level(LogLevel::Error);
             return true;
 
         case CommandType::BreakAddr:
