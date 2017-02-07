@@ -49,7 +49,13 @@ void Logger::set_level(LogLevel level) {
     current_level = level;
 }
 
+void Logger::enable_tracing() {
+    tracing_enabled = true;
+}
+
 bool Logger::should_log(LogLevel level) const {
+    if (!tracing_enabled && level == LogLevel::Trace) { return false; }
+
     return enabled && (current_level <= level);
 }
 

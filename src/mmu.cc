@@ -316,6 +316,7 @@ void MMU::write_io(const Address address, const u8 byte) {
         /* Disable boot rom switch */
         case 0xFF50:
             memory_write(address, byte);
+            log.enable_tracing();
             log_info("Boot rom was disabled");
             return;
 

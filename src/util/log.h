@@ -33,6 +33,8 @@ public:
     void log(LogLevel level, const std::string file, int line, const char* fmt, ...);
     void set_level(LogLevel level);
 
+    void enable_tracing();
+
 private:
     bool should_log(LogLevel level) const;
     const char* level_color(LogLevel level) const;
@@ -40,6 +42,7 @@ private:
     LogLevel current_level = LogLevel::Debug;
     bool enabled = true;
     bool log_filename = false;
+    bool tracing_enabled = false;
 };
 
 extern Logger log;
