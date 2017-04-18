@@ -96,12 +96,12 @@ void CPU::opcode_add_sp() {
     u16 reg = sp.value();
     s8 value = get_signed_byte_from_pc();
 
-    uint result = static_cast<uint>(reg + value);
+    int result = static_cast<int>(reg + value);
 
     set_flag_zero(false);
     set_flag_subtract(false);
-    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
-    set_flag_carry((result & 0x10000) != 0);
+    set_flag_half_carry(((reg ^ value ^ (result & 0xFFFF)) & 0x10) == 0x10);
+    set_flag_carry(((reg ^ value ^ (result & 0xFFFF)) & 0x100) == 0x100);
 
     sp.set(static_cast<u16>(result));
 }
@@ -431,12 +431,12 @@ void CPU::opcode_ldhl() {
     u16 reg = sp.value();
     s8 value = get_signed_byte_from_pc();
 
-    uint result = static_cast<uint>(reg + value);
+    int result = static_cast<int>(reg + value);
 
     set_flag_zero(false);
     set_flag_subtract(false);
-    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
-    set_flag_carry((result & 0x10000) != 0);
+    set_flag_half_carry(((reg ^ value ^ (result & 0xFFFF)) & 0x10) == 0x10);
+    set_flag_carry(((reg ^ value ^ (result & 0xFFFF)) & 0x100) == 0x100);
 
     hl.set(static_cast<u16>(result));
 }
