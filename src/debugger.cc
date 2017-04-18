@@ -299,8 +299,8 @@ Command Debugger::parse(std::string input) const {
 CommandType Debugger::parse_command(std::string cmd) const {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
-    if (cmd == "step") return CommandType::Step;
-    if (cmd == "run") return CommandType::Run;
+    if (cmd == "step" || cmd == "s") return CommandType::Step;
+    if (cmd == "run" || cmd == "r") return CommandType::Run;
 
     if (cmd == "breakaddr") return CommandType::BreakAddr;
 
