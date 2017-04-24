@@ -45,8 +45,9 @@ public:
 
 private:
     Gameboy& gameboy;
+    Command last_command;
 
-    Command get_command() const;
+    Command get_command();
 
     bool execute(Command command);
 
@@ -66,8 +67,8 @@ private:
     void command_exit(Args args);
     void command_help(Args args);
 
-    Command parse(std::string input) const;
-    CommandType parse_command(std::string cmd) const;
+    Command parse(std::string input);
+    CommandType parse_command(std::string cmd);
 
     bool enabled;
 

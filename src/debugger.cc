@@ -271,32 +271,33 @@ void Debugger::command_help(Args args) {
     printf("\n");
 }
 
-Command Debugger::get_command() const {
+Command Debugger::get_command() {
     printf("%s", PROMPT);
     std::string input_line;
     std::getline(std::cin, input_line);
     return parse(input_line);
 }
 
-Command Debugger::parse(std::string input) const {
+Command Debugger::parse(std::string input) {
     using std::string;
     using std::vector;
 
     vector<string> elems = split(input);
 
-    /* If nothing was entered, step */
-    /* TODO: This could repeat the last command, similar to GDB */
-    if (elems.size() < 1) return { CommandType::Step, vector<string>() };
+    /* If nothing was entered, repeat the last command */
+    if (elems.size() < 1) return last_command;
 
     string cmd = elems[0];
     CommandType cmd_type = parse_command(cmd);
 
     vector<string> args(elems.begin() + 1, elems.end());
 
+    last_command = Command { cmd_type, args };
+
     return { cmd_type, args };
 }
 
-CommandType Debugger::parse_command(std::string cmd) const {
+CommandType Debugger::parse_command(std::string cmd) {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
     if (cmd == "step" || cmd == "s") return CommandType::Step;
