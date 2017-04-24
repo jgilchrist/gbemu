@@ -598,6 +598,9 @@ void CPU::opcode_rlc(ByteRegister& reg) {
     reg.set(result);
 
     set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 void CPU::opcode_rlc(Address&& addr) {
@@ -610,6 +613,9 @@ void CPU::opcode_rlc(Address&& addr) {
     mmu.write(addr, result);
 
     set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 
@@ -672,6 +678,9 @@ void CPU::opcode_rrc(ByteRegister& reg) {
     reg.set(result);
 
     set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 void CPU::opcode_rrc(Address&& addr) {
@@ -684,6 +693,9 @@ void CPU::opcode_rrc(Address&& addr) {
     mmu.write(addr, result);
 
     set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 
