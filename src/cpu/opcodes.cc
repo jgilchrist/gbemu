@@ -726,6 +726,8 @@ void CPU::opcode_sbc(Address&& addr) {
 /* SCF */
 void CPU::opcode_scf() {
     set_flag_carry(true);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 
