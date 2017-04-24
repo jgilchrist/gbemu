@@ -767,6 +767,8 @@ void CPU::opcode_sla(ByteRegister& reg) {
 
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 void CPU::opcode_sla(Address&& addr) {
@@ -779,6 +781,8 @@ void CPU::opcode_sla(Address&& addr) {
 
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 
@@ -795,6 +799,8 @@ void CPU::opcode_sra(ByteRegister& reg) {
 
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 void CPU::opcode_sra(Address&& addr) {
@@ -809,6 +815,8 @@ void CPU::opcode_sra(Address&& addr) {
 
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 }
 
 
@@ -821,6 +829,8 @@ void CPU::opcode_srl(ByteRegister& reg) {
     u8 result = (value >> 1);
     set_flag_carry(least_bit_set);
     set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 
     reg.set(result);
 }
@@ -833,6 +843,8 @@ void CPU::opcode_srl(Address&& addr) {
     u8 result = (value >> 1);
     set_flag_carry(least_bit_set);
     set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
 
     mmu.write(addr, result);
 }
