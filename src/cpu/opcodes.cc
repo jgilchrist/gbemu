@@ -898,7 +898,7 @@ void CPU::_opcode_xor(u8 value) {
 
     u8 result = reg ^ value;
 
-    set_flag_zero(reg == 0);
+    set_flag_zero(result == 0);
     set_flag_subtract(false);
     set_flag_half_carry(false);
     set_flag_carry(false);
