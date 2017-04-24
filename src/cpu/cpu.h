@@ -214,6 +214,8 @@ private:
     void opcode_ldh_into_data();
     // (reg), A
     void opcode_ldh_into_c();
+    // A, (reg)
+    void opcode_ldh_c_into_a();
 
     /* LDHL */
     void opcode_ldhl();

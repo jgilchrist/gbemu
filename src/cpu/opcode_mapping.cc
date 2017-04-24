@@ -247,7 +247,7 @@ void CPU::opcode_EE() { opcode_xor(); }
 void CPU::opcode_EF() { opcode_rst(rst::rst6); }
 void CPU::opcode_F0() { opcode_ldh_into_a(); }
 void CPU::opcode_F1() { opcode_pop(af); }
-void CPU::opcode_F2() { /* Undefined */ }
+void CPU::opcode_F2() { opcode_ldh_c_into_a(); }
 void CPU::opcode_F3() { opcode_di(); }
 void CPU::opcode_F4() { /* Undefined */ }
 void CPU::opcode_F5() { opcode_push(af); }

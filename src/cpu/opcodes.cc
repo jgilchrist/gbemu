@@ -425,6 +425,12 @@ void CPU::opcode_ldh_into_c() {
     mmu.write(address, a.value());
 }
 
+void CPU::opcode_ldh_c_into_a() {
+    auto address = Address(0xFF00 + c.value());
+
+    a.set(mmu.read(address));
+}
+
 
 /* LDHL */
 void CPU::opcode_ldhl() {
