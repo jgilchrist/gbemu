@@ -18,14 +18,15 @@ void CPU::_opcode_adc(u8 value) {
     u8 reg = a.value();
     u8 carry = f.flag_carry_value();
 
-    uint result = reg + value + carry;
+    uint result_full = reg + value + carry;
+    u8 result = static_cast<u8>(result_full);
 
-    set_flag_zero(reg == 0);
+    set_flag_zero(result == 0);
     set_flag_subtract(false);
-    set_flag_half_carry((reg & 0xf) + (value & 0xf) + (carry & 0xf) > 0xf);
-    set_flag_carry((result & 0x100) != 0);
+    set_flag_half_carry(((reg & 0xf) + (value & 0xf) + carry) > 0xf);
+    set_flag_carry(result_full > 0xff);
 
-    a.set(static_cast<u8>(result));
+    a.set(result);
 }
 
 void CPU::opcode_adc() {
@@ -698,12 +699,15 @@ void CPU::_opcode_sbc(const u8 value) {
     u8 carry = f.flag_carry_value();
     u8 reg = a.value();
 
-    u8 result = static_cast<u8>(reg - value - carry);
+    int result_full = reg - value - carry;
+    u8 result = static_cast<u8>(result_full);
 
     set_flag_zero(result == 0);
     set_flag_subtract(true);
-    set_flag_carry(reg < (value + carry));
-    set_flag_half_carry((reg & 0xf) < ((value & 0xf) + carry));
+    set_flag_carry(result_full < 0);
+    set_flag_half_carry(((reg & 0xf) - (value & 0xf) - carry) < 0);
+
+    a.set(result);
 }
 
 void CPU::opcode_sbc() {
