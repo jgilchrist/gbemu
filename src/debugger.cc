@@ -23,6 +23,13 @@ void Debugger::cycle() {
         debugger_enabled = true;
     }
 
+    if (breakpoint_value_addr != 0 && !debugger_enabled) {
+        if (gameboy.mmu.read(breakpoint_value_addr) != breakpoint_value) { return; }
+        breakpoint_value_addr = 0;
+        breakpoint_value = 0;
+        debugger_enabled = true;
+    }
+
     if (!debugger_enabled) { return; }
 
     if (counter > 0) {
@@ -53,6 +60,10 @@ bool Debugger::execute(Command command) {
 
         case CommandType::BreakAddr:
             command_breakaddr(command.args);
+            break;
+
+        case CommandType::BreakValue:
+            command_breakvalue(command.args);
             break;
 
         case CommandType::Registers:
@@ -210,6 +221,19 @@ void Debugger::command_breakaddr(Args args) {
     log_info("Breakpoint set for address 0x%04X", breakpoint_addr);
 }
 
+void Debugger::command_breakvalue(Args args) {
+    if (args.size() != 2) {
+        log_error("Invalid arguments to command");
+        return;
+    }
+
+    u16 addr = static_cast<u16>(std::stoul(args[0], nullptr, 16));
+    u8 value = static_cast<u8>(std::stoul(args[1], nullptr, 16));
+    breakpoint_value_addr = addr;
+    breakpoint_value = value;
+    log_info("Breakpoint set for value 0x%02X at address 0x%04X", breakpoint_value, breakpoint_value_addr);
+}
+
 void Debugger::command_steps(Args args) {
     unused(args);
 
@@ -257,6 +281,7 @@ void Debugger::command_help(Args args) {
     printf("step $steps=1        Run $steps cycles\n");
     printf("run                  Run until the next breakpoint\n");
     printf("breakaddr $addr      Set a breakpoint at $addr\n");
+    printf("breakvalue $addr #n  Set a breakpoint at $addr\n");
     printf("\n");
     printf("= Debug Information\n");
     printf("registers            Print a dump of the CPU registers\n");
@@ -304,6 +329,7 @@ CommandType Debugger::parse_command(std::string cmd) {
     if (cmd == "run" || cmd == "r") return CommandType::Run;
 
     if (cmd == "breakaddr") return CommandType::BreakAddr;
+    if (cmd == "breakvalue") return CommandType::BreakValue;
 
     if (cmd == "regs") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;

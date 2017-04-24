@@ -15,6 +15,7 @@ enum class CommandType {
     Run,
 
     BreakAddr,
+    BreakValue,
 
     Registers,
     Flags,
@@ -60,6 +61,7 @@ private:
     void command_memory_cell(Args args);
 
     void command_breakaddr(Args args);
+    void command_breakvalue(Args args);
 
     void command_log(Args args);
 
@@ -76,5 +78,7 @@ private:
     uint counter = 0;
 
     u16 breakpoint_addr = 0;
+    u16 breakpoint_value_addr = 0;
+    u8 breakpoint_value = 0;
     bool debugger_enabled = true;
 };
