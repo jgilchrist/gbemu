@@ -673,7 +673,7 @@ void CPU::opcode_rrc(ByteRegister& reg) {
 
     u8 carry_flag = check_bit(value, 0);
     u8 truncated_bit = check_bit(value, 0);
-    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 8));
+    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
 
     reg.set(result);
 
@@ -688,7 +688,7 @@ void CPU::opcode_rrc(Address&& addr) {
 
     u8 carry_flag = check_bit(value, 0);
     u8 truncated_bit = check_bit(value, 0);
-    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 8));
+    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
 
     mmu.write(addr, result);
 
