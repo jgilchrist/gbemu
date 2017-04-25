@@ -31,7 +31,7 @@ Cartridge::Cartridge(std::string filename) {
 
 u8 Cartridge::read(const Address address) const {
     /* TODO: check this address is in sensible bounds */
-    return data[address.value()];
+    return data.at(address.value());
 }
 
 std::string Cartridge::game_title() const {
