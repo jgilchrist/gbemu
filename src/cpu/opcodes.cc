@@ -212,7 +212,34 @@ void CPU::opcode_cpl() {
 
 /* DAA */
 void CPU::opcode_daa() {
-    unimplemented_opcode();
+    u16 reg = a.value();
+
+    u16 correction = f.flag_carry()
+        ? 0x60
+        : 0x00;
+
+    if (f.flag_half_carry() || (!f.flag_subtract() && ((reg & 0x0F) > 9))) {
+        correction |= 0x06;
+    }
+
+    if (f.flag_carry() || (!f.flag_subtract() && (reg > 0x99))) {
+        correction |= 0x60;
+    }
+
+    if (f.flag_subtract()) {
+        reg = reg - correction;
+    } else {
+        reg = reg + correction;
+    }
+
+    if (((correction << 2) & 0x100) != 0) {
+        set_flag_carry(true);
+    }
+
+    set_flag_half_carry(false);
+    set_flag_zero(reg == 0);
+
+    a.set(static_cast<u8>(reg));
 }
 
 
