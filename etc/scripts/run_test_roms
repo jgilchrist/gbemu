@@ -1,0 +1,19 @@
+#!/bin/bash
+
+run_test_rom() {
+    local FILENAME=$(basename "$1")
+    printf "%-30s" "${FILENAME}"
+
+    local OUTPUT=$(./build/emulator "$1" -n --headless)
+    echo $OUTPUT | grep 'Failed' &> /dev/null
+
+    if [ $? == 0 ]; then
+        printf "\e[31mFailed\e[0m\n"
+    else
+        printf "\e[32mPassed\e[0m\n"
+    fi
+}
+
+for test_rom in ./etc/test_roms/cpu_instrs/individual/*; do
+    run_test_rom "$test_rom"
+done
