@@ -10,11 +10,11 @@ inline u8 compose_bits(const u8 high, const u8 low) {
 }
 
 inline u8 compose_nibbles(const u8 high, const u8 low) {
-    return static_cast<u8>((high << 4) + low);
+    return static_cast<u8>((high << 4) | low);
 }
 
 inline u16 compose_bytes(const u8 high, const u8 low) {
-    return static_cast<u16>((high << 8) + low);
+    return static_cast<u16>((high << 8) | low);
 }
 
 inline bool check_bit(const u8 value, const u8 bit) {
