@@ -212,7 +212,7 @@ void CPU::opcode_cpl() {
 
 /* DAA */
 void CPU::opcode_daa() {
-    u16 reg = a.value();
+    u8 reg = a.value();
 
     u16 correction = f.flag_carry()
         ? 0x60
@@ -227,9 +227,9 @@ void CPU::opcode_daa() {
     }
 
     if (f.flag_subtract()) {
-        reg = reg - correction;
+        reg = static_cast<u8>(reg - correction);
     } else {
-        reg = reg + correction;
+        reg = static_cast<u8>(reg + correction);
     }
 
     if (((correction << 2) & 0x100) != 0) {
