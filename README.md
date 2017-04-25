@@ -16,7 +16,7 @@
 | 08  | misc                | ✅      |
 | 09  | op r,r              | ✅      |
 | 10  | bit ops             | ✅      |
-| 11  | op a,(hl)           | ❌      |
+| 11  | op a,(hl)           | ✅      |
 
 ### Build Instructions
 
