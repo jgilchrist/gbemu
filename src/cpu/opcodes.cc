@@ -889,7 +889,7 @@ void CPU::opcode_swap(ByteRegister& reg) {
     u8 value = reg.value();
 
     u8 lower_nibble = value & 0x0F;
-    u8 upper_nibble = value & 0xF0;
+    u8 upper_nibble = (value & 0xF0) >> 4;
 
     u8 result = compose_nibbles(lower_nibble, upper_nibble);
     reg.set(result);
@@ -906,7 +906,7 @@ void CPU::opcode_swap(Address&& addr) {
     u8 value = mmu.read(addr);
 
     u8 lower_nibble = value & 0x0F;
-    u8 upper_nibble = value & 0xF0;
+    u8 upper_nibble = (value & 0xF0) >> 4;
 
     u8 result = compose_nibbles(lower_nibble, upper_nibble);
     mmu.write(addr, result);
