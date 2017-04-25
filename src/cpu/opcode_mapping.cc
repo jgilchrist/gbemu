@@ -208,7 +208,7 @@ void CPU::opcode_C7() { opcode_rst(rst::rst1); }
 void CPU::opcode_C8() { opcode_ret(Condition::Z); }
 void CPU::opcode_C9() { opcode_ret(); }
 void CPU::opcode_CA() { opcode_jp(Condition::Z); }
-void CPU::opcode_CB() { /* TODO: External Ops */ }
+void CPU::opcode_CB() { /* External Ops */ }
 void CPU::opcode_CC() { opcode_call(Condition::Z); }
 void CPU::opcode_CD() { opcode_call(); }
 void CPU::opcode_CE() { opcode_adc(); }
