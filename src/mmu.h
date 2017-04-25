@@ -5,8 +5,6 @@
 
 #include <vector>
 
-/* TODO: Can this forward declaration be avoided by
- * avoiding a dependency cycle between Video/MMU? */
 class Video;
 class CPU;
 
