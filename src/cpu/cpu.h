@@ -113,6 +113,7 @@ private:
     void opcode_add_a(const ByteRegister& reg);
     void opcode_add_a(const Address& addr);
 
+    void _opcode_add_hl(u16 value);
     void opcode_add_hl(const RegisterPair& reg_pair);
     void opcode_add_hl(const WordRegister& word_reg);
 
@@ -252,21 +253,29 @@ private:
     void opcode_reti();
 
     /* RL */
+    u8 _opcode_rl(u8 value);
+
     void opcode_rla();
     void opcode_rl(ByteRegister& reg);
     void opcode_rl(Address&& addr);
 
     /* RLC */
+    u8 _opcode_rlc(u8 value);
+
     void opcode_rlca();
     void opcode_rlc(ByteRegister& reg);
     void opcode_rlc(Address&& addr);
 
     /* RR */
+    u8 _opcode_rr(u8 value);
+
     void opcode_rra();
     void opcode_rr(ByteRegister& reg);
     void opcode_rr(Address&& addr);
 
     /* RRC */
+    u8 _opcode_rrc(u8 value);
+
     void opcode_rrca();
     void opcode_rrc(ByteRegister& reg);
     void opcode_rrc(Address&& addr);
@@ -289,14 +298,20 @@ private:
     void opcode_set(const u8 bit, Address&& addr);
 
     /* SLA */
+    u8 _opcode_sla(u8 value);
+
     void opcode_sla(ByteRegister& reg);
     void opcode_sla(Address&& addr);
 
     /* SRA */
+    u8 _opcode_sra(u8 value);
+
     void opcode_sra(ByteRegister& reg);
     void opcode_sra(Address&& addr);
 
     /* SRL */
+    u8 _opcode_srl(u8 value);
+
     void opcode_srl(ByteRegister& reg);
     void opcode_srl(Address&& addr);
 
@@ -311,6 +326,8 @@ private:
     void opcode_sub(Address&& addr);
 
     /* SWAP */
+    u8 _opcode_swap(u8 value);
+
     void opcode_swap(ByteRegister& reg);
     void opcode_swap(Address&& addr);
 

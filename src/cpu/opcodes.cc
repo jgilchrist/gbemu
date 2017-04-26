@@ -67,9 +67,8 @@ void CPU::opcode_add_a(const Address& addr) {
 }
 
 
-void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
+void CPU::_opcode_add_hl(u16 value) {
     u16 reg = hl.value();
-    u16 value = reg_pair.value();
 
     uint result = reg + value;
 
@@ -80,17 +79,12 @@ void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
     hl.set(static_cast<u16>(result));
 }
 
+void CPU::opcode_add_hl(const RegisterPair& reg_pair) {
+    _opcode_add_hl(reg_pair.value());
+}
+
 void CPU::opcode_add_hl(const WordRegister& word_reg) {
-    u16 reg = hl.value();
-    u16 value = word_reg.value();
-
-    int result = reg + value;
-
-    set_flag_subtract(false);
-    set_flag_half_carry((reg & 0xfff) + (value & 0xfff) > 0xfff);
-    set_flag_carry((result & 0x10000) != 0);
-
-    hl.set(static_cast<u16>(result));
+    _opcode_add_hl(word_reg.value());
 }
 
 void CPU::opcode_add_sp() {
@@ -418,9 +412,6 @@ void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
 
 /* LDD */
 void CPU::opcode_ldd(ByteRegister& reg, const Address& address) {
-    /* TODO: clean up
-     * two ways of doing ldd
-     * address is always that of HL */
     reg.set(mmu.read(address));
     hl.decrement();
 }
@@ -567,14 +558,8 @@ void CPU::opcode_reti() {
 
 
 /* RL */
-void CPU::opcode_rla() {
-    opcode_rl(a);
-    set_flag_zero(false);
-}
-
-void CPU::opcode_rl(ByteRegister& reg) {
+u8 CPU::_opcode_rl(u8 value) {
     u8 carry = f.flag_carry_value();
-    u8 value = reg.value();
 
     bool will_carry = check_bit(value, 7);
     set_flag_carry(will_carry);
@@ -587,144 +572,115 @@ void CPU::opcode_rl(ByteRegister& reg) {
     set_flag_subtract(false);
     set_flag_half_carry(false);
 
+    return result;
+}
+
+void CPU::opcode_rla() {
+    opcode_rl(a);
+    set_flag_zero(false);
+}
+
+void CPU::opcode_rl(ByteRegister& reg) {
+    u8 result = _opcode_rl(reg.value());
     reg.set(result);
 }
 
 void CPU::opcode_rl(Address&& addr) {
-    u8 old_carry = f.flag_carry_value();
-    u8 value = mmu.read(addr);
-
-    /* TODO: in other emulators, flags are only reset if carry flag is not set */
-
-    bool will_carry = check_bit(value, 7);
-    set_flag_carry(will_carry);
-
-    u8 result = static_cast<u8>(value << 1);
-    result |= old_carry;
-
-    set_flag_zero(result == 0);
-
-    set_flag_subtract(false);
-    set_flag_half_carry(false);
-
+    u8 result = _opcode_rl(mmu.read(addr));
     mmu.write(addr, result);
 }
 
 
 /* RLC */
+u8 CPU::_opcode_rlc(u8 value) {
+    u8 carry_flag = check_bit(value, 7);
+    u8 truncated_bit = check_bit(value, 7);
+    u8 result = static_cast<u8>((value << 1) | truncated_bit);
+
+    set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
+
+    return result;
+}
+
 void CPU::opcode_rlca() {
     opcode_rlc(a);
     set_flag_zero(false);
 }
 
 void CPU::opcode_rlc(ByteRegister& reg) {
-    u8 value = reg.value();
-
-    u8 carry_flag = check_bit(value, 7);
-    u8 truncated_bit = check_bit(value, 7);
-    u8 result = static_cast<u8>((value << 1) | truncated_bit);
-
+    u8 result = _opcode_rlc(reg.value());
     reg.set(result);
-
-    set_flag_carry(carry_flag);
-    set_flag_zero(result == 0);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 void CPU::opcode_rlc(Address&& addr) {
-    u8 value = mmu.read(addr);
-
-    u8 carry_flag = check_bit(value, 7);
-    u8 truncated_bit = check_bit(value, 7);
-    u8 result = static_cast<u8>((value << 1) | truncated_bit);
-
+    u8 result = _opcode_rlc(mmu.read(addr));
     mmu.write(addr, result);
-
-    set_flag_carry(carry_flag);
-    set_flag_zero(result == 0);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 
 /* RR */
+u8 CPU::_opcode_rr(u8 value) {
+    u8 carry = f.flag_carry_value();
+
+    bool will_carry = check_bit(value, 0);
+    set_flag_carry(will_carry);
+
+    u8 result = static_cast<u8>(value >> 1);
+    result |= (carry << 7);
+
+    set_flag_zero(result == 0);
+    set_flag_subtract(false);
+    set_flag_half_carry(false);
+
+    return result;
+}
+
 void CPU::opcode_rra() {
     opcode_rr(a);
     set_flag_zero(false);
 }
 
 void CPU::opcode_rr(ByteRegister& reg) {
-    u8 carry = f.flag_carry_value();
-    u8 value = reg.value();
-
-    bool will_carry = check_bit(value, 0);
-    set_flag_carry(will_carry);
-
-    u8 result = static_cast<u8>(value >> 1);
-    result |= (carry << 7);
-
-    set_flag_zero(result == 0);
-
-    set_flag_subtract(false);
-    set_flag_half_carry(false);
-
+    u8 result = _opcode_rr(reg.value());
     reg.set(result);
 }
 
 void CPU::opcode_rr(Address&& addr) {
-    u8 carry = f.flag_carry_value();
-    u8 value = mmu.read(addr);
-
-    bool will_carry = check_bit(value, 0);
-    set_flag_carry(will_carry);
-
-    u8 result = static_cast<u8>(value >> 1);
-    result |= (carry << 7);
-
-    set_flag_zero(result == 0);
-
-    set_flag_subtract(false);
-    set_flag_half_carry(false);
-
+    u8 result = _opcode_rr(mmu.read(addr));
     mmu.write(addr, result);
 }
 
 
 /* RRC */
+u8 CPU::_opcode_rrc(u8 value) {
+    u8 carry_flag = check_bit(value, 0);
+    u8 truncated_bit = check_bit(value, 0);
+    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
+
+    set_flag_carry(carry_flag);
+    set_flag_zero(result == 0);
+    set_flag_half_carry(false);
+    set_flag_subtract(false);
+
+    return result;
+}
+
 void CPU::opcode_rrca() {
     opcode_rrc(a);
     set_flag_zero(false);
 }
 
 void CPU::opcode_rrc(ByteRegister& reg) {
-    u8 value = reg.value();
-
-    u8 carry_flag = check_bit(value, 0);
-    u8 truncated_bit = check_bit(value, 0);
-    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
-
+    u8 result = _opcode_rrc(reg.value());
     reg.set(result);
-
-    set_flag_carry(carry_flag);
-    set_flag_zero(result == 0);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 void CPU::opcode_rrc(Address&& addr) {
-    u8 value = mmu.read(addr);
-
-    u8 carry_flag = check_bit(value, 0);
-    u8 truncated_bit = check_bit(value, 0);
-    u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
-
+    u8 result = _opcode_rrc(mmu.read(addr));
     mmu.write(addr, result);
-
-    set_flag_carry(carry_flag);
-    set_flag_zero(result == 0);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 
@@ -786,73 +742,59 @@ void CPU::opcode_set(const u8 bit, Address&& addr) {
 
 
 /* SLA */
-void CPU::opcode_sla(ByteRegister& reg) {
-    u8 value = reg.value();
+u8 CPU::_opcode_sla(u8 value) {
     u8 carry_bit = check_bit(value, 7);
 
     u8 result = static_cast<u8>(value << 1);
-
-    reg.set(result);
 
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
     set_flag_half_carry(false);
     set_flag_subtract(false);
+
+    return result;
+}
+
+void CPU::opcode_sla(ByteRegister& reg) {
+    u8 result = _opcode_sla(reg.value());
+    reg.set(result);
 }
 
 void CPU::opcode_sla(Address&& addr) {
-    u8 value = mmu.read(addr);
-    u8 carry_bit = check_bit(value, 7);
-
-    u8 result = static_cast<u8>(value << 1);
-
+    u8 result = _opcode_sla(mmu.read(addr));
     mmu.write(addr, result);
-
-    set_flag_zero(result == 0);
-    set_flag_carry(carry_bit);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 
 /* SRA */
-void CPU::opcode_sra(ByteRegister& reg) {
-    u8 value = reg.value();
+u8 CPU::_opcode_sra(u8 value) {
     u8 carry_bit = check_bit(value, 0);
     u8 top_bit = check_bit(value, 7);
 
     u8 result = static_cast<u8>(value >> 1);
     result = bitwise::set_bit_to(result, 7, top_bit);
 
-    reg.set(result);
-
     set_flag_zero(result == 0);
     set_flag_carry(carry_bit);
     set_flag_half_carry(false);
     set_flag_subtract(false);
+
+    return result;
+}
+
+void CPU::opcode_sra(ByteRegister& reg) {
+    u8 result = _opcode_sra(reg.value());
+    reg.set(result);
 }
 
 void CPU::opcode_sra(Address&& addr) {
-    u8 value = mmu.read(addr);
-    u8 carry_bit = check_bit(value, 0);
-    u8 top_bit = check_bit(value, 7);
-
-    u8 result = static_cast<u8>(value >> 1);
-    result = bitwise::set_bit_to(result, 7, top_bit);
-
+    u8 result = _opcode_sra(mmu.read(addr));
     mmu.write(addr, result);
-
-    set_flag_zero(result == 0);
-    set_flag_carry(carry_bit);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
 }
 
 
 /* SRL */
-void CPU::opcode_srl(ByteRegister& reg) {
-    u8 value = reg.value();
-
+u8 CPU::_opcode_srl(u8 value) {
     bool least_bit_set = check_bit(value, 0);
 
     u8 result = (value >> 1);
@@ -861,20 +803,16 @@ void CPU::opcode_srl(ByteRegister& reg) {
     set_flag_half_carry(false);
     set_flag_subtract(false);
 
+    return result;
+}
+
+void CPU::opcode_srl(ByteRegister& reg) {
+    u8 result = _opcode_srl(reg.value());
     reg.set(result);
 }
 
 void CPU::opcode_srl(Address&& addr) {
-    u8 value = mmu.read(addr);
-
-    bool least_bit_set = check_bit(value, 0);
-
-    u8 result = (value >> 1);
-    set_flag_carry(least_bit_set);
-    set_flag_zero(result == 0);
-    set_flag_half_carry(false);
-    set_flag_subtract(false);
-
+    u8 result = _opcode_srl(mmu.read(addr));
     mmu.write(addr, result);
 }
 
@@ -912,38 +850,30 @@ void CPU::opcode_sub(Address&& addr) {
 
 
 /* SWAP */
-void CPU::opcode_swap(ByteRegister& reg) {
+u8 CPU::_opcode_swap(u8 value) {
     using bitwise::compose_nibbles;
-
-    u8 value = reg.value();
 
     u8 lower_nibble = value & 0x0F;
     u8 upper_nibble = (value & 0xF0) >> 4;
 
     u8 result = compose_nibbles(lower_nibble, upper_nibble);
-    reg.set(result);
 
     set_flag_zero(result == 0);
     set_flag_subtract(false);
     set_flag_half_carry(false);
     set_flag_carry(false);
+
+    return result;
+}
+
+void CPU::opcode_swap(ByteRegister& reg) {
+    u8 result = _opcode_swap(reg.value());
+    reg.set(result);
 }
 
 void CPU::opcode_swap(Address&& addr) {
-    using bitwise::compose_nibbles;
-
-    u8 value = mmu.read(addr);
-
-    u8 lower_nibble = value & 0x0F;
-    u8 upper_nibble = (value & 0xF0) >> 4;
-
-    u8 result = compose_nibbles(lower_nibble, upper_nibble);
+    u8 result = _opcode_swap(mmu.read(addr));
     mmu.write(addr, result);
-
-    set_flag_zero(result == 0);
-    set_flag_subtract(false);
-    set_flag_half_carry(false);
-    set_flag_carry(false);
 }
 
 
