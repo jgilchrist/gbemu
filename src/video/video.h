@@ -24,7 +24,7 @@ struct TileInfo {
 
 class Video {
 public:
-    Video(Screen& inScreen, MMU& inMMU);
+    Video(std::shared_ptr<Screen> inScreen, MMU& inMMU);
 
     void tick(Cycles cycles);
 
@@ -75,7 +75,7 @@ private:
     Color get_real_color(u8 pixel_value) const;
     BGPalette get_bg_palette() const;
 
-    Screen& screen;
+    std::shared_ptr<Screen> screen;
     MMU& mmu;
     FrameBuffer buffer;
 

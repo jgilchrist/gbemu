@@ -4,7 +4,7 @@ run_test_rom() {
     local FILENAME=$(basename "$1")
     printf "%-30s" "${FILENAME}"
 
-    local OUTPUT=$(./build/emulator "$1" -n --headless)
+    local OUTPUT=$(./build/emulator "$1" --headless)
     echo $OUTPUT | grep 'Failed' &> /dev/null
 
     if [ $? == 0 ]; then

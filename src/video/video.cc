@@ -5,7 +5,7 @@
 
 using bitwise::check_bit;
 
-Video::Video(Screen& inScreen, MMU& inMMU) :
+Video::Video(std::shared_ptr<Screen> inScreen, MMU& inMMU) :
     screen(inScreen),
     mmu(inMMU),
     buffer(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE)
@@ -150,5 +150,5 @@ Color Video::get_real_color(u8 pixel_value) const {
 }
 
 void Video::draw() {
-    screen.draw(buffer, scroll_x.value(), scroll_y.value(), get_bg_palette());
+    screen->draw(buffer, scroll_x.value(), scroll_y.value(), get_bg_palette());
 }

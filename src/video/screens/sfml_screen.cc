@@ -2,7 +2,7 @@
 
 #include "../../util/log.h"
 
-SFMLScreen::SFMLScreen(uint _magnification, bool _whole_framebuffer) :
+SFMLScreen::SFMLScreen(bool _whole_framebuffer, uint _magnification) :
     magnification(_magnification),
     whole_framebuffer(_whole_framebuffer),
     logical_width(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_WIDTH),

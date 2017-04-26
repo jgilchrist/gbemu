@@ -5,14 +5,16 @@
 #include "video/screen.h"
 #include "video/video.h"
 
+#include <memory>
+
 class Gameboy {
 public:
-    Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug = false);
+    Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, bool should_debug = false);
 
     void run();
 
 private:
-    Screen& screen;
+    std::shared_ptr<Screen> screen;
     CPU cpu;
     Video video;
     MMU mmu;

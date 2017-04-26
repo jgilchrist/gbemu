@@ -16,11 +16,12 @@ Options get_options(int argc, char* argv[]) {
     bool debugger = flag_set(begin, end, "--debug");
     bool trace = flag_set(begin, end, "--trace");
     bool disable_logs = flag_set(begin, end, "--nolog");
+    bool headless = flag_set(begin, end, "--headless");
     bool show_full_framebuffer = flag_set(begin, end, "--full-framebuffer");
 
     std::string filename = argv[1];
 
-    return Options { debugger, trace, disable_logs, show_full_framebuffer, filename };
+    return Options { debugger, trace, disable_logs, headless, show_full_framebuffer, filename };
 }
 
 LogLevel get_log_level(Options& options) {

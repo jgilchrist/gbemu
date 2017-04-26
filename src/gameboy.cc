@@ -1,7 +1,7 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug) :
+Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, bool should_debug) :
     screen(inScreen),
     cpu(mmu),
     video(screen, mmu),
@@ -15,7 +15,7 @@ Gameboy::Gameboy(Screen& inScreen, Cartridge& cartridge, bool should_debug) :
 void Gameboy::run() {
     uint elapsed_cycles = 0;
 
-    while (screen.is_open()) {
+    while (screen->is_open()) {
         debugger.cycle();
 
         auto cycles = cpu.tick();

@@ -4,7 +4,7 @@
 
 class SFMLScreen : public Screen {
 public:
-    SFMLScreen(uint _magnification = 4, bool _whole_framebuffer=false);
+    SFMLScreen(bool _whole_framebuffer=false, uint _magnification = 5);
     ~SFMLScreen() override = default;
 
     void draw(const FrameBuffer& buffer, const uint scrollx, const uint scrolly, const BGPalette& bg_palette) override;
