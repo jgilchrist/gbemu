@@ -32,11 +32,11 @@
 ##### Running a game
 
 ```sh
-$ ./build/emulator rom_file
+$ emulator rom_file
 ```
 
 ##### Using the integrated debugger
 
 ```sh
-$ ./build/emulator rom_file --debug
+$ emulator rom_file --debug
 ```
