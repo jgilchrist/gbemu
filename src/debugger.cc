@@ -58,45 +58,16 @@ bool Debugger::execute(Command command) {
             debugger_enabled = false;
             return true;
 
-        case CommandType::BreakAddr:
-            command_breakaddr(command.args);
-            break;
-
-        case CommandType::BreakValue:
-            command_breakvalue(command.args);
-            break;
-
-        case CommandType::Registers:
-            command_registers(command.args);
-            break;
-
-        case CommandType::Flags:
-            command_flags(command.args);
-            break;
-
-        case CommandType::Memory:
-            command_memory(command.args);
-            break;
-
-        case CommandType::MemoryCell:
-            command_memory_cell(command.args);
-            break;
-
-        case CommandType::Steps:
-            command_steps(command.args);
-            break;
-
-        case CommandType::Log:
-            command_log(command.args);
-            break;
-
-        case CommandType::Exit:
-            command_exit(command.args);
-            break;
-
-        case CommandType::Help:
-            command_help(command.args);
-            break;
+        case CommandType::BreakAddr: command_breakaddr(command.args); break;
+        case CommandType::BreakValue: command_breakvalue(command.args); break;
+        case CommandType::Registers: command_registers(command.args); break;
+        case CommandType::Flags: command_flags(command.args); break;
+        case CommandType::Memory: command_memory(command.args); break;
+        case CommandType::MemoryCell: command_memory_cell(command.args); break;
+        case CommandType::Steps: command_steps(command.args); break;
+        case CommandType::Log: command_log(command.args); break;
+        case CommandType::Exit: command_exit(command.args); break;
+        case CommandType::Help: command_help(command.args); break;
 
         case CommandType::Unknown:
             printf("Unknown command\n");
@@ -140,14 +111,6 @@ bool Debugger::command_step(Args args) {
 
 void Debugger::command_registers(Args args) {
     unused(args);
-
-    /* printf("A: %02X | B: %02X | C: %02X | D: %02X | E: %02X | F: %02X\n", */
-        /* gameboy.cpu.a.value(), */
-        /* gameboy.cpu.b.value(), */
-        /* gameboy.cpu.c.value(), */
-        /* gameboy.cpu.d.value(), */
-        /* gameboy.cpu.e.value(), */
-        /* gameboy.cpu.f.value()); */
 
     printf("AF: %04X\n", gameboy.cpu.af.value());
     printf("BC: %04X\n", gameboy.cpu.bc.value());
