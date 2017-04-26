@@ -313,6 +313,10 @@ void MMU::write_io(const Address address, const u8 byte) {
             log_warn("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
             return;
 
+        case 0xFF4D:
+            log_warn("Attempted to write to 'Prepare Speed Switch' register");
+            return;
+
         /* Disable boot rom switch */
         case 0xFF50:
             memory_write(address, byte);
