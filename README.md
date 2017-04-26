@@ -38,5 +38,5 @@ $ ./build/emulator rom_file
 ##### Using the integrated debugger
 
 ```sh
-$ ./build/emulator rom_file -d
+$ ./build/emulator rom_file --debug
 ```
