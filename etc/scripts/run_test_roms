@@ -9,11 +9,26 @@ run_test_rom() {
 
     if [ $? == 0 ]; then
         printf "\e[31mFailed\e[0m\n"
+        return 1
     else
         printf "\e[32mPassed\e[0m\n"
+        return 0
     fi
 }
 
-for test_rom in ./etc/test_roms/cpu_instrs/individual/*; do
-    run_test_rom "$test_rom"
-done
+main() {
+    local failed_test=0
+
+    for test_rom in ./etc/test_roms/cpu_instrs/individual/*; do
+        run_test_rom "$test_rom"
+
+        if [ $? != 0 ]; then
+            failed_test=1
+        fi
+    done
+
+    return $failed_test
+}
+
+main
+exit $?
