@@ -15,22 +15,22 @@ enum class Condition {
 };
 
 namespace rst {
-const uint rst1 = 0x00;
-const uint rst2 = 0x08;
-const uint rst3 = 0x10;
-const uint rst4 = 0x18;
-const uint rst5 = 0x20;
-const uint rst6 = 0x28;
-const uint rst7 = 0x30;
-const uint rst8 = 0x38;
+const u16 rst1 = 0x00;
+const u16 rst2 = 0x08;
+const u16 rst3 = 0x10;
+const u16 rst4 = 0x18;
+const u16 rst5 = 0x20;
+const u16 rst6 = 0x28;
+const u16 rst7 = 0x30;
+const u16 rst8 = 0x38;
 } // namespace rst
 
 namespace interrupts {
-const int vblank = 0x40;
-const int lcdc_status = 0x48;
-const int timer = 0x50;
-const int serial = 0x58;
-const int joypad = 0x60;
+const u16 vblank = 0x40;
+const u16 lcdc_status = 0x48;
+const u16 timer = 0x50;
+const u16 serial = 0x58;
+const u16 joypad = 0x60;
 } // namespace interrupts
 
 
