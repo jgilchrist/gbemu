@@ -1,12 +1,12 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, bool should_debug) :
+Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, Options& options) :
     screen(inScreen),
-    cpu(mmu),
+    cpu(mmu, options),
     video(screen, mmu),
     mmu(cartridge, cpu, video),
-    debugger(*this, should_debug)
+    debugger(*this, options.debugger)
 {
     log_info("Initialising Gameboy");
     log_info("");

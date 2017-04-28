@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
     log_set_level(get_log_level(options));
 
     Cartridge cartridge(options.filename);
-    auto screen = get_screen(options.headless, options.show_full_framebuffer);
+    auto screen = get_screen(options);
 
-    Gameboy gameboy(screen, cartridge, options.debugger);
+    Gameboy gameboy(screen, cartridge, options);
     gameboy.run();
 }

@@ -330,7 +330,7 @@ void CPU::opcode_jp(const Address& addr) {
 void CPU::opcode_jr() {
     s8 offset = get_signed_byte_from_pc();
 
-    if (offset == -2) { exit(0); }
+    if (options.exit_on_infinite_jr && offset == -2) { exit(0); }
 
     u16 old_pc = pc.value();
 

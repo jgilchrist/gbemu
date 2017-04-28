@@ -18,10 +18,11 @@ Options get_options(int argc, char* argv[]) {
     bool disable_logs = flag_set(begin, end, "--nolog");
     bool headless = flag_set(begin, end, "--headless");
     bool show_full_framebuffer = flag_set(begin, end, "--full-framebuffer");
+    bool exit_on_infinite_jr = flag_set(begin, end, "--exit-on-infinite-jr");
 
     std::string filename = argv[1];
 
-    return Options { debugger, trace, disable_logs, headless, show_full_framebuffer, filename };
+    return Options { debugger, trace, disable_logs, headless, show_full_framebuffer, exit_on_infinite_jr, filename };
 }
 
 LogLevel get_log_level(Options& options) {

@@ -7,8 +7,9 @@
 
 using bitwise::compose_bytes;
 
-CPU::CPU(MMU& inMMU) :
+CPU::CPU(MMU& inMMU, Options& inOptions) :
     mmu(inMMU),
+    options(inOptions),
     af(a, f),
     bc(b, c),
     de(d, e),

@@ -8,6 +8,7 @@ struct Options {
     bool disable_logs;
     bool headless;
     bool show_full_framebuffer;
+    bool exit_on_infinite_jr;
     std::string filename;
 };
 

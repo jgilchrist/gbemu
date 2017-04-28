@@ -5,6 +5,7 @@
 #include "../cycles.h"
 #include "../mmu.h"
 #include "../register.h"
+#include "../util/cli.h"
 
 enum class Condition {
     NZ,
@@ -35,7 +36,7 @@ const int joypad = 0x60;
 
 class CPU {
 public:
-    CPU(MMU& inMMU);
+    CPU(MMU& inMMU, Options& inOptions);
 
     Cycles tick();
 
@@ -49,6 +50,7 @@ public:
 private:
     Clock clock;
     MMU& mmu;
+    Options& options;
 
     bool interrupts_enabled = false;
 
