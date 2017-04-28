@@ -1,0 +1,21 @@
+language: cpp
+dist: trusty
+
+compiler:
+    - clang
+
+addons:
+  apt:
+    sources:
+        # add PPAs with more up-to-date toolchains
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-precise-3.9
+        - george-edison55-precise-backports
+    packages:
+        - cmake
+        - cmake-data
+        - clang-3.9
+        - libsfml-dev
+
+script:
+    - make release
