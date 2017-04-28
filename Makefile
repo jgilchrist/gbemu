@@ -47,4 +47,4 @@ cmake-release: build-dir
 debug: tags cmake-debug compile
 
 .PHONY: release
-release: cmake-release compile
+release: tags cmake-release compile
