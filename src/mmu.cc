@@ -68,7 +68,7 @@ u8 MMU::read(const Address& address) const {
 
     /* Interrupt Enable register */
     if (address == 0xFFFF) {
-        return memory_read(address);
+        return cpu.interrupt_enabled.value();
     }
 
     fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
@@ -179,7 +179,7 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* Interrupt Enable register */
     if (address == 0xFFFF) {
-        memory_write(address, byte);
+        cpu.interrupt_enabled.set(byte);
         return;
     }
 
@@ -322,11 +322,6 @@ void MMU::write_io(const Address& address, const u8 byte) {
             memory_write(address, byte);
             log.enable_tracing();
             log_info("Boot rom was disabled");
-            return;
-
-        case 0xFFFF:
-            /* TODO: Interrupt Enable register */
-            log_warn("Wrote to interrupt enable register 0x%x - 0x%x", address.value(), byte);
             return;
 
         default:

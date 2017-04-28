@@ -46,6 +46,7 @@ public:
     Cycles execute_cb_opcode(u8 opcode, u16 opcode_pc);
 
     ByteRegister interrupt_flag;
+    ByteRegister interrupt_enabled;
 
 private:
     Clock clock;
