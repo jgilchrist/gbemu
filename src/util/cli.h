@@ -1,3 +1,5 @@
+#pragma once
+
 #include "log.h"
 
 struct Options {

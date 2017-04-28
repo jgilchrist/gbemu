@@ -1,3 +1,5 @@
+#pragma once
+
 #include "screens/null_screen.h"
 #include "screens/sfml_screen.h"
 
