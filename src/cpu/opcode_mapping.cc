@@ -1,4 +1,5 @@
 #include "cpu.h"
+/* clang-format off */
 
 /**
  * This section contains functions which map to actual opcodes which are executed

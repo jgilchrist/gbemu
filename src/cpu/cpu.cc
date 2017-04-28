@@ -99,6 +99,7 @@ void CPU::stack_pop(WordValue& reg) {
     reg.set(value);
 }
 
+/* clang-format off */
 Cycles CPU::execute_normal_opcode(const u8 opcode, u16 opcode_pc) {
     log_trace("0x%04X: %s (0x%x)", opcode_pc, opcode_names[opcode].c_str(), opcode);
 
