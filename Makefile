@@ -28,7 +28,7 @@ format:
 	@./etc/scripts/clang-format
 
 .PHONY: tidy
-tidy:
+tidy: debug
 	@./etc/scripts/clang-tidy
 
 ###################
