@@ -59,7 +59,7 @@ public:
 private:
     void write_scanline(u8 current_line);
     void draw();
-    void draw_tile(const uint tile_x, const uint tile_y);
+    void draw_tile(uint tile_x, uint tile_y);
 
     bool display_enabled() const;
     bool window_tile_map() const;

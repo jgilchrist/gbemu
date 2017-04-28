@@ -30,7 +30,7 @@ class Logger {
 public:
     Logger();
 
-    void log(LogLevel level, const std::string file, int line, const char* fmt, ...);
+    void log(LogLevel level, std::string file, int line, const char* fmt, ...);
     void set_level(LogLevel level);
 
     void enable_tracing();

@@ -29,7 +29,7 @@ Cartridge::Cartridge(std::string filename) {
     log_info("Ram Size:\t\t %s", describe(ram_size).c_str());
 }
 
-u8 Cartridge::read(const Address address) const {
+u8 Cartridge::read(const Address& address) const {
     /* TODO: check this address is in sensible bounds */
     return data.at(address.value());
 }

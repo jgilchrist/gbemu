@@ -15,7 +15,7 @@ MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo) :
     memory = std::vector<u8>(0x10000);
 }
 
-u8 MMU::read(const Address address) const {
+u8 MMU::read(const Address& address) const {
     if (address.in_range(0x0, 0x7FFF)) {
         if (address.in_range(0x0, 0xFF) && boot_rom_active()) {
             return bootDMG[address.value()];
@@ -74,11 +74,11 @@ u8 MMU::read(const Address address) const {
     fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
 }
 
-u8 MMU::memory_read(const Address address) const {
+u8 MMU::memory_read(const Address& address) const {
     return memory.at(address.value());
 }
 
-u8 MMU::read_io(const Address address) const {
+u8 MMU::read_io(const Address& address) const {
     switch (address.value()) {
         case 0xFF00:
             log_warn("Attempted to read joypad register");
@@ -122,7 +122,7 @@ u8 MMU::read_io(const Address address) const {
     }
 }
 
-void MMU::write(const Address address, const u8 byte) {
+void MMU::write(const Address& address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
         log_warn("Attempting to write to cartridge ROM: %04X - 0x%X", address.value(), byte);
         return;
@@ -186,7 +186,7 @@ void MMU::write(const Address address, const u8 byte) {
     fatal_error("Attempted to write to unmapped memory address 0x%X", address.value());
 }
 
-void MMU::write_io(const Address address, const u8 byte) {
+void MMU::write_io(const Address& address, const u8 byte) {
     switch (address.value()) {
         case 0xFF00:
             /* TODO: Joypad */
@@ -336,7 +336,7 @@ void MMU::write_io(const Address address, const u8 byte) {
     }
 }
 
-void MMU::memory_write(const Address address, const u8 byte) {
+void MMU::memory_write(const Address& address, const u8 byte) {
     memory.at(address.value()) = byte;
 }
 

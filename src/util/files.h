@@ -2,4 +2,4 @@
 
 #include <vector>
 
-std::vector<char> read_bytes(const std::string filename);
+std::vector<char> read_bytes(std::string filename);

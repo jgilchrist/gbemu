@@ -40,10 +40,10 @@ public:
 
     Cycles tick();
 
-    Cycles execute_opcode(const u8 opcode, u16 opcode_pc);
+    Cycles execute_opcode(u8 opcode, u16 opcode_pc);
 
-    Cycles execute_normal_opcode(const u8 opcode, u16 opcode_pc);
-    Cycles execute_cb_opcode(const u8 opcode, u16 opcode_pc);
+    Cycles execute_normal_opcode(u8 opcode, u16 opcode_pc);
+    Cycles execute_cb_opcode(u8 opcode, u16 opcode_pc);
 
     ByteRegister interrupt_flag;
 
@@ -129,10 +129,10 @@ private:
     void opcode_and(Address&& addr);
 
     /* BIT */
-    void _opcode_bit(const u8 bit, const u8 value);
+    void _opcode_bit(u8 bit, u8 value);
 
-    void opcode_bit(const u8 bit, ByteRegister& reg);
-    void opcode_bit(const u8 bit, Address&& addr);
+    void opcode_bit(u8 bit, ByteRegister& reg);
+    void opcode_bit(u8 bit, Address&& addr);
 
     /* CALL */
     void opcode_call();
@@ -142,7 +142,7 @@ private:
     void opcode_ccf();
 
     /* CP */
-    void _opcode_cp(const u8 value);
+    void _opcode_cp(u8 value);
 
     void opcode_cp();
     void opcode_cp(const ByteRegister& reg);
@@ -242,8 +242,8 @@ private:
     void opcode_push(const RegisterPair& reg);
 
     /* RES */
-    void opcode_res(const u8 bit, ByteRegister& reg);
-    void opcode_res(const u8 bit, Address&& addr);
+    void opcode_res(u8 bit, ByteRegister& reg);
+    void opcode_res(u8 bit, Address&& addr);
 
     /* RET */
     void opcode_ret();
@@ -281,10 +281,10 @@ private:
     void opcode_rrc(Address&& addr);
 
     /* RST */
-    void opcode_rst(const u8 offset);
+    void opcode_rst(u8 offset);
 
     /* SBC */
-    void _opcode_sbc(const u8 value);
+    void _opcode_sbc(u8 value);
 
     void opcode_sbc();
     void opcode_sbc(ByteRegister& reg);
@@ -294,8 +294,8 @@ private:
     void opcode_scf();
 
     /* SET */
-    void opcode_set(const u8 bit, ByteRegister& reg);
-    void opcode_set(const u8 bit, Address&& addr);
+    void opcode_set(u8 bit, ByteRegister& reg);
+    void opcode_set(u8 bit, Address&& addr);
 
     /* SLA */
     u8 _opcode_sla(u8 value);
