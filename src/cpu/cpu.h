@@ -45,6 +45,8 @@ public:
     Cycles execute_normal_opcode(u8 opcode, u16 opcode_pc);
     Cycles execute_cb_opcode(u8 opcode, u16 opcode_pc);
 
+    void handle_interrupts();
+
     ByteRegister interrupt_flag;
     ByteRegister interrupt_enabled;
 

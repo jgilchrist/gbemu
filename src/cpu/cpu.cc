@@ -18,9 +18,12 @@ CPU::CPU(MMU& inMMU, Options& inOptions) :
 }
 
 Cycles CPU::tick() {
+    handle_interrupts();
+
     u16 opcode_pc = pc.value();
     auto opcode = get_byte_from_pc();
-    return execute_opcode(opcode, opcode_pc);
+    auto cycles = execute_opcode(opcode, opcode_pc);
+    return cycles;
 }
 
 Cycles CPU::execute_opcode(const u8 opcode, u16 opcode_pc) {
@@ -32,6 +35,53 @@ Cycles CPU::execute_opcode(const u8 opcode, u16 opcode_pc) {
     }
 
     return execute_normal_opcode(opcode, opcode_pc);
+}
+
+void CPU::handle_interrupts() {
+    using bitwise::check_bit;
+
+    if (interrupts_enabled) {
+        u8 fired_interrupts = interrupt_flag.value() & interrupt_enabled.value();
+
+        if (!fired_interrupts) { return; }
+
+        stack_push(pc);
+
+        if (check_bit(fired_interrupts, 0)) {
+            interrupt_flag.set_bit_to(0, false);
+            pc.set(interrupts::vblank);
+            interrupts_enabled = false;
+            return;
+        }
+
+        if (check_bit(fired_interrupts, 1)) {
+            interrupt_flag.set_bit_to(1, false);
+            pc.set(interrupts::lcdc_status);
+            interrupts_enabled = false;
+            return;
+        }
+
+        if (check_bit(fired_interrupts, 2)) {
+            interrupt_flag.set_bit_to(2, false);
+            pc.set(interrupts::timer);
+            interrupts_enabled = false;
+            return;
+        }
+
+        if (check_bit(fired_interrupts, 3)) {
+            interrupt_flag.set_bit_to(3, false);
+            pc.set(interrupts::serial);
+            interrupts_enabled = false;
+            return;
+        }
+
+        if (check_bit(fired_interrupts, 4)) {
+            interrupt_flag.set_bit_to(4, false);
+            pc.set(interrupts::joypad);
+            interrupts_enabled = false;
+            return;
+        }
+    }
 }
 
 u8 CPU::get_byte_from_pc() {

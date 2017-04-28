@@ -41,6 +41,7 @@ void Video::tick(Cycles cycles) {
                 /* Line 145 (index 144) is the first line of VBLANK */
                 if (line == 144) {
                     current_mode = VideoMode::VBLANK;
+                    cpu.interrupt_flag.set_bit_to(0, true);
                 } else {
                     current_mode = VideoMode::ACCESS_OAM;
                 }
