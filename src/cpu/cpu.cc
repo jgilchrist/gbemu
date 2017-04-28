@@ -82,32 +82,14 @@ bool CPU::is_condition(Condition condition) {
     return should_branch;
 }
 
-void CPU::stack_push(const WordRegister& reg) {
+void CPU::stack_push(const WordValue& reg) {
     sp.decrement();
     mmu.write(Address(sp), reg.high());
     sp.decrement();
     mmu.write(Address(sp), reg.low());
 }
 
-void CPU::stack_pop(WordRegister& reg) {
-    u8 low_byte = mmu.read(Address(sp));
-    sp.increment();
-    u8 high_byte = mmu.read(Address(sp));
-    sp.increment();
-
-    u16 value = compose_bytes(high_byte, low_byte);
-    reg.set(value);
-}
-
-/* TODO: reduce duplication with a WordValue interface */
-void CPU::stack_push(const RegisterPair& reg) {
-    sp.decrement();
-    mmu.write(Address(sp), reg.high());
-    sp.decrement();
-    mmu.write(Address(sp), reg.low());
-}
-
-void CPU::stack_pop(RegisterPair& reg) {
+void CPU::stack_pop(WordValue& reg) {
     u8 low_byte = mmu.read(Address(sp));
     sp.increment();
     u8 high_byte = mmu.read(Address(sp));

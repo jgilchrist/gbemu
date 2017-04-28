@@ -44,13 +44,26 @@ public:
     u8 flag_carry_value() const;
 };
 
-class WordRegister : Noncopyable {
+class WordValue {
 public:
-    void set(const u16 new_value);
-    u16 value() const;
+    virtual ~WordValue() = default;
 
-    u8 low() const;
-    u8 high() const;
+    virtual void set(const u16 new_value) = 0;
+
+    virtual u16 value() const = 0;
+
+    virtual u8 low() const = 0;
+    virtual u8 high() const = 0;
+};
+
+class WordRegister : public WordValue, Noncopyable {
+public:
+    void set(const u16 new_value) override;
+
+    u16 value() const override;
+
+    u8 low() const override;
+    u8 high() const override;
 
     void increment();
     void decrement();
@@ -59,16 +72,16 @@ private:
     u16 val;
 };
 
-class RegisterPair : Noncopyable {
+class RegisterPair : public WordValue, Noncopyable {
 public:
     RegisterPair(ByteRegister& high, ByteRegister& low);
 
-    void set(const u16 word);
+    void set(const u16 word) override;
 
-    u8 low() const;
-    u8 high() const;
+    u16 value() const override;
 
-    u16 value() const;
+    u8 low() const override;
+    u8 high() const override;
 
     void increment();
     void decrement();
