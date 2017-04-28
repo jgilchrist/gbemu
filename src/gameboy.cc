@@ -4,7 +4,7 @@
 Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, Options& options) :
     screen(inScreen),
     cpu(mmu, options),
-    video(screen, mmu),
+    video(screen, cpu, mmu),
     mmu(cartridge, cpu, video),
     debugger(*this, options.debugger)
 {

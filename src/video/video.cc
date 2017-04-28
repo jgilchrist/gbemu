@@ -1,12 +1,15 @@
 #include "video.h"
 
+#include "../cpu/cpu.h"
+
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
 using bitwise::check_bit;
 
-Video::Video(std::shared_ptr<Screen> inScreen, MMU& inMMU) :
+Video::Video(std::shared_ptr<Screen> inScreen, CPU& inCPU, MMU& inMMU) :
     screen(inScreen),
+    cpu(inCPU),
     mmu(inMMU),
     buffer(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE)
 {
