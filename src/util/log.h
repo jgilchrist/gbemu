@@ -30,7 +30,7 @@ class Logger {
 public:
     Logger();
 
-    void log(LogLevel level, std::string file, int line, const char* fmt, ...);
+    void log(LogLevel level, const char* fmt, ...);
     void set_level(LogLevel level);
 
     void enable_tracing();
@@ -41,7 +41,6 @@ private:
 
     LogLevel current_level = LogLevel::Debug;
     bool enabled = true;
-    bool log_filename = false;
     bool tracing_enabled = false;
 };
 
@@ -53,12 +52,10 @@ extern const char* COLOR_WARNING;
 extern const char* COLOR_ERROR;
 extern const char* COLOR_RESET;
 
-#define SHORTFILENAME (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-
-#define log_trace(fmt, ...) log.log(LogLevel::Trace, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
-#define log_debug(fmt, ...) log.log(LogLevel::Debug, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
-#define log_info(fmt, ...) log.log(LogLevel::Info, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
-#define log_warn(fmt, ...) log.log(LogLevel::Warning, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
-#define log_error(fmt, ...) log.log(LogLevel::Error, SHORTFILENAME, __LINE__, fmt, ##__VA_ARGS__);
+#define log_trace(fmt, ...) log.log(LogLevel::Trace, fmt, ##__VA_ARGS__);
+#define log_debug(fmt, ...) log.log(LogLevel::Debug, fmt, ##__VA_ARGS__);
+#define log_info(fmt, ...) log.log(LogLevel::Info, fmt, ##__VA_ARGS__);
+#define log_warn(fmt, ...) log.log(LogLevel::Warning, fmt, ##__VA_ARGS__);
+#define log_error(fmt, ...) log.log(LogLevel::Error, fmt, ##__VA_ARGS__);
 
 extern void log_set_level(LogLevel level);
