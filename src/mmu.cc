@@ -30,7 +30,7 @@ u8 MMU::read(const Address& address) const {
 
     /* External (cartridge) RAM */
     if (address.in_range(0xA000, 0xBFFF)) {
-        /* log_warn("Attempting to read from cartridge RAM"); */
+        log_unimplemented("Attempting to read from cartridge RAM");
         return memory_read(address);
     }
 
@@ -81,15 +81,15 @@ u8 MMU::memory_read(const Address& address) const {
 u8 MMU::read_io(const Address& address) const {
     switch (address.value()) {
         case 0xFF00:
-            log_warn("Attempted to read joypad register");
+            log_unimplemented("Attempted to read joypad register");
             return 0xFF;
 
         case 0xFF01:
-            log_warn("Attempted to read serial transfer data");
+            log_unimplemented("Attempted to read serial transfer data");
             return 0xFF;
 
         case 0xFF02:
-            log_warn("Attempted to read serial transfer control");
+            log_unimplemented("Attempted to read serial transfer control");
             return 0xFF;
 
         case 0xFF0F:
@@ -99,7 +99,7 @@ u8 MMU::read_io(const Address& address) const {
             return video.control_byte;
 
         case 0xFF41:
-            log_warn("Attempted to read LCD stat register");
+            log_unimplemented("Attempted to read LCD stat register");
             return 0xFF;
 
         case 0xFF42:
@@ -109,7 +109,7 @@ u8 MMU::read_io(const Address& address) const {
             return video.line.value();
 
         case 0xFF4D:
-            log_warn("Attempted to read from 'Prepare Speed Switch' register");
+            log_unimplemented("Attempted to read from 'Prepare Speed Switch' register");
             return 0x0;
 
         /* Disable boot rom switch */
@@ -243,17 +243,17 @@ void MMU::write_io(const Address& address, const u8 byte) {
         /* TODO: Audio - Sound Control Registers */
         case 0xFF24:
             /* TODO */
-            log_trace("Wrote to channel control address 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to channel control address 0x%x - 0x%x", address.value(), byte);
             return;
 
         case 0xFF25:
             /* TODO */
-            log_trace("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte);
             return;
 
         case 0xFF26:
             /* TODO */
-            log_trace("Wrote to sound on/off address 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to sound on/off address 0x%x - 0x%x", address.value(), byte);
             return;
 
         /* TODO: Audio - Wave Pattern RAM */
@@ -283,7 +283,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF41:
             /* TODO */
-            log_warn("Wrote to LCD stat register 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to LCD stat register 0x%x - 0x%x", address.value(), byte);
             return;
 
         /* Vertical Scroll Register */
@@ -299,22 +299,22 @@ void MMU::write_io(const Address& address, const u8 byte) {
         /* LY - Line Y coordinate */
         case 0xFF44:
             /* "Writing will reset the counter */
-            log_warn("Writing to FF44 will reset the line counter");
+            log_unimplemented("Writing to FF44 will reset the line counter");
             return;
 
         case 0xFF47:
             video.bg_palette.set(byte);
-            log_trace("Set video palette: 0x%x", byte);
+            log_unimplemented("Set video palette: 0x%x", byte);
             return;
 
         /* TODO: Object Palette 0/1 Data */
         case 0xFF48:
         case 0xFF49:
-            log_warn("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
             return;
 
         case 0xFF4D:
-            log_warn("Attempted to write to 'Prepare Speed Switch' register");
+            log_unimplemented("Attempted to write to 'Prepare Speed Switch' register");
             return;
 
         /* Disable boot rom switch */
@@ -326,8 +326,9 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         default:
             /* TODO */
-            log_error("Wrote to unknown address 0x%x - 0x%x", address.value(), byte);
+            log_unimplemented("Wrote to unknown address 0x%x - 0x%x", address.value(), byte);
             /* memory_write(address, byte); */
+            break;
     }
 }
 
