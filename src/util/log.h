@@ -21,6 +21,7 @@
 enum class LogLevel {
     Trace,
     Debug,
+    Unimplemented,
     Info,
     Warning,
     Error,
@@ -47,6 +48,7 @@ private:
 extern Logger log;
 extern const char* COLOR_TRACE;
 extern const char* COLOR_DEBUG;
+extern const char* COLOR_UNIMPLEMENTED;
 extern const char* COLOR_INFO;
 extern const char* COLOR_WARNING;
 extern const char* COLOR_ERROR;
@@ -54,6 +56,7 @@ extern const char* COLOR_RESET;
 
 #define log_trace(fmt, ...) log.log(LogLevel::Trace, fmt, ##__VA_ARGS__);
 #define log_debug(fmt, ...) log.log(LogLevel::Debug, fmt, ##__VA_ARGS__);
+#define log_unimplemented(fmt, ...) log.log(LogLevel::Unimplemented, fmt, ##__VA_ARGS__);
 #define log_info(fmt, ...) log.log(LogLevel::Info, fmt, ##__VA_ARGS__);
 #define log_warn(fmt, ...) log.log(LogLevel::Warning, fmt, ##__VA_ARGS__);
 #define log_error(fmt, ...) log.log(LogLevel::Error, fmt, ##__VA_ARGS__);
