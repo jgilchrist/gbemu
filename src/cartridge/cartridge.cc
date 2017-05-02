@@ -1,7 +1,7 @@
 #include "cartridge.h"
 
-#include "util/files.h"
-#include "util/log.h"
+#include "../util/files.h"
+#include "../util/log.h"
 
 Cartridge::Cartridge(std::string filename) {
     unused(destination, header_checksum, global_checksum);

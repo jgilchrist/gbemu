@@ -1,6 +1,6 @@
 #include "cartridge_info.h"
 
-#include "util/log.h"
+#include "../util/log.h"
 
 CartridgeType get_type(u8 type) {
     switch (type) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "definitions.h"
+#include "../definitions.h"
 
 #include <string>
 

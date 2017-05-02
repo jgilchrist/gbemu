@@ -1,5 +1,5 @@
 #include "gameboy.h"
-#include "cartridge.h"
+#include "cartridge/cartridge.h"
 #include "video/screen.h"
 #include "video/screens.h"
 #include "util/cli.h"

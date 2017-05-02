@@ -1,7 +1,7 @@
 #pragma once
 
 #include "address.h"
-#include "cartridge.h"
+#include "cartridge/cartridge.h"
 
 #include <vector>
 
