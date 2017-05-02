@@ -38,8 +38,6 @@ Cycles CPU::execute_opcode(const u8 opcode, u16 opcode_pc) {
 }
 
 void CPU::handle_interrupts() {
-    using bitwise::check_bit;
-
     if (interrupts_enabled) {
         u8 fired_interrupts = interrupt_flag.value() & interrupt_enabled.value();
 
@@ -47,41 +45,34 @@ void CPU::handle_interrupts() {
 
         stack_push(pc);
 
-        if (check_bit(fired_interrupts, 0)) {
-            interrupt_flag.set_bit_to(0, false);
-            pc.set(interrupts::vblank);
-            interrupts_enabled = false;
-            return;
-        }
+        bool handled_interrupt = false;
 
-        if (check_bit(fired_interrupts, 1)) {
-            interrupt_flag.set_bit_to(1, false);
-            pc.set(interrupts::lcdc_status);
-            interrupts_enabled = false;
-            return;
-        }
+        handled_interrupt = handle_interrupt(0, interrupts::vblank, fired_interrupts);
+        if (handled_interrupt) { return; }
 
-        if (check_bit(fired_interrupts, 2)) {
-            interrupt_flag.set_bit_to(2, false);
-            pc.set(interrupts::timer);
-            interrupts_enabled = false;
-            return;
-        }
+        handled_interrupt = handle_interrupt(1, interrupts::lcdc_status, fired_interrupts);
+        if (handled_interrupt) { return; }
 
-        if (check_bit(fired_interrupts, 3)) {
-            interrupt_flag.set_bit_to(3, false);
-            pc.set(interrupts::serial);
-            interrupts_enabled = false;
-            return;
-        }
+        handled_interrupt = handle_interrupt(2, interrupts::timer, fired_interrupts);
+        if (handled_interrupt) { return; }
 
-        if (check_bit(fired_interrupts, 4)) {
-            interrupt_flag.set_bit_to(4, false);
-            pc.set(interrupts::joypad);
-            interrupts_enabled = false;
-            return;
-        }
+        handled_interrupt = handle_interrupt(3, interrupts::serial, fired_interrupts);
+        if (handled_interrupt) { return; }
+
+        handled_interrupt = handle_interrupt(4, interrupts::joypad, fired_interrupts);
+        if (handled_interrupt) { return; }
     }
+}
+
+bool CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) {
+    using bitwise::check_bit;
+
+    if (!check_bit(fired_interrupts, interrupt_bit)) { return false; }
+
+    interrupt_flag.set_bit_to(interrupt_bit, false);
+    pc.set(interrupt_vector);
+    interrupts_enabled = false;
+    return true;
 }
 
 u8 CPU::get_byte_from_pc() {

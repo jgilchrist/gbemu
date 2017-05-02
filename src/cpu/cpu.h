@@ -45,12 +45,13 @@ public:
     Cycles execute_normal_opcode(u8 opcode, u16 opcode_pc);
     Cycles execute_cb_opcode(u8 opcode, u16 opcode_pc);
 
-    void handle_interrupts();
-
     ByteRegister interrupt_flag;
     ByteRegister interrupt_enabled;
 
 private:
+    void handle_interrupts();
+    bool handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts);
+
     Clock clock;
     MMU& mmu;
     Options& options;
