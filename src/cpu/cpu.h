@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../address.h"
-#include "../cycles.h"
 #include "../mmu.h"
 #include "../register.h"
 #include "../util/cli.h"

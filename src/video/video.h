@@ -4,7 +4,6 @@
 #include "screen.h"
 #include "tile.h"
 
-#include "../cycles.h"
 #include "../mmu.h"
 #include "../register.h"
 

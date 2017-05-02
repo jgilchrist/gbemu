@@ -51,3 +51,10 @@ struct Noncopyable {
     Noncopyable(const Noncopyable&) = delete;
     Noncopyable() = default;
 };
+
+class Cycles {
+public:
+    Cycles(uint nCycles) : cycles(nCycles) {}
+
+    const uint cycles;
+};
