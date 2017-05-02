@@ -2,7 +2,6 @@ add_sources(
     address.cc
     cartridge.cc
     cartridge_info.cc
-    clock.cc
     debugger.cc
     gameboy.cc
     main.cc

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../address.h"
-#include "../clock.h"
 #include "../cycles.h"
 #include "../mmu.h"
 #include "../register.h"
@@ -52,7 +51,6 @@ private:
     void handle_interrupts();
     bool handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts);
 
-    Clock clock;
     MMU& mmu;
     Options& options;
 
