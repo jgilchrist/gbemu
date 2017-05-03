@@ -1,28 +1,34 @@
 #include "cli.h"
 #include "../definitions.h"
 
-bool flag_set(char** begin, char** end, const std::string& long_option) {
-    return std::find(begin, end, long_option) != end;
+#include <vector>
+
+void set_options(std::string& flag, Options& options) {
+    if (flag == "--debug") { options.debugger = true; return; }
+    if (flag == "--trace") { options.trace = true; return; }
+    if (flag == "--silent") { options.disable_logs = true; return; }
+    if (flag == "--headless") { options.headless = true; return; }
+    if (flag == "--whole-framebuffer") { options.show_full_framebuffer = true; return; }
+    if (flag == "--exit-on-infinite-jr") { options.exit_on_infinite_jr = true; return; }
+
+    fatal_error("Unknown flag: %s", flag.c_str());
 }
 
 Options get_options(int argc, char* argv[]) {
-    char** begin = argv;
-    char** end = argv + argc;
-
     if (argc < 2) {
         fatal_error("Please provide a ROM file to run");
     }
 
-    bool debugger = flag_set(begin, end, "--debug");
-    bool trace = flag_set(begin, end, "--trace");
-    bool disable_logs = flag_set(begin, end, "--silent");
-    bool headless = flag_set(begin, end, "--headless");
-    bool show_full_framebuffer = flag_set(begin, end, "--full-framebuffer");
-    bool exit_on_infinite_jr = flag_set(begin, end, "--exit-on-infinite-jr");
+    Options options;
+    options.filename = argv[1];
 
-    std::string filename = argv[1];
+    std::vector<std::string> flags(argv + 2, argv + argc);
 
-    return Options { debugger, trace, disable_logs, headless, show_full_framebuffer, exit_on_infinite_jr, filename };
+    for (std::string& flag : flags) {
+        set_options(flag, options);
+    }
+
+    return options;
 }
 
 LogLevel get_log_level(Options& options) {
