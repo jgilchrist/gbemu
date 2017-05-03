@@ -25,11 +25,11 @@ tags:
 
 .PHONY: format
 format:
-	@./etc/scripts/clang-format
+	@./scripts/clang-format
 
 .PHONY: tidy
 tidy: debug
-	@./etc/scripts/clang-tidy
+	@./scripts/clang-tidy
 
 ###################
 # Commands to build
