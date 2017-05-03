@@ -304,7 +304,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF47:
             video.bg_palette.set(byte);
-            log_unimplemented("Set video palette: 0x%x", byte);
+            log_trace("Set video palette: 0x%x", byte);
             return;
 
         /* TODO: Object Palette 0/1 Data */
