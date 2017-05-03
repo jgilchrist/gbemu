@@ -9,45 +9,17 @@ CHECKS+=",-misc-unused-parameters"
 # (use #pragma once instead)
 CHECKS+=",-llvm-header-guard"
 
-# Disable necessary explicit constructors
-CHECKS+=",-google-explicit-constructor"
-
-# Disable warnings about unsorted imports
-CHECKS+=",-llvm-include-order"
-
-# Disable warnings about statically allocated objects
-CHECKS+=",-cert-err58-cpp"
-
-# FIXME
-CHECKS+=",-cppcoreguidelines-pro-bounds-array-to-pointer-decay"
-
-# FIXME
-CHECKS+=",-cppcoreguidelines-pro-bounds-constant-array-index"
-
-# FIXME
-CHECKS+=",-cert-dcl50-cpp"
-
-# FIXME - Causes an error on Clang 3.8
-CHECKS+=",-misc-virtual-near-miss"
+# Disable warnings about braces around statements (I find same-line
+# statements more readable without braces
+CHECKS+=",-readability-braces-around-statements"
 
 # FIXME - Disable warnings about calling vararg functions
 CHECKS+=",-cppcoreguidelines-pro-type-vararg"
 
-# FIXME - Disable warnings about pointer arithmetic (for SHORTFILENAME)
-CHECKS+=",-cppcoreguidelines-pro-bounds-pointer-arithmetic"
-
-# FIXME - Disable warnings about braces around statements (I find same-line
-# statements more readable without braces
-CHECKS+=",-readability-braces-around-statements"
-
-# FIXME - Disable warnings about streams not being closed (this warning appears
-# not to work
-CHECKS+=",-clang-analyzer-alpha.unix.Stream"
+# FIXME - Disable warnings about non-const reference parameters
+CHECKS+=",-google-runtime-references"
 
 for i in $(find src -name "*.cc"); do
     clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i \
         2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2)
-        # Silence 'x warnings generated'
-        # Silence 'Suppressed x warnings (x in non-user code)'
-        # Silence 'Use -header-filter=* to display errors from all non-system headers
 done
