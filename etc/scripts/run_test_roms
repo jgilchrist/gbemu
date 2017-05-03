@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TEST_ROM_DIR=$1
+
 run_test_rom() {
     local FILENAME=$(basename "$1")
     printf "%-30s" "${FILENAME}"
@@ -19,7 +21,7 @@ run_test_rom() {
 main() {
     local failed_test=0
 
-    for test_rom in ./etc/test_roms/cpu_instrs/individual/*; do
+    for test_rom in ${TEST_ROM_DIR}/*; do
         run_test_rom "$test_rom"
 
         if [ $? != 0 ]; then
@@ -30,5 +32,5 @@ main() {
     return $failed_test
 }
 
-main
+main 
 exit $?
