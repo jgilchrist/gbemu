@@ -19,4 +19,4 @@ addons:
 
 script:
     - make --no-print-directory release
-    - ./scripts/run_test_roms
+    - ./scripts/run_test_roms ./scripts/test_roms
