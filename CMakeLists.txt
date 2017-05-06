@@ -5,7 +5,7 @@ project(emulator)
 include(add_sources)
 
 # C++ definitions
-add_definitions(-std=c++14 -stdlib=libc++)
+add_definitions(-std=c++14)
 add_definitions(-Weverything -Wall -Wextra -Wpedantic)
 include(silence_weverything)
 
