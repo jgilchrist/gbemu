@@ -8,6 +8,7 @@
 #include "../register.h"
 
 #include <vector>
+#include <memory>
 
 enum class VideoMode {
     ACCESS_OAM,
