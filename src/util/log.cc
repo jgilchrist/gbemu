@@ -18,7 +18,7 @@
 
 #include "string.h"
 
-Logger log;
+Logger global_logger;
 const char* COLOR_TRACE = "\033[1;30m";
 const char* COLOR_DEBUG = "\033[1;37m";
 const char* COLOR_UNIMPLEMENTED = "\033[1;35m";
@@ -76,5 +76,5 @@ inline const char* Logger::level_color(LogLevel level) const {
 }
 
 void log_set_level(LogLevel level) {
-    log.set_level(level);
+    global_logger.set_level(level);
 }

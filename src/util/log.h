@@ -45,7 +45,7 @@ private:
     bool tracing_enabled = false;
 };
 
-extern Logger log;
+extern Logger global_logger;
 extern const char* COLOR_TRACE;
 extern const char* COLOR_DEBUG;
 extern const char* COLOR_UNIMPLEMENTED;
@@ -54,11 +54,11 @@ extern const char* COLOR_WARNING;
 extern const char* COLOR_ERROR;
 extern const char* COLOR_RESET;
 
-#define log_trace(fmt, ...) log.log(LogLevel::Trace, fmt, ##__VA_ARGS__);
-#define log_debug(fmt, ...) log.log(LogLevel::Debug, fmt, ##__VA_ARGS__);
-#define log_unimplemented(fmt, ...) log.log(LogLevel::Unimplemented, fmt, ##__VA_ARGS__);
-#define log_info(fmt, ...) log.log(LogLevel::Info, fmt, ##__VA_ARGS__);
-#define log_warn(fmt, ...) log.log(LogLevel::Warning, fmt, ##__VA_ARGS__);
-#define log_error(fmt, ...) log.log(LogLevel::Error, fmt, ##__VA_ARGS__);
+#define log_trace(fmt, ...) global_logger.log(LogLevel::Trace, fmt, ##__VA_ARGS__);
+#define log_debug(fmt, ...) global_logger.log(LogLevel::Debug, fmt, ##__VA_ARGS__);
+#define log_unimplemented(fmt, ...) global_logger.log(LogLevel::Unimplemented, fmt, ##__VA_ARGS__);
+#define log_info(fmt, ...) global_logger.log(LogLevel::Info, fmt, ##__VA_ARGS__);
+#define log_warn(fmt, ...) global_logger.log(LogLevel::Warning, fmt, ##__VA_ARGS__);
+#define log_error(fmt, ...) global_logger.log(LogLevel::Error, fmt, ##__VA_ARGS__);
 
 extern void log_set_level(LogLevel level);
