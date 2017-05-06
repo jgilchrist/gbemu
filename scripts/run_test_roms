@@ -1,6 +1,12 @@
 #!/bin/bash
 
-TEST_ROM_DIR=$1
+set -o nounset
+
+TEST_ROM_DIR="./scripts/test_roms"
+
+RED="\e[31m"
+GREEN="\e[32m"
+RESET="\e[0m"
 
 run_test_rom() {
     local FILENAME=$(basename "$1")
@@ -10,10 +16,10 @@ run_test_rom() {
     echo $OUTPUT | grep 'Failed' &> /dev/null
 
     if [ $? == 0 ]; then
-        printf "\e[31mFailed\e[0m\n"
+        printf "${RED}Failed${RESET}\n"
         return 1
     else
-        printf "\e[32mPassed\e[0m\n"
+        printf "${GREEN}Passed${RESET}\n"
         return 0
     fi
 }
@@ -32,5 +38,5 @@ main() {
     return $failed_test
 }
 
-main 
+main
 exit $?
