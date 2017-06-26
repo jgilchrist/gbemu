@@ -40,12 +40,24 @@ void Logger::log(LogLevel level, const char* fmt, ...) {
     va_end(args);
 
     fprintf((level < LogLevel::Error) ? stdout : stderr,
-        "%s| %s%s\n",
-        level_color(level), COLOR_RESET, msg.c_str());
+        "%s| %s%s%s",
+        level_color(level),
+        COLOR_RESET,
+        msg.c_str(),
+        newlines ? "\n" : ""
+    );
 }
 
 void Logger::set_level(LogLevel level) {
     current_level = level;
+}
+
+void Logger::set_newlines_enabled(bool newlines_enabled) {
+    newlines = newlines_enabled;
+}
+
+bool Logger::is_tracing_enabled() const {
+    return tracing_enabled;
 }
 
 void Logger::enable_tracing() {

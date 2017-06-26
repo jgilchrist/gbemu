@@ -35,14 +35,19 @@ public:
     void set_level(LogLevel level);
 
     void enable_tracing();
+    bool is_tracing_enabled() const;
+
+    void set_newlines_enabled(bool newlines_enabled);
+
+    LogLevel current_level = LogLevel::Debug;
 
 private:
     bool should_log(LogLevel level) const;
     const char* level_color(LogLevel level) const;
 
-    LogLevel current_level = LogLevel::Debug;
     bool enabled = true;
     bool tracing_enabled = false;
+    bool newlines = true;
 };
 
 extern Logger global_logger;
