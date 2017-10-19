@@ -1,4 +1,4 @@
-# emulator [![Build Status](https://travis-ci.org/jgilchrist/emulator.svg?branch=master)](https://travis-ci.org/jgilchrist/emulator)
+# emulator
 
 `emulator` is a Nintendo Game Boy emulator written in C++. Its goals are code readability and utilisation of modern C++.
 
