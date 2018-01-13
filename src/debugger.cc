@@ -294,7 +294,7 @@ CommandType Debugger::parse_command(std::string cmd) {
     if (cmd == "breakaddr") return CommandType::BreakAddr;
     if (cmd == "breakvalue") return CommandType::BreakValue;
 
-    if (cmd == "regs") return CommandType::Registers;
+    if (cmd == "regs" || cmd == "registers") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
     if (cmd == "mem") return CommandType::Memory;
     if (cmd == "memcell") return CommandType::MemoryCell;
