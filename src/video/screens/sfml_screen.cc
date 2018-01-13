@@ -2,7 +2,8 @@
 
 #include "../../util/log.h"
 
-SFMLScreen::SFMLScreen(bool _whole_framebuffer, uint _magnification) :
+SFMLScreen::SFMLScreen(std::shared_ptr<Input> inInput, bool _whole_framebuffer, uint _magnification) :
+    input(inInput),
     magnification(_magnification),
     whole_framebuffer(_whole_framebuffer),
     logical_width(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_WIDTH),
@@ -15,6 +16,7 @@ SFMLScreen::SFMLScreen(bool _whole_framebuffer, uint _magnification) :
     image.create(width, height);
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
+    window.setKeyRepeatEnabled(false);
 }
 
 void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
@@ -23,6 +25,14 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
     sf::Event event;
 
     while (window.pollEvent(event)) {
+        if (event.type == sf::Event::KeyPressed) {
+            input->on_key_pressed(event.key.code);
+        }
+
+        if (event.type == sf::Event::KeyReleased) {
+            input->on_key_released(event.key.code);
+        }
+
         if (event.type == sf::Event::Closed) {
             window.close();
         }

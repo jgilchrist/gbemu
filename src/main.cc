@@ -12,8 +12,9 @@ int main(int argc, char* argv[]) {
     log_set_level(get_log_level(options));
 
     Cartridge cartridge(options.filename);
-    auto screen = get_screen(options);
+    auto input = std::make_shared<Input>();
+    auto screen = get_screen(input, options);
 
-    Gameboy gameboy(screen, cartridge, options);
+    Gameboy gameboy(screen, input, cartridge, options);
     gameboy.run();
 }

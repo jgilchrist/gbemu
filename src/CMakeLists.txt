@@ -2,6 +2,7 @@ add_sources(
     address
     debugger
     gameboy
+    input
     main
     mmu
     register

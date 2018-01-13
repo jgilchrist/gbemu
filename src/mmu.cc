@@ -1,14 +1,17 @@
 #include "mmu.h"
 #include "boot.h"
 #include "serial.h"
+#include "input.h"
 #include "util/log.h"
+#include "util/bitwise.h"
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, Serial& inSerial) :
+MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> inInput, Serial& inSerial) :
     cartridge(inCartridge),
     cpu(inCPU),
     video(inVideo),
+    input(inInput),
     serial(inSerial)
 {
     memory = std::vector<u8>(0x10000);
@@ -80,14 +83,17 @@ u8 MMU::memory_read(const Address& address) const {
 u8 MMU::read_io(const Address& address) const {
     switch (address.value()) {
         case 0xFF00:
-            /* log_unimplemented("Attempted to read joypad register"); */
-            return 0xFF;
+            return input->get_input();
 
         case 0xFF01:
             return serial.read();
 
         case 0xFF02:
             log_unimplemented("Attempted to read serial transfer control");
+            return 0xFF;
+
+        case 0xFF04:
+            log_unimplemented("Attempted to read divider register");
             return 0xFF;
 
         case 0xFF0F:
@@ -186,7 +192,7 @@ void MMU::write(const Address& address, const u8 byte) {
 void MMU::write_io(const Address& address, const u8 byte) {
     switch (address.value()) {
         case 0xFF00:
-            /* TODO: Joypad */
+            input->write(byte);
             return;
 
         case 0xFF01:

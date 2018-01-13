@@ -1,16 +1,21 @@
 #pragma once
 
+#include "../../input.h"
 #include "../screen.h"
+
+#include <memory>
 
 class SFMLScreen : public Screen {
 public:
-    SFMLScreen(bool _whole_framebuffer=false, uint _magnification = 5);
+    SFMLScreen(std::shared_ptr<Input> input, bool _whole_framebuffer=false, uint _magnification = 5);
     ~SFMLScreen() override = default;
 
     void draw(const FrameBuffer& buffer, const uint scrollx, const uint scrolly, const BGPalette& bg_palette) override;
     bool is_open() override;
 
 private:
+    std::shared_ptr<Input> input;
+
     const uint magnification;
     bool whole_framebuffer;
 
