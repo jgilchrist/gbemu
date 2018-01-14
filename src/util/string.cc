@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <sstream>
 
+#include <cstdarg>
+
 using std::string;
 using std::vector;
 

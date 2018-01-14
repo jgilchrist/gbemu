@@ -18,6 +18,8 @@
 
 #include "string.h"
 
+#include <cstdarg>
+
 Logger global_logger;
 const char* COLOR_TRACE = "\033[1;30m";
 const char* COLOR_DEBUG = "\033[1;37m";
