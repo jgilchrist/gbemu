@@ -1,8 +1,8 @@
 add_sources(
-    color.cc
-    framebuffer.cc
-    tile.cc
-    video.cc
+    color
+    framebuffer
+    tile
+    video
 )
 
 add_subdirectory(screens)

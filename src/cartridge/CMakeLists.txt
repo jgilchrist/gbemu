@@ -1,4 +1,4 @@
 add_sources(
-    cartridge.cc
-    cartridge_info.cc
+    cartridge
+    cartridge_info
 )
