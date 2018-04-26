@@ -4,6 +4,7 @@
 #include "debugger.h"
 #include "video/screen.h"
 #include "video/video.h"
+#include "serial.h"
 #include "util/cli.h"
 
 #include <memory>
@@ -18,6 +19,7 @@ private:
     std::shared_ptr<Screen> screen;
     CPU cpu;
     Video video;
+    Serial serial;
     MMU mmu;
 
     Debugger debugger;

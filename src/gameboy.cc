@@ -5,7 +5,8 @@ Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, Cartridge& cartridge, Options
     screen(inScreen),
     cpu(mmu, options),
     video(screen, cpu, mmu),
-    mmu(cartridge, cpu, video),
+    serial(),
+    mmu(cartridge, cpu, video, serial),
     debugger(*this, options.debugger)
 {
     log_info("Initialising Gameboy");

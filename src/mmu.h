@@ -7,10 +7,11 @@
 
 class Video;
 class CPU;
+class Serial;
 
 class MMU {
 public:
-    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo);
+    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, Serial& serial);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -27,6 +28,7 @@ private:
     Cartridge& cartridge;
     CPU& cpu;
     Video& video;
+    Serial& serial;
     std::vector<u8> memory;
 
     friend class Debugger;

@@ -5,6 +5,7 @@ add_sources(
     main
     mmu
     register
+    serial
 )
 
 add_subdirectory(cartridge)

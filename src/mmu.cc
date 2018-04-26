@@ -1,16 +1,15 @@
 #include "mmu.h"
-
 #include "boot.h"
+#include "serial.h"
 #include "util/log.h"
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-#include <cstdlib>
-
-MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo) :
+MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, Serial& inSerial) :
     cartridge(inCartridge),
     cpu(inCPU),
-    video(inVideo)
+    video(inVideo),
+    serial(inSerial)
 {
     memory = std::vector<u8>(0x10000);
 }
@@ -85,8 +84,7 @@ u8 MMU::read_io(const Address& address) const {
             return 0xFF;
 
         case 0xFF01:
-            log_unimplemented("Attempted to read serial transfer data");
-            return 0xFF;
+            return serial.read();
 
         case 0xFF02:
             log_unimplemented("Attempted to read serial transfer control");
@@ -193,12 +191,12 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF01:
             /* Serial data transfer (SB) */
-            printf("%c", byte);
-            fflush(stdout);
+            serial.write(byte);
             return;
 
         case 0xFF02:
             /* Serial data transfer (SB) */
+            serial.write_control(byte);
             return;
 
         case 0xFF06:
