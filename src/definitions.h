@@ -22,7 +22,7 @@ template <typename... T> void unused(T&&... unused_vars) {}
 #pragma clang diagnostic pop
 
 #define fatal_error(...) \
-    log_error("Fatal error @ [%s:%d]", __func__, __LINE__); \
+    log_error("Fatal error @ %s (line %d)", __PRETTY_FUNCTION__, __LINE__); \
     log_error(__VA_ARGS__); \
     exit(1);
 
