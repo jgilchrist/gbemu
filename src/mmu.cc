@@ -54,8 +54,7 @@ u8 MMU::read(const Address& address) const {
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
         log_warn("Attempting to read from unusable memory 0x%x", address.value());
-        /* TODO: does this always return 0? */
-        return 0;
+        return 0xFF;
     }
 
     /* Mapped IO */
