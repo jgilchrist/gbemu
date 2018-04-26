@@ -10,6 +10,7 @@ void set_options(std::string& flag, Options& options) {
     if (flag == "--headless") { options.headless = true; return; }
     if (flag == "--whole-framebuffer") { options.show_full_framebuffer = true; return; }
     if (flag == "--exit-on-infinite-jr") { options.exit_on_infinite_jr = true; return; }
+    if (flag == "--print-serial") { options.print_serial = true; return; }
 
     fatal_error("Unknown flag: %s", flag.c_str());
 }

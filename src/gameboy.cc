@@ -6,7 +6,7 @@ Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, std::shared_ptr<Input> inInpu
     screen(inScreen),
     cpu(mmu, options),
     video(screen, cpu, mmu),
-    serial(),
+    serial(options.print_serial),
     mmu(cartridge, cpu, video, input, serial),
     debugger(*this, options.debugger)
 {

@@ -14,7 +14,7 @@ void Serial::write(const u8 byte) {
 }
 
 void Serial::write_control(const u8 byte) {
-    if (bitwise::check_bit(byte, 7)) {
+    if (bitwise::check_bit(byte, 7) && should_print) {
         printf("%c", data);
         fflush(stdout);
     }
