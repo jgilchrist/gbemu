@@ -117,8 +117,7 @@ u8 MMU::read_io(const Address& address) const {
             return memory_read(address);
 
         default:
-            log_error("Read from unknown IO address 0x%x", address.value());
-            exit(1);
+            fatal_error("Read from unknown IO address 0x%x", address.value());
     }
 }
 
