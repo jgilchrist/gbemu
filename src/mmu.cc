@@ -325,9 +325,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         default:
             /* TODO */
-            log_unimplemented("Wrote to unknown address 0x%x - 0x%x", address.value(), byte);
-            /* memory_write(address, byte); */
-            break;
+            fatal_error("Wrote 0x%x to unknown address 0x%x", byte, address.value());
     }
 }
 
