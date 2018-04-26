@@ -81,7 +81,7 @@ u8 MMU::memory_read(const Address& address) const {
 u8 MMU::read_io(const Address& address) const {
     switch (address.value()) {
         case 0xFF00:
-            log_unimplemented("Attempted to read joypad register");
+            /* log_unimplemented("Attempted to read joypad register"); */
             return 0xFF;
 
         case 0xFF01:
@@ -201,6 +201,11 @@ void MMU::write_io(const Address& address, const u8 byte) {
             /* Serial data transfer (SB) */
             return;
 
+        case 0xFF06:
+            /* TODO: Time control */
+            log_unimplemented("Wrote to timer modulo");
+            return;
+
         case 0xFF07:
             /* TODO: Time control */
             return;
@@ -247,7 +252,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF25:
             /* TODO */
-            log_unimplemented("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte);
+            /* log_unimplemented("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte); */
             return;
 
         case 0xFF26:
@@ -301,6 +306,10 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_unimplemented("Writing to FF44 will reset the line counter");
             return;
 
+        case 0xFF46:
+            /* log_unimplemented("Trigger DMA transfer"); */
+            return;
+
         case 0xFF47:
             video.bg_palette.set(byte);
             log_trace("Set video palette: 0x%x", byte);
@@ -312,6 +321,14 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_unimplemented("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
             return;
 
+        case 0xFF4A:
+            log_unimplemented("Wrote to window Y position");
+            return;
+
+        case 0xFF4B:
+            log_unimplemented("Wrote to window X position");
+            return;
+
         case 0xFF4D:
             log_unimplemented("Attempted to write to 'Prepare Speed Switch' register");
             return;
@@ -321,6 +338,10 @@ void MMU::write_io(const Address& address, const u8 byte) {
             memory_write(address, byte);
             global_logger.enable_tracing();
             log_info("Boot rom was disabled");
+            return;
+
+        case 0xFF7F:
+            log_warn("Attempt to write to unused memory 0x%x", address.value());
             return;
 
         default:
