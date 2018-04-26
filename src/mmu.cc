@@ -204,6 +204,16 @@ void MMU::write_io(const Address& address, const u8 byte) {
             serial.write_control(byte);
             return;
 
+        case 0xFF04:
+            /* TODO: Time control */
+            log_unimplemented("Wrote to divider register");
+            return;
+
+        case 0xFF05:
+            /* TODO: Time control */
+            log_unimplemented("Wrote to timer counter");
+            return;
+
         case 0xFF06:
             /* TODO: Time control */
             log_unimplemented("Wrote to timer modulo");
