@@ -55,6 +55,7 @@ void Video::tick(Cycles cycles) {
 
                 /* Line 155 (index 154) is the last line */
                 if (line == 154) {
+                    /* We don't currently draw line-by-line so we pass 0 */
                     write_scanline(0);
                     draw();
                     line.reset();
@@ -113,13 +114,15 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
 
     Tile tile(tile_address, mmu);
 
-    uint y_in_framebuffer = TILE_HEIGHT_PX * tile_y;
-    uint x_in_framebuffer = TILE_WIDTH_PX * tile_x;
+    uint y_start_in_framebuffer = TILE_HEIGHT_PX * tile_y;
+    uint x_start_in_framebuffer = TILE_WIDTH_PX * tile_x;
 
     for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
         for (uint x = 0; x < TILE_WIDTH_PX; x++) {
             GBColor color = tile.get_pixel(x, y);
-            buffer.set_pixel(x_in_framebuffer + x, y_in_framebuffer + y, color);
+            uint actual_x = x_start_in_framebuffer + x;
+            uint actual_y = y_start_in_framebuffer + y;
+            buffer.set_pixel(actual_x, actual_y, color);
         }
     }
 }
