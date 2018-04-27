@@ -22,6 +22,8 @@ void Video::tick(Cycles cycles) {
         case VideoMode::ACCESS_OAM:
             if (cycle_counter >= CLOCKS_PER_SCANLINE_OAM) {
                 cycle_counter = cycle_counter % CLOCKS_PER_SCANLINE_OAM;
+                lcd_status.set_bit_to(1, 1);
+                lcd_status.set_bit_to(0, 1);
                 current_mode = VideoMode::ACCESS_VRAM;
             }
             break;
@@ -29,6 +31,8 @@ void Video::tick(Cycles cycles) {
             if (cycle_counter >= CLOCKS_PER_SCANLINE_VRAM) {
                 cycle_counter = cycle_counter % CLOCKS_PER_SCANLINE_VRAM;
                 current_mode = VideoMode::HBLANK;
+                lcd_status.set_bit_to(1, 0);
+                lcd_status.set_bit_to(0, 0);
             }
             break;
         case VideoMode::HBLANK:
@@ -41,8 +45,12 @@ void Video::tick(Cycles cycles) {
                 /* Line 145 (index 144) is the first line of VBLANK */
                 if (line == 144) {
                     current_mode = VideoMode::VBLANK;
+                    lcd_status.set_bit_to(1, 0);
+                    lcd_status.set_bit_to(0, 1);
                     cpu.interrupt_flag.set_bit_to(0, true);
                 } else {
+                    lcd_status.set_bit_to(1, 1);
+                    lcd_status.set_bit_to(0, 0);
                     current_mode = VideoMode::ACCESS_OAM;
                 }
             }
@@ -60,10 +68,15 @@ void Video::tick(Cycles cycles) {
                     draw();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;
+                    lcd_status.set_bit_to(1, 1);
+                    lcd_status.set_bit_to(0, 0);
                 };
             }
             break;
     }
+
+    /* TODO: Implement the other bits of the LCD status register */
+    lcd_status.set_bit_to(2, ly_compare.value() == line.value());
 }
 
 bool Video::display_enabled() const { return check_bit(control_byte, 7); }

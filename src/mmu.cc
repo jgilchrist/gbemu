@@ -102,8 +102,7 @@ u8 MMU::read_io(const Address& address) const {
             return video.control_byte;
 
         case 0xFF41:
-            log_unimplemented("Attempted to read LCD stat register");
-            return 0xFF;
+            return video.lcd_status.value();
 
         case 0xFF42:
             return video.scroll_y.value();
