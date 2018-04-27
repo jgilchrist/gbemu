@@ -4,7 +4,7 @@
 
 #include <vector>
 
-const uint FRAMEBUFFER_SIZE = 255;
+const uint FRAMEBUFFER_SIZE = 256;
 
 class FrameBuffer {
 public:
