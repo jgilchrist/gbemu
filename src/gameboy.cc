@@ -7,7 +7,7 @@ Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, std::shared_ptr<Input> inInpu
     cpu(mmu, options),
     video(screen, cpu, mmu),
     serial(options.print_serial),
-    mmu(cartridge, cpu, video, input, serial),
+    mmu(cartridge, cpu, video, input, serial, timer),
     debugger(*this, options.debugger)
 {
     log_info("Initialising Gameboy");
@@ -24,5 +24,6 @@ void Gameboy::run() {
         elapsed_cycles += cycles.cycles;
 
         video.tick(cycles);
+        timer.tick(cycles.cycles);
     }
 }

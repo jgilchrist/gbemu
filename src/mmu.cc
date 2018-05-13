@@ -2,17 +2,19 @@
 #include "boot.h"
 #include "serial.h"
 #include "input.h"
+#include "timer.h"
 #include "util/log.h"
 #include "util/bitwise.h"
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> inInput, Serial& inSerial) :
+MMU::MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> inInput, Serial& inSerial, Timer& inTimer) :
     cartridge(inCartridge),
     cpu(inCPU),
     video(inVideo),
     input(inInput),
-    serial(inSerial)
+    serial(inSerial),
+    timer(inTimer)
 {
     memory = std::vector<u8>(0x10000);
 }
@@ -92,8 +94,16 @@ u8 MMU::read_io(const Address& address) const {
             return 0xFF;
 
         case 0xFF04:
-            log_unimplemented("Attempted to read divider register");
-            return 0xFF;
+            return timer.get_divider();
+
+        case 0xFF05:
+            return timer.get_timer();
+
+        case 0xFF06:
+            return timer.get_timer_modulo();
+
+        case 0xFF07:
+            return timer.get_timer_control();
 
         case 0xFF0F:
             return cpu.interrupt_flag.value();
@@ -204,8 +214,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF04:
-            /* TODO: Time control */
-            log_unimplemented("Wrote to divider register");
+            timer.reset_divider();
             return;
 
         case 0xFF05:
@@ -214,12 +223,11 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF06:
-            /* TODO: Time control */
-            log_unimplemented("Wrote to timer modulo");
+            timer.set_timer_modulo(byte);
             return;
 
         case 0xFF07:
-            /* TODO: Time control */
+            timer.set_timer_control(byte);
             return;
 
         case 0xFF0F:

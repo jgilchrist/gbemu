@@ -7,6 +7,7 @@ add_sources(
     mmu
     register
     serial
+    timer
 )
 
 add_subdirectory(cartridge)

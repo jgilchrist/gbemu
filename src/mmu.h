@@ -10,10 +10,11 @@ class Video;
 class CPU;
 class Serial;
 class Input;
+class Timer;
 
 class MMU {
 public:
-    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> input, Serial& serial);
+    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> input, Serial& serial, Timer& timer);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -34,6 +35,7 @@ private:
     Video& video;
     std::shared_ptr<Input> input;
     Serial& serial;
+    Timer& timer;
     std::vector<u8> memory;
 
     friend class Debugger;

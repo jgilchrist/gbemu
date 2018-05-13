@@ -6,6 +6,7 @@
 #include "video/screen.h"
 #include "video/video.h"
 #include "serial.h"
+#include "timer.h"
 #include "util/cli.h"
 
 #include <memory>
@@ -23,6 +24,7 @@ private:
     Video video;
     Serial serial;
     MMU mmu;
+    Timer timer;
 
     Debugger debugger;
 
