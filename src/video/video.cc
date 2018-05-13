@@ -98,6 +98,10 @@ void Video::write_scanline(u8 current_line) {
             }
         }
     }
+
+    for (uint sprite_n = 0; sprite_n < 40; sprite_n++) {
+        draw_sprite(sprite_n);
+    }
 }
 
 void Video::draw_tile(const uint tile_x, const uint tile_y) {
@@ -136,6 +140,55 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
             uint actual_x = x_start_in_framebuffer + x;
             uint actual_y = y_start_in_framebuffer + y;
             buffer.set_pixel(actual_x, actual_y, color);
+        }
+    }
+}
+
+void Video::draw_sprite(const uint sprite_n) {
+    using bitwise::check_bit;
+
+    /* Sprites are always taken from the first tileset */
+    Address tile_set_location = TILE_SET_ZERO_LOCATION;
+
+    /* Each sprite is represented by 4 bytes */
+    Address offset_in_oam = sprite_n * SPRITE_BYTES;
+
+    Address oam_start = 0xFE00 + offset_in_oam.value();
+    u8 sprite_y = mmu.read(oam_start);
+    u8 sprite_x = mmu.read(oam_start + 1);
+    u8 pattern_n = mmu.read(oam_start + 2);
+    u8 sprite_attrs = mmu.read(oam_start + 3);
+
+    /* If the sprite would be drawn offscreen, don't draw it */
+    if (sprite_y == 0 || sprite_y >= 160) { return; }
+    if (sprite_x == 0 || sprite_x >= 168) { return; }
+
+    /* log_info("Drawing sprite %d", sprite_n); */
+
+    /* Bits 0-3 are used only for CGB */
+    bool use_palette_0 = check_bit(sprite_attrs, 4);
+    bool x_flip = check_bit(sprite_attrs, 5);
+    bool y_flip = check_bit(sprite_attrs, 6);
+    bool obj_above_bg = check_bit(sprite_attrs, 7);
+
+    uint tile_offset = pattern_n * TILE_BYTES;
+
+    Address pattern_address = tile_set_location + tile_offset;
+
+    Tile tile(pattern_address, mmu);
+    int start_y = sprite_y - 16;
+    int start_x = sprite_x - 8;
+
+    for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
+        for (uint x = 0; x < TILE_WIDTH_PX; x++) {
+            GBColor color = tile.get_pixel(x, y);
+            int pixel_x = start_x + x;
+            int pixel_y = start_y + y;
+
+            if (pixel_x < 0 || pixel_x > GAMEBOY_WIDTH) { continue; }
+            if (pixel_y < 0 || pixel_y > GAMEBOY_HEIGHT) { continue; }
+
+            buffer.set_pixel(pixel_x, pixel_y, color);
         }
     }
 }

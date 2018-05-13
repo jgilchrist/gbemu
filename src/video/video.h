@@ -60,6 +60,7 @@ private:
     void write_scanline(u8 current_line);
     void draw();
     void draw_tile(uint tile_x, uint tile_y);
+    void draw_sprite(uint sprite_n);
 
     bool display_enabled() const;
     bool window_tile_map() const;

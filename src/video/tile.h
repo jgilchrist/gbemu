@@ -17,6 +17,8 @@ const Address TILE_MAP_ONE_LOCATION = 0x9C00;
 /* A single tile contains 8 lines, each of which is two bytes */
 const uint TILE_BYTES = 2 * 8;
 
+const uint SPRITE_BYTES = 4;
+
 class Tile {
 public:
     Tile(Address& address, MMU& mmu);
