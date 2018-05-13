@@ -319,7 +319,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF46:
-            /* log_unimplemented("Trigger DMA transfer"); */
+            dma_transfer(byte);
             return;
 
         case 0xFF47:
@@ -368,4 +368,16 @@ void MMU::memory_write(const Address& address, const u8 byte) {
 
 bool MMU::boot_rom_active() const {
     return read(0xFF50) != 0x1;
+}
+
+void MMU::dma_transfer(const u8 byte) {
+    Address start_address = byte * 0x100;
+
+    for (u8 i = 0x0; i <= 0x9F; i++) {
+        Address from_address = start_address.value() + i;
+        Address to_address = 0xFE00 + i;
+
+        u8 value_at_address = read(from_address);
+        write(to_address, value_at_address);
+    }
 }

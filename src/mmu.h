@@ -27,6 +27,8 @@ private:
     u8 memory_read(const Address& address) const;
     void memory_write(const Address& address, u8 byte);
 
+    void dma_transfer(const u8 byte);
+
     Cartridge& cartridge;
     CPU& cpu;
     Video& video;
