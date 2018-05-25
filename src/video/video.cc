@@ -170,8 +170,8 @@ void Video::draw_sprite(const uint sprite_n) {
 
     /* Bits 0-3 are used only for CGB */
     bool use_palette_0 = check_bit(sprite_attrs, 4);
-    bool x_flip = check_bit(sprite_attrs, 5);
-    bool y_flip = check_bit(sprite_attrs, 6);
+    bool flip_x = check_bit(sprite_attrs, 5);
+    bool flip_y = check_bit(sprite_attrs, 6);
     bool obj_above_bg = check_bit(sprite_attrs, 7);
 
     uint tile_offset = pattern_n * TILE_BYTES;
@@ -184,7 +184,10 @@ void Video::draw_sprite(const uint sprite_n) {
 
     for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
         for (uint x = 0; x < TILE_WIDTH_PX; x++) {
-            GBColor color = tile.get_pixel(x, y);
+            uint maybe_flipped_y = !flip_y ? y : TILE_HEIGHT_PX - y - 1;
+            uint maybe_flipped_x = !flip_x ? x : TILE_HEIGHT_PX - x - 1;
+
+            GBColor color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
             int pixel_x = start_x + x;
             int pixel_y = start_y + y;
 
