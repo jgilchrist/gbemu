@@ -188,6 +188,10 @@ void Video::draw_sprite(const uint sprite_n) {
             uint maybe_flipped_x = !flip_x ? x : TILE_HEIGHT_PX - x - 1;
 
             GBColor color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
+
+            // Color 0 is transparent
+            if (color == GBColor::Color0) { continue; }
+
             int pixel_x = start_x + x;
             int pixel_y = start_y + y;
 
