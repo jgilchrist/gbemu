@@ -126,7 +126,10 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
     /* Grab the tile number from the tile map */
     u8 tile_id = mmu.read(tile_id_address);
 
-    uint tile_offset = tile_id * TILE_BYTES;
+    uint tile_offset = tile_set_zero
+        ? tile_id * TILE_BYTES
+        : (static_cast<s8>(tile_id) + 128) * TILE_BYTES;
+
     Address tile_address = tile_set_location + tile_offset;
 
     Tile tile(tile_address, mmu);
