@@ -54,6 +54,7 @@ private:
     Options& options;
 
     bool interrupts_enabled = false;
+    bool halted = false;
 
     bool branch_taken = false;
 

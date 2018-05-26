@@ -20,6 +20,8 @@ CPU::CPU(MMU& inMMU, Options& inOptions) :
 Cycles CPU::tick() {
     handle_interrupts();
 
+    if (halted) { return 1; }
+
     u16 opcode_pc = pc.value();
     auto opcode = get_byte_from_pc();
     auto cycles = execute_opcode(opcode, opcode_pc);
@@ -43,6 +45,7 @@ void CPU::handle_interrupts() {
 
         if (!fired_interrupts) { return; }
 
+        halted = false;
         stack_push(pc);
 
         bool handled_interrupt = false;

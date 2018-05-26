@@ -350,7 +350,7 @@ void CPU::opcode_jr(Condition condition) {
 
 /* HALT */
 void CPU::opcode_halt() {
-    unimplemented_opcode();
+    halted = true;
 }
 
 
@@ -819,7 +819,7 @@ void CPU::opcode_srl(Address&& addr) {
 
 /* STOP */
 void CPU::opcode_stop() {
-    fatal_error("Stopped");
+    halted = true;
 }
 
 
