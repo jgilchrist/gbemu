@@ -120,6 +120,15 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF44:
             return video.line.value();
 
+        case 0xFF47:
+            return video.bg_palette.value();
+
+        case 0xFF48:
+            return video.sprite_palette_0.value();
+
+        case 0xFF49:
+            return video.sprite_palette_1.value();
+
         case 0xFF4D:
             log_unimplemented("Attempted to read from 'Prepare Speed Switch' register");
             return 0x0;
@@ -335,10 +344,14 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_trace("Set video palette: 0x%x", byte);
             return;
 
-        /* TODO: Object Palette 0/1 Data */
         case 0xFF48:
+            video.sprite_palette_0.set(byte);
+            log_trace("Set sprite palette 0: 0x%x", byte);
+            return;
+
         case 0xFF49:
-            log_unimplemented("Wrote to object palette data register 0x%x - 0x%x", address.value(), byte);
+            video.sprite_palette_1.set(byte);
+            log_trace("Set sprite palette 1: 0x%x", byte);
             return;
 
         case 0xFF4A:

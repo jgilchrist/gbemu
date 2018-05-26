@@ -46,8 +46,8 @@ public:
     ByteRegister window_x; /* Note: x - 7 */
 
     ByteRegister bg_palette;
-    ByteRegister sprite0_palette; /* OBP0 */
-    ByteRegister sprite1_palette; /* OBP1 */
+    ByteRegister sprite_palette_0; /* OBP0 */
+    ByteRegister sprite_palette_1; /* OBP1 */
 
     /* TODO: LCD Color Palettes (CGB) */
     /* TODO: LCD VRAM Bank (CGB) */
@@ -74,7 +74,8 @@ private:
     TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
 
     Color get_real_color(u8 pixel_value) const;
-    BGPalette get_bg_palette() const;
+    Palette load_palette(ByteRegister& palette_register) const;
+    Color get_color_from_palette(GBColor color, const Palette& palette);
 
     std::shared_ptr<Screen> screen;
     CPU& cpu;

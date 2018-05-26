@@ -46,7 +46,7 @@ enum class Color {
     Black,
 };
 
-struct BGPalette {
+struct Palette {
     Color color0 = Color::White;
     Color color1 = Color::LightGray;
     Color color2 = Color::DarkGray;

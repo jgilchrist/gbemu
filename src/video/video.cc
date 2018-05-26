@@ -109,6 +109,8 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
     bool tile_set_zero = bg_window_tile_data();
     bool tile_map_zero = !bg_tile_map_display();
 
+    Palette palette = load_palette(bg_palette);
+
     Address tile_set_location = tile_set_zero
         ? TILE_SET_ZERO_LOCATION
         : TILE_SET_ONE_LOCATION;
@@ -139,10 +141,13 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
 
     for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
         for (uint x = 0; x < TILE_WIDTH_PX; x++) {
-            GBColor color = tile.get_pixel(x, y);
+            GBColor gb_color = tile.get_pixel(x, y);
+            Color screen_color = get_color_from_palette(gb_color, palette);
+
             uint actual_x = x_start_in_framebuffer + x;
             uint actual_y = y_start_in_framebuffer + y;
-            buffer.set_pixel(actual_x, actual_y, color);
+
+            buffer.set_pixel(actual_x, actual_y, screen_color);
         }
     }
 }
@@ -169,10 +174,14 @@ void Video::draw_sprite(const uint sprite_n) {
     /* log_info("Drawing sprite %d", sprite_n); */
 
     /* Bits 0-3 are used only for CGB */
-    bool use_palette_0 = check_bit(sprite_attrs, 4);
+    bool use_palette_1 = check_bit(sprite_attrs, 4);
     bool flip_x = check_bit(sprite_attrs, 5);
     bool flip_y = check_bit(sprite_attrs, 6);
-    bool obj_above_bg = check_bit(sprite_attrs, 7);
+    bool obj_behind_bg = check_bit(sprite_attrs, 7);
+
+    Palette palette = use_palette_1
+        ? load_palette(sprite_palette_1)
+        : load_palette(sprite_palette_0);
 
     uint tile_offset = pattern_n * TILE_BYTES;
 
@@ -187,10 +196,12 @@ void Video::draw_sprite(const uint sprite_n) {
             uint maybe_flipped_y = !flip_y ? y : TILE_HEIGHT_PX - y - 1;
             uint maybe_flipped_x = !flip_x ? x : TILE_HEIGHT_PX - x - 1;
 
-            GBColor color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
+            GBColor gb_color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
 
             // Color 0 is transparent
-            if (color == GBColor::Color0) { continue; }
+            if (gb_color == GBColor::Color0) { continue; }
+
+            Color screen_color = get_color_from_palette(gb_color, palette);
 
             int pixel_x = start_x + x;
             int pixel_y = start_y + y;
@@ -198,20 +209,20 @@ void Video::draw_sprite(const uint sprite_n) {
             if (pixel_x < 0 || pixel_x > GAMEBOY_WIDTH) { continue; }
             if (pixel_y < 0 || pixel_y > GAMEBOY_HEIGHT) { continue; }
 
-            buffer.set_pixel(pixel_x, pixel_y, color);
+            buffer.set_pixel(pixel_x, pixel_y, screen_color);
         }
     }
 }
 
-BGPalette Video::get_bg_palette() const {
+Palette Video::load_palette(ByteRegister& palette_register) const {
     using bitwise::compose_bits;
     using bitwise::bit_value;
 
     /* TODO: Reduce duplication */
-    u8 color0 = compose_bits(bit_value(bg_palette.value(), 1), bit_value(bg_palette.value(), 0));
-    u8 color1 = compose_bits(bit_value(bg_palette.value(), 3), bit_value(bg_palette.value(), 2));
-    u8 color2 = compose_bits(bit_value(bg_palette.value(), 5), bit_value(bg_palette.value(), 4));
-    u8 color3 = compose_bits(bit_value(bg_palette.value(), 7), bit_value(bg_palette.value(), 6));
+    u8 color0 = compose_bits(bit_value(palette_register.value(), 1), bit_value(palette_register.value(), 0));
+    u8 color1 = compose_bits(bit_value(palette_register.value(), 3), bit_value(palette_register.value(), 2));
+    u8 color2 = compose_bits(bit_value(palette_register.value(), 5), bit_value(palette_register.value(), 4));
+    u8 color3 = compose_bits(bit_value(palette_register.value(), 7), bit_value(palette_register.value(), 6));
 
     Color real_color_0 = get_real_color(color0);
     Color real_color_1 = get_real_color(color1);
@@ -220,6 +231,16 @@ BGPalette Video::get_bg_palette() const {
 
     return { real_color_0, real_color_1, real_color_2, real_color_3 };
 }
+
+Color Video::get_color_from_palette(GBColor color, const Palette& palette) {
+    switch (color) {
+        case GBColor::Color0: return palette.color0;
+        case GBColor::Color1: return palette.color1;
+        case GBColor::Color2: return palette.color2;
+        case GBColor::Color3: return palette.color3;
+    }
+}
+
 
 Color Video::get_real_color(u8 pixel_value) const {
     switch (pixel_value) {
@@ -233,5 +254,5 @@ Color Video::get_real_color(u8 pixel_value) const {
 }
 
 void Video::draw() {
-    screen->draw(buffer, scroll_x.value(), scroll_y.value(), get_bg_palette());
+    screen->draw(buffer, scroll_x.value(), scroll_y.value());
 }

@@ -19,7 +19,7 @@ SFMLScreen::SFMLScreen(std::shared_ptr<Input> inInput, bool _whole_framebuffer, 
     window.setKeyRepeatEnabled(false);
 }
 
-void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
+void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y) {
     window.clear(sf::Color::White);
 
     sf::Event event;
@@ -38,7 +38,7 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
         }
     }
 
-    set_pixels(buffer, scroll_x, scroll_y, bg_palette);
+    set_pixels(buffer, scroll_x, scroll_y);
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
 
@@ -47,14 +47,14 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
     window.display();
 }
 
-void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y, const BGPalette& bg_palette) {
+void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y) {
     for (uint y = 0; y < logical_height; y++) {
         for (uint x = 0; x < logical_width; x++) {
             /* TODO: Does this need to be FRAMEBUFFER_SIZE - 1? */
             uint y_in_framebuffer = whole_framebuffer ? y : (scroll_y + y) % FRAMEBUFFER_SIZE;
             uint x_in_framebuffer = whole_framebuffer ? x : (scroll_x + x) % FRAMEBUFFER_SIZE;
 
-            Color color = get_color(buffer.get_pixel(x_in_framebuffer, y_in_framebuffer), bg_palette);
+            Color color = buffer.get_pixel(x_in_framebuffer, y_in_framebuffer);
             sf::Color pixel_color = get_real_color(color);
 
             set_large_pixel(x, y, pixel_color);
@@ -67,15 +67,6 @@ void SFMLScreen::set_large_pixel(uint x, uint y, sf::Color color) {
         for (uint h = 0; h < pixel_size; h++) {
             image.setPixel(x * pixel_size + w, y * pixel_size + h, color);
         }
-    }
-}
-
-Color SFMLScreen::get_color(GBColor color, const BGPalette& bg_palette) {
-    switch (color) {
-        case GBColor::Color0: return bg_palette.color0;
-        case GBColor::Color1: return bg_palette.color1;
-        case GBColor::Color2: return bg_palette.color2;
-        case GBColor::Color3: return bg_palette.color3;
     }
 }
 
