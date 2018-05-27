@@ -156,10 +156,13 @@ void Video::draw_tile(const uint tile_x, const uint tile_y) {
 void Video::draw_sprite(const uint sprite_n) {
     using bitwise::check_bit;
 
+    uint sprite_size_multiplier = sprite_size()
+        ? 2 : 1;
+
     /* Sprites are always taken from the first tileset */
     Address tile_set_location = TILE_SET_ZERO_LOCATION;
 
-    /* Each sprite is represented by 4 bytes */
+    /* Each sprite is represented by 4 bytes, or 8 bytes in 8x16 mode */
     Address offset_in_oam = sprite_n * SPRITE_BYTES;
 
     Address oam_start = 0xFE00 + offset_in_oam.value();
@@ -171,8 +174,6 @@ void Video::draw_sprite(const uint sprite_n) {
     /* If the sprite would be drawn offscreen, don't draw it */
     if (sprite_y == 0 || sprite_y >= 160) { return; }
     if (sprite_x == 0 || sprite_x >= 168) { return; }
-
-    /* log_info("Drawing sprite %d", sprite_n); */
 
     /* Bits 0-3 are used only for CGB */
     bool use_palette_1 = check_bit(sprite_attrs, 4);
@@ -188,14 +189,14 @@ void Video::draw_sprite(const uint sprite_n) {
 
     Address pattern_address = tile_set_location + tile_offset;
 
-    Tile tile(pattern_address, mmu);
+    Tile tile(pattern_address, mmu, sprite_size_multiplier);
     int start_y = sprite_y - 16;
     int start_x = sprite_x - 8;
 
-    for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
+    for (uint y = 0; y < TILE_HEIGHT_PX * sprite_size_multiplier; y++) {
         for (uint x = 0; x < TILE_WIDTH_PX; x++) {
-            uint maybe_flipped_y = !flip_y ? y : TILE_HEIGHT_PX - y - 1;
-            uint maybe_flipped_x = !flip_x ? x : TILE_HEIGHT_PX - x - 1;
+            uint maybe_flipped_y = !flip_y ? y : (TILE_HEIGHT_PX * sprite_size_multiplier) - y - 1;
+            uint maybe_flipped_x = !flip_x ? x : TILE_WIDTH_PX - x - 1;
 
             GBColor gb_color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
 

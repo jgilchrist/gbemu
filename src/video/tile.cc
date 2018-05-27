@@ -5,15 +5,15 @@
 
 using bitwise::bit_value;
 
-Tile::Tile(Address& tile_address, MMU& mmu) {
+Tile::Tile(Address& tile_address, MMU& mmu, uint size_multiplier) {
     /* Set the whole framebuffer to be black */
     for (uint x = 0; x < TILE_WIDTH_PX; x++) {
-        for (uint y = 0; y < TILE_HEIGHT_PX; y++) {
+        for (uint y = 0; y < TILE_HEIGHT_PX * size_multiplier; y++) {
             buffer[pixel_index(x, y)] = GBColor::Color0;
         }
     }
 
-    for (uint tile_line = 0; tile_line < TILE_HEIGHT_PX; tile_line++) {
+    for (uint tile_line = 0; tile_line < TILE_HEIGHT_PX * size_multiplier; tile_line++) {
         /* 2 (bytes per line of pixels) * y (lines) */
         uint index_into_tile = 2 * tile_line;
         Address line_start = tile_address + index_into_tile;

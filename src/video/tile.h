@@ -21,7 +21,7 @@ const uint SPRITE_BYTES = 4;
 
 class Tile {
 public:
-    Tile(Address& address, MMU& mmu);
+    Tile(Address& address, MMU& mmu, uint size_multiplier = 1);
 
     GBColor get_pixel(uint x, uint y) const;
 
@@ -29,5 +29,5 @@ private:
     static uint pixel_index(uint x, uint y);
     std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
 
-    GBColor buffer[TILE_HEIGHT_PX * TILE_WIDTH_PX];
+    GBColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
 };
