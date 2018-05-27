@@ -9,10 +9,6 @@ using bitwise::check_bit;
 using bitwise::clear_bit;
 using bitwise::set_bit;
 
-#define unimplemented_opcode() \
-    log_error("Unimplemented opcode: %s", __FUNCTION__); \
-    std::exit(1);
-
 /* ADC */
 void CPU::_opcode_adc(u8 value) {
     u8 reg = a.value();
