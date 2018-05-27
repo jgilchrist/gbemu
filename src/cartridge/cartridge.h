@@ -2,34 +2,61 @@
 
 #include "cartridge_info.h"
 #include "../address.h"
+#include "../register.h"
 
 #include <string>
 #include <vector>
 
 class Cartridge {
 public:
-    Cartridge(std::vector<u8> cartridge_data);
+    Cartridge(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> cartridge_info);
+    virtual ~Cartridge() = default;
 
-    u8 read(const Address& address) const;
+    virtual u8 read(const Address& address) const = 0;
+    virtual void write(const Address& address, u8 value) = 0;
 
-    std::string game_title() const;
+protected:
+    std::vector<u8> rom;
+    std::vector<u8> ram;
+
+    std::unique_ptr<CartridgeInfo> cartridge_info;
+};
+
+std::unique_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data);
+
+class NoMBC : public Cartridge {
+public:
+    NoMBC(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> cartridge_info);
+
+    u8 read(const Address& address) const override;
+    void write(const Address& address, u8 value) override;
+};
+
+class MBC1 : public Cartridge {
+public:
+    MBC1(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> cartridge_info);
+
+    u8 read(const Address& address) const override;
+    void write(const Address& address, u8 value) override;
 
 private:
-    std::vector<u8> data;
+    WordRegister rom_bank;
+    WordRegister ram_bank;
+    bool ram_enabled = false;
+    bool rom_banking_mode = true;
+};
 
-    std::string title;
+class MBC3 : public Cartridge {
+public:
+    MBC3(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> cartridge_info);
 
-    /* Cartridge information */
-    CartridgeType type;
-    Destination destination;
-    ROMSize rom_size;
-    RAMSize ram_size;
-    std::string license_code;
-    u8 version;
+    u8 read(const Address& address) const override;
+    void write(const Address& address, u8 value) override;
 
-    u16 header_checksum;
-    u16 global_checksum;
-
-    bool supports_cgb;
-    bool supports_sgb;
+private:
+    WordRegister rom_bank;
+    WordRegister ram_bank;
+    bool rom_banking_mode = true;
+    bool ram_enabled = false;
+    bool ram_over_rtc = true;
 };

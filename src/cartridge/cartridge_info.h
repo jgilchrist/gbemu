@@ -3,6 +3,7 @@
 #include "../definitions.h"
 
 #include <string>
+#include <vector>
 
 const int TITLE_LENGTH = 11;
 
@@ -37,6 +38,8 @@ enum class CartridgeType {
 extern CartridgeType get_type(u8 type);
 extern std::string describe(CartridgeType type);
 
+extern std::string get_title(std::vector<u8>& rom);
+
 extern std::string get_license(u16 old_license, u16 new_license);
 
 enum class ROMSize {
@@ -66,6 +69,7 @@ enum class RAMSize {
 };
 
 extern RAMSize get_ram_size(u8 size_code);
+extern uint get_actual_ram_size(RAMSize size_code);
 extern std::string describe(RAMSize size);
 
 enum class Destination {
@@ -75,3 +79,24 @@ enum class Destination {
 
 extern Destination get_destination(u8 destination);
 extern std::string describe(Destination destination);
+
+class CartridgeInfo {
+public:
+    std::string title;
+
+    /* Cartridge information */
+    CartridgeType type;
+    Destination destination;
+    ROMSize rom_size;
+    RAMSize ram_size;
+    std::string license_code;
+    u8 version;
+
+    u16 header_checksum;
+    u16 global_checksum;
+
+    bool supports_cgb;
+    bool supports_sgb;
+};
+
+extern std::unique_ptr<CartridgeInfo> get_info(std::vector<u8> rom);

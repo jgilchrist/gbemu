@@ -2,11 +2,11 @@
 #include "util/log.h"
 
 Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options) :
-    cartridge(std::move(cartridge_data)),
+    cartridge(get_cartridge(std::move(cartridge_data))),
     cpu(mmu, options),
     video(cpu, mmu),
     serial(options.print_serial),
-    mmu(cartridge, cpu, video, input, serial, timer),
+    mmu(std::move(cartridge), cpu, video, input, serial, timer),
     debugger(*this, options.debugger)
 {
     log_set_level(get_log_level(options));

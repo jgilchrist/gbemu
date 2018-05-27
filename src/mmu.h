@@ -14,7 +14,7 @@ class Timer;
 
 class MMU {
 public:
-    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer);
+    MMU(std::unique_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -30,7 +30,7 @@ private:
 
     void dma_transfer(const u8 byte);
 
-    Cartridge& cartridge;
+    std::unique_ptr<Cartridge> cartridge;
     CPU& cpu;
     Video& video;
     Input& input;

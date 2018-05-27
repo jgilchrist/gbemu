@@ -2,6 +2,28 @@
 
 #include "../util/log.h"
 
+std::unique_ptr<CartridgeInfo> get_info(std::vector<u8> rom) {
+    std::unique_ptr<CartridgeInfo> info = std::make_unique<CartridgeInfo>();
+
+    u8 type_code = rom[header::cartridge_type];
+    u8 version_code = rom[header::version_number];
+    u8 rom_size_code = rom[header::rom_size];
+    u8 ram_size_code = rom[header::ram_size];
+
+    info->type = get_type(type_code);
+    info->version = version_code;
+    info->rom_size = get_rom_size(rom_size_code);
+    info->ram_size = get_ram_size(ram_size_code);
+    info->title = get_title(rom);
+
+    log_info("Title:\t\t %s (version %d)", info->title.c_str(), info->version);
+    log_info("Cartridge:\t\t %s", describe(info->type).c_str());
+    log_info("Rom Size:\t\t %s", describe(info->rom_size).c_str());
+    log_info("Ram Size:\t\t %s", describe(info->ram_size).c_str());
+
+    return info;
+}
+
 CartridgeType get_type(u8 type) {
     switch (type) {
         case 0x00:
@@ -161,6 +183,23 @@ RAMSize get_ram_size(u8 size_code) {
     }
 }
 
+uint get_actual_ram_size(RAMSize size) {
+    switch (size) {
+        case RAMSize::None:
+            return 0x0;
+        case RAMSize::KB2:
+            return 0x800;
+        case RAMSize::KB8:
+            return 0x2000;
+        case RAMSize::KB32:
+            return 0x8000;
+        case RAMSize::KB128:
+            return 0x20000;
+        case RAMSize::KB64:
+            return 0x10000;
+    }
+}
+
 std::string describe(RAMSize size) {
     switch (size) {
         case RAMSize::None:
@@ -198,4 +237,14 @@ std::string describe(Destination destination) {
         case Destination::NonJapanese:
             return "Non-Japanese";
     }
+}
+
+std::string get_title(std::vector<u8>& rom) {
+    char name[TITLE_LENGTH] = {0};
+
+    for (u8 i = 0; i < TITLE_LENGTH; i++) {
+        name[i] = static_cast<char>(rom[header::title + i]);
+    }
+
+    return std::string(name);
 }
