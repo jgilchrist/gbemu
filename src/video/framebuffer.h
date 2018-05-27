@@ -13,6 +13,8 @@ public:
     void set_pixel(uint x, uint y, Color color);
     Color get_pixel(uint x, uint y) const;
 
+    void reset();
+
 private:
     uint width;
     uint height;

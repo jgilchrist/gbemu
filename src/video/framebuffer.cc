@@ -18,3 +18,9 @@ Color FrameBuffer::get_pixel(uint x, uint y) const {
 inline uint FrameBuffer::pixel_index(uint x, uint y) const {
     return (y * height) + x;
 }
+
+void FrameBuffer::reset() {
+    for (uint i = 0; i < width * height; i++) {
+        buffer[i] = Color::White;
+    }
+}

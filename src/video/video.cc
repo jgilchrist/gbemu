@@ -66,6 +66,7 @@ void Video::tick(Cycles cycles) {
                     /* We don't currently draw line-by-line so we pass 0 */
                     write_scanline(0);
                     draw();
+                    buffer.reset();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;
                     lcd_status.set_bit_to(1, 1);
