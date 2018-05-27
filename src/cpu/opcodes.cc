@@ -815,7 +815,7 @@ void CPU::opcode_srl(Address&& addr) {
 
 /* STOP */
 void CPU::opcode_stop() {
-    halted = true;
+    /* halted = true; */
 }
 
 
