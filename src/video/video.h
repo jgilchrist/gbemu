@@ -58,6 +58,7 @@ private:
     void write_sprites();
     void draw();
     void draw_bg_line(uint current_line);
+    void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
     u8 get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
 

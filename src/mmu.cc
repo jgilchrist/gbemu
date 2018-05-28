@@ -129,6 +129,12 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF49:
             return video.sprite_palette_1.value();
 
+        case 0xFF4A:
+            return video.window_y.value();
+
+        case 0xFF4B:
+            return video.window_x.value();
+
         case 0xFF4D:
             log_unimplemented("Attempted to read from 'Prepare Speed Switch' register");
             return 0x0;
@@ -355,11 +361,11 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF4A:
-            log_unimplemented("Wrote to window Y position");
+            video.window_y.set(byte);
             return;
 
         case 0xFF4B:
-            log_unimplemented("Wrote to window X position");
+            video.window_x.set(byte);
             return;
 
         case 0xFF4D:

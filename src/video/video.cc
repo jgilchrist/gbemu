@@ -108,6 +108,10 @@ void Video::write_scanline(u8 current_line) {
     if (bg_enabled()) {
         draw_bg_line(current_line);
     }
+
+    if (window_enabled()) {
+        draw_window_line(current_line);
+    }
 }
 
 void Video::write_sprites() {
@@ -142,6 +146,65 @@ void Video::draw_bg_line(uint current_line) {
 
         uint x_in_tile = x_in_bg_map % TILE_WIDTH_PX;
         uint y_in_tile = y_in_bg_map % TILE_HEIGHT_PX;
+
+        /* Work out the index of the tile in the array of all tiles */
+        uint tile_index = tile_y * TILES_PER_LINE + tile_x;
+
+        /* Work out the address of the tile ID from the tile map */
+        Address tile_id_address = tile_map_location + tile_index;
+
+        /* Grab the tile number from the tile map */
+        u8 tile_id = mmu.read(tile_id_address);
+
+        uint tile_offset = tile_set_zero
+            ? tile_id * TILE_BYTES
+            : (static_cast<s8>(tile_id) + 128) * TILE_BYTES;
+
+        /* 2 (bytes per line of pixels) * y (lines) */
+        uint index_into_tile = y_in_tile * 2;
+
+        Address tile_start = tile_set_location + tile_offset;
+        Address tile_line_start = tile_set_location + tile_offset + index_into_tile;
+
+        u8 pixels_1 = mmu.read(tile_line_start);
+        u8 pixels_2 = mmu.read(tile_line_start + 1);
+
+        GBColor gb_color = get_color(get_pixel_from_line(pixels_1, pixels_2, x_in_tile));
+
+        Color screen_color = get_color_from_palette(gb_color, palette);
+
+        buffer.set_pixel(x, current_line, screen_color);
+    }
+}
+
+void Video::draw_window_line(uint current_line) {
+    /* Note: tileset two uses signed numbering to share half the tiles with tileset 1 */
+    bool tile_set_zero = bg_window_tile_data();
+    bool tile_map_zero = !window_tile_map();
+
+    Palette palette = load_palette(bg_palette);
+
+    Address tile_set_location = tile_set_zero
+        ? TILE_SET_ZERO_LOCATION
+        : TILE_SET_ONE_LOCATION;
+
+    Address tile_map_location = tile_map_zero
+        ? TILE_MAP_ZERO_LOCATION
+        : TILE_MAP_ONE_LOCATION;
+
+    uint y_in_screen = current_line - window_y.value();
+    if (y_in_screen > GAMEBOY_HEIGHT) { return; }
+
+    for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+        /* Work out the index of the pixel in the framebuffer */
+        uint x_in_screen = window_x.value() + x - 6;
+
+        /* Work out the tile for this pixel */
+        uint tile_x = x_in_screen / TILE_WIDTH_PX;
+        uint tile_y = y_in_screen / TILE_HEIGHT_PX;
+
+        uint x_in_tile = x_in_screen % TILE_WIDTH_PX;
+        uint y_in_tile = y_in_screen % TILE_HEIGHT_PX;
 
         /* Work out the index of the tile in the array of all tiles */
         uint tile_index = tile_y * TILES_PER_LINE + tile_x;
