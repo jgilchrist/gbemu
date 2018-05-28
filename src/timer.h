@@ -5,7 +5,7 @@
 
 class Timer {
 public:
-    void tick(u8 cycles);
+    void tick(uint cycles);
 
     u8 get_divider() const;
     u8 get_timer() const;

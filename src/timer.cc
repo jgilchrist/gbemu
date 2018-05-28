@@ -1,7 +1,8 @@
 #include "timer.h"
 
-void Timer::tick(u8 cycles) {
-    divider.set(divider.value() + cycles);
+void Timer::tick(uint cycles) {
+    u8 new_divider = static_cast<u8>(divider.value() + cycles);
+    divider.set(new_divider);
 }
 
 u8 Timer::get_divider() const {
