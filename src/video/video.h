@@ -55,6 +55,7 @@ public:
 
 private:
     void write_scanline(u8 current_line);
+    void write_sprites();
     void draw();
     void draw_bg_line(uint current_line);
     void draw_sprite(uint sprite_n);
