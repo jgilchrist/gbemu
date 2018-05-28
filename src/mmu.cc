@@ -316,7 +316,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF41:
             /* TODO */
-            log_unimplemented("Wrote to LCD stat register 0x%x - 0x%x", address.value(), byte);
+            video.lcd_status.set(byte);
             return;
 
         /* Vertical Scroll Register */

@@ -31,6 +31,20 @@ void Video::tick(Cycles cycles) {
             if (cycle_counter >= CLOCKS_PER_SCANLINE_VRAM) {
                 cycle_counter = cycle_counter % CLOCKS_PER_SCANLINE_VRAM;
                 current_mode = VideoMode::HBLANK;
+
+                bool hblank_interrupt = bitwise::check_bit(lcd_status.value(), 3);
+
+                if (hblank_interrupt) {
+                    cpu.interrupt_flag.set_bit_to(1, true);
+                }
+
+                bool ly_coincidence_interrupt = bitwise::check_bit(lcd_status.value(), 6);
+                bool ly_coincidence = ly_compare.value() == line.value();
+                if (ly_coincidence_interrupt && ly_coincidence) {
+                    cpu.interrupt_flag.set_bit_to(1, true);
+                }
+                lcd_status.set_bit_to(2, ly_coincidence);
+
                 lcd_status.set_bit_to(1, 0);
                 lcd_status.set_bit_to(0, 0);
             }
@@ -75,9 +89,6 @@ void Video::tick(Cycles cycles) {
             }
             break;
     }
-
-    /* TODO: Implement the other bits of the LCD status register */
-    lcd_status.set_bit_to(2, ly_compare.value() == line.value());
 }
 
 bool Video::display_enabled() const { return check_bit(control_byte, 7); }
