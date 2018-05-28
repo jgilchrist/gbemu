@@ -6,8 +6,8 @@ SFMLScreen::SFMLScreen(std::shared_ptr<Input> inInput, bool _whole_framebuffer, 
     input(inInput),
     magnification(_magnification),
     whole_framebuffer(_whole_framebuffer),
-    logical_width(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_WIDTH),
-    logical_height(whole_framebuffer ? FRAMEBUFFER_SIZE : GAMEBOY_HEIGHT),
+    logical_width(GAMEBOY_WIDTH),
+    logical_height(GAMEBOY_HEIGHT),
     width(logical_width*magnification),
     height(logical_height*magnification),
     pixel_size(magnification),
@@ -19,7 +19,7 @@ SFMLScreen::SFMLScreen(std::shared_ptr<Input> inInput, bool _whole_framebuffer, 
     window.setKeyRepeatEnabled(false);
 }
 
-void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y) {
+void SFMLScreen::draw(const FrameBuffer& buffer) {
     window.clear(sf::Color::White);
 
     sf::Event event;
@@ -38,7 +38,7 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
         }
     }
 
-    set_pixels(buffer, scroll_x, scroll_y);
+    set_pixels(buffer);
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
 
@@ -47,14 +47,10 @@ void SFMLScreen::draw(const FrameBuffer& buffer, const uint scroll_x, const uint
     window.display();
 }
 
-void SFMLScreen::set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y) {
-    for (uint y = 0; y < logical_height; y++) {
-        for (uint x = 0; x < logical_width; x++) {
-            /* TODO: Does this need to be FRAMEBUFFER_SIZE - 1? */
-            uint y_in_framebuffer = whole_framebuffer ? y : (scroll_y + y) % FRAMEBUFFER_SIZE;
-            uint x_in_framebuffer = whole_framebuffer ? x : (scroll_x + x) % FRAMEBUFFER_SIZE;
-
-            Color color = buffer.get_pixel(x_in_framebuffer, y_in_framebuffer);
+void SFMLScreen::set_pixels(const FrameBuffer& buffer) {
+    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
+        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+            Color color = buffer.get_pixel(x, y);
             sf::Color pixel_color = get_real_color(color);
 
             set_large_pixel(x, y, pixel_color);

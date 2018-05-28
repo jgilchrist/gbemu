@@ -10,7 +10,7 @@ public:
     SFMLScreen(std::shared_ptr<Input> input, bool _whole_framebuffer=false, uint _magnification = 5);
     ~SFMLScreen() override = default;
 
-    void draw(const FrameBuffer& buffer, const uint scrollx, const uint scrolly) override;
+    void draw(const FrameBuffer& buffer) override;
     bool is_open() override;
 
 private:
@@ -30,7 +30,7 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
 
-    void set_pixels(const FrameBuffer& buffer, const uint scroll_x, const uint scroll_y);
+    void set_pixels(const FrameBuffer& buffer);
     void set_large_pixel(uint x, uint y, sf::Color color);
     sf::Color get_real_color(Color color);
 };

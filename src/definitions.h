@@ -27,8 +27,9 @@ template <typename... T> void unused(T&&... unused_vars) {}
     exit(1);
 
 
-const int GAMEBOY_WIDTH = 160;
-const int GAMEBOY_HEIGHT = 144;
+const uint GAMEBOY_WIDTH = 160;
+const uint GAMEBOY_HEIGHT = 144;
+const uint BG_MAP_SIZE = 256;
 
 const int CLOCK_RATE = 4194304;
 

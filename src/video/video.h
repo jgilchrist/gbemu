@@ -6,6 +6,7 @@
 
 #include "../mmu.h"
 #include "../register.h"
+#include "../definitions.h"
 
 #include <vector>
 #include <memory>
@@ -30,8 +31,6 @@ public:
 
     u8 control_byte;
 
-    /* TODO: Annotate each register with its register name */
-
     ByteRegister lcd_control;
     ByteRegister lcd_status;
 
@@ -54,13 +53,12 @@ public:
 
     ByteRegister dma_transfer; /* DMA */
 
-    /* TODO: LCD VRAM DMA Transfers */
-
 private:
     void write_scanline(u8 current_line);
     void draw();
-    void draw_tile(uint tile_x, uint tile_y);
+    void draw_bg_line(uint current_line);
     void draw_sprite(uint sprite_n);
+    u8 get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
 
     bool display_enabled() const;
     bool window_tile_map() const;
@@ -81,6 +79,7 @@ private:
     CPU& cpu;
     MMU& mmu;
     FrameBuffer buffer;
+    FrameBuffer background_map;
 
     VideoMode current_mode;
     uint cycle_counter;
