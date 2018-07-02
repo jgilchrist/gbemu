@@ -241,21 +241,21 @@ void Debugger::command_help(Args args) {
 
     printf("\n");
     printf("= Flow Control\n");
-    printf("step $steps=1        Run $steps cycles\n");
-    printf("run                  Run until the next breakpoint\n");
-    printf("breakaddr $addr      Set a breakpoint at $addr\n");
-    printf("breakvalue $addr #n  Set a breakpoint at $addr\n");
+    printf("[s]tep $steps=1        Run $steps cycles\n");
+    printf("[r]un                  Run until the next breakpoint\n");
+    printf("breakaddr $addr        Set a breakpoint at $addr\n");
+    printf("breakvalue $addr #n    Set a breakpoint at $addr\n");
     printf("\n");
     printf("= Debug Information\n");
-    printf("registers            Print a dump of the CPU registers\n");
-    printf("flags                Print a dump of the CPU flags\n");
-    printf("memory $start $lines Print a dump of memory from $start to $end\n");
-    printf("memorycell $addr     Print the value of the memory at $addr\n");
+    printf("registers              Print a dump of the CPU registers\n");
+    printf("flags                  Print a dump of the CPU flags\n");
+    printf("[mem]ory $start $lines Print a dump of memory from $start to $end\n");
+    printf("[addr]ess $addr        Print the value of the memory at $addr\n");
     printf("\n");
     printf("= Other\n");
-    printf("steps                Print the number of steps so far\n");
-    printf("help                 Print this help page\n");
-    printf("exit                 Exit the emulator\n");
+    printf("steps                  Print the number of steps so far\n");
+    printf("help                   Print this help page\n");
+    printf("exit                   Exit the emulator\n");
     printf("\n");
 }
 
@@ -297,7 +297,7 @@ CommandType Debugger::parse_command(std::string cmd) {
     if (cmd == "regs" || cmd == "registers") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
     if (cmd == "memory" || cmd == "mem") return CommandType::Memory;
-    if (cmd == "memorycell" || cmd == "memcell") return CommandType::MemoryCell;
+    if (cmd == "address" || cmd == "addr") return CommandType::MemoryCell;
     if (cmd == "steps") return CommandType::Steps;
 
     if (cmd == "log") return CommandType::Log;
