@@ -296,8 +296,8 @@ CommandType Debugger::parse_command(std::string cmd) {
 
     if (cmd == "regs" || cmd == "registers") return CommandType::Registers;
     if (cmd == "flags") return CommandType::Flags;
-    if (cmd == "mem") return CommandType::Memory;
-    if (cmd == "memcell") return CommandType::MemoryCell;
+    if (cmd == "memory" || cmd == "mem") return CommandType::Memory;
+    if (cmd == "memorycell" || cmd == "memcell") return CommandType::MemoryCell;
     if (cmd == "steps") return CommandType::Steps;
 
     if (cmd == "log") return CommandType::Log;
