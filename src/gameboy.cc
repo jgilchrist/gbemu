@@ -1,11 +1,9 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, std::shared_ptr<Input> inInput, Cartridge& cartridge, Options& options) :
-    input(inInput),
-    screen(inScreen),
+Gameboy::Gameboy(Cartridge& cartridge, Options& options) :
     cpu(mmu, options),
-    video(screen, cpu, mmu),
+    video(cpu, mmu),
     serial(options.print_serial),
     mmu(cartridge, cpu, video, input, serial, timer),
     debugger(*this, options.debugger)
@@ -14,16 +12,40 @@ Gameboy::Gameboy(std::shared_ptr<Screen> inScreen, std::shared_ptr<Input> inInpu
     log_info("");
 }
 
-void Gameboy::run() {
-    uint elapsed_cycles = 0;
+void Gameboy::button_pressed(GbButton button) {
+    input.button_pressed(button);
+}
 
-    while (screen->is_open()) {
-        debugger.cycle();
+void Gameboy::button_released(GbButton button) {
+    input.button_released(button);
+}
 
-        auto cycles = cpu.tick();
-        elapsed_cycles += cycles.cycles;
+void Gameboy::register_should_close_callback(const should_close_callback_t& _should_close_callback) {
+    should_close_callback = _should_close_callback;
+}
 
-        video.tick(cycles);
-        timer.tick(cycles.cycles);
+void Gameboy::register_vblank_callback(const vblank_callback_t& _vblank_callback) {
+    video.register_vblank_callback(_vblank_callback);
+}
+
+void Gameboy::run(
+    const should_close_callback_t& _should_close_callback,
+    const vblank_callback_t& _vblank_callback
+) {
+    register_should_close_callback(_should_close_callback);
+    register_vblank_callback(_vblank_callback);
+
+    while (!should_close_callback()) {
+        tick();
     }
+}
+
+void Gameboy::tick() {
+    debugger.cycle();
+
+    auto cycles = cpu.tick();
+    elapsed_cycles += cycles.cycles;
+
+    video.tick(cycles);
+    timer.tick(cycles.cycles);
 }

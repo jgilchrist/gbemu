@@ -1,7 +1,6 @@
 #pragma once
 
 #include "framebuffer.h"
-#include "screen.h"
 #include "tile.h"
 
 #include "../mmu.h"
@@ -10,6 +9,8 @@
 
 #include <vector>
 #include <memory>
+
+typedef std::function<void(const FrameBuffer&)> vblank_callback_t;
 
 enum class VideoMode {
     ACCESS_OAM,
@@ -25,9 +26,10 @@ struct TileInfo {
 
 class Video {
 public:
-    Video(std::shared_ptr<Screen> inScreen, CPU& inCPU, MMU& inMMU);
+    Video(CPU& inCPU, MMU& inMMU);
 
     void tick(Cycles cycles);
+    void register_vblank_callback(const vblank_callback_t& _vblank_callback);
 
     u8 control_byte;
 
@@ -77,7 +79,6 @@ private:
     Palette load_palette(ByteRegister& palette_register) const;
     Color get_color_from_palette(GBColor color, const Palette& palette);
 
-    std::shared_ptr<Screen> screen;
     CPU& cpu;
     MMU& mmu;
     FrameBuffer buffer;
@@ -85,6 +86,8 @@ private:
 
     VideoMode current_mode;
     uint cycle_counter;
+
+    vblank_callback_t vblank_callback;
 };
 
 const uint CLOCKS_PER_HBLANK = 204; /* Mode 0 */

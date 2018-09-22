@@ -14,7 +14,7 @@ class Timer;
 
 class MMU {
 public:
-    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, std::shared_ptr<Input> input, Serial& serial, Timer& timer);
+    MMU(Cartridge& inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -33,7 +33,7 @@ private:
     Cartridge& cartridge;
     CPU& cpu;
     Video& video;
-    std::shared_ptr<Input> input;
+    Input& input;
     Serial& serial;
     Timer& timer;
     std::vector<u8> memory;

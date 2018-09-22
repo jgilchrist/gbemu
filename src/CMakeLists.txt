@@ -3,7 +3,6 @@ add_sources(
     debugger
     gameboy
     input
-    main
     mmu
     register
     serial

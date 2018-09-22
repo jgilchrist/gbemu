@@ -4,5 +4,3 @@ add_sources(
     tile
     video
 )
-
-add_subdirectory(screens)

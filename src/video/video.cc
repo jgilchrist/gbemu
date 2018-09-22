@@ -8,8 +8,7 @@
 
 using bitwise::check_bit;
 
-Video::Video(std::shared_ptr<Screen> inScreen, CPU& inCPU, MMU& inMMU) :
-    screen(inScreen),
+Video::Video(CPU& inCPU, MMU& inMMU) :
     cpu(inCPU),
     mmu(inMMU),
     buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT),
@@ -345,8 +344,10 @@ Color Video::get_real_color(u8 pixel_value) const {
     }
 }
 
+void Video::register_vblank_callback(const vblank_callback_t& _vblank_callback) {
+    vblank_callback = _vblank_callback;
+}
+
 void Video::draw() {
-    screen->clear();
-    screen->process_events();
-    screen->draw(buffer);
+    vblank_callback(buffer);
 }

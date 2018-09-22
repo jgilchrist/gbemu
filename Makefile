@@ -1,7 +1,8 @@
 NAME=emulator
 BUILD_DIR=build
 
-default: build-local
+.PHONY: default
+default: release tags
 
 #################
 # Utility targets
@@ -10,6 +11,9 @@ default: build-local
 .PHONY: build-dir
 build-dir:
 	@mkdir -p $(BUILD_DIR)
+
+.PHONY: rebuild
+rebuild: clean release tags
 
 .PHONY: compile
 compile:
@@ -35,7 +39,7 @@ tidy: debug
 # Commands to build
 ###################
 
-.PHONY: cmake
+.PHONY: cmake-debug
 cmake-debug: build-dir
 	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=on ..
 
@@ -48,6 +52,3 @@ debug: cmake-debug compile
 
 .PHONY: release
 release: cmake-release compile
-
-.PHONY: build-local
-build-local: tags release
