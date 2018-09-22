@@ -8,6 +8,7 @@
 
 #include <memory>
 
+std::shared_ptr<Screen> get_screen(std::shared_ptr<Input> input, Options& options);
 std::shared_ptr<Screen> get_screen(std::shared_ptr<Input> input, Options& options) {
     if (options.headless) {
         return std::make_shared<NullScreen>();

@@ -346,5 +346,7 @@ Color Video::get_real_color(u8 pixel_value) const {
 }
 
 void Video::draw() {
+    screen->clear();
+    screen->process_events();
     screen->draw(buffer);
 }

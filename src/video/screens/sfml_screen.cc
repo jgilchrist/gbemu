@@ -19,25 +19,31 @@ SFMLScreen::SFMLScreen(std::shared_ptr<Input> inInput, bool _whole_framebuffer, 
     window.setKeyRepeatEnabled(false);
 }
 
-void SFMLScreen::draw(const FrameBuffer& buffer) {
+void SFMLScreen::clear() {
     window.clear(sf::Color::White);
+}
 
+void SFMLScreen::process_events() {
     sf::Event event;
 
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::KeyPressed) {
-            input->on_key_pressed(event.key.code);
+            auto button = get_gb_button(event.key.code);
+            input->button_pressed(button);
         }
 
         if (event.type == sf::Event::KeyReleased) {
-            input->on_key_released(event.key.code);
+            auto button = get_gb_button(event.key.code);
+            input->button_released(button);
         }
 
         if (event.type == sf::Event::Closed) {
             window.close();
         }
     }
+}
 
+void SFMLScreen::draw(const FrameBuffer& buffer) {
     set_pixels(buffer);
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
@@ -77,4 +83,17 @@ sf::Color SFMLScreen::get_real_color(Color color) {
 
 bool SFMLScreen::is_open() {
     return window.isOpen();
+}
+
+GbButton SFMLScreen::get_gb_button(int keyCode) {
+    switch (keyCode) {
+        case sf::Keyboard::Up: return GbButton::Up;
+        case sf::Keyboard::Down: return GbButton::Down;
+        case sf::Keyboard::Left: return GbButton::Left;
+        case sf::Keyboard::Right: return GbButton::Right;
+        case sf::Keyboard::X: return GbButton::A;
+        case sf::Keyboard::Z: return GbButton::B;
+        case sf::Keyboard::BackSpace: return GbButton::Select;
+        case sf::Keyboard::Return: return GbButton::Start;
+    }
 }

@@ -2,23 +2,23 @@
 
 #include "util/bitwise.h"
 
-void Input::on_key_pressed(int keyCode) {
-    on_key(keyCode, true);
+void Input::button_pressed(GbButton button) {
+    set_button(button, true);
 }
 
-void Input::on_key_released(int keyCode) {
-    on_key(keyCode, false);
+void Input::button_released(GbButton button) {
+    set_button(button, false);
 }
 
-void Input::on_key(int keyCode, bool set) {
-    if (keyCode == sf::Keyboard::Up) { up = set; }
-    if (keyCode == sf::Keyboard::Down) { down = set; }
-    if (keyCode == sf::Keyboard::Left) { left = set; }
-    if (keyCode == sf::Keyboard::Right) { right = set; }
-    if (keyCode == sf::Keyboard::X) { a = set; }
-    if (keyCode == sf::Keyboard::Z) { b = set; }
-    if (keyCode == sf::Keyboard::Return) { start = set; }
-    if (keyCode == sf::Keyboard::BackSpace) { select = set; }
+void Input::set_button(GbButton button, bool set) {
+    if (button == GbButton::Up) { up = set; }
+    if (button == GbButton::Down) { down = set; }
+    if (button == GbButton::Left) { left = set; }
+    if (button == GbButton::Right) { right = set; }
+    if (button == GbButton::A) { a = set; }
+    if (button == GbButton::B) { b = set; }
+    if (button == GbButton::Select) { select = set; }
+    if (button == GbButton::Start) { start = set; }
 }
 
 void Input::write(u8 set) {

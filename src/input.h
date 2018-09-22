@@ -1,20 +1,28 @@
 #pragma once
 
-/* FIXME: Figure out why importing SFML/Keyboard.hpp doesn't work */
-#include <SFML/Graphics.hpp>
-
 #include "definitions.h"
+
+enum class GbButton {
+    Up,
+    Down,
+    Left,
+    Right,
+    A,
+    B,
+    Select,
+    Start,
+};
 
 class Input {
 public:
-    void on_key_pressed(int event);
-    void on_key_released(int event);
+    void button_pressed(GbButton button);
+    void button_released(GbButton button);
     void write(u8 set);
 
     u8 get_input() const;
 
 private:
-    void on_key(int event, bool set);
+    void set_button(GbButton button, bool set);
 
     bool up;
     bool down;
