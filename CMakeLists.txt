@@ -5,7 +5,7 @@ include(add_sources)
 
 project(emulator)
 
-add_definitions(-std=c++14)
+add_definitions(-std=c++17)
 add_warnings()
 
 add_subdirectory(src)
