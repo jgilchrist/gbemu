@@ -15,6 +15,8 @@ static sf::Sprite sprite;
 
 static std::unique_ptr<Gameboy> gameboy;
 
+static bool should_exit = false;
+
 static std::optional<GbButton> get_gb_button(int keyCode) {
     switch (keyCode) {
         case sf::Keyboard::Up: return GbButton::Up;
@@ -25,6 +27,7 @@ static std::optional<GbButton> get_gb_button(int keyCode) {
         case sf::Keyboard::Z: return GbButton::B;
         case sf::Keyboard::BackSpace: return GbButton::Select;
         case sf::Keyboard::Return: return GbButton::Start;
+        case sf::Keyboard::Escape: should_exit = true; return {};
         default: return {};
     }
 }
@@ -94,7 +97,7 @@ static void draw(const FrameBuffer& buffer) {
 }
 
 static bool is_closed() {
-    return !window->isOpen();
+    return !window->isOpen() || should_exit;
 }
 
 int main(int argc, char* argv[]) {
@@ -108,6 +111,7 @@ int main(int argc, char* argv[]) {
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);
     window->setKeyRepeatEnabled(false);
+    window->display();
 
     gameboy = std::make_unique<Gameboy>(cartridge, options);
 
