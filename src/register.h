@@ -19,7 +19,7 @@ public:
     bool operator==(u8 other) const;
 
 protected:
-    u8 val;
+    u8 val = 0x0;
 };
 
 class FlagRegister : public ByteRegister {
@@ -69,7 +69,7 @@ public:
     void decrement();
 
 private:
-    u16 val;
+    u16 val = 0x0;
 };
 
 class RegisterPair : public WordValue, Noncopyable {
