@@ -6,6 +6,7 @@
 #include "util/string.h"
 
 #include <iostream>
+#include <algorithm>
 
 Debugger::Debugger(Gameboy& inGameboy, bool should_debug) :
     gameboy(inGameboy),
