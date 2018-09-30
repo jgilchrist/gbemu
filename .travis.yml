@@ -18,5 +18,5 @@ addons:
         - libsfml-dev
 
 script:
-    - make --no-print-directory release
+    - make --no-print-directory release || travis_terminate 1
     - ./scripts/run_test_roms ./scripts/test_roms
