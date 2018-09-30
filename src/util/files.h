@@ -3,4 +3,6 @@
 #include <vector>
 #include <string>
 
-std::vector<char> read_bytes(std::string filename);
+#include "../definitions.h"
+
+std::vector<u8> read_bytes(const std::string& filename);

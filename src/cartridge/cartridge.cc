@@ -3,15 +3,13 @@
 #include "../util/files.h"
 #include "../util/log.h"
 
-Cartridge::Cartridge(std::string filename) {
+Cartridge::Cartridge(std::vector<u8> cartridge_data) :
+    data(std::move(cartridge_data))
+{
     unused(destination, header_checksum, global_checksum);
     unused(supports_cgb, supports_sgb);
 
-    auto rom_data = read_bytes(filename);
-    log_info("Loaded %d KB", rom_data.size() / 1024);
-
-    /* Copy the cartridge ROM */
-    data = std::vector<u8>(rom_data.begin(), rom_data.end());
+    log_info("Loaded %d KB", data.size() / 1024);
 
     u8 type_code = data[header::cartridge_type];
     u8 version_code = data[header::version_number];

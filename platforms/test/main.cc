@@ -11,11 +11,7 @@ static bool is_closed() {
 
 int main(int argc, char* argv[]) {
     Options options = get_options(argc, argv);
-    log_set_level(get_log_level(options));
-
-    Cartridge cartridge(options.filename);
-
-    gameboy = std::make_unique<Gameboy>(cartridge, options);
-
+    auto rom_data = read_bytes(options.filename);
+    gameboy = std::make_unique<Gameboy>(rom_data, options);
     gameboy->run(&is_closed, &draw);
 }

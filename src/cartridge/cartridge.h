@@ -8,7 +8,7 @@
 
 class Cartridge {
 public:
-    Cartridge(std::string filename);
+    Cartridge(std::vector<u8> cartridge_data);
 
     u8 read(const Address& address) const;
 

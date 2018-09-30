@@ -14,7 +14,7 @@ typedef std::function<bool(void)> should_close_callback_t;
 
 class Gameboy {
 public:
-    Gameboy(Cartridge& cartridge, Options& options);
+    Gameboy(std::vector<u8> cartridge_data, Options& options);
 
     void run(
         const should_close_callback_t& _should_close_callback,
@@ -29,6 +29,7 @@ private:
     void register_vblank_callback(const vblank_callback_t& _vblank_callback);
     void register_should_close_callback(const should_close_callback_t& _should_close_callback);
 
+    Cartridge cartridge;
     Input input;
     CPU cpu;
     Video video;
