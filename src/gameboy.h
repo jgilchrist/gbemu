@@ -24,6 +24,10 @@ public:
     void button_pressed(GbButton button);
     void button_released(GbButton button);
 
+    void debug_toggle_background();
+    void debug_toggle_sprites();
+    void debug_toggle_window();
+
 private:
     void tick();
     void register_vblank_callback(const vblank_callback_t& _vblank_callback);

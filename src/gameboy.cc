@@ -22,6 +22,18 @@ void Gameboy::button_released(GbButton button) {
     input.button_released(button);
 }
 
+void Gameboy::debug_toggle_background() {
+    video.debug_disable_background = !video.debug_disable_background;
+}
+
+void Gameboy::debug_toggle_sprites() {
+    video.debug_disable_sprites = !video.debug_disable_sprites;
+}
+
+void Gameboy::debug_toggle_window() {
+    video.debug_disable_window = !video.debug_disable_window;
+}
+
 void Gameboy::register_should_close_callback(const should_close_callback_t& _should_close_callback) {
     should_close_callback = _should_close_callback;
 }

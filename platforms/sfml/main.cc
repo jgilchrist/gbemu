@@ -27,6 +27,9 @@ static bool get_gb_button(int keyCode, GbButton& button) {
         case sf::Keyboard::BackSpace: button = GbButton::Select; break;
         case sf::Keyboard::Return: button = GbButton::Start; break;
         case sf::Keyboard::Escape: should_exit = true; return false;
+        case sf::Keyboard::B: gameboy->debug_toggle_background(); return false;
+        case sf::Keyboard::S: gameboy->debug_toggle_sprites(); return false;
+        case sf::Keyboard::W: gameboy->debug_toggle_window(); return false;
         default: return false;
     }
 

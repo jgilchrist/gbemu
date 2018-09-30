@@ -55,6 +55,10 @@ public:
 
     ByteRegister dma_transfer; /* DMA */
 
+    bool debug_disable_background = false;
+    bool debug_disable_sprites = false;
+    bool debug_disable_window = false;
+
 private:
     void write_scanline(u8 current_line);
     void write_sprites();

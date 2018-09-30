@@ -106,16 +106,18 @@ bool Video::bg_enabled() const { return check_bit(control_byte, 0); }
 void Video::write_scanline(u8 current_line) {
     if (!display_enabled()) { return; }
 
-    if (bg_enabled()) {
+    if (bg_enabled() && !debug_disable_background) {
         draw_bg_line(current_line);
     }
 
-    if (window_enabled()) {
+    if (window_enabled() && !debug_disable_window) {
         draw_window_line(current_line);
     }
 }
 
 void Video::write_sprites() {
+    if (debug_disable_sprites) { return; }
+
     for (uint sprite_n = 0; sprite_n < 40; sprite_n++) {
         draw_sprite(sprite_n);
     }
@@ -198,7 +200,7 @@ void Video::draw_window_line(uint current_line) {
 
     for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
         /* Work out the index of the pixel in the framebuffer */
-        uint x_in_screen = window_x.value() + x - 6;
+        uint x_in_screen = window_x.value() + x - 7;
 
         /* Work out the tile for this pixel */
         uint tile_x = x_in_screen / TILE_WIDTH_PX;
