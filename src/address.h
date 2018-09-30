@@ -18,5 +18,5 @@ public:
     Address operator-(uint other) const;
 
 private:
-    u16 addr;
+    u16 addr = 0x0;
 };

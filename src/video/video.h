@@ -84,8 +84,8 @@ private:
     FrameBuffer buffer;
     FrameBuffer background_map;
 
-    VideoMode current_mode;
-    uint cycle_counter;
+    VideoMode current_mode = VideoMode::ACCESS_OAM;
+    uint cycle_counter = 0;
 
     vblank_callback_t vblank_callback;
 };

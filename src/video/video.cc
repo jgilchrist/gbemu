@@ -89,6 +89,8 @@ void Video::tick(Cycles cycles) {
                 };
             }
             break;
+        default:
+            fatal_error("Invalid video mode");
     }
 }
 
