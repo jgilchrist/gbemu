@@ -2,5 +2,5 @@ add_sources(
     cli
     files
     log
-    string
+    string_utils
 )

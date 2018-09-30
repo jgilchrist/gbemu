@@ -16,7 +16,7 @@
 
 #include "log.h"
 
-#include "string.h"
+#include "string_utils.h"
 
 #include <cstdarg>
 
@@ -28,8 +28,6 @@ const char* COLOR_INFO = "\033[1;34m";
 const char* COLOR_WARNING = "\033[1;33m";
 const char* COLOR_ERROR = "\033[1;31m";
 const char* COLOR_RESET = "\033[0m";
-
-Logger::Logger() {}
 
 void Logger::log(LogLevel level, const char* fmt, ...) {
     if (!should_log(level)) {

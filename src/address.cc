@@ -23,10 +23,10 @@ bool Address::operator==(u16 other) const {
 
 Address Address::operator+(uint other) const {
     u16 new_addr = static_cast<u16>(addr + other);
-    return Address(new_addr);
+    return Address{new_addr};
 }
 
 Address Address::operator-(uint other) const {
     u16 new_addr = static_cast<u16>(addr - other);
-    return Address(new_addr);
+    return Address{new_addr};
 }

@@ -13,6 +13,12 @@ CHECKS+=",-llvm-header-guard"
 # statements more readable without braces
 CHECKS+=",-readability-braces-around-statements"
 
+# Disable Google style guide checks
+CHECKS+=",-fuchsia-overloaded-operator"
+
+# Disable explicit constructor requirement
+CHECKS+=",-google-explicit-constructor,-hicpp-explicit-conversions"
+
 # FIXME - Disable warnings about calling vararg functions
 CHECKS+=",-cppcoreguidelines-pro-type-vararg"
 

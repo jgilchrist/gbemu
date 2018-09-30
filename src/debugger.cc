@@ -3,7 +3,7 @@
 #include "gameboy.h"
 #include "cpu/cpu.h"
 #include "util/log.h"
-#include "util/string.h"
+#include "util/string_utils.h"
 
 #include <iostream>
 #include <algorithm>

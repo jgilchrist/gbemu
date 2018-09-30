@@ -29,7 +29,7 @@ enum class LogLevel {
 
 class Logger {
 public:
-    Logger();
+    Logger() = default;
 
     void log(LogLevel level, const char* fmt, ...);
     void set_level(LogLevel level);

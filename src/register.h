@@ -4,6 +4,7 @@
 
 class ByteRegister : Noncopyable {
 public:
+    ByteRegister() = default;
     virtual ~ByteRegister() = default;
 
     virtual void set(u8 new_value);
@@ -24,6 +25,8 @@ protected:
 
 class FlagRegister : public ByteRegister {
 public:
+    FlagRegister() = default;
+
     /* Specialise behaviour for the flag register 'f'.
      * (its lower nibble is always 0s */
     void set(u8 new_value) override;
@@ -44,8 +47,9 @@ public:
     u8 flag_carry_value() const;
 };
 
-class WordValue {
+class WordValue : Noncopyable {
 public:
+    WordValue() = default;
     virtual ~WordValue() = default;
 
     virtual void set(u16 new_value) = 0;
@@ -56,8 +60,10 @@ public:
     virtual u8 high() const = 0;
 };
 
-class WordRegister : public WordValue, Noncopyable {
+class WordRegister : public WordValue {
 public:
+    WordRegister() = default;
+
     void set(u16 new_value) override;
 
     u16 value() const override;
@@ -72,7 +78,7 @@ private:
     u16 val = 0x0;
 };
 
-class RegisterPair : public WordValue, Noncopyable {
+class RegisterPair : public WordValue {
 public:
     RegisterPair(ByteRegister& high, ByteRegister& low);
 
