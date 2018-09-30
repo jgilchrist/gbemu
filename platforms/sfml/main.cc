@@ -1,7 +1,6 @@
 #include "../../src/gameboy_prelude.h"
 
 #include <SFML/Graphics.hpp>
-#include <optional>
 
 static uint pixel_size = 5;
 
@@ -17,19 +16,21 @@ static std::unique_ptr<Gameboy> gameboy;
 
 static bool should_exit = false;
 
-static std::optional<GbButton> get_gb_button(int keyCode) {
+static bool get_gb_button(int keyCode, GbButton& button) {
     switch (keyCode) {
-        case sf::Keyboard::Up: return GbButton::Up;
-        case sf::Keyboard::Down: return GbButton::Down;
-        case sf::Keyboard::Left: return GbButton::Left;
-        case sf::Keyboard::Right: return GbButton::Right;
-        case sf::Keyboard::X: return GbButton::A;
-        case sf::Keyboard::Z: return GbButton::B;
-        case sf::Keyboard::BackSpace: return GbButton::Select;
-        case sf::Keyboard::Return: return GbButton::Start;
-        case sf::Keyboard::Escape: should_exit = true; return {};
-        default: return {};
+        case sf::Keyboard::Up: button = GbButton::Up; break;
+        case sf::Keyboard::Down: button = GbButton::Down; break;
+        case sf::Keyboard::Left: button = GbButton::Left; break;
+        case sf::Keyboard::Right: button = GbButton::Right; break;
+        case sf::Keyboard::X: button = GbButton::A; break;
+        case sf::Keyboard::Z: button = GbButton::B; break;
+        case sf::Keyboard::BackSpace: button = GbButton::Select; break;
+        case sf::Keyboard::Return: button = GbButton::Start; break;
+        case sf::Keyboard::Escape: should_exit = true; return false;
+        default: return false;
     }
+
+    return true;
 }
 
 static sf::Color get_real_color(Color color) {
@@ -65,14 +66,20 @@ static void process_events() {
 
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::KeyPressed) {
-            if (auto button = get_gb_button(event.key.code)) {
-                gameboy->button_pressed(*button);
+            GbButton button;
+
+            auto relevant_button = get_gb_button(event.key.code, button);
+            if (relevant_button) {
+                gameboy->button_pressed(button);
             }
         }
 
         if (event.type == sf::Event::KeyReleased) {
-            if (auto button = get_gb_button(event.key.code)) {
-                gameboy->button_released(*button);
+            GbButton button;
+
+            auto relevant_button = get_gb_button(event.key.code, button);
+            if (relevant_button) {
+                gameboy->button_released(button);
             }
         }
 
