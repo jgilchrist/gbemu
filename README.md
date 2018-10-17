@@ -1,42 +1,50 @@
 # emulator
 
-`emulator` is a Nintendo Game Boy emulator written in C++. Its goals are code readability and utilisation of modern C++.
+`emulator` is a Nintendo Gameboy emulator written in C++. It was written as an exercise (and for fun!) so its goals are exploration of modern C++ and clean code rather than total accuracy.
 
-### Progress
+## Building
 
-| #   | CPU Test            | Status |
-| --- | ---                 | ---    |
-| 01  | special             | ✅      |
-| 02  | interrupts          | ❌      |
-| 03  | op sp,hl            | ✅      |
-| 04  | op r,imm            | ✅      |
-| 05  | op rp               | ✅      |
-| 06  | ld r,r              | ✅      |
-| 07  | jr,jp,call,ret,rst  | ✅      |
-| 08  | misc                | ✅      |
-| 09  | op r,r              | ✅      |
-| 10  | bit ops             | ✅      |
-| 11  | op a,(hl)           | ✅      |
+Building the emulator requires `cmake` and [`sfml`][sfml] and has been tested on macOS and Debian. To compile the project, run:
 
-### Build Instructions
+```sh
+$ make
+```
 
-##### OSX & Linux
+This builds two versions of the emulator:
 
-- Install [`libsfml`][sfml]
-- Run `make`
+* `emulator` - the main emulator, using SFML for graphics and input
+* `emulator-test` - a headless version of the emulator for debugging & running tests
+
+## Playing
+
+```
+usage: emulator [--debugger] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
+
+arguments:
+  --debugger               Enable the debugger
+  --exit-on-infinite-jr    Stop emulation if an infinite JR loop is detected
+  --print-serial-output    Print data sent to the serial port
+  --trace                  Enable trace logging
+  --silent                 Disable logging
+```
+
+The key bindings are: <kbd>&uarr;</kbd>, <kbd>&darr;</kbd>, <kbd>&larr;</kbd>, <kbd>&rarr;</kbd>, <kbd>X</kbd>, <kbd>Z</kbd>, <kbd>Enter</kbd>, <kbd>Backspace</kbd>.
+
+## Tests
+
+The emulator is tested using [Blargg's tests][blarggs] - these can be ran with `./scripts/run_test_roms`.
+
+<img src="https://jgilchrist.uk/img/emulator/blarggs-tests.png" width="400">
+
+The test it fails is due to the lack of a timer implementation.
+
+## Screenshots
+
+Menu | Gameplay
+:-------------------------:|:-------------------------:
+<img src="https://jgilchrist.uk/img/emulator/tetris-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/tetris-gameplay.png" width="400">
+<img src="https://jgilchrist.uk/img/emulator/zelda-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/zelda-gameplay.png" width="400">
+<img src="https://jgilchrist.uk/img/emulator/pokemon-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/pokemon-gameplay.png" width="400">
 
 [sfml]: http://www.sfml-dev.org
-
-### Usage
-
-##### Running a game
-
-```sh
-$ emulator rom_file
-```
-
-##### Using the integrated debugger
-
-```sh
-$ emulator rom_file --debug
-```
+[blarggs]: http://gbdev.gg8.se/wiki/articles/Test_ROMs
