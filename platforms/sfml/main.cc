@@ -113,7 +113,7 @@ static bool is_closed() {
 int main(int argc, char* argv[]) {
     Options options = get_options(argc, argv);
 
-    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "Emulator", sf::Style::Titlebar | sf::Style::Close);
+    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "gbemu", sf::Style::Titlebar | sf::Style::Close);
     image.create(width, height);
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);

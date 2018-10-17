@@ -17,7 +17,7 @@ run_test_rom() {
 
     printf "%-30s" "${FILENAME}"
 
-    local OUTPUT=$(./build/emulator-test "$1" --headless --exit-on-infinite-jr)
+    local OUTPUT=$(./build/gbemu-test "$1" --headless --exit-on-infinite-jr)
     echo $OUTPUT | grep 'Failed' &> /dev/null
 
     if [ $? == 0 ]; then

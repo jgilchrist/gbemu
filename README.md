@@ -1,6 +1,6 @@
-# emulator
+# gbemu
 
-`emulator` is a Nintendo Gameboy emulator written in C++. It was written as an exercise (and for fun!) so its goals are exploration of modern C++ and clean code rather than total accuracy.
+`gbemu` is a Nintendo Gameboy emulator written in C++. It was written as an exercise (and for fun!) so its goals are exploration of modern C++ and clean code rather than total accuracy.
 
 ## Building
 
@@ -12,13 +12,13 @@ $ make
 
 This builds two versions of the emulator:
 
-* `emulator` - the main emulator, using SFML for graphics and input
-* `emulator-test` - a headless version of the emulator for debugging & running tests
+* `gbemu` - the main emulator, using SFML for graphics and input
+* `gbemu-test` - a headless version of the emulator for debugging & running tests
 
 ## Playing
 
 ```
-usage: emulator [--debugger] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
+usage: gbemu [--debugger] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
 
 arguments:
   --debugger               Enable the debugger

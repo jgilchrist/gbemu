@@ -1,4 +1,4 @@
-NAME=emulator
+NAME=gbemu
 BUILD_DIR=build
 
 .PHONY: default
