@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <memory>
+#include <functional>
 
 typedef std::function<void(const FrameBuffer&)> vblank_callback_t;
 

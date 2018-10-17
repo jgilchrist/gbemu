@@ -9,6 +9,7 @@
 #include "util/cli.h"
 
 #include <memory>
+#include <functional>
 
 typedef std::function<bool(void)> should_close_callback_t;
 
