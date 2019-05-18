@@ -1,12 +1,12 @@
 #include "gameboy.h"
 #include "util/log.h"
 
-Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options) :
-    cartridge(get_cartridge(std::move(cartridge_data))),
+Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
+    cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
     cpu(mmu, options),
     video(cpu, mmu),
     serial(options.print_serial),
-    mmu(std::move(cartridge), cpu, video, input, serial, timer),
+    mmu(cartridge, cpu, video, input, serial, timer),
     debugger(*this, options.debugger)
 {
     log_set_level(get_log_level(options));
@@ -62,4 +62,8 @@ void Gameboy::tick() {
 
     video.tick(cycles);
     timer.tick(cycles.cycles);
+}
+
+const std::vector<u8>& Gameboy::get_cartridge_ram() const {
+    return cartridge->get_cartridge_ram();
 }

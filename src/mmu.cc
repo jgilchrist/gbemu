@@ -8,8 +8,8 @@
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-MMU::MMU(std::unique_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer) :
-    cartridge(std::move(inCartridge)),
+MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer) :
+    cartridge(inCartridge),
     cpu(inCPU),
     video(inVideo),
     input(inInput),

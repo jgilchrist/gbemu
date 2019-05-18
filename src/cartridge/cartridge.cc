@@ -3,20 +3,20 @@
 #include "../util/files.h"
 #include "../util/log.h"
 
-std::unique_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data) {
+std::shared_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data) {
     log_info("Loaded %d KB", rom_data.size() / 1024);
 
     std::unique_ptr<CartridgeInfo> info = get_info(rom_data);
 
     switch (info->type) {
         case CartridgeType::ROMOnly:
-            return std::make_unique<NoMBC>(rom_data, std::move(info));
+            return std::make_shared<NoMBC>(rom_data, ram_data, std::move(info));
         case CartridgeType::MBC1:
-            return std::make_unique<MBC1>(rom_data, std::move(info));
+            return std::make_shared<MBC1>(rom_data, ram_data, std::move(info));
         case CartridgeType::MBC2:
             fatal_error("MBC2 is unimplemented");
         case CartridgeType::MBC3:
-            return std::make_unique<MBC3>(rom_data, std::move(info));
+            return std::make_shared<MBC3>(rom_data, ram_data, std::move(info));
         case CartridgeType::MBC4:
             fatal_error("MBC4 is unimplemented");
         case CartridgeType::MBC5:
@@ -26,17 +26,35 @@ std::unique_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data) {
     }
 }
 
-Cartridge::Cartridge(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> in_cartridge_info) :
+Cartridge::Cartridge(
+    std::vector<u8> rom_data,
+    std::vector<u8> ram_data,
+    std::unique_ptr<CartridgeInfo> in_cartridge_info
+) :
     rom(std::move(rom_data)),
     cartridge_info(std::move(in_cartridge_info))
 {
+    auto ram_size_for_cartridge = get_actual_ram_size(cartridge_info->ram_size) + 1;
+
+    if (ram_data.size() != 0) {
+        if (ram_data.size() != ram_size_for_cartridge) { fatal_error("Invalid or corrupted RAM file"); }
+        ram = ram_data;
+    } else {
+        ram = std::vector<u8>(ram_size_for_cartridge, 0);
+    }
 }
 
-NoMBC::NoMBC(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(rom_data, std::move(in_cartridge_info))
+const std::vector<u8>& Cartridge::get_cartridge_ram() const {
+    return ram;
+}
+
+NoMBC::NoMBC(
+    std::vector<u8> rom_data,
+    std::vector<u8> ram_data,
+    std::unique_ptr<CartridgeInfo> in_cartridge_info
+)
+    : Cartridge(rom_data, ram_data, std::move(in_cartridge_info))
 {
-    ram = std::vector<u8>();
-    ram.reserve(get_actual_ram_size(cartridge_info->ram_size));
 }
 
 void NoMBC::write(const Address& address, u8 value) {
@@ -49,11 +67,13 @@ u8 NoMBC::read(const Address& address) const {
     return rom.at(address.value());
 }
 
-MBC1::MBC1(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(rom_data, std::move(in_cartridge_info))
+MBC1::MBC1(
+    std::vector<u8> rom_data,
+    std::vector<u8> ram_data,
+    std::unique_ptr<CartridgeInfo> in_cartridge_info
+)
+    : Cartridge(rom_data, ram_data, std::move(in_cartridge_info))
 {
-    ram = std::vector<u8>(get_actual_ram_size(cartridge_info->ram_size) + 1, 0);
-
     rom_bank.set(0x1);
 }
 
@@ -110,11 +130,13 @@ u8 MBC1::read(const Address& address) const {
     }
 }
 
-MBC3::MBC3(std::vector<u8> rom_data, std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(rom_data, std::move(in_cartridge_info))
+MBC3::MBC3(
+    std::vector<u8> rom_data,
+    std::vector<u8> ram_data,
+    std::unique_ptr<CartridgeInfo> in_cartridge_info
+)
+    : Cartridge(rom_data, ram_data, std::move(in_cartridge_info))
 {
-    ram = std::vector<u8>(get_actual_ram_size(cartridge_info->ram_size) + 1, 0);
-
     rom_bank.set(0x1);
 }
 

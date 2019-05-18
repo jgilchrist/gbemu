@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <fstream>
+#include <iterator>
+
 static uint pixel_size = 5;
 
 static uint width = GAMEBOY_WIDTH * pixel_size;
@@ -13,6 +16,8 @@ static sf::Texture texture;
 static sf::Sprite sprite;
 
 static std::unique_ptr<Gameboy> gameboy;
+
+static Options options;
 
 static bool should_exit = false;
 
@@ -64,6 +69,40 @@ static void set_pixels(const FrameBuffer& buffer) {
     }
 }
 
+static std::string get_save_filename() {
+    return options.filename + ".sav";
+}
+
+static bool file_exists(const std::string& filename) {
+    std::ifstream f(filename.c_str());
+    return f.good();
+}
+
+static void save_state() {
+    log_info("Saving cartridge state");
+    auto cartridge_ram = gameboy->get_cartridge_ram();
+
+    auto filename = get_save_filename();
+    std::ofstream output_file(filename);
+    std::copy(cartridge_ram.begin(), cartridge_ram.end(), std::ostreambuf_iterator<char>(output_file));
+    log_info("Wrote %d bytes to %s", cartridge_ram.size(), filename.c_str());
+}
+
+static std::vector<u8> load_state() {
+    log_info("Trying to load save state");
+
+    auto filename = get_save_filename();
+    if (!file_exists(filename)) {
+        log_info("Save file %s does not exist", filename.c_str());
+        return {};
+    } else {
+        log_info("Found save file %s", filename.c_str());
+        auto save_data = read_bytes(filename);
+        log_info("Read %d bytes from %s", save_data.size(), filename.c_str());
+        return save_data;
+    }
+}
+
 static void process_events() {
     sf::Event event;
 
@@ -87,6 +126,7 @@ static void process_events() {
         }
 
         if (event.type == sf::Event::Closed) {
+            save_state();
             window->close();
         }
     }
@@ -111,7 +151,7 @@ static bool is_closed() {
 }
 
 int main(int argc, char* argv[]) {
-    Options options = get_options(argc, argv);
+    options = get_options(argc, argv);
 
     window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "gbemu", sf::Style::Titlebar | sf::Style::Close);
     image.create(width, height);
@@ -121,7 +161,9 @@ int main(int argc, char* argv[]) {
     window->display();
 
     auto rom_data = read_bytes(options.filename);
-    gameboy = std::make_unique<Gameboy>(rom_data, options);
+    auto save_data = load_state();
+
+    gameboy = std::make_unique<Gameboy>(rom_data, options, save_data);
     gameboy->run(&is_closed, &draw);
     return 0;
 }
