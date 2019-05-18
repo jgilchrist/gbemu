@@ -2,6 +2,7 @@ function(add_warnings)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(extra_warn
         -Weverything
+        -Wno-extra-semi-stmt
         -Wno-weak-vtables
         -Wno-exit-time-destructors
         -Wno-gnu-zero-variadic-macro-arguments
