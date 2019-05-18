@@ -445,7 +445,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF50:
             memory_write(address, byte);
             global_logger.enable_tracing();
-            log_info("Boot rom was disabled");
+            log_debug("Boot rom was disabled");
             return;
 
         case 0xFF7F:

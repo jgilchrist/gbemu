@@ -20,6 +20,7 @@ std::unique_ptr<CartridgeInfo> get_info(std::vector<u8> rom) {
     log_info("Cartridge:\t\t %s", describe(info->type).c_str());
     log_info("Rom Size:\t\t %s", describe(info->rom_size).c_str());
     log_info("Ram Size:\t\t %s", describe(info->ram_size).c_str());
+    log_info("");
 
     return info;
 }

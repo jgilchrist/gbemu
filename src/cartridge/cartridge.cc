@@ -4,8 +4,6 @@
 #include "../util/log.h"
 
 std::shared_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data) {
-    log_info("Loaded %d KB", rom_data.size() / 1024);
-
     std::unique_ptr<CartridgeInfo> info = get_info(rom_data);
 
     switch (info->type) {

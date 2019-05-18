@@ -1,5 +1,4 @@
 #include "gameboy.h"
-#include "util/log.h"
 
 Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
     cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
@@ -10,8 +9,6 @@ Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options, std::vector<u
     debugger(*this, options.debugger)
 {
     log_set_level(get_log_level(options));
-    log_info("Initialising Gameboy");
-    log_info("");
 }
 
 void Gameboy::button_pressed(GbButton button) {

@@ -79,26 +79,21 @@ static bool file_exists(const std::string& filename) {
 }
 
 static void save_state() {
-    log_info("Saving cartridge state");
     auto cartridge_ram = gameboy->get_cartridge_ram();
 
     auto filename = get_save_filename();
     std::ofstream output_file(filename);
     std::copy(cartridge_ram.begin(), cartridge_ram.end(), std::ostreambuf_iterator<char>(output_file));
-    log_info("Wrote %d bytes to %s", cartridge_ram.size(), filename.c_str());
+    log_info("Wrote %d KB to %s", cartridge_ram.size() / 1024, filename.c_str());
 }
 
 static std::vector<u8> load_state() {
-    log_info("Trying to load save state");
-
     auto filename = get_save_filename();
     if (!file_exists(filename)) {
-        log_info("Save file %s does not exist", filename.c_str());
         return {};
     } else {
-        log_info("Found save file %s", filename.c_str());
         auto save_data = read_bytes(filename);
-        log_info("Read %d bytes from %s", save_data.size(), filename.c_str());
+        log_info("Read %d KB from %s", save_data.size() / 1024, filename.c_str());
         return save_data;
     }
 }
@@ -161,7 +156,10 @@ int main(int argc, char* argv[]) {
     window->display();
 
     auto rom_data = read_bytes(options.filename);
+    log_info("Read %d KB from %s", rom_data.size() / 1024, options.filename.c_str());
+
     auto save_data = load_state();
+    log_info("");
 
     gameboy = std::make_unique<Gameboy>(rom_data, options, save_data);
     gameboy->run(&is_closed, &draw);

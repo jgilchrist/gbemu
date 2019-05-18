@@ -37,7 +37,7 @@ LogLevel get_log_level(Options& options) {
 
     auto log_level = options.trace
         ? LogLevel::Trace
-        : LogLevel::Debug;
+        : LogLevel::Info;
 
     return log_level;
 }
