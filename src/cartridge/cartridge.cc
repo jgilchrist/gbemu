@@ -34,10 +34,10 @@ Cartridge::Cartridge(
     rom(std::move(rom_data)),
     cartridge_info(std::move(in_cartridge_info))
 {
-    auto ram_size_for_cartridge = get_actual_ram_size(cartridge_info->ram_size) + 1;
+    auto ram_size_for_cartridge = get_actual_ram_size(cartridge_info->ram_size);
 
     if (ram_data.size() != 0) {
-        if (ram_data.size() != ram_size_for_cartridge) { fatal_error("Invalid or corrupted RAM file"); }
+        if (ram_data.size() != ram_size_for_cartridge) { fatal_error("Invalid or corrupted RAM file. Read %d bytes, expected %d", ram_data.size(), ram_size_for_cartridge); }
         ram = ram_data;
     } else {
         ram = std::vector<u8>(ram_size_for_cartridge, 0);
