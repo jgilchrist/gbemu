@@ -81,6 +81,9 @@ static bool file_exists(const std::string& filename) {
 static void save_state() {
     auto cartridge_ram = gameboy->get_cartridge_ram();
 
+    // Don't save empty cartridge RAM
+    if (cartridge_ram.size() == 0) { return; }
+
     auto filename = get_save_filename();
     std::ofstream output_file(filename);
     std::copy(cartridge_ram.begin(), cartridge_ram.end(), std::ostreambuf_iterator<char>(output_file));
