@@ -295,8 +295,7 @@ void Video::draw_sprite(const uint sprite_n) {
             int pixel_x = start_x + x;
             int pixel_y = start_y + y;
 
-            if (pixel_x < 0 || pixel_x > GAMEBOY_WIDTH) { continue; }
-            if (pixel_y < 0 || pixel_y > GAMEBOY_HEIGHT) { continue; }
+            if (!is_on_screen(pixel_x, pixel_y)) { continue; }
 
             buffer.set_pixel(pixel_x, pixel_y, screen_color);
         }
@@ -307,6 +306,13 @@ u8 Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const {
     using bitwise::bit_value;
 
     return static_cast<u8>((bit_value(byte2, 7-pixel_index) << 1) | bit_value(byte1, 7-pixel_index));
+}
+
+bool Video::is_on_screen(u8 x, u8 y) const {
+    return (
+        x >= 0 && x < GAMEBOY_WIDTH &&
+        y >= 0 && y < GAMEBOY_HEIGHT
+    );
 }
 
 Palette Video::load_palette(ByteRegister& palette_register) const {

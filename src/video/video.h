@@ -69,6 +69,8 @@ private:
     void draw_sprite(uint sprite_n);
     u8 get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
 
+    bool is_on_screen(u8 x, u8 y) const;
+
     bool display_enabled() const;
     bool window_tile_map() const;
     bool window_enabled() const;
