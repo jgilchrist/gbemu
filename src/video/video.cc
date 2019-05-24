@@ -316,6 +316,13 @@ void Video::draw_sprite(const uint sprite_n) {
 
             if (!is_on_screen(screen_x, screen_y)) { continue; }
 
+            auto existing_pixel = buffer.get_pixel(screen_x, screen_y);
+
+            // FIXME: We need to see if the color we're writing over is
+            // logically Color0, rather than looking at the color after
+            // the current palette has been applied
+            if (obj_behind_bg && existing_pixel != Color::White) { continue; }
+
             Color screen_color = get_color_from_palette(gb_color, palette);
 
             buffer.set_pixel(screen_x, screen_y, screen_color);
