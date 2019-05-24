@@ -47,9 +47,11 @@ private:
     MMU mmu;
     friend class MMU;
 
+    Timer timer;
+    friend class Timer;
+
     Input input;
     Serial serial;
-    Timer timer;
 
     Debugger debugger;
     friend class Debugger;

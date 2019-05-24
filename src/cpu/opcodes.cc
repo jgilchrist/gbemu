@@ -264,12 +264,14 @@ void CPU::opcode_dec(Address&& addr) {
 
 /* DI */
 void CPU::opcode_di() {
+    log_info("interrupts disabled");
     interrupts_enabled = false;
 }
 
 
 /* EI */
 void CPU::opcode_ei() {
+    log_info("interrupts enabled");
     interrupts_enabled = true;
 }
 
@@ -347,6 +349,7 @@ void CPU::opcode_jr(Condition condition) {
 
 /* HALT */
 void CPU::opcode_halt() {
+    log_info("halted");
     halted = true;
 }
 

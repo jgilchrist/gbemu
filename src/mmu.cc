@@ -111,6 +111,7 @@ auto MMU::read_io(const Address& address) const -> u8 {
             return unmapped_io_read(address);
 
         case 0xFF0F:
+            log_info("checking interrupt flag value: 0x%x", gb.cpu.interrupt_flag.value());
             return gb.cpu.interrupt_flag.value();
 
         /* TODO: Audio - Channel 1: Tone & Sweep */
@@ -435,8 +436,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF05:
-            /* TODO: Time control */
-            log_unimplemented("Wrote to timer counter");
+            gb.timer.set_timer(byte);
             return;
 
         case 0xFF06:
