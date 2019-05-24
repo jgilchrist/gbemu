@@ -116,7 +116,7 @@ void Video::write_scanline(u8 current_line) {
 }
 
 void Video::write_sprites() {
-    if (debug_disable_sprites) { return; }
+    if (!sprites_enabled() || debug_disable_sprites) { return; }
 
     for (uint sprite_n = 0; sprite_n < 40; sprite_n++) {
         draw_sprite(sprite_n);
