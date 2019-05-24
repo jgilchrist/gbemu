@@ -67,9 +67,11 @@ private:
     void draw_bg_line(uint current_line);
     void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
-    u8 get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
+    GBColor get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
 
     bool is_on_screen(u8 x, u8 y) const;
+    bool is_on_screen_x(u8 x) const;
+    bool is_on_screen_y(u8 y) const;
 
     bool display_enabled() const;
     bool window_tile_map() const;
