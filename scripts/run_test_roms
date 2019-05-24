@@ -11,10 +11,6 @@ RESET="\e[0m"
 run_test_rom() {
     local FILENAME=$(basename "$1")
 
-    # FIXME: Re-enable the second test ROM when the timer
-    # is implemented.
-    if [[ $FILENAME =~ ^02.* ]]; then return 0; fi
-
     printf "%-30s" "${FILENAME}"
 
     local OUTPUT=$(./build/gbemu-test "$1" --headless --print-serial-output --exit-on-infinite-jr)

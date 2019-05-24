@@ -6,6 +6,7 @@ Gameboy::Gameboy(const std::vector<u8>& cartridge_data, Options& options,
       cpu(*this, options),
       video(*this, options),
       mmu(*this, options),
+      timer(*this),
       serial(options),
       debugger(*this, options)
 {
