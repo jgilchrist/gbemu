@@ -302,8 +302,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF05:
-            /* TODO: Time control */
-            log_unimplemented("Wrote to timer counter");
+            timer.set_timer(byte);
             return;
 
         case 0xFF06:
