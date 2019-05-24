@@ -41,31 +41,36 @@ auto CPU::execute_opcode(const u8 opcode, u16 opcode_pc) -> Cycles {
 }
 
 void CPU::handle_interrupts() {
-    if (interrupts_enabled) {
-        u8 fired_interrupts = interrupt_flag.value() & interrupt_enabled.value();
+    u8 fired_interrupts = interrupt_flag.value() & interrupt_enabled.value();
+    if (!fired_interrupts) { return; }
 
-        if (!fired_interrupts) { return; }
-
+    if (halted && fired_interrupts != 0x0) {
+        // TODO: Handle halt bug
         halted = false;
-        stack_push(pc);
-
-        bool handled_interrupt = false;
-
-        handled_interrupt = handle_interrupt(0, interrupts::vblank, fired_interrupts);
-        if (handled_interrupt) { return; }
-
-        handled_interrupt = handle_interrupt(1, interrupts::lcdc_status, fired_interrupts);
-        if (handled_interrupt) { return; }
-
-        handled_interrupt = handle_interrupt(2, interrupts::timer, fired_interrupts);
-        if (handled_interrupt) { return; }
-
-        handled_interrupt = handle_interrupt(3, interrupts::serial, fired_interrupts);
-        if (handled_interrupt) { return; }
-
-        handled_interrupt = handle_interrupt(4, interrupts::joypad, fired_interrupts);
-        if (handled_interrupt) { return; }
     }
+
+    if (!interrupts_enabled) {
+        return;
+    }
+
+    stack_push(pc);
+
+    bool handled_interrupt = false;
+
+    handled_interrupt = handle_interrupt(0, interrupts::vblank, fired_interrupts);
+    if (handled_interrupt) { return; }
+
+    handled_interrupt = handle_interrupt(1, interrupts::lcdc_status, fired_interrupts);
+    if (handled_interrupt) { return; }
+
+    handled_interrupt = handle_interrupt(2, interrupts::timer, fired_interrupts);
+    if (handled_interrupt) { return; }
+
+    handled_interrupt = handle_interrupt(3, interrupts::serial, fired_interrupts);
+    if (handled_interrupt) { return; }
+
+    handled_interrupt = handle_interrupt(4, interrupts::joypad, fired_interrupts);
+    if (handled_interrupt) { return; }
 }
 
 auto CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) -> bool {
