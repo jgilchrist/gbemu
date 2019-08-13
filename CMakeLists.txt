@@ -19,6 +19,13 @@ find_package(SFML 2 REQUIRED system window graphics)
 include_directories(SYSTEM ${SFML_INCLUDE_DIR})
 target_link_libraries(gbemu gbemu-core ${SFML_LIBRARIES})
 
+# SDL target
+declare_executable(gbemu-sdl platforms/sdl)
+
+find_package(SDL2 REQUIRED)
+include_directories(SYSTEM ${SDL2_INCLUDE_DIRS})
+target_link_libraries(gbemu-sdl gbemu-core ${SDL2_LIBRARIES} ${SFML_LIBRARIES})
+
 # Test target
 declare_executable(gbemu-test platforms/test)
 target_link_libraries(gbemu-test gbemu-core)
