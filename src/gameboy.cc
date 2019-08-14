@@ -47,6 +47,8 @@ void Gameboy::run(
     while (!should_close_callback()) {
         tick();
     }
+
+    debugger.set_enabled(false);
 }
 
 void Gameboy::tick() {

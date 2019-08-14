@@ -16,6 +16,10 @@ Debugger::Debugger(Gameboy& inGameboy, Options& inOptions) :
     unused(options);
 }
 
+void Debugger::set_enabled(bool _enabled) {
+    enabled = _enabled;
+}
+
 void Debugger::cycle() {
     if (!enabled) return;
 
@@ -40,7 +44,7 @@ void Debugger::cycle() {
         return;
     }
 
-    while (true) {
+    while (enabled) {
         Command cmd = get_command();
 
         bool should_continue = execute(cmd);

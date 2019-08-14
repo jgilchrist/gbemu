@@ -43,6 +43,7 @@ class Debugger {
 public:
     Debugger(Gameboy& inGameboy, Options& inOptions);
 
+    void set_enabled(bool enabled);
     void cycle();
 
 private:
