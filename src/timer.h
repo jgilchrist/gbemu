@@ -25,6 +25,7 @@ private:
     uint ticks_needed_to_increment();
 
     uint timer_logical_ticks = 0;
+    uint timer_total_ticks = 0;
 
     CPU& cpu;
 

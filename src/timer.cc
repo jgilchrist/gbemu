@@ -5,6 +5,10 @@
 #include "util/bitwise.h"
 
 Timer::Timer(CPU& inCpu) : cpu(inCpu) {
+    log_info("%d", CLOCK_RATE / 4096);
+    log_info("%d", CLOCK_RATE / 262144);
+    log_info("%d", CLOCK_RATE / 65536);
+    log_info("%d", CLOCK_RATE / 16384);
 }
 
 void Timer::tick(uint cycles) {
@@ -14,18 +18,23 @@ void Timer::tick(uint cycles) {
     auto timer_is_on = timer_control.check_bit(2);
     if (timer_is_on == 0) { return; }
 
-    timer_logical_ticks += 1;
+    timer_total_ticks += cycles;
+    timer_logical_ticks += cycles;
     auto tick_limit = ticks_needed_to_increment();
 
     if (timer_logical_ticks >= tick_limit) {
-        timer_counter.increment();
-        timer_logical_ticks = 0;
+        timer_logical_ticks = timer_logical_ticks % tick_limit;
 
-        if (timer_counter.value() == 0) {
-            log_info("Setting interrupt");
-            cpu.interrupt_flag.set_bit_to(interrupts::timer, true);
+        u8 old_timer_counter = timer_counter.value();
+        timer_counter.increment();
+        log_info("%02X %d", timer_counter.value(), timer_logical_ticks);
+        if (timer_counter.value() < old_timer_counter) {
+            log_info("Setting interrupt %d %d", tick_limit, timer_total_ticks);
+            cpu.interrupt_flag.set_bit_to(2, true);
             timer_counter.set(timer_modulo.value());
         }
+    } else {
+        log_info("%02X %d", timer_counter.value(), timer_logical_ticks);
     }
 }
 
@@ -64,12 +73,10 @@ void Timer::set_timer_control(u8 value) {
 uint Timer::ticks_needed_to_increment() {
     using bitwise::check_bit;
 
-    bool bit_0 = timer_control.check_bit(0);
-    bool bit_1 = timer_control.check_bit(1);
+    // Mask the bottom two bits of the TAC
+    u8 timer_value = timer_control.value() & 0x3;
 
-    uint bits = bit_0 + bit_1;
-
-    switch (bits) {
+    switch (timer_value) {
         case 0: return CLOCK_RATE / 4096;
         case 1: return CLOCK_RATE / 262144;
         case 2: return CLOCK_RATE / 65536;
