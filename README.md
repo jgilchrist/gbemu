@@ -18,14 +18,14 @@ This builds two versions of the emulator:
 ## Playing
 
 ```
-usage: gbemu [--debugger] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
+usage: gbemu [--debug] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
 
 arguments:
-  --debugger               Enable the debugger
-  --exit-on-infinite-jr    Stop emulation if an infinite JR loop is detected
-  --print-serial-output    Print data sent to the serial port
-  --trace                  Enable trace logging
-  --silent                 Disable logging
+  --debug                   Enable the debugger
+  --exit-on-infinite-jr     Stop emulation if an infinite JR loop is detected
+  --print-serial-output     Print data sent to the serial port
+  --trace                   Enable trace logging
+  --silent                  Disable logging
 ```
 
 The key bindings are: <kbd>&uarr;</kbd>, <kbd>&darr;</kbd>, <kbd>&larr;</kbd>, <kbd>&rarr;</kbd>, <kbd>X</kbd>, <kbd>Z</kbd>, <kbd>Enter</kbd>, <kbd>Backspace</kbd>.
