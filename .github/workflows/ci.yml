@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install libsdl2-dev libsfml-dev
+    - name: Build
+      run: |
+        export CLICOLOR_FORCE=1
+        make --no-print-directory release
+    - name: Run test roms
+      run: ./scripts/run_test_roms ./scripts/test_roms
