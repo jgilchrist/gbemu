@@ -11,7 +11,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install libsdl2-dev libsfml-dev
+        sudo apt-get install libsdl2-dev
     - name: Build
       run: |
         export CLICOLOR_FORCE=1

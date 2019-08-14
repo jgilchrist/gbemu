@@ -1,7 +1,6 @@
 #include "../../src/gameboy_prelude.h"
 
-#include <SFML/Graphics.hpp>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <fstream>
 #include <iterator>
