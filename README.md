@@ -4,7 +4,7 @@
 
 ## Building
 
-Building the emulator requires `cmake` and [`sfml`][sfml] and has been tested on macOS and Debian. To compile the project, run:
+Building the emulator requires `cmake` and SDL and has been tested on macOS and Debian. To compile the project, run:
 
 ```sh
 $ make
@@ -12,7 +12,7 @@ $ make
 
 This builds two versions of the emulator:
 
-* `gbemu` - the main emulator, using SFML for graphics and input
+* `gbemu` - the main emulator, using SDL for graphics and input
 * `gbemu-test` - a headless version of the emulator for debugging & running tests
 
 ## Playing
@@ -46,5 +46,4 @@ Menu | Gameplay
 <img src="https://jgilchrist.uk/img/emulator/zelda-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/zelda-gameplay.png" width="400">
 <img src="https://jgilchrist.uk/img/emulator/pokemon-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/pokemon-gameplay.png" width="400">
 
-[sfml]: http://www.sfml-dev.org
 [blarggs]: http://gbdev.gg8.se/wiki/articles/Test_ROMs
