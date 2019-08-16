@@ -99,6 +99,10 @@ private:
     s8 get_signed_byte_from_pc();
     u16 get_word_from_pc();
 
+    u8 peek_byte_from_pc(u8 offset = 0);
+    s8 peek_signed_byte_from_pc(u8 offset = 0);
+    u16 peek_word_from_pc(u8 offset = 0);
+
     void stack_push(const WordValue& reg);
     void stack_pop(WordValue& reg);
 

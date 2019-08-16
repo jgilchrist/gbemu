@@ -104,7 +104,7 @@ void CPU::trace_opcode_17(u8 opcode, u16 opcode_pc) {
 }
 
 void CPU::trace_opcode_18(u8 opcode, u16 opcode_pc) {
-    auto operand = static_cast<s8>(mmu.read(opcode_pc + 1));
+    auto operand = peek_signed_byte_from_pc();
     printf(opcode_format_strings[opcode].c_str(), operand);
 }
  
@@ -790,11 +790,7 @@ void CPU::trace_opcode_C2(u8 opcode, u16 opcode_pc) {
 }
 
 void CPU::trace_opcode_C3(u8 opcode, u16 opcode_pc) {
-    auto low_byte = mmu.read(opcode_pc + 1);
-    auto high_byte = mmu.read(opcode_pc + 2);
-
-    auto jump_loc = compose_bytes(high_byte, low_byte);
-
+    auto jump_loc = peek_word_from_pc();
     printf(opcode_format_strings[opcode].c_str(), jump_loc);
 }
 
