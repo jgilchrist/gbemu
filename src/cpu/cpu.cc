@@ -86,14 +86,31 @@ u8 CPU::get_byte_from_pc() {
     return byte;
 }
 
+u8 CPU::peek_byte_from_pc(u8 offset) {
+    u8 byte = mmu.read(Address(pc));
+    return byte;
+}
+
 s8 CPU::get_signed_byte_from_pc() {
     u8 byte = get_byte_from_pc();
     return static_cast<s8>(byte);
 }
 
-u16 CPU::get_word_from_pc() {
+s8 CPU::peek_signed_byte_from_pc(u8 offset) {
+    u8 byte = peek_byte_from_pc();
+    return static_cast<s8>(byte);
+}
+
+u16 CPU::get_word_from_pc(u8 offset) {
     u8 low_byte = get_byte_from_pc();
     u8 high_byte = get_byte_from_pc();
+
+    return compose_bytes(high_byte, low_byte);
+}
+
+u16 CPU::peek_word_from_pc() {
+    u8 low_byte = mmu.read(Address(pc));
+    u8 high_byte = mmu.read(Address(pc) + 1);
 
     return compose_bytes(high_byte, low_byte);
 }
