@@ -38,11 +38,15 @@ void Gameboy::debug_toggle_window() {
 
 void Gameboy::run(
     const should_close_callback_t& _should_close_callback,
-    const vblank_callback_t& _vblank_callback
+    const dmg_vblank_callback_t& _dmg_vblank_callback,
+    const cgb_vblank_callback_t& _cgb_vblank_callback
 ) {
     should_close_callback = _should_close_callback;
 
-    video.register_vblank_callback(_vblank_callback);
+    video.register_vblank_callbacks(
+        _dmg_vblank_callback,
+        _cgb_vblank_callback
+    );
 
     while (!should_close_callback()) {
         tick();

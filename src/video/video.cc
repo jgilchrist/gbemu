@@ -386,10 +386,14 @@ Color Video::get_real_color(u8 pixel_value) const {
     }
 }
 
-void Video::register_vblank_callback(const vblank_callback_t& _vblank_callback) {
-    vblank_callback = _vblank_callback;
+void Video::register_vblank_callbacks(
+    const dmg_vblank_callback_t& _dmg_vblank_callback,
+    const cgb_vblank_callback_t& _cgb_vblank_callback
+) {
+    dmg_vblank_callback = _dmg_vblank_callback;
+    cgb_vblank_callback = _cgb_vblank_callback;
 }
 
 void Video::draw() {
-    vblank_callback(buffer);
+    dmg_vblank_callback(buffer);
 }

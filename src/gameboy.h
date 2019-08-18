@@ -24,7 +24,8 @@ public:
 
     void run(
         const should_close_callback_t& _should_close_callback,
-        const vblank_callback_t& _vblank_callback
+        const dmg_vblank_callback_t& _dmg_vblank_callback,
+        const cgb_vblank_callback_t& _cgb_vblank_callback
     );
 
     void button_pressed(GbButton button);

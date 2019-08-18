@@ -136,7 +136,8 @@ static void process_events() {
     }
 }
 
-static void draw(const FrameBuffer& buffer) {
+template <typename TPixels, typename Proc>
+static void draw_with_pixels(Proc set_pixels_proc, TPixels buffer) {
     process_events();
 
     SDL_RenderClear(renderer);
@@ -146,11 +147,19 @@ static void draw(const FrameBuffer& buffer) {
     SDL_LockTexture(gb_screen_texture, nullptr, &pixels_ptr, &pitch);
 
     uint32_t* pixels = static_cast<uint32_t*>(pixels_ptr);
-    set_pixels(pixels, buffer);
+    set_pixels_proc(pixels, buffer);
     SDL_UnlockTexture(gb_screen_texture);
 
     SDL_RenderCopy(renderer, gb_screen_texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
+}
+
+static void draw_dmg(const FrameBuffer& buffer) {
+    draw_with_pixels(set_pixels, buffer);
+}
+
+static void draw_gbc(const FrameBuffer& buffer) {
+    draw_with_pixels(set_pixels, buffer);
 }
 
 static bool is_closed() {
@@ -191,7 +200,7 @@ int main(int argc, char* argv[]) {
     log_info("");
 
     gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
-    gameboy->run(&is_closed, &draw);
+    gameboy->run(&is_closed, &draw_dmg, &draw_gbc);
 
     save_state();
     SDL_DestroyTexture(gb_screen_texture);

@@ -14,5 +14,5 @@ int main(int argc, char* argv[]) {
     CliOptions cliOptions = get_cli_options(argc, argv);
     auto rom_data = read_bytes(cliOptions.filename);
     gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options);
-    gameboy->run(&is_closed, &draw);
+    gameboy->run(&is_closed, &draw, &draw);
 }
