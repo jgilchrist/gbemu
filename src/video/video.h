@@ -12,7 +12,8 @@
 #include <memory>
 #include <functional>
 
-using vblank_callback_t = std::function<void(const FrameBuffer&)>;
+using dmg_vblank_callback_t = std::function<void(const FrameBuffer&)>;
+using cgb_vblank_callback_t = std::function<void(const FrameBuffer&)>;
 
 enum class VideoMode {
     ACCESS_OAM,
@@ -31,7 +32,10 @@ public:
     Video(CPU& inCPU, MMU& inMMU, Options& inOptions);
 
     void tick(Cycles cycles);
-    void register_vblank_callback(const vblank_callback_t& _vblank_callback);
+    void register_vblank_callbacks(
+        const dmg_vblank_callback_t& _dmg_vblank_callback,
+        const cgb_vblank_callback_t& _cgb_vblank_callback
+    );
 
     u8 read(const Address& address);
     void write(const Address& address, u8 byte);
@@ -102,7 +106,8 @@ private:
     VideoMode current_mode = VideoMode::ACCESS_OAM;
     uint cycle_counter = 0;
 
-    vblank_callback_t vblank_callback;
+    dmg_vblank_callback_t dmg_vblank_callback;
+    cgb_vblank_callback_t cgb_vblank_callback;
 };
 
 const uint CLOCKS_PER_HBLANK = 204; /* Mode 0 */
