@@ -15,11 +15,13 @@ auto get_info(std::vector<u8> rom) -> std::unique_ptr<CartridgeInfo> {
     info->rom_size = get_rom_size(rom_size_code);
     info->ram_size = get_ram_size(ram_size_code);
     info->title = get_title(rom);
+    info->supports_cgb = get_supports_cgb(rom);
 
     log_info("Title:\t\t %s (version %d)", info->title.c_str(), info->version);
     log_info("Cartridge:\t\t %s", describe(info->type).c_str());
     log_info("Rom Size:\t\t %s", describe(info->rom_size).c_str());
     log_info("Ram Size:\t\t %s", describe(info->ram_size).c_str());
+    log_info("Supports CGB:\t\t %s", info->supports_cgb ? "true" : "false");
     log_info("");
 
     return info;
@@ -248,4 +250,19 @@ auto get_title(std::vector<u8>& rom) -> std::string {
     }
 
     return std::string(name);
+}
+
+auto get_supports_cgb(std::vector<u8>& rom) -> bool {
+    u8 cgb_flag = rom[header::cgb_flag];
+
+    if (cgb_flag == 0x0) {
+        return false;
+    }
+
+    if (cgb_flag == 0x80 || cgb_flag == 0xC0) {
+        return true;
+    }
+
+    log_warn("Unknown cartridge CGB flag value 0x%x", cgb_flag);
+    return true;
 }

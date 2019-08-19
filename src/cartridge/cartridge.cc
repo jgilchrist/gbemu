@@ -42,6 +42,8 @@ Cartridge::Cartridge(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
 
 auto Cartridge::get_cartridge_ram() const -> const std::vector<u8>& { return ram; }
 
+auto Cartridge::is_cgb() const -> bool { return cartridge_info->supports_cgb; }
+
 NoMBC::NoMBC(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
              std::unique_ptr<CartridgeInfo> in_cartridge_info)
     : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {}

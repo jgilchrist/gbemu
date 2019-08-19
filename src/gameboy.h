@@ -38,6 +38,9 @@ private:
     void tick();
 
     std::shared_ptr<Cartridge> cartridge;
+
+    Model model;
+
     Input input;
     CPU cpu;
     Video video;
@@ -46,7 +49,6 @@ private:
     Timer timer;
 
     Debugger debugger;
-
     friend class Debugger;
 
     uint elapsed_cycles = 0;

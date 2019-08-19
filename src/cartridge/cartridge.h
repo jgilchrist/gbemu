@@ -19,6 +19,8 @@ public:
 
     auto get_cartridge_ram() const -> const std::vector<u8>&;
 
+    auto is_cgb() const -> bool;
+
 protected:
     std::vector<u8> rom;
     std::vector<u8> ram;

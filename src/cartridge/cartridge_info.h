@@ -81,6 +81,8 @@ enum class Destination {
 extern auto get_destination(u8 destination) -> Destination;
 extern auto describe(Destination destination) -> std::string;
 
+extern auto get_supports_cgb(std::vector<u8>& rom) -> bool;
+
 class CartridgeInfo {
 public:
     std::string title;

@@ -3,6 +3,7 @@
 Gameboy::Gameboy(const std::vector<u8>& cartridge_data, Options& options,
                  const std::vector<u8>& save_data)
     : cartridge(get_cartridge(cartridge_data, save_data)),
+      model(cartridge->is_cgb() ? Model::Cgb : Model::Dmg),
       cpu(mmu, options),
       video(cpu, mmu, options),
       serial(options),
