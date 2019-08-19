@@ -33,6 +33,9 @@ public:
     void tick(Cycles cycles);
     void register_vblank_callback(const vblank_callback_t& _vblank_callback);
 
+    u8 read(const Address& address);
+    void write(const Address& address, u8 byte);
+
     u8 control_byte;
 
     ByteRegister lcd_control;
@@ -93,6 +96,8 @@ private:
     MMU& mmu;
     FrameBuffer buffer;
     FrameBuffer background_map;
+
+    std::vector<u8> video_ram;
 
     VideoMode current_mode = VideoMode::ACCESS_OAM;
     uint cycle_counter = 0;

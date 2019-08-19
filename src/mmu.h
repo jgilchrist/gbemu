@@ -26,9 +26,6 @@ private:
     auto read_io(const Address& address) const -> u8;
     void write_io(const Address& address, u8 byte);
 
-    auto memory_read(const Address& address) const -> u8;
-    void memory_write(const Address& address, u8 byte);
-
     void dma_transfer(u8 byte);
 
     std::shared_ptr<Cartridge> cartridge;
@@ -39,7 +36,11 @@ private:
     Timer& timer;
     Options& options;
 
-    std::vector<u8> memory;
+    std::vector<u8> work_ram;
+    std::vector<u8> oam_ram;
+    std::vector<u8> high_ram;
+
+    ByteRegister disable_boot_rom_switch;
 
     friend class Debugger;
 };

@@ -17,7 +17,9 @@ MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Inp
     timer(inTimer),
     options(inOptions)
 {
-    memory = std::vector<u8>(0x10000);
+    work_ram = std::vector<u8>(0x8000);
+    oam_ram = std::vector<u8>(0xA0);
+    high_ram = std::vector<u8>(0x80);
 }
 
 auto MMU::read(const Address& address) const -> u8 {
@@ -30,7 +32,7 @@ auto MMU::read(const Address& address) const -> u8 {
 
     /* VRAM */
     if (address.in_range(0x8000, 0x9FFF)) {
-        return memory_read(address);
+        return video.read(address.value() - 0x8000);
     }
 
     /* External (cartridge) RAM */
@@ -40,18 +42,17 @@ auto MMU::read(const Address& address) const -> u8 {
 
     /* Internal work RAM */
     if (address.in_range(0xC000, 0xDFFF)) {
-        return memory_read(address);
+        return work_ram.at(address.value() - 0xC000);
     }
 
     if (address.in_range(0xE000, 0xFDFF)) {
         /* log_warn("Attempting to read from mirrored work RAM"); */
-        auto mirrored_address = Address(address.value() - 0x2000);
-        return memory_read(mirrored_address);
+        return read(address.value() - 0x2000);
     }
 
     /* OAM */
     if (address.in_range(0xFE00, 0xFE9F)) {
-        return memory_read(address);
+        return oam_ram.at(address.value() - 0xFE00);
     }
 
     if (address.in_range(0xFEA0, 0xFEFF)) {
@@ -66,7 +67,7 @@ auto MMU::read(const Address& address) const -> u8 {
 
     /* Zero Page ram */
     if (address.in_range(0xFF80, 0xFFFE)) {
-        return memory_read(address);
+        return high_ram.at(address.value() - 0xFF80);
     }
 
     /* Interrupt Enable register */
@@ -76,8 +77,6 @@ auto MMU::read(const Address& address) const -> u8 {
 
     fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
 }
-
-auto MMU::memory_read(const Address& address) const -> u8 { return memory.at(address.value()); }
 
 auto MMU::read_io(const Address& address) const -> u8 {
     switch (address.value()) {
@@ -150,25 +149,6 @@ auto MMU::read_io(const Address& address) const -> u8 {
             /* TODO */
             return 0xFF;
 
-        /* TODO: Audio - Wave Pattern RAM */
-        case 0xFF30:
-        case 0xFF31:
-        case 0xFF32:
-        case 0xFF33:
-        case 0xFF34:
-        case 0xFF35:
-        case 0xFF36:
-        case 0xFF37:
-        case 0xFF38:
-        case 0xFF39:
-        case 0xFF3A:
-        case 0xFF3B:
-        case 0xFF3C:
-        case 0xFF3D:
-        case 0xFF3E:
-        case 0xFF3F:
-            return memory_read(address);
-
         case 0xFF40:
             return video.control_byte;
 
@@ -208,7 +188,7 @@ auto MMU::read_io(const Address& address) const -> u8 {
 
         /* Disable boot rom switch */
         case 0xFF50:
-            return memory_read(address);
+            return disable_boot_rom_switch.value();
 
         default:
             fatal_error("Read from unknown IO address 0x%x", address.value());
@@ -223,7 +203,7 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* VRAM */
     if (address.in_range(0x8000, 0x9FFF)) {
-        memory_write(address, byte);
+        video.write(address.value() - 0x8000, byte);
         return;
     }
 
@@ -235,21 +215,20 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* Internal work RAM */
     if (address.in_range(0xC000, 0xDFFF)) {
-        memory_write(address, byte);
+        work_ram.at(address.value() - 0xC000) = byte;
         return;
     }
 
     /* Mirrored RAM */
     if (address.in_range(0xE000, 0xFDFF)) {
         log_warn("Attempting to write to mirrored work RAM");
-        auto mirrored_address = Address(address.value() - 0x2000);
-        memory_write(mirrored_address, byte);
+        write(address.value() - 0x2000, byte);
         return;
     }
 
     /* OAM */
     if (address.in_range(0xFE00, 0xFE9F)) {
-        memory_write(address, byte);
+        oam_ram.at(address.value() - 0xFE00) = byte;
         return;
     }
 
@@ -266,7 +245,7 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* Zero Page ram */
     if (address.in_range(0xFF80, 0xFFFE)) {
-        memory_write(address, byte);
+        high_ram.at(address.value() - 0xFF80) = byte;
         return;
     }
 
@@ -362,26 +341,6 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_unimplemented("Wrote to sound on/off address 0x%x - 0x%x", address.value(), byte);
             return;
 
-        /* TODO: Audio - Wave Pattern RAM */
-        case 0xFF30:
-        case 0xFF31:
-        case 0xFF32:
-        case 0xFF33:
-        case 0xFF34:
-        case 0xFF35:
-        case 0xFF36:
-        case 0xFF37:
-        case 0xFF38:
-        case 0xFF39:
-        case 0xFF3A:
-        case 0xFF3B:
-        case 0xFF3C:
-        case 0xFF3D:
-        case 0xFF3E:
-        case 0xFF3F:
-            memory_write(address, byte);
-            return;
-
         /* Switch on LCD */
         case 0xFF40:
             video.control_byte = byte;
@@ -445,7 +404,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         /* Disable boot rom switch */
         case 0xFF50:
-            memory_write(address, byte);
+            disable_boot_rom_switch.set(byte);
             global_logger.enable_tracing();
             log_debug("Boot rom was disabled");
             return;
@@ -456,12 +415,8 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         default:
             /* TODO */
-            fatal_error("Wrote 0x%x to unknown address 0x%x", byte, address.value());
+            log_unimplemented("Wrote 0x%x to unknown address 0x%x", byte, address.value());
     }
-}
-
-void MMU::memory_write(const Address& address, const u8 byte) {
-    memory.at(address.value()) = byte;
 }
 
 auto MMU::boot_rom_active() const -> bool { return read(0xFF50) != 0x1; }
