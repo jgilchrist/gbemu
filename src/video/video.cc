@@ -14,6 +14,15 @@ Video::Video(CPU& inCPU, MMU& inMMU, Options& inOptions) :
     buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT),
     background_map(BG_MAP_SIZE, BG_MAP_SIZE)
 {
+    video_ram = std::vector<u8>(0x4000);
+}
+
+u8 Video::read(const Address& address) {
+    return video_ram.at(address.value());
+}
+
+void Video::write(const Address& address, u8 value) {
+    video_ram.at(address.value()) = value;
 }
 
 void Video::tick(Cycles cycles) {
