@@ -34,6 +34,11 @@ const uint BG_MAP_SIZE = 256;
 
 const int CLOCK_RATE = 8400000;
 
+enum class Model {
+    Dmg,
+    Cgb,
+};
+
 enum class GBColor {
     Color0, /* White */
     Color1, /* Light gray */

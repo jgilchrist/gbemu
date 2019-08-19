@@ -17,6 +17,7 @@ typedef std::function<bool(void)> should_close_callback_t;
 class Gameboy {
 public:
     Gameboy(
+        Model model,
         std::vector<u8> cartridge_data,
         Options& options,
         std::vector<u8> save_data = {}
@@ -39,6 +40,8 @@ public:
 
 private:
     void tick();
+
+    Model model;
 
     std::shared_ptr<Cartridge> cartridge;
     Input input;

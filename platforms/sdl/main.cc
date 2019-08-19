@@ -199,7 +199,7 @@ int main(int argc, char* argv[]) {
     auto save_data = load_state();
     log_info("");
 
-    gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
+    gameboy = std::make_unique<Gameboy>(Model::Cgb, rom_data, cliOptions.options, save_data);
     gameboy->run(&is_closed, &draw_dmg, &draw_gbc);
 
     save_state();

@@ -1,6 +1,7 @@
 #include "gameboy.h"
 
-Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
+Gameboy::Gameboy(Model _model, std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
+    model(_model),
     cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
     cpu(mmu, options),
     video(cpu, mmu, options),
