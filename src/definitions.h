@@ -32,7 +32,7 @@ const uint GAMEBOY_WIDTH = 160;
 const uint GAMEBOY_HEIGHT = 144;
 const uint BG_MAP_SIZE = 256;
 
-const int CLOCK_RATE = 4194304;
+const int CLOCK_RATE = 8400000;
 
 enum class GBColor {
     Color0, /* White */
