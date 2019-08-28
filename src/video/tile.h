@@ -1,5 +1,7 @@
 #pragma once
 
+#include "color.h"
+
 #include "../address.h"
 #include "../definitions.h"
 #include "../mmu.h"
@@ -21,9 +23,9 @@ const uint TILE_BYTES = 2 * 8;
 
 const uint SPRITE_BYTES = 4;
 
-class Tile {
+class DmgTile {
 public:
-    Tile(Address& address, MMU& mmu, uint size_multiplier = 1);
+    DmgTile(Address& address, MMU& mmu, uint size_multiplier = 1);
 
     auto get_pixel(uint x, uint y) const -> GBColor;
 
@@ -31,5 +33,5 @@ private:
     static auto pixel_index(uint x, uint y) -> uint;
     static auto get_pixel_line(u8 byte1, u8 byte2) -> std::vector<u8>;
 
-    std::array<GBColor, TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX> buffer;
+    DmgLogicalColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
 };

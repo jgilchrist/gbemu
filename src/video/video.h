@@ -12,8 +12,8 @@
 #include <memory>
 #include <functional>
 
-using dmg_vblank_callback_t = std::function<void(const FrameBuffer&)>;
-using cgb_vblank_callback_t = std::function<void(const FrameBuffer&)>;
+using dmg_vblank_callback_t = std::function<void(const DmgFrameBuffer&)>;
+using cgb_vblank_callback_t = std::function<void(const CgbFrameBuffer&)>;
 
 enum class VideoMode {
     ACCESS_OAM,
@@ -85,7 +85,7 @@ private:
     void draw_bg_line(uint current_line);
     void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
-    static auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) -> GBColor;
+    static auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> DmgLogicalColor;
 
     u16 calculate_vram_address(const Address& address) const;
 
@@ -104,14 +104,13 @@ private:
 
     auto get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const -> TileInfo;
 
-    static auto get_real_color(u8 pixel_value) -> Color;
-    static auto load_palette(ByteRegister& palette_register) -> Palette;
-    static auto get_color_from_palette(GBColor color, const Palette& palette) -> Color;
+    static auto get_real_color(u8 pixel_value) -> DmgColor;
+    static auto load_palette(ByteRegister& palette_register) -> DmgPalette;
+    static auto get_color_from_palette(GBColor color, const Palette& palette) -> DmgColor;
 
     CPU& cpu;
     MMU& mmu;
-    FrameBuffer buffer;
-    FrameBuffer background_map;
+    DmgFrameBuffer dmg_buffer;
 
     std::vector<u8> video_ram;
 
