@@ -38,16 +38,16 @@ static std::unique_ptr<GbButton> get_gb_button(int keyCode) {
     }
 }
 
-static uint32_t get_real_color(Color color) {
+static uint32_t get_real_color(DmgColor color) {
     uint8_t r;
     uint8_t g;
     uint8_t b;
 
     switch (color) {
-        case Color::White: r = g = b = 255; break;
-        case Color::LightGray: r = g = b = 170; break;
-        case Color::DarkGray: r = g = b = 85; break;
-        case Color::Black: r = g = b = 0; break;
+        case DmgColor::White: r = g = b = 255; break;
+        case DmgColor::LightGray: r = g = b = 170; break;
+        case DmgColor::DarkGray: r = g = b = 85; break;
+        case DmgColor::Black: r = g = b = 0; break;
     }
 
     return (r << 16) | (g << 8) | (b << 0);
@@ -65,10 +65,10 @@ static void set_large_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_arg
     }
 }
 
-static void set_pixels(uint32_t* pixels, const FrameBuffer& buffer) {
+static void set_pixels(uint32_t* pixels, const DmgFrameBuffer& buffer) {
     for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
         for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
-            Color color = buffer.get_pixel(x, y);
+            DmgColor color = buffer.get_pixel(x, y);
             uint32_t pixel_argb = get_real_color(color);
             set_large_pixel(pixels, x, y, pixel_argb);
         }
@@ -154,12 +154,12 @@ static void draw_with_pixels(Proc set_pixels_proc, TPixels buffer) {
     SDL_RenderPresent(renderer);
 }
 
-static void draw_dmg(const FrameBuffer& buffer) {
+static void draw_dmg(const DmgFrameBuffer& buffer) {
     draw_with_pixels(set_pixels, buffer);
 }
 
-static void draw_gbc(const FrameBuffer& buffer) {
-    draw_with_pixels(set_pixels, buffer);
+static void draw_cgb(const CgbFrameBuffer& buffer) {
+    // draw_with_pixels(set_pixels, buffer);
 }
 
 static bool is_closed() {
@@ -200,7 +200,7 @@ int main(int argc, char* argv[]) {
     log_info("");
 
     gameboy = std::make_unique<Gameboy>(Model::Cgb, rom_data, cliOptions.options, save_data);
-    gameboy->run(&is_closed, &draw_dmg, &draw_gbc);
+    gameboy->run(&is_closed, &draw_dmg, &draw_cgb);
 
     save_state();
     SDL_DestroyTexture(gb_screen_texture);

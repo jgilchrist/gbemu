@@ -5,11 +5,11 @@
 
 using bitwise::bit_value;
 
-Tile::Tile(Address& tile_address, MMU& mmu, uint size_multiplier) {
+DmgTile::DmgTile(Address& tile_address, MMU& mmu, uint size_multiplier) {
     /* Set the whole framebuffer to be black */
     for (uint x = 0; x < TILE_WIDTH_PX; x++) {
         for (uint y = 0; y < TILE_HEIGHT_PX * size_multiplier; y++) {
-            buffer[pixel_index(x, y)] = GBColor::Color0;
+            buffer[pixel_index(x, y)] = DmgLogicalColor::Color0;
         }
     }
 
@@ -29,11 +29,11 @@ Tile::Tile(Address& tile_address, MMU& mmu, uint size_multiplier) {
     }
 }
 
-GBColor Tile::get_pixel(uint x, uint y) const {
+DmgLogicalColor DmgTile::get_pixel(uint x, uint y) const {
     return buffer[pixel_index(x, y)];
 }
 
-std::vector<u8> Tile::get_pixel_line(u8 byte1, u8 byte2) const {
+std::vector<u8> DmgTile::get_pixel_line(u8 byte1, u8 byte2) const {
     using bitwise::bit_value;
 
     std::vector<u8> pixel_line;
@@ -45,6 +45,6 @@ std::vector<u8> Tile::get_pixel_line(u8 byte1, u8 byte2) const {
     return pixel_line;
 }
 
-inline uint Tile::pixel_index(uint x, uint y) {
+inline uint DmgTile::pixel_index(uint x, uint y) {
     return (y * TILE_HEIGHT_PX) + x;
 }

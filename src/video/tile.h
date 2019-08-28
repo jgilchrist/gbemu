@@ -1,5 +1,7 @@
 #pragma once
 
+#include "color.h"
+
 #include "../address.h"
 #include "../definitions.h"
 #include "../mmu.h"
@@ -19,15 +21,15 @@ const uint TILE_BYTES = 2 * 8;
 
 const uint SPRITE_BYTES = 4;
 
-class Tile {
+class DmgTile {
 public:
-    Tile(Address& address, MMU& mmu, uint size_multiplier = 1);
+    DmgTile(Address& address, MMU& mmu, uint size_multiplier = 1);
 
-    GBColor get_pixel(uint x, uint y) const;
+    DmgLogicalColor get_pixel(uint x, uint y) const;
 
 private:
     static uint pixel_index(uint x, uint y);
     std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
 
-    GBColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
+    DmgLogicalColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
 };

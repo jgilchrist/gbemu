@@ -11,8 +11,7 @@ using bitwise::check_bit;
 Video::Video(CPU& inCPU, MMU& inMMU, Options& inOptions) :
     cpu(inCPU),
     mmu(inMMU),
-    buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT),
-    background_map(BG_MAP_SIZE, BG_MAP_SIZE)
+    dmg_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)
 {
     video_ram = std::vector<u8>(0x4000);
 }
@@ -90,7 +89,7 @@ void Video::tick(Cycles cycles) {
                 if (line == 154) {
                     write_sprites();
                     draw();
-                    buffer.reset();
+                    dmg_buffer.reset();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;
                     lcd_status.set_bit_to(1, 1);
@@ -135,7 +134,7 @@ void Video::draw_bg_line(uint current_line) {
     bool use_tile_set_zero = bg_window_tile_data();
     bool use_tile_map_zero = !bg_tile_map_display();
 
-    Palette palette = load_palette(bg_palette);
+    DmgPalette palette = load_palette(bg_palette);
 
     Address tile_set_address = use_tile_set_zero
         ? TILE_SET_ZERO_ADDRESS
@@ -193,10 +192,10 @@ void Video::draw_bg_line(uint current_line) {
         u8 pixels_1 = mmu.read(tile_line_data_start_address);
         u8 pixels_2 = mmu.read(tile_line_data_start_address + 1);
 
-        GBColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
-        Color screen_color = get_color_from_palette(pixel_color, palette);
+        DmgLogicalColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
+        DmgColor screen_color = get_color_from_palette(pixel_color, palette);
 
-        buffer.set_pixel(screen_x, screen_y, screen_color);
+        dmg_buffer.set_pixel(screen_x, screen_y, screen_color);
     }
 }
 
@@ -205,7 +204,7 @@ void Video::draw_window_line(uint current_line) {
     bool use_tile_set_zero = bg_window_tile_data();
     bool use_tile_map_zero = !window_tile_map();
 
-    Palette palette = load_palette(bg_palette);
+    DmgPalette palette = load_palette(bg_palette);
 
     Address tile_set_address = use_tile_set_zero
         ? TILE_SET_ZERO_ADDRESS
@@ -260,10 +259,10 @@ void Video::draw_window_line(uint current_line) {
         u8 pixels_1 = mmu.read(tile_line_data_start_address);
         u8 pixels_2 = mmu.read(tile_line_data_start_address + 1);
 
-        GBColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
-        Color screen_color = get_color_from_palette(pixel_color, palette);
+        DmgLogicalColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
+        DmgColor screen_color = get_color_from_palette(pixel_color, palette);
 
-        buffer.set_pixel(screen_x, screen_y, screen_color);
+        dmg_buffer.set_pixel(screen_x, screen_y, screen_color);
     }
 }
 
@@ -296,7 +295,7 @@ void Video::draw_sprite(const uint sprite_n) {
     bool flip_y = check_bit(sprite_attrs, 6);
     bool obj_behind_bg = check_bit(sprite_attrs, 7);
 
-    Palette palette = use_palette_1
+    DmgPalette palette = use_palette_1
         ? load_palette(sprite_palette_1)
         : load_palette(sprite_palette_0);
 
@@ -304,7 +303,7 @@ void Video::draw_sprite(const uint sprite_n) {
 
     Address pattern_address = tile_set_location + tile_offset;
 
-    Tile tile(pattern_address, mmu, sprite_size_multiplier);
+    DmgTile tile(pattern_address, mmu, sprite_size_multiplier);
     int start_y = sprite_y - 16;
     int start_x = sprite_x - 8;
 
@@ -313,31 +312,31 @@ void Video::draw_sprite(const uint sprite_n) {
             uint maybe_flipped_y = !flip_y ? y : (TILE_HEIGHT_PX * sprite_size_multiplier) - y - 1;
             uint maybe_flipped_x = !flip_x ? x : TILE_WIDTH_PX - x - 1;
 
-            GBColor gb_color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
+            DmgLogicalColor gb_color = tile.get_pixel(maybe_flipped_x, maybe_flipped_y);
 
             // Color 0 is transparent
-            if (gb_color == GBColor::Color0) { continue; }
+            if (gb_color == DmgLogicalColor::Color0) { continue; }
 
             int screen_x = start_x + x;
             int screen_y = start_y + y;
 
             if (!is_on_screen(screen_x, screen_y)) { continue; }
 
-            auto existing_pixel = buffer.get_pixel(screen_x, screen_y);
+            auto existing_pixel = dmg_buffer.get_pixel(screen_x, screen_y);
 
             // FIXME: We need to see if the color we're writing over is
             // logically Color0, rather than looking at the color after
             // the current palette has been applied
-            if (obj_behind_bg && existing_pixel != Color::White) { continue; }
+            if (obj_behind_bg && existing_pixel != DmgColor::White) { continue; }
 
-            Color screen_color = get_color_from_palette(gb_color, palette);
+            DmgColor screen_color = get_color_from_palette(gb_color, palette);
 
-            buffer.set_pixel(screen_x, screen_y, screen_color);
+            dmg_buffer.set_pixel(screen_x, screen_y, screen_color);
         }
     }
 }
 
-GBColor Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const {
+DmgLogicalColor Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const {
     using bitwise::bit_value;
 
     u8 color_u8 = static_cast<u8>((bit_value(byte2, 7-pixel_index) << 1) | bit_value(byte1, 7-pixel_index));
@@ -356,7 +355,7 @@ bool Video::is_on_screen(u8 x, u8 y) const {
     return is_on_screen_x(x) && is_on_screen_y(y);
 }
 
-Palette Video::load_palette(ByteRegister& palette_register) const {
+DmgPalette Video::load_palette(ByteRegister& palette_register) const {
     using bitwise::compose_bits;
     using bitwise::bit_value;
 
@@ -366,30 +365,30 @@ Palette Video::load_palette(ByteRegister& palette_register) const {
     u8 color2 = compose_bits(bit_value(palette_register.value(), 5), bit_value(palette_register.value(), 4));
     u8 color3 = compose_bits(bit_value(palette_register.value(), 7), bit_value(palette_register.value(), 6));
 
-    Color real_color_0 = get_real_color(color0);
-    Color real_color_1 = get_real_color(color1);
-    Color real_color_2 = get_real_color(color2);
-    Color real_color_3 = get_real_color(color3);
+    DmgColor real_color_0 = get_real_color(color0);
+    DmgColor real_color_1 = get_real_color(color1);
+    DmgColor real_color_2 = get_real_color(color2);
+    DmgColor real_color_3 = get_real_color(color3);
 
     return { real_color_0, real_color_1, real_color_2, real_color_3 };
 }
 
-Color Video::get_color_from_palette(GBColor color, const Palette& palette) {
+DmgColor Video::get_color_from_palette(DmgLogicalColor color, const DmgPalette& palette) {
     switch (color) {
-        case GBColor::Color0: return palette.color0;
-        case GBColor::Color1: return palette.color1;
-        case GBColor::Color2: return palette.color2;
-        case GBColor::Color3: return palette.color3;
+        case DmgLogicalColor::Color0: return palette.color0;
+        case DmgLogicalColor::Color1: return palette.color1;
+        case DmgLogicalColor::Color2: return palette.color2;
+        case DmgLogicalColor::Color3: return palette.color3;
     }
 }
 
 
-Color Video::get_real_color(u8 pixel_value) const {
+DmgColor Video::get_real_color(u8 pixel_value) const {
     switch (pixel_value) {
-        case 0: return Color::White;
-        case 1: return Color::LightGray;
-        case 2: return Color::DarkGray;
-        case 3: return Color::Black;
+        case 0: return DmgColor::White;
+        case 1: return DmgColor::LightGray;
+        case 2: return DmgColor::DarkGray;
+        case 3: return DmgColor::Black;
         default:
             fatal_error("Invalid color value");
     }
@@ -404,5 +403,5 @@ void Video::register_vblank_callbacks(
 }
 
 void Video::draw() {
-    dmg_vblank_callback(buffer);
+    dmg_vblank_callback(dmg_buffer);
 }
