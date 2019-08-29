@@ -6,7 +6,8 @@
 #include "video/video.h"
 #include "serial.h"
 #include "timer.h"
-#include "util/cli.h"
+#include "options.h"
+#include "util/log.h"
 
 #include <memory>
 #include <functional>

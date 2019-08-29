@@ -1,4 +1,5 @@
 #include "../../src/gameboy_prelude.h"
+#include "../cli/cli.h"
 
 #include <SDL.h>
 
@@ -16,7 +17,7 @@ static SDL_Texture* gb_screen_texture;
 
 static std::unique_ptr<Gameboy> gameboy;
 
-static Options options;
+static CliOptions cliOptions;
 
 static bool should_exit = false;
 
@@ -75,7 +76,7 @@ static void set_pixels(uint32_t* pixels, const FrameBuffer& buffer) {
 }
 
 static std::string get_save_filename() {
-    return options.filename + ".sav";
+    return cliOptions.filename + ".sav";
 }
 
 static bool file_exists(const std::string& filename) {
@@ -157,7 +158,7 @@ static bool is_closed() {
 }
 
 int main(int argc, char* argv[]) {
-    options = get_options(argc, argv);
+    cliOptions = get_cli_options(argc, argv);
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -183,13 +184,13 @@ int main(int argc, char* argv[]) {
         width, height
     );
 
-    auto rom_data = read_bytes(options.filename);
-    log_info("Read %d KB from %s", rom_data.size() / 1024, options.filename.c_str());
+    auto rom_data = read_bytes(cliOptions.filename);
+    log_info("Read %d KB from %s", rom_data.size() / 1024, cliOptions.filename.c_str());
 
     auto save_data = load_state();
     log_info("");
 
-    gameboy = std::make_unique<Gameboy>(rom_data, options, save_data);
+    gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
     gameboy->run(&is_closed, &draw);
 
     save_state();

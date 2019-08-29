@@ -1,6 +1,7 @@
 #pragma once
 
 #include "definitions.h"
+#include "options.h"
 
 #include <string>
 #include <vector>
@@ -40,12 +41,14 @@ struct Command {
 
 class Debugger {
 public:
-    Debugger(Gameboy& inGameboy, bool should_debug);
+    Debugger(Gameboy& inGameboy, Options& inOptions);
 
     void cycle();
 
 private:
     Gameboy& gameboy;
+    Options& options;
+
     Command last_command;
 
     Command get_command();

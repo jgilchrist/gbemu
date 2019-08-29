@@ -8,13 +8,14 @@
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer) :
+MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer, Options& inOptions) :
     cartridge(inCartridge),
     cpu(inCPU),
     video(inVideo),
     input(inInput),
     serial(inSerial),
-    timer(inTimer)
+    timer(inTimer),
+    options(inOptions)
 {
     memory = std::vector<u8>(0x10000);
 }

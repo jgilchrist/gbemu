@@ -3,7 +3,7 @@
 #include "../address.h"
 #include "../mmu.h"
 #include "../register.h"
-#include "../util/cli.h"
+#include "../options.h"
 
 enum class Condition {
     NZ,

@@ -1,17 +1,18 @@
 #pragma once
 
 #include "definitions.h"
+#include "options.h"
 
 class Serial {
 public:
-    Serial(bool _should_print) : should_print(_should_print) {}
+    Serial(Options& inOptions) : options(inOptions) {}
 
     u8 read() const;
     void write(u8 byte);
     void write_control(u8 byte);
 
 private:
-    u8 data;
+    Options& options;
 
-    bool should_print;
+    u8 data;
 };

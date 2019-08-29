@@ -1,6 +1,7 @@
 #pragma once
 
 #include "address.h"
+#include "options.h"
 #include "cartridge/cartridge.h"
 
 #include <vector>
@@ -14,7 +15,7 @@ class Timer;
 
 class MMU {
 public:
-    MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer);
+    MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer, Options& options);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -36,6 +37,8 @@ private:
     Input& input;
     Serial& serial;
     Timer& timer;
+    Options& options;
+
     std::vector<u8> memory;
 
     friend class Debugger;

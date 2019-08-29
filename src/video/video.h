@@ -6,6 +6,7 @@
 #include "../mmu.h"
 #include "../register.h"
 #include "../definitions.h"
+#include "../options.h"
 
 #include <vector>
 #include <memory>
@@ -27,7 +28,7 @@ struct TileInfo {
 
 class Video {
 public:
-    Video(CPU& inCPU, MMU& inMMU);
+    Video(CPU& inCPU, MMU& inMMU, Options& inOptions);
 
     void tick(Cycles cycles);
     void register_vblank_callback(const vblank_callback_t& _vblank_callback);

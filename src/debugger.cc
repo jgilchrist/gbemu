@@ -8,9 +8,10 @@
 #include <iostream>
 #include <algorithm>
 
-Debugger::Debugger(Gameboy& inGameboy, bool should_debug) :
+Debugger::Debugger(Gameboy& inGameboy, Options& inOptions) :
     gameboy(inGameboy),
-    enabled(should_debug)
+    options(inOptions),
+    enabled(inOptions.debugger)
 {
 }
 
