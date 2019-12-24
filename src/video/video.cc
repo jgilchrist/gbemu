@@ -89,8 +89,6 @@ void Video::tick(Cycles cycles) {
                 };
             }
             break;
-        default:
-            fatal_error("Invalid video mode");
     }
 }
 
@@ -338,11 +336,11 @@ GBColor Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const {
 }
 
 bool Video::is_on_screen_x(u8 x) const {
-    return x >= 0 && x < GAMEBOY_WIDTH;
+    return x < GAMEBOY_WIDTH;
 }
 
 bool Video::is_on_screen_y(u8 y) const {
-    return y >= 0 && y < GAMEBOY_HEIGHT;
+    return y < GAMEBOY_HEIGHT;
 }
 
 bool Video::is_on_screen(u8 x, u8 y) const {

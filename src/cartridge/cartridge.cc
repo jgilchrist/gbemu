@@ -72,6 +72,8 @@ MBC1::MBC1(
 )
     : Cartridge(rom_data, ram_data, std::move(in_cartridge_info))
 {
+    unused(rom_banking_mode);
+
     rom_bank.set(0x1);
 }
 
@@ -126,6 +128,8 @@ u8 MBC1::read(const Address& address) const {
         auto address_in_ram = (address - 0xA000) + offset_into_ram;
         return ram.at(address_in_ram.value());
     }
+
+    fatal_error("Attempted to read from unmapped MBC1 address 0x%x", address.value());
 }
 
 MBC3::MBC3(
@@ -135,6 +139,8 @@ MBC3::MBC3(
 )
     : Cartridge(rom_data, ram_data, std::move(in_cartridge_info))
 {
+    unused(rom_banking_mode);
+
     rom_bank.set(0x1);
 }
 
@@ -157,7 +163,7 @@ void MBC3::write(const Address& address, u8 value) {
     }
 
     if (address.in_range(0x4000, 0x5FFF)) {
-        if (value >= 0x0 && value <= 0x03) {
+        if (value <= 0x03) {
             ram_over_rtc = true;
             ram_bank.set(value);
         }
@@ -201,4 +207,6 @@ u8 MBC3::read(const Address& address) const {
         auto address_in_ram = (address - 0xA000) + offset_into_ram;
         return ram.at(address_in_ram.value());
     }
+
+    fatal_error("Attempted to read from unmapped MBC1 address 0x%x", address.value());
 }

@@ -58,6 +58,10 @@ private:
     WordRegister rom_bank;
     WordRegister ram_bank;
     bool ram_enabled = false;
+
+    // TODO: ROM/RAM Mode Select (6000-7FFF)
+    // This 1bit Register selects whether the two bits of the above register should
+    // be used as upper two bits of the ROM Bank, or as RAM Bank Number.
     bool rom_banking_mode = true;
 };
 
@@ -75,7 +79,11 @@ public:
 private:
     WordRegister rom_bank;
     WordRegister ram_bank;
-    bool rom_banking_mode = true;
     bool ram_enabled = false;
     bool ram_over_rtc = true;
+
+    // TODO: ROM/RAM Mode Select (6000-7FFF)
+    // This 1bit Register selects whether the two bits of the above register should
+    // be used as upper two bits of the ROM Bank, or as RAM Bank Number.
+    bool rom_banking_mode = true;
 };

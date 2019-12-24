@@ -13,6 +13,7 @@ Debugger::Debugger(Gameboy& inGameboy, Options& inOptions) :
     options(inOptions),
     enabled(inOptions.debugger)
 {
+    unused(options);
 }
 
 void Debugger::cycle() {
