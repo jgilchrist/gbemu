@@ -31,6 +31,9 @@ function(add_warnings)
     # FIXME: Temporarily silenced during development
     list(APPEND all_warn -Wno-sign-conversion)
 
+    # FIXME: Temporarily silenced during development
+    list(APPEND all_warn -Wno-implicit-int-conversion)
+
     # FIXME: Temporarily silence warnings during development
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     list(APPEND all_warn -Wno-missing-noreturn)
