@@ -38,8 +38,6 @@ public:
 
 private:
     void tick();
-    void register_vblank_callback(const vblank_callback_t& _vblank_callback);
-    void register_should_close_callback(const should_close_callback_t& _should_close_callback);
 
     std::shared_ptr<Cartridge> cartridge;
     Input input;
