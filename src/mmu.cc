@@ -195,6 +195,18 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF50:
             return disable_boot_rom_switch.value();
 
+        case 0xFF68:
+            return video.cgb_background_palette_index.value();
+
+        case 0xFF69:
+            return video.get_cgb_background_palette_data();
+
+        case 0xFF6A:
+            return video.cgb_sprite_palette_index.value();
+
+        case 0xFF6B:
+            return video.get_cgb_sprite_palette_data();
+
         case 0xFF70:
             return get_wram_bank();
 
@@ -419,6 +431,22 @@ void MMU::write_io(const Address& address, const u8 byte) {
             disable_boot_rom_switch.set(byte);
             global_logger.enable_tracing();
             log_debug("Boot rom was disabled");
+            return;
+
+        case 0xFF68:
+            video.cgb_background_palette_index.set(byte);
+            return;
+
+        case 0xFF69:
+            video.set_cgb_background_palette_data(byte);
+            return;
+
+        case 0xFF6A:
+            video.cgb_sprite_palette_index.set(byte);
+            return;
+
+        case 0xFF6B:
+            video.set_cgb_sprite_palette_data(byte);
             return;
 
         case 0xFF70:

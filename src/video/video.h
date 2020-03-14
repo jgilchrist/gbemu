@@ -62,7 +62,14 @@ public:
     ByteRegister sprite_palette_0; /* OBP0 */
     ByteRegister sprite_palette_1; /* OBP1 */
 
-    /* TODO: LCD Color Palettes (CGB) */
+    ByteRegister cgb_background_palette_index;
+    void set_cgb_background_palette_data(u8 value);
+    u8 get_cgb_background_palette_data() const;
+
+    ByteRegister cgb_sprite_palette_index;
+    void set_cgb_sprite_palette_data(u8 value);
+    u8 get_cgb_sprite_palette_data() const;
+
     ByteRegister video_ram_bank;
 
     ByteRegister dma_transfer; /* DMA */

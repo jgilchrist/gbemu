@@ -413,6 +413,32 @@ u16 Video::calculate_vram_address(const Address& address) const {
     return address.value() + offset;
 }
 
+void Video::set_cgb_background_palette_data(u8 value) {
+    u8 index = cgb_background_palette_index.value() & 0b111111;
+    bool auto_increment = check_bit(value, 7);
+
+    video_ram.at(index) = value;
+    if (auto_increment) { cgb_background_palette_index.increment(); }
+}
+
+u8 Video::get_cgb_background_palette_data() const {
+    u8 index = cgb_background_palette_index.value() & 0b111111;
+    return video_ram.at(index);
+}
+
+void Video::set_cgb_sprite_palette_data(u8 value) {
+    u8 index = cgb_sprite_palette_index.value() & 0b111111;
+    bool auto_increment = check_bit(value, 7);
+
+    video_ram.at(index) = value;
+    if (auto_increment) { cgb_sprite_palette_index.increment(); }
+}
+
+u8 Video::get_cgb_sprite_palette_data() const {
+    u8 index = cgb_sprite_palette_index.value() & 0b111111;
+    return video_ram.at(index);
+}
+
 void Video::register_vblank_callbacks(
     const dmg_vblank_callback_t& _dmg_vblank_callback,
     const cgb_vblank_callback_t& _cgb_vblank_callback
