@@ -297,25 +297,17 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF67:
             return unmapped_io_read(address);
 
-        /* TODO: Background color palette spec/index */
         case 0xFF68:
-            log_unimplemented("Attempted to read from CGB background color palette spec/index");
-            return 0xFF;
+            return video.cgb_background_palette_index.value();
 
-        /* TODO: Background color palette data */
         case 0xFF69:
-            log_unimplemented("Attempted to read from CGB background color data");
-            return 0xFF;
+            return video.get_cgb_background_palette_data();
 
-        /* TODO: OBJ color palette spec/index */
         case 0xFF6A:
-            log_unimplemented("Attempted to read from CGB OBJ color palette spec/index");
-            return 0xFF;
+            return video.cgb_sprite_palette_index.value();
 
-        /* TODO: OBJ color palette data */
         case 0xFF6B:
-            log_unimplemented("Attempted to read from CGB OBJ color palette data");
-            return 0xFF;
+            return video.get_cgb_sprite_palette_data();
 
         /* TODO: Object priority mode */
         case 0xFF6C:
@@ -676,24 +668,20 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF67:
             return unmapped_io_write(address, byte);
 
-        /* TODO: Background color palette spec/index */
         case 0xFF68:
-            log_unimplemented("Attempted to write to CGB background color palette spec/index");
+            video.cgb_background_palette_index.set(byte);
             return;
 
-        /* TODO: Background color palette data */
         case 0xFF69:
-            log_unimplemented("Attempted to write to CGB background color data");
+            video.set_cgb_background_palette_data(byte);
             return;
 
-        /* TODO: OBJ color palette spec/index */
         case 0xFF6A:
-            log_unimplemented("Attempted to write to CGB OBJ color palette spec/index");
+            video.cgb_sprite_palette_index.set(byte);
             return;
 
-        /* TODO: OBJ color palette data */
         case 0xFF6B:
-            log_unimplemented("Attempted to write to CGB OBJ color palette data");
+            video.set_cgb_sprite_palette_data(byte);
             return;
 
         /* TODO: Object priority mode */
