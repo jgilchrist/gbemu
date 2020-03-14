@@ -18,11 +18,11 @@ Video::Video(CPU& inCPU, MMU& inMMU, Options& inOptions) :
 }
 
 u8 Video::read(const Address& address) {
-    return video_ram.at(address.value());
+    return video_ram.at(calculate_vram_address(address));
 }
 
 void Video::write(const Address& address, u8 value) {
-    video_ram.at(address.value()) = value;
+    video_ram.at(calculate_vram_address(address)) = value;
 }
 
 void Video::tick(Cycles cycles) {
@@ -387,6 +387,20 @@ auto Video::get_real_color(u8 pixel_value) -> Color {
         default:
             fatal_error("Invalid color value");
     }
+}
+
+void Video::set_vram_bank(u8 value) {
+    video_ram_bank.set(value & 0b1);
+}
+
+u8 Video::get_vram_bank() const {
+    return video_ram_bank.value();
+}
+
+u16 Video::calculate_vram_address(const Address& address) const {
+    // TODO: Use the default behaviour when in DMG mode
+    u16 offset = 0x2000 * video_ram_bank.value();
+    return address.value() + offset;
 }
 
 void Video::register_vblank_callbacks(

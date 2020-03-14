@@ -245,8 +245,10 @@ auto MMU::read_io(const Address& address) const -> u8 {
             return 0x0;
 
         case 0xFF4E:
-        case 0xFF4F:
             return unmapped_io_read(address);
+
+        case 0xFF4F:
+            return video.get_vram_bank();
 
         /* Disable boot rom switch */
         case 0xFF50:
@@ -618,8 +620,11 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF4E:
-        case 0xFF4F:
             return unmapped_io_write(address, byte);
+
+        case 0xFF4F:
+            video.set_vram_bank(byte);
+            return;
 
         /* Disable boot rom switch */
         case 0xFF50:
