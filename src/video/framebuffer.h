@@ -10,7 +10,7 @@ public:
     FrameBuffer(uint _width, uint _height) :
         width(_width),
         height(_height),
-        buffer(width*height, {}) {}
+        buffer(width*height) {}
 
     void set_pixel(uint x, uint y, TColor color) {
         buffer[pixel_index(x, y)] = color;
