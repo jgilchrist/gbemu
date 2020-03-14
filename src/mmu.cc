@@ -169,6 +169,10 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF45:
             return video.ly_compare.value();
 
+        case 0xFF46:
+            log_warn("Attempted to read from write-only DMA Transfer/Start Address (0xFF46)");
+            return 0xFF;
+
         case 0xFF47:
             return video.bg_palette.value();
 
@@ -194,6 +198,30 @@ u8 MMU::read_io(const Address& address) const {
         /* Disable boot rom switch */
         case 0xFF50:
             return disable_boot_rom_switch.value();
+
+        case 0xFF51:
+            log_unimplemented("Attempted to read from VRAM DMA Source (hi)");
+            return 0xFF;
+
+        case 0xFF52:
+            log_unimplemented("Attempted to read from VRAM DMA Source (lo)");
+            return 0xFF;
+
+        case 0xFF53:
+            log_unimplemented("Attempted to read from VRAM DMA Destination (hi)");
+            return 0xFF;
+
+        case 0xFF54:
+            log_unimplemented("Attempted to read from VRAM DMA Destination (lo)");
+            return 0xFF;
+
+        case 0xFF55:
+            log_unimplemented("Attempted to read from VRAM DMA Length/Mode/Start");
+            return 0xFF;
+
+        case 0xFF56:
+            log_unimplemented("Attempted to read from infrared port");
+            return 0xFF;
 
         case 0xFF68:
             return video.cgb_background_palette_index.value();
@@ -431,6 +459,30 @@ void MMU::write_io(const Address& address, const u8 byte) {
             disable_boot_rom_switch.set(byte);
             global_logger.enable_tracing();
             log_debug("Boot rom was disabled");
+            return;
+
+        case 0xFF51:
+            log_unimplemented("Attempted to write to VRAM DMA Source (hi)");
+            return;
+
+        case 0xFF52:
+            log_unimplemented("Attempted to write to VRAM DMA Source (lo)");
+            return;
+
+        case 0xFF53:
+            log_unimplemented("Attempted to write to VRAM DMA Destination (hi)");
+            return;
+
+        case 0xFF54:
+            log_unimplemented("Attempted to write to VRAM DMA Destination (lo)");
+            return;
+
+        case 0xFF55:
+            log_unimplemented("Attempted to write to VRAM DMA Length/Mode/Start");
+            return;
+
+        case 0xFF56:
+            log_unimplemented("Attempted to write to infrared port");
             return;
 
         case 0xFF68:
