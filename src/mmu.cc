@@ -187,6 +187,9 @@ u8 MMU::read_io(const Address& address) const {
             log_unimplemented("Attempted to read from 'Prepare Speed Switch' register");
             return 0x0;
 
+        case 0xFF4F:
+            return video.get_vram_bank();
+
         /* Disable boot rom switch */
         case 0xFF50:
             return disable_boot_rom_switch.value();
@@ -401,6 +404,10 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         case 0xFF4D:
             log_unimplemented("Attempted to write to 'Prepare Speed Switch' register");
+            return;
+
+        case 0xFF4F:
+            video.set_vram_bank(byte);
             return;
 
         /* Disable boot rom switch */

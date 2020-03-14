@@ -40,6 +40,9 @@ public:
     u8 read(const Address& address);
     void write(const Address& address, u8 byte);
 
+    void set_vram_bank(u8 value);
+    u8 get_vram_bank() const;
+
     u8 control_byte;
 
     ByteRegister lcd_control;
@@ -60,7 +63,7 @@ public:
     ByteRegister sprite_palette_1; /* OBP1 */
 
     /* TODO: LCD Color Palettes (CGB) */
-    /* TODO: LCD VRAM Bank (CGB) */
+    ByteRegister video_ram_bank;
 
     ByteRegister dma_transfer; /* DMA */
 
@@ -76,6 +79,8 @@ private:
     void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
     DmgLogicalColor get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
+
+    u16 calculate_vram_address(const Address& address) const;
 
     bool is_on_screen(u8 x, u8 y) const;
     bool is_on_screen_x(u8 x) const;
