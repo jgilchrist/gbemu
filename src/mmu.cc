@@ -90,6 +90,9 @@ auto MMU::read_io(const Address& address) const -> u8 {
             log_unimplemented("Attempted to read serial transfer control");
             return 0xFF;
 
+        case 0xFF03:
+            return unmapped_io_read(address);
+
         case 0xFF04:
             return timer.get_divider();
 
@@ -102,6 +105,15 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF07:
             return timer.get_timer_control();
 
+        case 0xFF08:
+        case 0xFF09:
+        case 0xFF0A:
+        case 0xFF0B:
+        case 0xFF0C:
+        case 0xFF0D:
+        case 0xFF0E:
+            return unmapped_io_read(address);
+
         case 0xFF0F:
             return cpu.interrupt_flag.value();
 
@@ -112,6 +124,9 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF13:
         case 0xFF14:
             return 0xFF;
+
+        case 0xFF15:
+            return unmapped_io_read(address);
 
         /* TODO: Audio - Channel 2: Tone */
         case 0xFF16:
@@ -126,6 +141,7 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF1C:
         case 0xFF1D:
         case 0xFF1E:
+        case 0xFF1F:
             return 0xFF;
 
         /* TODO: Audio - Channel 4: Noise */
@@ -135,18 +151,46 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF23:
             return 0xFF;
 
-        /* TODO: Audio - Sound Control Registers */
+        /* TODO: Audio - Channel control/ON-OFF/Volume */
         case 0xFF24:
-            /* TODO */
-            /* log_unimplemented("Read from channel control address 0x%x", address.value()); */
             return 0xFF;
 
+        /* TODO: Audio - Selection of sound output terminal */
         case 0xFF25:
-            /* TODO */
             return 0xFF;
 
+        /* TODO: Audio - Sound on/off */
         case 0xFF26:
-            /* TODO */
+            return 0xFF;
+
+        case 0xFF27:
+        case 0xFF28:
+        case 0xFF29:
+        case 0xFF2A:
+        case 0xFF2B:
+        case 0xFF2C:
+        case 0xFF2D:
+        case 0xFF2E:
+        case 0xFF2F:
+            return unmapped_io_read(address);
+
+        /* TODO: Audio - Wave pattern RAM */
+        case 0xFF30:
+        case 0xFF31:
+        case 0xFF32:
+        case 0xFF33:
+        case 0xFF34:
+        case 0xFF35:
+        case 0xFF36:
+        case 0xFF37:
+        case 0xFF38:
+        case 0xFF39:
+        case 0xFF3A:
+        case 0xFF3B:
+        case 0xFF3C:
+        case 0xFF3D:
+        case 0xFF3E:
+        case 0xFF3F:
             return 0xFF;
 
         case 0xFF40:
@@ -167,6 +211,10 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF45:
             return video.ly_compare.value();
 
+        case 0xFF46:
+            log_warn("Attempted to read from write-only DMA Transfer/Start Address (0xFF46)");
+            return 0xFF;
+
         case 0xFF47:
             return video.bg_palette.value();
 
@@ -182,17 +230,126 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF4B:
             return video.window_x.value();
 
+        /* TODO: CGB mode behaviour */
+        case 0xFF4C:
+            return 0xFF;
+
         case 0xFF4D:
             log_unimplemented("Attempted to read from 'Prepare Speed Switch' register");
             return 0x0;
+
+        case 0xFF4E:
+        case 0xFF4F:
+            return unmapped_io_read(address);
 
         /* Disable boot rom switch */
         case 0xFF50:
             return disable_boot_rom_switch.value();
 
+        case 0xFF51:
+            log_unimplemented("Attempted to read from VRAM DMA Source (hi)");
+            return 0xFF;
+
+        case 0xFF52:
+            log_unimplemented("Attempted to read from VRAM DMA Source (lo)");
+            return 0xFF;
+
+        case 0xFF53:
+            log_unimplemented("Attempted to read from VRAM DMA Destination (hi)");
+            return 0xFF;
+
+        case 0xFF54:
+            log_unimplemented("Attempted to read from VRAM DMA Destination (lo)");
+            return 0xFF;
+
+        case 0xFF55:
+            log_unimplemented("Attempted to read from VRAM DMA Length/Mode/Start");
+            return 0xFF;
+
+        case 0xFF56:
+            log_unimplemented("Attempted to read from infrared port");
+            return 0xFF;
+
+        case 0xFF57:
+        case 0xFF58:
+        case 0xFF59:
+        case 0xFF5A:
+        case 0xFF5B:
+        case 0xFF5C:
+        case 0xFF5D:
+        case 0xFF5E:
+        case 0xFF5F:
+        case 0xFF60:
+        case 0xFF61:
+        case 0xFF62:
+        case 0xFF63:
+        case 0xFF64:
+        case 0xFF65:
+        case 0xFF66:
+        case 0xFF67:
+            return unmapped_io_read(address);
+
+        /* TODO: Background color palette spec/index */
+        case 0xFF68:
+            log_unimplemented("Attempted to read from CGB background color palette spec/index");
+            return 0xFF;
+
+        /* TODO: Background color palette data */
+        case 0xFF69:
+            log_unimplemented("Attempted to read from CGB background color data");
+            return 0xFF;
+
+        /* TODO: OBJ color palette spec/index */
+        case 0xFF6A:
+            log_unimplemented("Attempted to read from CGB OBJ color palette spec/index");
+            return 0xFF;
+
+        /* TODO: OBJ color palette data */
+        case 0xFF6B:
+            log_unimplemented("Attempted to read from CGB OBJ color palette data");
+            return 0xFF;
+
+        /* TODO: Object priority mode */
+        case 0xFF6C:
+            log_unimplemented("Attempted to read from CGB object priority mode");
+            return 0xFF;
+
+        case 0xFF6D:
+        case 0xFF6E:
+        case 0xFF6F:
+            return unmapped_io_read(address);
+
+        /* TODO: CGB WRAM bank */
+        case 0xFF70:
+            log_unimplemented("Attempted to read from CGB WRAM bank");
+            return 0xFF;
+
+        /* TODO: Some undocumented registers in this range */
+        case 0xFF71:
+        case 0xFF72:
+        case 0xFF73:
+        case 0xFF74:
+        case 0xFF75:
+        case 0xFF76:
+        case 0xFF77:
+        case 0xFF78:
+        case 0xFF79:
+        case 0xFF7A:
+        case 0xFF7B:
+        case 0xFF7C:
+        case 0xFF7D:
+        case 0xFF7E:
+        case 0xFF7F:
+            return unmapped_io_read(address);
+
         default:
-            fatal_error("Read from unknown IO address 0x%x", address.value());
+            fatal_error("Unmapped IO address: 0x%x", address.value());
     }
+}
+
+auto MMU::unmapped_io_read(const Address& address) const -> u8 {
+    log_warn("Attempting to read from unused IO address 0x%x", address.value());
+    return 0xFF;
 }
 
 void MMU::write(const Address& address, const u8 byte) {
@@ -274,6 +431,9 @@ void MMU::write_io(const Address& address, const u8 byte) {
             serial.write_control(byte);
             return;
 
+        case 0xFF03:
+            return unmapped_io_write(address, byte);
+
         case 0xFF04:
             timer.reset_divider();
             return;
@@ -291,6 +451,15 @@ void MMU::write_io(const Address& address, const u8 byte) {
             timer.set_timer_control(byte);
             return;
 
+        case 0xFF08:
+        case 0xFF09:
+        case 0xFF0A:
+        case 0xFF0B:
+        case 0xFF0C:
+        case 0xFF0D:
+        case 0xFF0E:
+            return unmapped_io_write(address, byte);
+
         case 0xFF0F:
             cpu.interrupt_flag.set(byte);
             return;
@@ -302,6 +471,9 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF13:
         case 0xFF14:
             return;
+
+        case 0xFF15:
+            return unmapped_io_write(address, byte);
 
         /* TODO: Audio - Channel 2: Tone */
         case 0xFF16:
@@ -318,6 +490,9 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF1E:
             return;
 
+        case 0xFF1F:
+            return unmapped_io_write(address, byte);
+
         /* TODO: Audio - Channel 4: Noise */
         case 0xFF20:
         case 0xFF21:
@@ -325,20 +500,47 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF23:
             return;
 
-        /* TODO: Audio - Sound Control Registers */
+        /* TODO: Audio - Channel control/ON-OFF/Volume */
         case 0xFF24:
-            /* TODO */
-            /* log_unimplemented("Wrote to channel control address 0x%x - 0x%x", address.value(), byte); */
             return;
 
+        /* TODO: Audio - Selection of sound output terminal */
         case 0xFF25:
-            /* TODO */
-            /* log_unimplemented("Wrote to selection of sound output terminal address 0x%x - 0x%x", address.value(), byte); */
             return;
 
+        /* TODO: Audio - Sound on/off */
         case 0xFF26:
-            /* TODO */
             log_unimplemented("Wrote to sound on/off address 0x%x - 0x%x", address.value(), byte);
+            return;
+
+        case 0xFF27:
+        case 0xFF28:
+        case 0xFF29:
+        case 0xFF2A:
+        case 0xFF2B:
+        case 0xFF2C:
+        case 0xFF2D:
+        case 0xFF2E:
+        case 0xFF2F:
+            return unmapped_io_write(address, byte);
+
+        /* TODO: Audio - Wave pattern RAM */
+        case 0xFF30:
+        case 0xFF31:
+        case 0xFF32:
+        case 0xFF33:
+        case 0xFF34:
+        case 0xFF35:
+        case 0xFF36:
+        case 0xFF37:
+        case 0xFF38:
+        case 0xFF39:
+        case 0xFF3A:
+        case 0xFF3B:
+        case 0xFF3C:
+        case 0xFF3D:
+        case 0xFF3E:
+        case 0xFF3F:
             return;
 
         /* Switch on LCD */
@@ -347,7 +549,6 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF41:
-            /* TODO */
             video.lcd_status.set(byte);
             return;
 
@@ -398,9 +599,17 @@ void MMU::write_io(const Address& address, const u8 byte) {
             video.window_x.set(byte);
             return;
 
+        /* TODO: CGB mode behaviour */
+        case 0xFF4C:
+            return;
+
         case 0xFF4D:
             log_unimplemented("Attempted to write to 'Prepare Speed Switch' register");
             return;
+
+        case 0xFF4E:
+        case 0xFF4F:
+            return unmapped_io_write(address, byte);
 
         /* Disable boot rom switch */
         case 0xFF50:
@@ -409,14 +618,109 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_debug("Boot rom was disabled");
             return;
 
-        case 0xFF7F:
-            log_warn("Attempt to write to unused memory 0x%x", address.value());
+        case 0xFF51:
+            log_unimplemented("Attempted to write to VRAM DMA Source (hi)");
             return;
 
+        case 0xFF52:
+            log_unimplemented("Attempted to write to VRAM DMA Source (lo)");
+            return;
+
+        case 0xFF53:
+            log_unimplemented("Attempted to write to VRAM DMA Destination (hi)");
+            return;
+
+        case 0xFF54:
+            log_unimplemented("Attempted to write to VRAM DMA Destination (lo)");
+            return;
+
+        case 0xFF55:
+            log_unimplemented("Attempted to write to VRAM DMA Length/Mode/Start");
+            return;
+
+        case 0xFF56:
+            log_unimplemented("Attempted to write to infrared port");
+            return;
+
+        case 0xFF57:
+        case 0xFF58:
+        case 0xFF59:
+        case 0xFF5A:
+        case 0xFF5B:
+        case 0xFF5C:
+        case 0xFF5D:
+        case 0xFF5E:
+        case 0xFF5F:
+        case 0xFF60:
+        case 0xFF61:
+        case 0xFF62:
+        case 0xFF63:
+        case 0xFF64:
+        case 0xFF65:
+        case 0xFF66:
+        case 0xFF67:
+            return unmapped_io_write(address, byte);
+
+        /* TODO: Background color palette spec/index */
+        case 0xFF68:
+            log_unimplemented("Attempted to write to CGB background color palette spec/index");
+            return;
+
+        /* TODO: Background color palette data */
+        case 0xFF69:
+            log_unimplemented("Attempted to write to CGB background color data");
+            return;
+
+        /* TODO: OBJ color palette spec/index */
+        case 0xFF6A:
+            log_unimplemented("Attempted to write to CGB OBJ color palette spec/index");
+            return;
+
+        /* TODO: OBJ color palette data */
+        case 0xFF6B:
+            log_unimplemented("Attempted to write to CGB OBJ color palette data");
+            return;
+
+        /* TODO: Object priority mode */
+        case 0xFF6C:
+            log_unimplemented("Attempted to write to CGB object priority mode");
+            return;
+
+        case 0xFF6D:
+        case 0xFF6E:
+        case 0xFF6F:
+            return unmapped_io_write(address, byte);
+
+        /* TODO: CGB WRAM bank */
+        case 0xFF70:
+            log_unimplemented("Attempted to write to CGB WRAM bank");
+            return;
+
+        /* TODO: Some undocumented registers in this range */
+        case 0xFF71:
+        case 0xFF72:
+        case 0xFF73:
+        case 0xFF74:
+        case 0xFF75:
+        case 0xFF76:
+        case 0xFF77:
+        case 0xFF78:
+        case 0xFF79:
+        case 0xFF7A:
+        case 0xFF7B:
+        case 0xFF7C:
+        case 0xFF7D:
+        case 0xFF7E:
+        case 0xFF7F:
+            return unmapped_io_write(address, byte);
+
         default:
-            /* TODO */
-            log_unimplemented("Wrote 0x%x to unknown address 0x%x", byte, address.value());
+            fatal_error("Unmapped IO address: 0x%x", address.value());
     }
+}
+
+void MMU::unmapped_io_write(const Address& address, const u8 byte) {
+    log_warn("Attempting to write to unused IO address 0x%x - 0x%x", address.value(), byte);
 }
 
 auto MMU::boot_rom_active() const -> bool { return read(0xFF50) != 0x1; }

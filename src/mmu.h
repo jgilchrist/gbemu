@@ -26,6 +26,9 @@ private:
     auto read_io(const Address& address) const -> u8;
     void write_io(const Address& address, u8 byte);
 
+    auto unmapped_io_read(const Address& address) const -> u8;
+    void unmapped_io_write(const Address& address, u8 byte);
+
     void dma_transfer(u8 byte);
 
     std::shared_ptr<Cartridge> cartridge;
