@@ -28,6 +28,11 @@ private:
 
     void dma_transfer(const u8 byte);
 
+    void set_wram_bank(u8 byte);
+    u8 get_wram_bank() const;
+
+    u16 calculate_wram_address(const Address& address) const;
+
     Model& model;
     std::shared_ptr<Cartridge> cartridge;
     CPU& cpu;
@@ -42,6 +47,7 @@ private:
     std::vector<u8> high_ram;
 
     ByteRegister disable_boot_rom_switch;
+    ByteRegister work_ram_bank;
 
     friend class Debugger;
 };

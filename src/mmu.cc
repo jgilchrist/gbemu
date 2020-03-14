@@ -21,6 +21,7 @@ MMU::MMU(Model& inModel, std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Vid
     work_ram = std::vector<u8>(0x8000);
     oam_ram = std::vector<u8>(0xA0);
     high_ram = std::vector<u8>(0x80);
+    set_wram_bank(1);
 }
 
 u8 MMU::read(const Address& address) const {
@@ -43,7 +44,7 @@ u8 MMU::read(const Address& address) const {
 
     /* Internal work RAM */
     if (address.in_range(0xC000, 0xDFFF)) {
-        return work_ram.at(address.value() - 0xC000);
+        return work_ram.at(calculate_wram_address(address - 0xC000));
     }
 
     if (address.in_range(0xE000, 0xFDFF)) {
@@ -194,6 +195,9 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF50:
             return disable_boot_rom_switch.value();
 
+        case 0xFF70:
+            return get_wram_bank();
+
         default:
             fatal_error("Read from unknown IO address 0x%x", address.value());
     }
@@ -219,7 +223,7 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* Internal work RAM */
     if (address.in_range(0xC000, 0xDFFF)) {
-        work_ram.at(address.value() - 0xC000) = byte;
+        work_ram.at(calculate_wram_address(address - 0xC000)) = byte;
         return;
     }
 
@@ -417,6 +421,10 @@ void MMU::write_io(const Address& address, const u8 byte) {
             log_debug("Boot rom was disabled");
             return;
 
+        case 0xFF70:
+            set_wram_bank(byte);
+            return;
+
         case 0xFF7F:
             log_warn("Attempt to write to unused memory 0x%x", address.value());
             return;
@@ -441,4 +449,25 @@ void MMU::dma_transfer(const u8 byte) {
         u8 value_at_address = read(from_address);
         write(to_address, value_at_address);
     }
+}
+
+u16 MMU::calculate_wram_address(const Address& address) const {
+    if (model == Model::Dmg) {
+        return address.value();
+    }
+
+    u16 offset = address.value() < 0x1000
+        ? 0
+        : 0x1000 * get_wram_bank();
+
+    return address.value() + offset;
+}
+
+void MMU::set_wram_bank(u8 value) {
+    if (value == 0) { value = 1; }
+    work_ram_bank.set(value & 0b111);
+}
+
+u8 MMU::get_wram_bank() const {
+    return work_ram_bank.value();
 }
