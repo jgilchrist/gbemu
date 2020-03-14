@@ -32,6 +32,8 @@ public:
     void button_pressed(GbButton button);
     void button_released(GbButton button);
 
+    void set_model(Model newModel);
+
     void debug_toggle_background();
     void debug_toggle_sprites();
     void debug_toggle_window();

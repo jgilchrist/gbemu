@@ -21,7 +21,7 @@ static CliOptions cliOptions;
 
 static bool should_exit = false;
 
-static std::unique_ptr<GbButton> get_gb_button(int keyCode) {
+static std::unique_ptr<GbButton> get_gb_button(int keyCode, bool released) {
     switch (keyCode) {
         case SDLK_UP: return std::make_unique<GbButton>(GbButton::Up);
         case SDLK_DOWN: return std::make_unique<GbButton>(GbButton::Down);
@@ -31,6 +31,8 @@ static std::unique_ptr<GbButton> get_gb_button(int keyCode) {
         case SDLK_z: return std::make_unique<GbButton>(GbButton::B);
         case SDLK_BACKSPACE: return std::make_unique<GbButton>(GbButton::Select);
         case SDLK_RETURN: return std::make_unique<GbButton>(GbButton::Start);
+        case SDLK_1: if (!released) { gameboy->set_model(Model::Dmg); } return nullptr;
+        case SDLK_2: if (!released) { gameboy->set_model(Model::Cgb); } return nullptr;
         case SDLK_b: gameboy->debug_toggle_background(); return nullptr;
         case SDLK_s: gameboy->debug_toggle_sprites(); return nullptr;
         case SDLK_w: gameboy->debug_toggle_window(); return nullptr;
@@ -114,13 +116,13 @@ static void process_events() {
         switch (event.type) {
             case SDL_KEYDOWN:
                 if (event.key.repeat == true) { break; }
-                if (auto button_pressed = get_gb_button(event.key.keysym.sym); button_pressed != nullptr) {
+                if (auto button_pressed = get_gb_button(event.key.keysym.sym, false); button_pressed != nullptr) {
                     gameboy->button_pressed(*button_pressed);
                 }
                 break;
             case SDL_KEYUP:
                 if (event.key.repeat == true) { break; }
-                if (auto button_released = get_gb_button(event.key.keysym.sym); button_released != nullptr) {
+                if (auto button_released = get_gb_button(event.key.keysym.sym, true); button_released != nullptr) {
                     gameboy->button_released(*button_released);
                 }
                 break;

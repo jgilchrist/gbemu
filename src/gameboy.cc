@@ -25,6 +25,14 @@ void Gameboy::button_released(GbButton button) {
     input.button_released(button);
 }
 
+void Gameboy::set_model(Model newModel) {
+    model = newModel;
+
+    log_info("Switched mode to %s",
+        model == Model::Dmg ? "DMG" : "CGB"
+    );
+}
+
 void Gameboy::debug_toggle_background() {
     video.debug_disable_background = !video.debug_disable_background;
 }
