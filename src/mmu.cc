@@ -180,6 +180,9 @@ u8 MMU::read_io(const Address& address) const {
         case 0xFF42:
             return video.scroll_y.value();
 
+        case 0xFF43:
+            return video.scroll_x.value();
+
         case 0xFF44:
             return video.line.value();
 
