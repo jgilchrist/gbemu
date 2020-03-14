@@ -7,7 +7,8 @@
 
 using bitwise::compose_bytes;
 
-CPU::CPU(MMU& inMMU, Options& inOptions) :
+CPU::CPU(Model& inModel, MMU& inMMU, Options& inOptions) :
+    model(inModel),
     mmu(inMMU),
     options(inOptions),
     af(a, f),
@@ -15,6 +16,11 @@ CPU::CPU(MMU& inMMU, Options& inOptions) :
     de(d, e),
     hl(h, l)
 {
+    // Indicate to cartridges that we're using CGB hardware
+    if (model == Model::Cgb) {
+        a.set(0x11);
+        b.set(0x0);
+    }
 }
 
 Cycles CPU::tick() {

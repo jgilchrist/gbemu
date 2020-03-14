@@ -34,7 +34,7 @@ const u16 joypad = 0x60;
 
 class CPU {
 public:
-    CPU(MMU& inMMU, Options& inOptions);
+    CPU(Model& model, MMU& inMMU, Options& inOptions);
 
     Cycles tick();
 
@@ -50,6 +50,7 @@ private:
     void handle_interrupts();
     bool handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts);
 
+    Model& model;
     MMU& mmu;
     Options& options;
 

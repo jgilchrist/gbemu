@@ -3,7 +3,7 @@
 Gameboy::Gameboy(Model _model, std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
     model(_model),
     cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
-    cpu(mmu, options),
+    cpu(model, mmu, options),
     video(model, cpu, mmu, options),
     serial(options),
     mmu(model, cartridge, cpu, video, input, serial, timer, options),

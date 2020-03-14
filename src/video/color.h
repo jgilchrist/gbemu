@@ -2,13 +2,6 @@
 
 #include "../definitions.h"
 
-enum class DmgLogicalColor {
-    Color0, /* White */
-    Color1, /* Light gray */
-    Color2, /* Dark gray */
-    Color3, /* Black */
-};
-
 enum class DmgColor {
     White,
     LightGray,
@@ -23,7 +16,26 @@ struct DmgPalette {
     DmgColor color3 = DmgColor::Black;
 };
 
-DmgLogicalColor get_color(u8 pixel_value);
-
-class CgbColor {
+struct CgbColor {
+    u8 r;
+    u8 g;
+    u8 b;
 };
+
+struct CgbPalette {
+    CgbColor color0;
+    CgbColor color1;
+    CgbColor color2;
+    CgbColor color3;
+};
+
+enum class PaletteIndex {
+    Color0,
+    Color1,
+    Color2,
+    Color3,
+};
+
+PaletteIndex get_color(u8 pixel_value);
+DmgColor get_color_from_palette(PaletteIndex color, const DmgPalette& palette);
+CgbColor get_color_from_palette(PaletteIndex color, const CgbPalette& palette);
