@@ -23,15 +23,15 @@ const uint TILE_BYTES = 2 * 8;
 
 const uint SPRITE_BYTES = 4;
 
-class DmgTile {
+class Tile {
 public:
-    DmgTile(Address& address, MMU& mmu, uint size_multiplier = 1);
+    Tile(Address& address, MMU& mmu, uint size_multiplier = 1);
 
-    auto get_pixel(uint x, uint y) const -> GBColor;
+    PaletteIndex get_pixel(uint x, uint y) const;
 
 private:
     static auto pixel_index(uint x, uint y) -> uint;
     static auto get_pixel_line(u8 byte1, u8 byte2) -> std::vector<u8>;
 
-    DmgLogicalColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
+    PaletteIndex buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
 };

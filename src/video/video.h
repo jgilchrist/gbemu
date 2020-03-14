@@ -83,9 +83,15 @@ private:
     void write_sprites();
     void draw();
     void draw_bg_line(uint current_line);
+    void draw_bg_line_dmg(uint current_line);
+    void draw_bg_line_cgb(uint current_line);
     void draw_window_line(uint current_line);
+    void draw_window_line_dmg(uint current_line);
+    void draw_window_line_cgb(uint current_line);
     void draw_sprite(uint sprite_n);
-    static auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> DmgLogicalColor;
+    void draw_sprite_dmg(uint sprite_n);
+    void draw_sprite_cgb(uint sprite_n);
+    PaletteIndex get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
 
     u16 calculate_vram_address(const Address& address) const;
 
@@ -104,9 +110,10 @@ private:
 
     auto get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const -> TileInfo;
 
-    static auto get_real_color(u8 pixel_value) -> DmgColor;
-    static auto load_palette(ByteRegister& palette_register) -> DmgPalette;
-    static auto get_color_from_palette(GBColor color, const Palette& palette) -> DmgColor;
+    auto get_real_color_dmg(u8 pixel_value) const -> DmgColor;
+    auto get_real_color_cgb(u8 pixel_value) const -> CgbColor;
+    auto load_palette_dmg(ByteRegister& palette_register) const -> DmgPalette;
+    auto load_palette_cgb(u8 palette_index) const -> CgbPalette;
 
     CPU& cpu;
     MMU& mmu;
