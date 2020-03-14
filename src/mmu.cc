@@ -20,6 +20,7 @@ MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Inp
     work_ram = std::vector<u8>(0x8000);
     oam_ram = std::vector<u8>(0xA0);
     high_ram = std::vector<u8>(0x80);
+    set_wram_bank(1);
 }
 
 auto MMU::read(const Address& address) const -> u8 {
@@ -40,9 +41,14 @@ auto MMU::read(const Address& address) const -> u8 {
         return cartridge->read(address);
     }
 
-    /* Internal work RAM */
-    if (address.in_range(0xC000, 0xDFFF)) {
+    /* Internal work RAM - Unbanked */
+    if (address.in_range(0xC000, 0xCFFF)) {
         return work_ram.at(address.value() - 0xC000);
+    }
+
+    /* Internal work RAM - Banked */
+    if (address.in_range(0xD000, 0xDFFF)) {
+        return work_ram.at(0x1000 + calculate_wram_bank_offset(address - 0xD000));
     }
 
     if (address.in_range(0xE000, 0xFDFF)) {
@@ -319,10 +325,8 @@ auto MMU::read_io(const Address& address) const -> u8 {
         case 0xFF6F:
             return unmapped_io_read(address);
 
-        /* TODO: CGB WRAM bank */
         case 0xFF70:
-            log_unimplemented("Attempted to read from CGB WRAM bank");
-            return 0xFF;
+            return get_wram_bank();
 
         /* TODO: Some undocumented registers in this range */
         case 0xFF71:
@@ -370,9 +374,15 @@ void MMU::write(const Address& address, const u8 byte) {
         return;
     }
 
-    /* Internal work RAM */
-    if (address.in_range(0xC000, 0xDFFF)) {
+    /* Internal work RAM - Unbanked */
+    if (address.in_range(0xC000, 0xCFFF)) {
         work_ram.at(address.value() - 0xC000) = byte;
+        return;
+    }
+
+    /* Internal work RAM - Banked */
+    if (address.in_range(0xD000, 0xDFFF)) {
+        work_ram.at(0x1000 + calculate_wram_bank_offset(address - 0xD000)) = byte;
         return;
     }
 
@@ -691,9 +701,8 @@ void MMU::write_io(const Address& address, const u8 byte) {
         case 0xFF6F:
             return unmapped_io_write(address, byte);
 
-        /* TODO: CGB WRAM bank */
         case 0xFF70:
-            log_unimplemented("Attempted to write to CGB WRAM bank");
+            set_wram_bank(byte);
             return;
 
         /* TODO: Some undocumented registers in this range */
@@ -735,4 +744,18 @@ void MMU::dma_transfer(const u8 byte) {
         u8 value_at_address = read(from_address);
         write(to_address, value_at_address);
     }
+}
+
+u16 MMU::calculate_wram_bank_offset(const Address& address) const {
+    // TODO: Use the default behaviour when in DMG mode
+    return address.value() * get_wram_bank();
+}
+
+void MMU::set_wram_bank(u8 value) {
+    if (value == 0) { value = 1; }
+    work_ram_bank.set(value & 0b111);
+}
+
+u8 MMU::get_wram_bank() const {
+    return work_ram_bank.value();
 }
