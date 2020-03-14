@@ -55,6 +55,15 @@ static uint32_t get_real_color(DmgColor color) {
     return (r << 16) | (g << 8) | (b << 0);
 }
 
+static uint32_t get_real_color(CgbColor color) {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+
+    // TODO: Implement CgbColor -> Real Color
+    return 0;
+}
+
 static void set_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_argb) {
     pixels[width * y + x] = pixel_argb;
 }
@@ -67,10 +76,21 @@ static void set_large_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_arg
     }
 }
 
-static void set_pixels(uint32_t* pixels, const DmgFrameBuffer& buffer) {
+// TODO: De-duplicate these two functions
+static void set_pixels_dmg(uint32_t* pixels, const DmgFrameBuffer& buffer) {
     for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
         for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
             DmgColor color = buffer.get_pixel(x, y);
+            uint32_t pixel_argb = get_real_color(color);
+            set_large_pixel(pixels, x, y, pixel_argb);
+        }
+    }
+}
+
+static void set_pixels_cgb(uint32_t* pixels, const CgbFrameBuffer& buffer) {
+    for (uint y = 0; y < GAMEBOY_HEIGHT; y++) {
+        for (uint x = 0; x < GAMEBOY_WIDTH; x++) {
+            CgbColor color = buffer.get_pixel(x, y);
             uint32_t pixel_argb = get_real_color(color);
             set_large_pixel(pixels, x, y, pixel_argb);
         }
@@ -157,11 +177,11 @@ static void draw_with_pixels(Proc set_pixels_proc, TPixels buffer) {
 }
 
 static void draw_dmg(const DmgFrameBuffer& buffer) {
-    draw_with_pixels(set_pixels, buffer);
+    draw_with_pixels(set_pixels_dmg, buffer);
 }
 
 static void draw_cgb(const CgbFrameBuffer& buffer) {
-    // draw_with_pixels(set_pixels, buffer);
+    draw_with_pixels(set_pixels_cgb, buffer);
 }
 
 static bool is_closed() {

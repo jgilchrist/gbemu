@@ -105,6 +105,7 @@ private:
     CPU& cpu;
     MMU& mmu;
     DmgFrameBuffer dmg_buffer;
+    CgbFrameBuffer cgb_buffer;
 
     std::vector<u8> video_ram;
 

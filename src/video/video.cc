@@ -12,7 +12,8 @@ Video::Video(Model& inModel, CPU& inCPU, MMU& inMMU, Options& inOptions) :
     model(inModel),
     cpu(inCPU),
     mmu(inMMU),
-    dmg_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)
+    dmg_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT),
+    cgb_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)
 {
     video_ram = std::vector<u8>(0x4000);
 }
@@ -421,5 +422,9 @@ void Video::register_vblank_callbacks(
 }
 
 void Video::draw() {
-    dmg_vblank_callback(dmg_buffer);
+    if (model == Model::Dmg) {
+        dmg_vblank_callback(dmg_buffer);
+    } else {
+        cgb_vblank_callback(cgb_buffer);
+    }
 }
