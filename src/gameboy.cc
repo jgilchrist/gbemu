@@ -4,9 +4,9 @@ Gameboy::Gameboy(Model _model, std::vector<u8> cartridge_data, Options& options,
     model(_model),
     cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
     cpu(mmu, options),
-    video(cpu, mmu, options),
+    video(model, cpu, mmu, options),
     serial(options),
-    mmu(cartridge, cpu, video, input, serial, timer, options),
+    mmu(model, cartridge, cpu, video, input, serial, timer, options),
     debugger(*this, options)
 {
     if (options.disable_logs) log_set_level(LogLevel::Error);

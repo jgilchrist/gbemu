@@ -29,7 +29,7 @@ struct TileInfo {
 
 class Video {
 public:
-    Video(CPU& inCPU, MMU& inMMU, Options& inOptions);
+    Video(Model& inModel, CPU& inCPU, MMU& inMMU, Options& inOptions);
 
     void tick(Cycles cycles);
     void register_vblank_callbacks(
@@ -96,6 +96,7 @@ private:
     DmgPalette load_palette(ByteRegister& palette_register) const;
     DmgColor get_color_from_palette(DmgLogicalColor color, const DmgPalette& palette);
 
+    Model& model;
     CPU& cpu;
     MMU& mmu;
     DmgFrameBuffer dmg_buffer;

@@ -8,7 +8,8 @@
 
 using bitwise::check_bit;
 
-Video::Video(CPU& inCPU, MMU& inMMU, Options& inOptions) :
+Video::Video(Model& inModel, CPU& inCPU, MMU& inMMU, Options& inOptions) :
+    model(inModel),
     cpu(inCPU),
     mmu(inMMU),
     dmg_buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT)

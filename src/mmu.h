@@ -15,7 +15,7 @@ class Timer;
 
 class MMU {
 public:
-    MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer, Options& options);
+    MMU(Model& inModel, std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer, Options& options);
 
     u8 read(const Address& address) const;
     void write(const Address& address, u8 byte);
@@ -28,6 +28,7 @@ private:
 
     void dma_transfer(const u8 byte);
 
+    Model& model;
     std::shared_ptr<Cartridge> cartridge;
     CPU& cpu;
     Video& video;
