@@ -38,6 +38,10 @@ The emulator is tested using [Blargg's tests][blarggs] - these can be ran with `
 
 The test it fails is due to the lack of a timer implementation.
 
+## Missing features
+
+Currently, `gbemu` only supports Gameboy games. I'm working on Gameboy Color support off-and-on at the moment. There's also no audio support yet.
+
 ## Screenshots
 
 Menu | Gameplay
