@@ -18,7 +18,7 @@ This builds two versions of the emulator:
 ## Playing
 
 ```
-usage: gbemu [--debug] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output] <rom_file>
+usage: gbemu <rom_file> [--debug] [--trace] [--silent] [--exit-on-infinite-jr] [--print-serial-output]
 
 arguments:
   --debug                   Enable the debugger
