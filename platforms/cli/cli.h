@@ -21,14 +21,13 @@ CliOptions get_cli_options(int argc, char* argv[]) {
 
     for (std::string& flag : flags) {
         if (flag == "--debug") { cliOptions.options.debugger = true; }
-        if (flag == "--trace") { cliOptions.options.trace = true; }
-        if (flag == "--silent") { cliOptions.options.disable_logs = true; }
-        if (flag == "--headless") { cliOptions.options.headless = true; }
-        if (flag == "--whole-framebuffer") { cliOptions.options.show_full_framebuffer = true; }
-        if (flag == "--exit-on-infinite-jr") { cliOptions.options.exit_on_infinite_jr = true; }
-        if (flag == "--print-serial") { cliOptions.options.print_serial = true; }
-
-        fatal_error("Unknown flag: %s", flag.c_str());
+        else if (flag == "--trace") { cliOptions.options.trace = true; }
+        else if (flag == "--silent") { cliOptions.options.disable_logs = true; }
+        else if (flag == "--headless") { cliOptions.options.headless = true; }
+        else if (flag == "--whole-framebuffer") { cliOptions.options.show_full_framebuffer = true; }
+        else if (flag == "--exit-on-infinite-jr") { cliOptions.options.exit_on_infinite_jr = true; }
+        else if (flag == "--print-serial") { cliOptions.options.print_serial = true; }
+        else { fatal_error("Unknown flag: %s", flag.c_str()); }
     }
 
     return cliOptions;
