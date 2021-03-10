@@ -19,7 +19,7 @@ std::vector<u8> read_bytes(const std::string& filename) {
     std::vector<char> file_contents(file_size);
 
     stream.seekg(0, ios::beg);
-    stream.read(&file_contents[0], position);
+    stream.read(&file_contents[0], static_cast<std::streamsize>(position));
     stream.close();
 
     auto data = std::vector<u8>(file_contents.begin(), file_contents.end());
