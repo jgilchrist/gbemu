@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/platforms/sfml
+)
 
 include(add_warnings)
 include(add_sources)
@@ -14,7 +17,6 @@ declare_library(gbemu-core src)
 # SFML target
 # declare_executable(gbemu-sfml platforms/sfml)
 
-# list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/platforms/sfml)
 # find_package(SFML 2 REQUIRED system window graphics)
 # include_directories(SYSTEM ${SFML_INCLUDE_DIR})
 # target_link_libraries(gbemu-sfml gbemu-core ${SFML_LIBRARIES})
