@@ -54,13 +54,13 @@ private:
 
     auto get_command() -> Command;
 
-    auto execute(Command command) -> bool;
+    auto execute(const Command& command) -> bool;
 
     /* Commands */
     auto command_step(Args args) -> bool;
 
-    void command_registers(Args args);
-    void command_flags(Args args);
+    void command_registers(const Args& args);
+    void command_flags(const Args& args);
     void command_memory(Args args);
     void command_memory_cell(Args args);
 
@@ -69,11 +69,11 @@ private:
 
     static void command_log(Args args);
 
-    void command_steps(Args args);
-    static void command_exit(Args args);
-    static void command_help(Args args);
+    void command_steps(const Args& args);
+    static void command_exit(const Args& args);
+    static void command_help(const Args& args);
 
-    auto parse(std::string input) -> Command;
+    auto parse(const std::string& input) -> Command;
     static auto parse_command(std::string cmd) -> CommandType;
 
     bool enabled;

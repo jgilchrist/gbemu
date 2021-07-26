@@ -1,13 +1,13 @@
 #include "gameboy.h"
 
-Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options, std::vector<u8> save_data) :
-    cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
-    cpu(mmu, options),
-    video(cpu, mmu, options),
-    serial(options),
-    mmu(cartridge, cpu, video, input, serial, timer, options),
-    debugger(*this, options)
-{
+Gameboy::Gameboy(const std::vector<u8>& cartridge_data, Options& options,
+                 const std::vector<u8>& save_data)
+    : cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
+      cpu(mmu, options),
+      video(cpu, mmu, options),
+      serial(options),
+      mmu(cartridge, cpu, video, input, serial, timer, options),
+      debugger(*this, options) {
     if (options.disable_logs) log_set_level(LogLevel::Error);
 
     log_set_level(options.trace

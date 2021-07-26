@@ -53,7 +53,7 @@ void Debugger::cycle() {
     }
 }
 
-auto Debugger::execute(Command command) -> bool {
+auto Debugger::execute(const Command& command) -> bool {
     switch (command.type) {
         case CommandType::Step:
             /* Note: 'Step' allows the program to break
@@ -116,7 +116,7 @@ auto Debugger::command_step(Args args) -> bool {
     }
 }
 
-void Debugger::command_registers(Args args) {
+void Debugger::command_registers(const Args& args) {
     unused(args);
 
     printf("AF: %04X\n", gameboy.cpu.af.value());
@@ -127,7 +127,7 @@ void Debugger::command_registers(Args args) {
     printf("PC: %04X\n", gameboy.cpu.pc.value());
 }
 
-void Debugger::command_flags(Args args) {
+void Debugger::command_flags(const Args& args) {
     unused(args);
 
     printf("Zero: %d\n", gameboy.cpu.f.flag_zero_value());
@@ -204,7 +204,7 @@ void Debugger::command_breakvalue(Args args) {
     log_info("Breakpoint set for value 0x%02X at address 0x%04X", breakpoint_value, breakpoint_value_addr);
 }
 
-void Debugger::command_steps(Args args) {
+void Debugger::command_steps(const Args& args) {
     unused(args);
 
     printf("Steps: %d\n", steps);
@@ -236,14 +236,14 @@ void Debugger::command_log(Args args) {
     }
 }
 
-void Debugger::command_exit(Args args) {
+void Debugger::command_exit(const Args& args) {
     unused(args);
 
     log_error("Exiting");
     exit(1);
 }
 
-void Debugger::command_help(Args args) {
+void Debugger::command_help(const Args& args) {
     unused(args);
 
     printf("\n");
@@ -273,7 +273,7 @@ auto Debugger::get_command() -> Command {
     return parse(input_line);
 }
 
-auto Debugger::parse(std::string input) -> Command {
+auto Debugger::parse(const std::string& input) -> Command {
     using std::string;
     using std::vector;
 

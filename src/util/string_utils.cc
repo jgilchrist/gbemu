@@ -25,7 +25,7 @@ auto str_format(const char* fmt, ...) -> string {
     return string(buf);
 }
 
-auto split(string str, char delim) -> vector<string> {
+auto split(const string& str, char delim) -> vector<string> {
     vector<string> elems;
 
     std::stringstream stream(str);

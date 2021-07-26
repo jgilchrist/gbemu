@@ -10,11 +10,8 @@
 
 class Cartridge {
 public:
-    Cartridge(
-        std::vector<u8> rom_data,
-        std::vector<u8> ram_data,
-        std::unique_ptr<CartridgeInfo> cartridge_info
-    );
+    Cartridge(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
+              std::unique_ptr<CartridgeInfo> cartridge_info);
     virtual ~Cartridge() = default;
 
     virtual auto read(const Address& address) const -> u8 = 0;
@@ -29,7 +26,7 @@ protected:
     std::unique_ptr<CartridgeInfo> cartridge_info;
 };
 
-auto get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data = {})
+auto get_cartridge(const std::vector<u8>& rom_data, const std::vector<u8>& ram_data = {})
     -> std::shared_ptr<Cartridge>;
 
 class NoMBC : public Cartridge {
