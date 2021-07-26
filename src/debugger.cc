@@ -204,7 +204,7 @@ void Debugger::command_breakvalue(Args args) {
     log_info("Breakpoint set for value 0x%02X at address 0x%04X", breakpoint_value, breakpoint_value_addr);
 }
 
-void Debugger::command_steps(const Args& args) {
+void Debugger::command_steps(const Args& args) const {
     unused(args);
 
     printf("Steps: %d\n", steps);

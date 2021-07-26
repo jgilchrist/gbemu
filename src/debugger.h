@@ -69,7 +69,7 @@ private:
 
     static void command_log(Args args);
 
-    void command_steps(const Args& args);
+    void command_steps(const Args& args) const;
     static void command_exit(const Args& args);
     static void command_help(const Args& args);
 
