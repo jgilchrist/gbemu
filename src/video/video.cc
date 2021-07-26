@@ -23,8 +23,8 @@ void Video::tick(Cycles cycles) {
         case VideoMode::ACCESS_OAM:
             if (cycle_counter >= CLOCKS_PER_SCANLINE_OAM) {
                 cycle_counter = cycle_counter % CLOCKS_PER_SCANLINE_OAM;
-                lcd_status.set_bit_to(1, 1);
-                lcd_status.set_bit_to(0, 1);
+                lcd_status.set_bit_to(1, true);
+                lcd_status.set_bit_to(0, true);
                 current_mode = VideoMode::ACCESS_VRAM;
             }
             break;
@@ -46,8 +46,8 @@ void Video::tick(Cycles cycles) {
                 }
                 lcd_status.set_bit_to(2, ly_coincidence);
 
-                lcd_status.set_bit_to(1, 0);
-                lcd_status.set_bit_to(0, 0);
+                lcd_status.set_bit_to(1, false);
+                lcd_status.set_bit_to(0, false);
             }
             break;
         case VideoMode::HBLANK:
@@ -61,12 +61,12 @@ void Video::tick(Cycles cycles) {
                 /* Line 145 (index 144) is the first line of VBLANK */
                 if (line == 144) {
                     current_mode = VideoMode::VBLANK;
-                    lcd_status.set_bit_to(1, 0);
-                    lcd_status.set_bit_to(0, 1);
+                    lcd_status.set_bit_to(1, false);
+                    lcd_status.set_bit_to(0, true);
                     cpu.interrupt_flag.set_bit_to(0, true);
                 } else {
-                    lcd_status.set_bit_to(1, 1);
-                    lcd_status.set_bit_to(0, 0);
+                    lcd_status.set_bit_to(1, true);
+                    lcd_status.set_bit_to(0, false);
                     current_mode = VideoMode::ACCESS_OAM;
                 }
             }
@@ -84,8 +84,8 @@ void Video::tick(Cycles cycles) {
                     buffer.reset();
                     line.reset();
                     current_mode = VideoMode::ACCESS_OAM;
-                    lcd_status.set_bit_to(1, 1);
-                    lcd_status.set_bit_to(0, 0);
+                    lcd_status.set_bit_to(1, true);
+                    lcd_status.set_bit_to(0, false);
                 };
             }
             break;
