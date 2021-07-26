@@ -1,3 +1,3 @@
 add_sources(
-    main
+    main.cc
 )

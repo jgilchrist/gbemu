@@ -1,12 +1,12 @@
 add_sources(
-    address
-    debugger
-    gameboy
-    input
-    mmu
-    register
-    serial
-    timer
+    address.cc
+    debugger.cc
+    gameboy.cc
+    input.cc
+    mmu.cc
+    register.cc
+    serial.cc
+    timer.cc
 )
 
 add_subdirectory(cartridge)

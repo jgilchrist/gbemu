@@ -1,6 +1,6 @@
 add_sources(
-    color
-    framebuffer
-    tile
-    video
+    color.cc
+    framebuffer.cc
+    tile.cc
+    video.cc
 )
