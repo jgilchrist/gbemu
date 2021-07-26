@@ -17,10 +17,10 @@ public:
     );
     virtual ~Cartridge() = default;
 
-    virtual u8 read(const Address& address) const = 0;
+    virtual auto read(const Address& address) const -> u8 = 0;
     virtual void write(const Address& address, u8 value) = 0;
 
-    const std::vector<u8>& get_cartridge_ram() const;
+    auto get_cartridge_ram() const -> const std::vector<u8>&;
 
 protected:
     std::vector<u8> rom;
@@ -29,7 +29,8 @@ protected:
     std::unique_ptr<CartridgeInfo> cartridge_info;
 };
 
-std::shared_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data = {});
+auto get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data = {})
+    -> std::shared_ptr<Cartridge>;
 
 class NoMBC : public Cartridge {
 public:
@@ -39,7 +40,7 @@ public:
         std::unique_ptr<CartridgeInfo> cartridge_info
     );
 
-    u8 read(const Address& address) const override;
+    auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;
 };
 
@@ -51,7 +52,7 @@ public:
         std::unique_ptr<CartridgeInfo> cartridge_info
     );
 
-    u8 read(const Address& address) const override;
+    auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;
 
 private:
@@ -73,7 +74,7 @@ public:
         std::unique_ptr<CartridgeInfo> cartridge_info
     );
 
-    u8 read(const Address& address) const override;
+    auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;
 
 private:

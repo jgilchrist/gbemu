@@ -28,7 +28,7 @@ void Input::write(u8 set) {
     button_switch = !check_bit(set, 5);
 }
 
-u8 Input::get_input() const {
+auto Input::get_input() const -> u8 {
     using bitwise::set_bit_to;
 
     u8 buttons = 0b1111;

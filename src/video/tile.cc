@@ -29,11 +29,9 @@ Tile::Tile(Address& tile_address, MMU& mmu, uint size_multiplier) {
     }
 }
 
-GBColor Tile::get_pixel(uint x, uint y) const {
-    return buffer[pixel_index(x, y)];
-}
+auto Tile::get_pixel(uint x, uint y) const -> GBColor { return buffer[pixel_index(x, y)]; }
 
-std::vector<u8> Tile::get_pixel_line(u8 byte1, u8 byte2) const {
+auto Tile::get_pixel_line(u8 byte1, u8 byte2) const -> std::vector<u8> {
     using bitwise::bit_value;
 
     std::vector<u8> pixel_line;
@@ -45,6 +43,4 @@ std::vector<u8> Tile::get_pixel_line(u8 byte1, u8 byte2) const {
     return pixel_line;
 }
 
-inline uint Tile::pixel_index(uint x, uint y) {
-    return (y * TILE_HEIGHT_PX) + x;
-}
+inline auto Tile::pixel_index(uint x, uint y) -> uint { return (y * TILE_HEIGHT_PX) + x; }

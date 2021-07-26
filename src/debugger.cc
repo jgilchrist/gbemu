@@ -53,7 +53,7 @@ void Debugger::cycle() {
     }
 }
 
-bool Debugger::execute(Command command) {
+auto Debugger::execute(Command command) -> bool {
     switch (command.type) {
         case CommandType::Step:
             /* Note: 'Step' allows the program to break
@@ -84,7 +84,7 @@ bool Debugger::execute(Command command) {
     return false;
 }
 
-bool Debugger::command_step(Args args) {
+auto Debugger::command_step(Args args) -> bool {
     switch (args.size()) {
         case 0:
             return true;
@@ -266,14 +266,14 @@ void Debugger::command_help(Args args) {
     printf("\n");
 }
 
-Command Debugger::get_command() {
+auto Debugger::get_command() -> Command {
     printf("%s", PROMPT);
     std::string input_line;
     std::getline(std::cin, input_line);
     return parse(input_line);
 }
 
-Command Debugger::parse(std::string input) {
+auto Debugger::parse(std::string input) -> Command {
     using std::string;
     using std::vector;
 
@@ -292,7 +292,7 @@ Command Debugger::parse(std::string input) {
     return { cmd_type, args };
 }
 
-CommandType Debugger::parse_command(std::string cmd) {
+auto Debugger::parse_command(std::string cmd) -> CommandType {
     std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
     if (cmd == "step" || cmd == "s") return CommandType::Step;

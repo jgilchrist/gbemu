@@ -9,13 +9,13 @@ public:
     explicit Address(const RegisterPair& from);
     explicit Address(const WordRegister& from);
 
-    u16 value() const;
+    auto value() const -> u16;
 
-    bool in_range(Address low, Address high) const;
+    auto in_range(Address low, Address high) const -> bool;
 
-    bool operator==(u16 other) const;
-    Address operator+(uint other) const;
-    Address operator-(uint other) const;
+    auto operator==(u16 other) const -> bool;
+    auto operator+(uint other) const -> Address;
+    auto operator-(uint other) const -> Address;
 
 private:
     u16 addr = 0x0;

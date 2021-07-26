@@ -19,7 +19,7 @@ public:
     void button_released(GbButton button);
     void write(u8 set);
 
-    u8 get_input() const;
+    auto get_input() const -> u8;
 
 private:
     void set_button(GbButton button, bool set);

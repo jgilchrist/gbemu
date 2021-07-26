@@ -9,15 +9,15 @@ public:
 
     virtual void set(u8 new_value);
     void reset();
-    u8 value() const;
+    auto value() const -> u8;
 
-    bool check_bit(u8 bit) const;
+    auto check_bit(u8 bit) const -> bool;
     void set_bit_to(u8 bit, bool set);
 
     void increment();
     void decrement();
 
-    bool operator==(u8 other) const;
+    auto operator==(u8 other) const -> bool;
 
 protected:
     u8 val = 0x0;
@@ -36,15 +36,15 @@ public:
     void set_flag_half_carry(bool set);
     void set_flag_carry(bool set);
 
-    bool flag_zero() const;
-    bool flag_subtract() const;
-    bool flag_half_carry() const;
-    bool flag_carry() const;
+    auto flag_zero() const -> bool;
+    auto flag_subtract() const -> bool;
+    auto flag_half_carry() const -> bool;
+    auto flag_carry() const -> bool;
 
-    u8 flag_zero_value() const;
-    u8 flag_subtract_value() const;
-    u8 flag_half_carry_value() const;
-    u8 flag_carry_value() const;
+    auto flag_zero_value() const -> u8;
+    auto flag_subtract_value() const -> u8;
+    auto flag_half_carry_value() const -> u8;
+    auto flag_carry_value() const -> u8;
 };
 
 class WordValue : Noncopyable {
@@ -54,10 +54,10 @@ public:
 
     virtual void set(u16 new_value) = 0;
 
-    virtual u16 value() const = 0;
+    virtual auto value() const -> u16 = 0;
 
-    virtual u8 low() const = 0;
-    virtual u8 high() const = 0;
+    virtual auto low() const -> u8 = 0;
+    virtual auto high() const -> u8 = 0;
 };
 
 class WordRegister : public WordValue {
@@ -66,10 +66,10 @@ public:
 
     void set(u16 new_value) override;
 
-    u16 value() const override;
+    auto value() const -> u16 override;
 
-    u8 low() const override;
-    u8 high() const override;
+    auto low() const -> u8 override;
+    auto high() const -> u8 override;
 
     void increment();
     void decrement();
@@ -84,10 +84,10 @@ public:
 
     void set(u16 word) override;
 
-    u16 value() const override;
+    auto value() const -> u16 override;
 
-    u8 low() const override;
-    u8 high() const override;
+    auto low() const -> u8 override;
+    auto high() const -> u8 override;
 
     void increment();
     void decrement();

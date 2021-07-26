@@ -34,7 +34,7 @@ public:
     void debug_toggle_sprites();
     void debug_toggle_window();
 
-    const std::vector<u8>& get_cartridge_ram() const;
+    auto get_cartridge_ram() const -> const std::vector<u8>&;
 
 private:
     void tick();

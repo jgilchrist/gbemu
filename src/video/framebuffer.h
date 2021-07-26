@@ -9,7 +9,7 @@ public:
     FrameBuffer(uint width, uint height);
 
     void set_pixel(uint x, uint y, Color color);
-    Color get_pixel(uint x, uint y) const;
+    auto get_pixel(uint x, uint y) const -> Color;
 
     void reset();
 
@@ -17,7 +17,7 @@ private:
     uint width;
     uint height;
 
-    uint pixel_index(uint x, uint y) const;
+    auto pixel_index(uint x, uint y) const -> uint;
 
     std::vector<Color> buffer;
 };

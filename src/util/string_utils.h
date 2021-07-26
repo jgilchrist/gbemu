@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-std::string str_format(const char* fmt, va_list args);
-std::string str_format(const char* fmt, ...);
+auto str_format(const char* fmt, va_list args) -> std::string;
+auto str_format(const char* fmt, ...) -> std::string;
 
-std::vector<std::string> split(std::string str, char delim = ' ');
+auto split(std::string str, char delim = ' ') -> std::vector<std::string>;

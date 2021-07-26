@@ -5,4 +5,4 @@
 
 #include "../definitions.h"
 
-std::vector<u8> read_bytes(const std::string& filename);
+auto read_bytes(const std::string& filename) -> std::vector<u8>;

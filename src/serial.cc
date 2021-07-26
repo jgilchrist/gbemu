@@ -5,9 +5,7 @@
 
 #include <cstdio>
 
-u8 Serial::read() const {
-    return data;
-}
+auto Serial::read() const -> u8 { return data; }
 
 void Serial::write(const u8 byte) {
     data = byte;

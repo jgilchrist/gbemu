@@ -17,7 +17,7 @@ CPU::CPU(MMU& inMMU, Options& inOptions) :
 {
 }
 
-Cycles CPU::tick() {
+auto CPU::tick() -> Cycles {
     handle_interrupts();
 
     if (halted) { return 1; }
@@ -28,7 +28,7 @@ Cycles CPU::tick() {
     return cycles;
 }
 
-Cycles CPU::execute_opcode(const u8 opcode, u16 opcode_pc) {
+auto CPU::execute_opcode(const u8 opcode, u16 opcode_pc) -> Cycles {
     branch_taken = false;
 
     if (opcode == 0xCB) {
@@ -67,7 +67,7 @@ void CPU::handle_interrupts() {
     }
 }
 
-bool CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) {
+auto CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) -> bool {
     using bitwise::check_bit;
 
     if (!check_bit(fired_interrupts, interrupt_bit)) { return false; }
@@ -78,19 +78,19 @@ bool CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_inte
     return true;
 }
 
-u8 CPU::get_byte_from_pc() {
+auto CPU::get_byte_from_pc() -> u8 {
     u8 byte = mmu.read(Address(pc));
     pc.increment();
 
     return byte;
 }
 
-s8 CPU::get_signed_byte_from_pc() {
+auto CPU::get_signed_byte_from_pc() -> s8 {
     u8 byte = get_byte_from_pc();
     return static_cast<s8>(byte);
 }
 
-u16 CPU::get_word_from_pc() {
+auto CPU::get_word_from_pc() -> u16 {
     u8 low_byte = get_byte_from_pc();
     u8 high_byte = get_byte_from_pc();
 
@@ -102,7 +102,7 @@ void CPU::set_flag_subtract(bool set) { f.set_flag_subtract(set); }
 void CPU::set_flag_half_carry(bool set) { f.set_flag_half_carry(set); }
 void CPU::set_flag_carry(bool set) { f.set_flag_carry(set); }
 
-bool CPU::is_condition(Condition condition) {
+auto CPU::is_condition(Condition condition) -> bool {
     bool should_branch;
 
     switch (condition) {
@@ -144,7 +144,7 @@ void CPU::stack_pop(WordValue& reg) {
 }
 
 /* clang-format off */
-Cycles CPU::execute_normal_opcode(const u8 opcode, u16 opcode_pc) {
+auto CPU::execute_normal_opcode(const u8 opcode, u16 opcode_pc) -> Cycles {
     log_trace("0x%04X: %s (0x%x)", opcode_pc, opcode_names[opcode].c_str(), opcode);
 
     switch (opcode) {
@@ -171,7 +171,7 @@ Cycles CPU::execute_normal_opcode(const u8 opcode, u16 opcode_pc) {
         : opcode_cycles_branched[opcode];
 }
 
-Cycles CPU::execute_cb_opcode(const u8 opcode, u16 opcode_pc) {
+auto CPU::execute_cb_opcode(const u8 opcode, u16 opcode_pc) -> Cycles {
     log_trace("0x%04X: %s (CB 0x%x)", opcode_pc, opcode_cb_names[opcode].c_str(), opcode);
 
     switch (opcode) {

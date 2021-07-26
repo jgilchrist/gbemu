@@ -17,16 +17,16 @@ class MMU {
 public:
     MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer, Options& options);
 
-    u8 read(const Address& address) const;
+    auto read(const Address& address) const -> u8;
     void write(const Address& address, u8 byte);
 
 private:
-    bool boot_rom_active() const;
+    auto boot_rom_active() const -> bool;
 
-    u8 read_io(const Address& address) const;
+    auto read_io(const Address& address) const -> u8;
     void write_io(const Address& address, u8 byte);
 
-    u8 memory_read(const Address& address) const;
+    auto memory_read(const Address& address) const -> u8;
     void memory_write(const Address& address, u8 byte);
 
     void dma_transfer(const u8 byte);

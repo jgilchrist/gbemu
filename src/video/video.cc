@@ -92,14 +92,14 @@ void Video::tick(Cycles cycles) {
     }
 }
 
-bool Video::display_enabled() const { return check_bit(control_byte, 7); }
-bool Video::window_tile_map() const { return check_bit(control_byte, 6); }
-bool Video::window_enabled() const { return check_bit(control_byte, 5); }
-bool Video::bg_window_tile_data() const { return check_bit(control_byte, 4); }
-bool Video::bg_tile_map_display() const { return check_bit(control_byte, 3); }
-bool Video::sprite_size() const { return check_bit(control_byte, 2); }
-bool Video::sprites_enabled() const { return check_bit(control_byte, 1); }
-bool Video::bg_enabled() const { return check_bit(control_byte, 0); }
+auto Video::display_enabled() const -> bool { return check_bit(control_byte, 7); }
+auto Video::window_tile_map() const -> bool { return check_bit(control_byte, 6); }
+auto Video::window_enabled() const -> bool { return check_bit(control_byte, 5); }
+auto Video::bg_window_tile_data() const -> bool { return check_bit(control_byte, 4); }
+auto Video::bg_tile_map_display() const -> bool { return check_bit(control_byte, 3); }
+auto Video::sprite_size() const -> bool { return check_bit(control_byte, 2); }
+auto Video::sprites_enabled() const -> bool { return check_bit(control_byte, 1); }
+auto Video::bg_enabled() const -> bool { return check_bit(control_byte, 0); }
 
 void Video::write_scanline(u8 current_line) {
     if (!display_enabled()) { return; }
@@ -328,26 +328,22 @@ void Video::draw_sprite(const uint sprite_n) {
     }
 }
 
-GBColor Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const {
+auto Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> GBColor {
     using bitwise::bit_value;
 
     u8 color_u8 = static_cast<u8>((bit_value(byte2, 7-pixel_index) << 1) | bit_value(byte1, 7-pixel_index));
     return get_color(color_u8);
 }
 
-bool Video::is_on_screen_x(u8 x) const {
-    return x < GAMEBOY_WIDTH;
-}
+auto Video::is_on_screen_x(u8 x) const -> bool { return x < GAMEBOY_WIDTH; }
 
-bool Video::is_on_screen_y(u8 y) const {
-    return y < GAMEBOY_HEIGHT;
-}
+auto Video::is_on_screen_y(u8 y) const -> bool { return y < GAMEBOY_HEIGHT; }
 
-bool Video::is_on_screen(u8 x, u8 y) const {
+auto Video::is_on_screen(u8 x, u8 y) const -> bool {
     return is_on_screen_x(x) && is_on_screen_y(y);
 }
 
-Palette Video::load_palette(ByteRegister& palette_register) const {
+auto Video::load_palette(ByteRegister& palette_register) const -> Palette {
     using bitwise::compose_bits;
     using bitwise::bit_value;
 
@@ -365,7 +361,7 @@ Palette Video::load_palette(ByteRegister& palette_register) const {
     return { real_color_0, real_color_1, real_color_2, real_color_3 };
 }
 
-Color Video::get_color_from_palette(GBColor color, const Palette& palette) {
+auto Video::get_color_from_palette(GBColor color, const Palette& palette) -> Color {
     switch (color) {
         case GBColor::Color0: return palette.color0;
         case GBColor::Color1: return palette.color1;
@@ -375,7 +371,7 @@ Color Video::get_color_from_palette(GBColor color, const Palette& palette) {
 }
 
 
-Color Video::get_real_color(u8 pixel_value) const {
+auto Video::get_real_color(u8 pixel_value) const -> Color {
     switch (pixel_value) {
         case 0: return Color::White;
         case 1: return Color::LightGray;

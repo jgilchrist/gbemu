@@ -52,12 +52,12 @@ private:
 
     Command last_command;
 
-    Command get_command();
+    auto get_command() -> Command;
 
-    bool execute(Command command);
+    auto execute(Command command) -> bool;
 
     /* Commands */
-    bool command_step(Args args);
+    auto command_step(Args args) -> bool;
 
     void command_registers(Args args);
     void command_flags(Args args);
@@ -73,8 +73,8 @@ private:
     void command_exit(Args args);
     void command_help(Args args);
 
-    Command parse(std::string input);
-    CommandType parse_command(std::string cmd);
+    auto parse(std::string input) -> Command;
+    auto parse_command(std::string cmd) -> CommandType;
 
     bool enabled;
 

@@ -11,13 +11,9 @@ void FrameBuffer::set_pixel(uint x, uint y, Color color) {
     buffer[pixel_index(x, y)] = color;
 }
 
-Color FrameBuffer::get_pixel(uint x, uint y) const {
-    return buffer.at(pixel_index(x, y));
-}
+auto FrameBuffer::get_pixel(uint x, uint y) const -> Color { return buffer.at(pixel_index(x, y)); }
 
-inline uint FrameBuffer::pixel_index(uint x, uint y) const {
-    return (y * width) + x;
-}
+inline auto FrameBuffer::pixel_index(uint x, uint y) const -> uint { return (y * width) + x; }
 
 void FrameBuffer::reset() {
     for (uint i = 0; i < width * height; i++) {

@@ -554,7 +554,7 @@ void CPU::opcode_reti() {
 
 
 /* RL */
-u8 CPU::_opcode_rl(u8 value) {
+auto CPU::_opcode_rl(u8 value) -> u8 {
     u8 carry = f.flag_carry_value();
 
     bool will_carry = check_bit(value, 7);
@@ -588,7 +588,7 @@ void CPU::opcode_rl(Address&& addr) {
 
 
 /* RLC */
-u8 CPU::_opcode_rlc(u8 value) {
+auto CPU::_opcode_rlc(u8 value) -> u8 {
     u8 carry_flag = check_bit(value, 7);
     u8 truncated_bit = check_bit(value, 7);
     u8 result = static_cast<u8>((value << 1) | truncated_bit);
@@ -618,7 +618,7 @@ void CPU::opcode_rlc(Address&& addr) {
 
 
 /* RR */
-u8 CPU::_opcode_rr(u8 value) {
+auto CPU::_opcode_rr(u8 value) -> u8 {
     u8 carry = f.flag_carry_value();
 
     bool will_carry = check_bit(value, 0);
@@ -651,7 +651,7 @@ void CPU::opcode_rr(Address&& addr) {
 
 
 /* RRC */
-u8 CPU::_opcode_rrc(u8 value) {
+auto CPU::_opcode_rrc(u8 value) -> u8 {
     u8 carry_flag = check_bit(value, 0);
     u8 truncated_bit = check_bit(value, 0);
     u8 result = static_cast<u8>((value >> 1) | (truncated_bit << 7));
@@ -738,7 +738,7 @@ void CPU::opcode_set(const u8 bit, Address&& addr) {
 
 
 /* SLA */
-u8 CPU::_opcode_sla(u8 value) {
+auto CPU::_opcode_sla(u8 value) -> u8 {
     u8 carry_bit = check_bit(value, 7);
 
     u8 result = static_cast<u8>(value << 1);
@@ -763,7 +763,7 @@ void CPU::opcode_sla(Address&& addr) {
 
 
 /* SRA */
-u8 CPU::_opcode_sra(u8 value) {
+auto CPU::_opcode_sra(u8 value) -> u8 {
     u8 carry_bit = check_bit(value, 0);
     u8 top_bit = check_bit(value, 7);
 
@@ -790,7 +790,7 @@ void CPU::opcode_sra(Address&& addr) {
 
 
 /* SRL */
-u8 CPU::_opcode_srl(u8 value) {
+auto CPU::_opcode_srl(u8 value) -> u8 {
     bool least_bit_set = check_bit(value, 0);
 
     u8 result = (value >> 1);
@@ -846,7 +846,7 @@ void CPU::opcode_sub(Address&& addr) {
 
 
 /* SWAP */
-u8 CPU::_opcode_swap(u8 value) {
+auto CPU::_opcode_swap(u8 value) -> u8 {
     using bitwise::compose_nibbles;
 
     u8 lower_nibble = value & 0x0F;

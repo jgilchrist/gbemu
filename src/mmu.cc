@@ -20,7 +20,7 @@ MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Inp
     memory = std::vector<u8>(0x10000);
 }
 
-u8 MMU::read(const Address& address) const {
+auto MMU::read(const Address& address) const -> u8 {
     if (address.in_range(0x0, 0x7FFF)) {
         if (address.in_range(0x0, 0xFF) && boot_rom_active()) {
             return bootDMG[address.value()];
@@ -77,11 +77,9 @@ u8 MMU::read(const Address& address) const {
     fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
 }
 
-u8 MMU::memory_read(const Address& address) const {
-    return memory.at(address.value());
-}
+auto MMU::memory_read(const Address& address) const -> u8 { return memory.at(address.value()); }
 
-u8 MMU::read_io(const Address& address) const {
+auto MMU::read_io(const Address& address) const -> u8 {
     switch (address.value()) {
         case 0xFF00:
             return input.get_input();
@@ -466,9 +464,7 @@ void MMU::memory_write(const Address& address, const u8 byte) {
     memory.at(address.value()) = byte;
 }
 
-bool MMU::boot_rom_active() const {
-    return read(0xFF50) != 0x1;
-}
+auto MMU::boot_rom_active() const -> bool { return read(0xFF50) != 0x1; }
 
 void MMU::dma_transfer(const u8 byte) {
     Address start_address = byte * 0x100;

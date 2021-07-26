@@ -68,26 +68,26 @@ private:
     void draw_bg_line(uint current_line);
     void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
-    GBColor get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const;
+    auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> GBColor;
 
-    bool is_on_screen(u8 x, u8 y) const;
-    bool is_on_screen_x(u8 x) const;
-    bool is_on_screen_y(u8 y) const;
+    auto is_on_screen(u8 x, u8 y) const -> bool;
+    auto is_on_screen_x(u8 x) const -> bool;
+    auto is_on_screen_y(u8 y) const -> bool;
 
-    bool display_enabled() const;
-    bool window_tile_map() const;
-    bool window_enabled() const;
-    bool bg_window_tile_data() const;
-    bool bg_tile_map_display() const;
-    bool sprite_size() const;
-    bool sprites_enabled() const;
-    bool bg_enabled() const;
+    auto display_enabled() const -> bool;
+    auto window_tile_map() const -> bool;
+    auto window_enabled() const -> bool;
+    auto bg_window_tile_data() const -> bool;
+    auto bg_tile_map_display() const -> bool;
+    auto sprite_size() const -> bool;
+    auto sprites_enabled() const -> bool;
+    auto bg_enabled() const -> bool;
 
-    TileInfo get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const;
+    auto get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const -> TileInfo;
 
-    Color get_real_color(u8 pixel_value) const;
-    Palette load_palette(ByteRegister& palette_register) const;
-    Color get_color_from_palette(GBColor color, const Palette& palette);
+    auto get_real_color(u8 pixel_value) const -> Color;
+    auto load_palette(ByteRegister& palette_register) const -> Palette;
+    auto get_color_from_palette(GBColor color, const Palette& palette) -> Color;
 
     CPU& cpu;
     MMU& mmu;

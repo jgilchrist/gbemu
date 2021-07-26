@@ -11,7 +11,7 @@ using s8 = int8_t;
 using s16 = uint16_t;
 
 struct Noncopyable {
-    Noncopyable& operator=(const Noncopyable&) = delete;
+    auto operator=(const Noncopyable&) -> Noncopyable& = delete;
     Noncopyable(const Noncopyable&) = delete;
     Noncopyable() = default;
     ~Noncopyable() = default;

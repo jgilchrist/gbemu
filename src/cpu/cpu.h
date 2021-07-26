@@ -36,19 +36,19 @@ class CPU {
 public:
     CPU(MMU& inMMU, Options& inOptions);
 
-    Cycles tick();
+    auto tick() -> Cycles;
 
-    Cycles execute_opcode(u8 opcode, u16 opcode_pc);
+    auto execute_opcode(u8 opcode, u16 opcode_pc) -> Cycles;
 
-    Cycles execute_normal_opcode(u8 opcode, u16 opcode_pc);
-    Cycles execute_cb_opcode(u8 opcode, u16 opcode_pc);
+    auto execute_normal_opcode(u8 opcode, u16 opcode_pc) -> Cycles;
+    auto execute_cb_opcode(u8 opcode, u16 opcode_pc) -> Cycles;
 
     ByteRegister interrupt_flag;
     ByteRegister interrupt_enabled;
 
 private:
     void handle_interrupts();
-    bool handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts);
+    auto handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) -> bool;
 
     MMU& mmu;
     Options& options;
@@ -84,7 +84,7 @@ private:
     /* Note: Not const because this also sets the 'branch_taken' member
      * variable if a branch is taken. This allows the correct cycle
      * count to be used */
-    bool is_condition(Condition condition);
+    auto is_condition(Condition condition) -> bool;
 
     /* Program counter */
     WordRegister pc;
@@ -92,9 +92,9 @@ private:
     /* Stack pointer */
     WordRegister sp;
 
-    u8 get_byte_from_pc();
-    s8 get_signed_byte_from_pc();
-    u16 get_word_from_pc();
+    auto get_byte_from_pc() -> u8;
+    auto get_signed_byte_from_pc() -> s8;
+    auto get_word_from_pc() -> u16;
 
     void stack_push(const WordValue& reg);
     void stack_pop(WordValue& reg);
@@ -205,7 +205,7 @@ private:
     void opcode_ld_from_addr(ByteRegister& reg);
 
     /* LDD */
-    u8 _opcode_ldd(u8 value);
+    auto _opcode_ldd(u8 value) -> u8;
 
     void opcode_ldd(ByteRegister& reg, const Address& address);
     void opcode_ldd(const Address& address, const ByteRegister& reg);
@@ -255,28 +255,28 @@ private:
     void opcode_reti();
 
     /* RL */
-    u8 _opcode_rl(u8 value);
+    auto _opcode_rl(u8 value) -> u8;
 
     void opcode_rla();
     void opcode_rl(ByteRegister& reg);
     void opcode_rl(Address&& addr);
 
     /* RLC */
-    u8 _opcode_rlc(u8 value);
+    auto _opcode_rlc(u8 value) -> u8;
 
     void opcode_rlca();
     void opcode_rlc(ByteRegister& reg);
     void opcode_rlc(Address&& addr);
 
     /* RR */
-    u8 _opcode_rr(u8 value);
+    auto _opcode_rr(u8 value) -> u8;
 
     void opcode_rra();
     void opcode_rr(ByteRegister& reg);
     void opcode_rr(Address&& addr);
 
     /* RRC */
-    u8 _opcode_rrc(u8 value);
+    auto _opcode_rrc(u8 value) -> u8;
 
     void opcode_rrca();
     void opcode_rrc(ByteRegister& reg);
@@ -300,19 +300,19 @@ private:
     void opcode_set(u8 bit, Address&& addr);
 
     /* SLA */
-    u8 _opcode_sla(u8 value);
+    auto _opcode_sla(u8 value) -> u8;
 
     void opcode_sla(ByteRegister& reg);
     void opcode_sla(Address&& addr);
 
     /* SRA */
-    u8 _opcode_sra(u8 value);
+    auto _opcode_sra(u8 value) -> u8;
 
     void opcode_sra(ByteRegister& reg);
     void opcode_sra(Address&& addr);
 
     /* SRL */
-    u8 _opcode_srl(u8 value);
+    auto _opcode_srl(u8 value) -> u8;
 
     void opcode_srl(ByteRegister& reg);
     void opcode_srl(Address&& addr);
@@ -328,7 +328,7 @@ private:
     void opcode_sub(Address&& addr);
 
     /* SWAP */
-    u8 _opcode_swap(u8 value);
+    auto _opcode_swap(u8 value) -> u8;
 
     void opcode_swap(ByteRegister& reg);
     void opcode_swap(Address&& addr);

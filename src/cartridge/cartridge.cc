@@ -3,7 +3,8 @@
 #include "../util/files.h"
 #include "../util/log.h"
 
-std::shared_ptr<Cartridge> get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data) {
+auto get_cartridge(std::vector<u8> rom_data, std::vector<u8> ram_data)
+    -> std::shared_ptr<Cartridge> {
     std::unique_ptr<CartridgeInfo> info = get_info(rom_data);
 
     switch (info->type) {
@@ -42,9 +43,7 @@ Cartridge::Cartridge(
     }
 }
 
-const std::vector<u8>& Cartridge::get_cartridge_ram() const {
-    return ram;
-}
+auto Cartridge::get_cartridge_ram() const -> const std::vector<u8>& { return ram; }
 
 NoMBC::NoMBC(
     std::vector<u8> rom_data,
@@ -60,7 +59,7 @@ void NoMBC::write(const Address& address, u8 value) {
     return;
 }
 
-u8 NoMBC::read(const Address& address) const {
+auto NoMBC::read(const Address& address) const -> u8 {
     /* TODO: check this address is in sensible bounds */
     return rom.at(address.value());
 }
@@ -110,7 +109,7 @@ void MBC1::write(const Address& address, u8 value) {
     }
 }
 
-u8 MBC1::read(const Address& address) const {
+auto MBC1::read(const Address& address) const -> u8 {
     if (address.in_range(0x0000, 0x3FFF)) {
         return rom.at(address.value());
     }
@@ -189,7 +188,7 @@ void MBC3::write(const Address& address, u8 value) {
     }
 }
 
-u8 MBC3::read(const Address& address) const {
+auto MBC3::read(const Address& address) const -> u8 {
     if (address.in_range(0x0000, 0x3FFF)) {
         return rom.at(address.value());
     }

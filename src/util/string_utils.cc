@@ -8,13 +8,13 @@
 using std::string;
 using std::vector;
 
-string str_format(const char* fmt, va_list args) {
+auto str_format(const char* fmt, va_list args) -> string {
     char buf[8192];
     vsnprintf(buf, 8192, fmt, args);
     return string(buf);
 }
 
-string str_format(const char* fmt, ...) {
+auto str_format(const char* fmt, ...) -> string {
     char buf[8192];
     va_list args;
 
@@ -25,7 +25,7 @@ string str_format(const char* fmt, ...) {
     return string(buf);
 }
 
-vector<string> split(string str, char delim) {
+auto split(string str, char delim) -> vector<string> {
     vector<string> elems;
 
     std::stringstream stream(str);

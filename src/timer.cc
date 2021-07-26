@@ -5,21 +5,13 @@ void Timer::tick(uint cycles) {
     divider.set(new_divider);
 }
 
-u8 Timer::get_divider() const {
-    return divider.value();
-}
+auto Timer::get_divider() const -> u8 { return divider.value(); }
 
-u8 Timer::get_timer() const {
-    return timer_counter.value();
-}
+auto Timer::get_timer() const -> u8 { return timer_counter.value(); }
 
-u8 Timer::get_timer_modulo() const {
-    return timer_modulo.value();
-}
+auto Timer::get_timer_modulo() const -> u8 { return timer_modulo.value(); }
 
-u8 Timer::get_timer_control() const {
-    return timer_control.value();
-}
+auto Timer::get_timer_control() const -> u8 { return timer_control.value(); }
 
 void Timer::reset_divider() {
     divider.set(0x0);

@@ -25,11 +25,11 @@ class Tile {
 public:
     Tile(Address& address, MMU& mmu, uint size_multiplier = 1);
 
-    GBColor get_pixel(uint x, uint y) const;
+    auto get_pixel(uint x, uint y) const -> GBColor;
 
 private:
-    static uint pixel_index(uint x, uint y);
-    std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
+    static auto pixel_index(uint x, uint y) -> uint;
+    auto get_pixel_line(u8 byte1, u8 byte2) const -> std::vector<u8>;
 
     std::array<GBColor, TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX> buffer;
 };

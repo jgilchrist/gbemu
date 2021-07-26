@@ -61,6 +61,6 @@ void Gameboy::tick() {
     timer.tick(cycles.cycles);
 }
 
-const std::vector<u8>& Gameboy::get_cartridge_ram() const {
+auto Gameboy::get_cartridge_ram() const -> const std::vector<u8>& {
     return cartridge->get_cartridge_ram();
 }

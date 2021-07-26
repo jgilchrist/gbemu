@@ -36,12 +36,12 @@ enum class CartridgeType {
     Unknown,
 };
 
-extern CartridgeType get_type(u8 type);
-extern std::string describe(CartridgeType type);
+extern auto get_type(u8 type) -> CartridgeType;
+extern auto describe(CartridgeType type) -> std::string;
 
-extern std::string get_title(std::vector<u8>& rom);
+extern auto get_title(std::vector<u8>& rom) -> std::string;
 
-extern std::string get_license(u16 old_license, u16 new_license);
+extern auto get_license(u16 old_license, u16 new_license) -> std::string;
 
 enum class ROMSize {
     KB32,
@@ -57,8 +57,8 @@ enum class ROMSize {
     MB1p5,
 };
 
-extern ROMSize get_rom_size(u8 size_code);
-extern std::string describe(ROMSize size);
+extern auto get_rom_size(u8 size_code) -> ROMSize;
+extern auto describe(ROMSize size) -> std::string;
 
 enum class RAMSize {
     None,
@@ -69,17 +69,17 @@ enum class RAMSize {
     KB64,
 };
 
-extern RAMSize get_ram_size(u8 size_code);
-extern uint get_actual_ram_size(RAMSize size_code);
-extern std::string describe(RAMSize size);
+extern auto get_ram_size(u8 size_code) -> RAMSize;
+extern auto get_actual_ram_size(RAMSize size_code) -> uint;
+extern auto describe(RAMSize size) -> std::string;
 
 enum class Destination {
     Japanese,
     NonJapanese,
 };
 
-extern Destination get_destination(u8 destination);
-extern std::string describe(Destination destination);
+extern auto get_destination(u8 destination) -> Destination;
+extern auto describe(Destination destination) -> std::string;
 
 class CartridgeInfo {
 public:
@@ -100,4 +100,4 @@ public:
     bool supports_sgb;
 };
 
-extern std::unique_ptr<CartridgeInfo> get_info(std::vector<u8> rom);
+extern auto get_info(std::vector<u8> rom) -> std::unique_ptr<CartridgeInfo>;

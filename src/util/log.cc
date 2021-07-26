@@ -52,13 +52,13 @@ void Logger::enable_tracing() {
     tracing_enabled = true;
 }
 
-bool Logger::should_log(LogLevel level) const {
+auto Logger::should_log(LogLevel level) const -> bool {
     if (!tracing_enabled && level == LogLevel::Trace) { return false; }
 
     return enabled && (current_level <= level);
 }
 
-inline const char* Logger::level_color(LogLevel level) const {
+inline auto Logger::level_color(LogLevel level) const -> const char* {
     switch (level) {
         case LogLevel::Trace:
             return COLOR_TRACE;

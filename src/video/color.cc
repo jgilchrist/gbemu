@@ -1,7 +1,7 @@
 #include "color.h"
 #include "../util/log.h"
 
-GBColor get_color(u8 pixel_value) {
+auto get_color(u8 pixel_value) -> GBColor {
     switch (pixel_value) {
         case 0:
             return GBColor::Color0;

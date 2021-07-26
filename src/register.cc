@@ -10,13 +10,9 @@ void ByteRegister::reset() {
     val = 0;
 }
 
-u8 ByteRegister::value() const {
-    return val;
-}
+auto ByteRegister::value() const -> u8 { return val; }
 
-bool ByteRegister::check_bit(u8 bit) const {
-    return bitwise::check_bit(val, bit);
-}
+auto ByteRegister::check_bit(u8 bit) const -> bool { return bitwise::check_bit(val, bit); }
 
 void ByteRegister::set_bit_to(u8 bit, bool set) {
     val = bitwise::set_bit_to(val, bit, set);
@@ -29,25 +25,17 @@ void ByteRegister::decrement() {
     val -= 1;
 }
 
-bool ByteRegister::operator==(u8 other) const {
-    return val == other;
-}
+auto ByteRegister::operator==(u8 other) const -> bool { return val == other; }
 
 
 void WordRegister::set(const u16 new_value) {
     val = new_value;
 }
-u16 WordRegister::value() const {
-    return val;
-}
+auto WordRegister::value() const -> u16 { return val; }
 
-u8 WordRegister::low() const {
-    return static_cast<u8>(val);
-}
+auto WordRegister::low() const -> u8 { return static_cast<u8>(val); }
 
-u8 WordRegister::high() const {
-    return static_cast<u8>((val) >> 8);
-}
+auto WordRegister::high() const -> u8 { return static_cast<u8>((val) >> 8); }
 
 void WordRegister::increment() {
     val += 1;
@@ -70,15 +58,11 @@ void RegisterPair::set(const u16 word) {
     high_byte.set(static_cast<u8>((word) >> 8));
 }
 
-u8 RegisterPair::low() const {
-    return low_byte.value();
-}
+auto RegisterPair::low() const -> u8 { return low_byte.value(); }
 
-u8 RegisterPair::high() const {
-    return high_byte.value();
-}
+auto RegisterPair::high() const -> u8 { return high_byte.value(); }
 
-u16 RegisterPair::value() const {
+auto RegisterPair::value() const -> u16 {
     return bitwise::compose_bytes(high_byte.value(), low_byte.value());
 }
 
@@ -111,34 +95,22 @@ void FlagRegister::set_flag_carry(bool set) {
     set_bit_to(4, set);
 }
 
-bool FlagRegister::flag_zero() const {
-    return check_bit(7);
-}
+auto FlagRegister::flag_zero() const -> bool { return check_bit(7); }
 
-bool FlagRegister::flag_subtract() const {
-    return check_bit(6);
-}
+auto FlagRegister::flag_subtract() const -> bool { return check_bit(6); }
 
-bool FlagRegister::flag_half_carry() const {
-    return check_bit(5);
-}
+auto FlagRegister::flag_half_carry() const -> bool { return check_bit(5); }
 
-bool FlagRegister::flag_carry() const {
-    return check_bit(4);
-}
+auto FlagRegister::flag_carry() const -> bool { return check_bit(4); }
 
-u8 FlagRegister::flag_zero_value() const {
-    return static_cast<u8>(flag_zero() ? 1 : 0);
-}
+auto FlagRegister::flag_zero_value() const -> u8 { return static_cast<u8>(flag_zero() ? 1 : 0); }
 
-u8 FlagRegister::flag_subtract_value() const {
+auto FlagRegister::flag_subtract_value() const -> u8 {
     return static_cast<u8>(flag_subtract() ? 1 : 0);
 }
 
-u8 FlagRegister::flag_half_carry_value() const {
+auto FlagRegister::flag_half_carry_value() const -> u8 {
     return static_cast<u8>(flag_half_carry() ? 1 : 0);
 }
 
-u8 FlagRegister::flag_carry_value() const {
-    return static_cast<u8>(flag_carry() ? 1 : 0);
-}
+auto FlagRegister::flag_carry_value() const -> u8 { return static_cast<u8>(flag_carry() ? 1 : 0); }
