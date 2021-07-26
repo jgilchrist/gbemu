@@ -9,7 +9,7 @@
 #include "video/video.h"
 
 MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer, Options& inOptions) :
-    cartridge(inCartridge),
+    cartridge(std::move(inCartridge)),
     cpu(inCPU),
     video(inVideo),
     input(inInput),
