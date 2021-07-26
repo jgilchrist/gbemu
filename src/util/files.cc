@@ -14,7 +14,7 @@ std::vector<u8> read_bytes(const std::string& filename) {
     }
 
     ifstream::pos_type position = stream.tellg();
-    size_t file_size = static_cast<size_t>(position);
+    auto file_size = static_cast<size_t>(position);
 
     std::vector<char> file_contents(file_size);
 
