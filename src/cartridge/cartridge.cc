@@ -32,7 +32,7 @@ Cartridge::Cartridge(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
     : rom(std::move(rom_data)), cartridge_info(std::move(in_cartridge_info)) {
     auto ram_size_for_cartridge = get_actual_ram_size(cartridge_info->ram_size);
 
-    if (ram_data.size() != 0) {
+    if (!ram_data.empty()) {
         if (ram_data.size() != ram_size_for_cartridge) { fatal_error("Invalid or corrupted RAM file. Read %d bytes, expected %d", ram_data.size(), ram_size_for_cartridge); }
         ram = ram_data;
     } else {

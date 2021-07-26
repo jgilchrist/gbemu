@@ -280,7 +280,7 @@ auto Debugger::parse(const std::string& input) -> Command {
     vector<string> elems = split(input);
 
     /* If nothing was entered, repeat the last command */
-    if (elems.size() < 1) return last_command;
+    if (elems.empty()) return last_command;
 
     string cmd = elems[0];
     CommandType cmd_type = parse_command(cmd);
