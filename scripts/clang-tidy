@@ -1,31 +1,6 @@
 #!/bin/bash
 
-CHECKS="*"
-
-# Disable unused parameters check, which is done by clang
-CHECKS+=",-misc-unused-parameters"
-
-# Disable warnings about missing header guards
-# (use #pragma once instead)
-CHECKS+=",-llvm-header-guard"
-
-# Disable warnings about braces around statements (I find same-line
-# statements more readable without braces
-CHECKS+=",-readability-braces-around-statements"
-
-# Disable Google style guide checks
-CHECKS+=",-fuchsia-overloaded-operator"
-
-# Disable explicit constructor requirement
-CHECKS+=",-google-explicit-constructor,-hicpp-explicit-conversions"
-
-# FIXME - Disable warnings about calling vararg functions
-CHECKS+=",-cppcoreguidelines-pro-type-vararg"
-
-# FIXME - Disable warnings about non-const reference parameters
-CHECKS+=",-google-runtime-references"
-
 for i in $(find src -name "*.cc"); do
-    clang-tidy -p="build" -checks=${CHECKS} -header-filter=.* $i \
-        2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2)
+    clang-tidy --config-file="./.clang-tidy" -header-filter=.* $i \
+        2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2) $@ --
 done

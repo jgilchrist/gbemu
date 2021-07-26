@@ -1,0 +1,8 @@
+#!/bin/bash
+
+check=$1
+
+for i in $(find src -name "*.cc"); do
+    clang-tidy --checks="-*,${check}" --fix -header-filter=.* $i \
+        2> >(grep -v "warnings generated." | grep -v "in non-user code" | grep -v "Use -header-filter=*" 1>&2) --
+done
