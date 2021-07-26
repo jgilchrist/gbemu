@@ -44,7 +44,7 @@ auto Cartridge::get_cartridge_ram() const -> const std::vector<u8>& { return ram
 
 NoMBC::NoMBC(std::vector<u8> rom_data, std::vector<u8> ram_data,
              std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(std::move(rom_data), std::move(ram_data), std::move(in_cartridge_info)) {}
+    : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {}
 
 void NoMBC::write(const Address& address, u8 value) {
     log_warn("Attempting to write to cartridge ROM without an MBC");
@@ -58,7 +58,7 @@ auto NoMBC::read(const Address& address) const -> u8 {
 
 MBC1::MBC1(std::vector<u8> rom_data, std::vector<u8> ram_data,
            std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(std::move(rom_data), std::move(ram_data), std::move(in_cartridge_info)) {
+    : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {
     unused(rom_banking_mode);
 
     rom_bank.set(0x1);
@@ -121,7 +121,7 @@ auto MBC1::read(const Address& address) const -> u8 {
 
 MBC3::MBC3(std::vector<u8> rom_data, std::vector<u8> ram_data,
            std::unique_ptr<CartridgeInfo> in_cartridge_info)
-    : Cartridge(std::move(rom_data), std::move(ram_data), std::move(in_cartridge_info)) {
+    : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {
     unused(rom_banking_mode);
 
     rom_bank.set(0x1);
