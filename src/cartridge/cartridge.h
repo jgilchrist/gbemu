@@ -31,11 +31,8 @@ auto get_cartridge(const std::vector<u8>& rom_data, const std::vector<u8>& ram_d
 
 class NoMBC : public Cartridge {
 public:
-    NoMBC(
-        std::vector<u8> rom_data,
-        std::vector<u8> ram_data,
-        std::unique_ptr<CartridgeInfo> cartridge_info
-    );
+    NoMBC(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
+          std::unique_ptr<CartridgeInfo> cartridge_info);
 
     auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;
@@ -43,11 +40,8 @@ public:
 
 class MBC1 : public Cartridge {
 public:
-    MBC1(
-        std::vector<u8> rom_data,
-        std::vector<u8> ram_data,
-        std::unique_ptr<CartridgeInfo> cartridge_info
-    );
+    MBC1(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
+         std::unique_ptr<CartridgeInfo> cartridge_info);
 
     auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;
@@ -65,11 +59,8 @@ private:
 
 class MBC3 : public Cartridge {
 public:
-    MBC3(
-        std::vector<u8> rom_data,
-        std::vector<u8> ram_data,
-        std::unique_ptr<CartridgeInfo> cartridge_info
-    );
+    MBC3(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
+         std::unique_ptr<CartridgeInfo> cartridge_info);
 
     auto read(const Address& address) const -> u8 override;
     void write(const Address& address, u8 value) override;

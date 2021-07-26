@@ -42,7 +42,7 @@ Cartridge::Cartridge(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
 
 auto Cartridge::get_cartridge_ram() const -> const std::vector<u8>& { return ram; }
 
-NoMBC::NoMBC(std::vector<u8> rom_data, std::vector<u8> ram_data,
+NoMBC::NoMBC(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
              std::unique_ptr<CartridgeInfo> in_cartridge_info)
     : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {}
 
@@ -55,7 +55,7 @@ auto NoMBC::read(const Address& address) const -> u8 {
     return rom.at(address.value());
 }
 
-MBC1::MBC1(std::vector<u8> rom_data, std::vector<u8> ram_data,
+MBC1::MBC1(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
            std::unique_ptr<CartridgeInfo> in_cartridge_info)
     : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {
     unused(rom_banking_mode);
@@ -118,7 +118,7 @@ auto MBC1::read(const Address& address) const -> u8 {
     fatal_error("Attempted to read from unmapped MBC1 address 0x%x", address.value());
 }
 
-MBC3::MBC3(std::vector<u8> rom_data, std::vector<u8> ram_data,
+MBC3::MBC3(std::vector<u8> rom_data, const std::vector<u8>& ram_data,
            std::unique_ptr<CartridgeInfo> in_cartridge_info)
     : Cartridge(std::move(rom_data), ram_data, std::move(in_cartridge_info)) {
     unused(rom_banking_mode);
