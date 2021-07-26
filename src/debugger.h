@@ -67,14 +67,14 @@ private:
     void command_breakaddr(Args args);
     void command_breakvalue(Args args);
 
-    void command_log(Args args);
+    static void command_log(Args args);
 
     void command_steps(Args args);
-    void command_exit(Args args);
-    void command_help(Args args);
+    static void command_exit(Args args);
+    static void command_help(Args args);
 
     auto parse(std::string input) -> Command;
-    auto parse_command(std::string cmd) -> CommandType;
+    static auto parse_command(std::string cmd) -> CommandType;
 
     bool enabled;
 

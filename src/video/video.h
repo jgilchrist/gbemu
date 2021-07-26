@@ -68,11 +68,11 @@ private:
     void draw_bg_line(uint current_line);
     void draw_window_line(uint current_line);
     void draw_sprite(uint sprite_n);
-    auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> GBColor;
+    static auto get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) -> GBColor;
 
-    auto is_on_screen(u8 x, u8 y) const -> bool;
-    auto is_on_screen_x(u8 x) const -> bool;
-    auto is_on_screen_y(u8 y) const -> bool;
+    static auto is_on_screen(u8 x, u8 y) -> bool;
+    static auto is_on_screen_x(u8 x) -> bool;
+    static auto is_on_screen_y(u8 y) -> bool;
 
     auto display_enabled() const -> bool;
     auto window_tile_map() const -> bool;
@@ -85,9 +85,9 @@ private:
 
     auto get_tile_info(Address tile_set_location, u8 tile_id, u8 tile_line) const -> TileInfo;
 
-    auto get_real_color(u8 pixel_value) const -> Color;
-    auto load_palette(ByteRegister& palette_register) const -> Palette;
-    auto get_color_from_palette(GBColor color, const Palette& palette) -> Color;
+    static auto get_real_color(u8 pixel_value) -> Color;
+    static auto load_palette(ByteRegister& palette_register) -> Palette;
+    static auto get_color_from_palette(GBColor color, const Palette& palette) -> Color;
 
     CPU& cpu;
     MMU& mmu;

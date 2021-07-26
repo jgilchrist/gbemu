@@ -38,7 +38,7 @@ public:
 
 private:
     auto should_log(LogLevel level) const -> bool;
-    auto level_color(LogLevel level) const -> const char*;
+    static auto level_color(LogLevel level) -> const char*;
 
     LogLevel current_level = LogLevel::Debug;
     bool enabled = true;

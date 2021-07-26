@@ -328,22 +328,20 @@ void Video::draw_sprite(const uint sprite_n) {
     }
 }
 
-auto Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) const -> GBColor {
+auto Video::get_pixel_from_line(u8 byte1, u8 byte2, u8 pixel_index) -> GBColor {
     using bitwise::bit_value;
 
     u8 color_u8 = static_cast<u8>((bit_value(byte2, 7-pixel_index) << 1) | bit_value(byte1, 7-pixel_index));
     return get_color(color_u8);
 }
 
-auto Video::is_on_screen_x(u8 x) const -> bool { return x < GAMEBOY_WIDTH; }
+auto Video::is_on_screen_x(u8 x) -> bool { return x < GAMEBOY_WIDTH; }
 
-auto Video::is_on_screen_y(u8 y) const -> bool { return y < GAMEBOY_HEIGHT; }
+auto Video::is_on_screen_y(u8 y) -> bool { return y < GAMEBOY_HEIGHT; }
 
-auto Video::is_on_screen(u8 x, u8 y) const -> bool {
-    return is_on_screen_x(x) && is_on_screen_y(y);
-}
+auto Video::is_on_screen(u8 x, u8 y) -> bool { return is_on_screen_x(x) && is_on_screen_y(y); }
 
-auto Video::load_palette(ByteRegister& palette_register) const -> Palette {
+auto Video::load_palette(ByteRegister& palette_register) -> Palette {
     using bitwise::compose_bits;
     using bitwise::bit_value;
 
@@ -371,7 +369,7 @@ auto Video::get_color_from_palette(GBColor color, const Palette& palette) -> Col
 }
 
 
-auto Video::get_real_color(u8 pixel_value) const -> Color {
+auto Video::get_real_color(u8 pixel_value) -> Color {
     switch (pixel_value) {
         case 0: return Color::White;
         case 1: return Color::LightGray;

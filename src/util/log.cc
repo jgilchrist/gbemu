@@ -58,7 +58,7 @@ auto Logger::should_log(LogLevel level) const -> bool {
     return enabled && (current_level <= level);
 }
 
-inline auto Logger::level_color(LogLevel level) const -> const char* {
+inline auto Logger::level_color(LogLevel level) -> const char* {
     switch (level) {
         case LogLevel::Trace:
             return COLOR_TRACE;

@@ -31,7 +31,7 @@ Tile::Tile(Address& tile_address, MMU& mmu, uint size_multiplier) {
 
 auto Tile::get_pixel(uint x, uint y) const -> GBColor { return buffer[pixel_index(x, y)]; }
 
-auto Tile::get_pixel_line(u8 byte1, u8 byte2) const -> std::vector<u8> {
+auto Tile::get_pixel_line(u8 byte1, u8 byte2) -> std::vector<u8> {
     using bitwise::bit_value;
 
     std::vector<u8> pixel_line;
