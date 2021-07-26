@@ -48,7 +48,6 @@ NoMBC::NoMBC(std::vector<u8> rom_data, std::vector<u8> ram_data,
 
 void NoMBC::write(const Address& address, u8 value) {
     log_warn("Attempting to write to cartridge ROM without an MBC");
-    return;
 }
 
 auto NoMBC::read(const Address& address) const -> u8 {

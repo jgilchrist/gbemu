@@ -177,7 +177,6 @@ void Debugger::command_memory_cell(Args args) {
     u16 memory_location = static_cast<u16>(std::stoul(args[0], nullptr, 16));
 
     printf("0x%02X\n", gameboy.mmu.read(memory_location));
-    return;
 }
 
 void Debugger::command_breakaddr(Args args) {
