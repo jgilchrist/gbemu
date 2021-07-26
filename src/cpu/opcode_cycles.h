@@ -1,7 +1,9 @@
 #pragma once
 /* clang-format off */
 
-const u8 opcode_cycles[256] = {
+#include <array>
+
+const std::array<u8, 256> opcode_cycles = {
     1, 3, 2, 2, 1, 1, 2, 1, 5, 2, 2, 2, 1, 1, 2, 1,
     1, 3, 2, 2, 1, 1, 2, 1, 3, 2, 2, 2, 1, 1, 2, 1,
     2, 3, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 1, 2, 1,
@@ -20,7 +22,7 @@ const u8 opcode_cycles[256] = {
     3, 3, 2, 1, 0, 4, 2, 4, 3, 2, 4, 1, 0, 0, 2, 4
 };
 
-const u8 opcode_cycles_branched[256] = {
+const std::array<u8, 256> opcode_cycles_branched = {
     1, 3, 2, 2, 1, 1, 2, 1, 5, 2, 2, 2, 1, 1, 2, 1,
     1, 3, 2, 2, 1, 1, 2, 1, 3, 2, 2, 2, 1, 1, 2, 1,
     3, 3, 2, 2, 1, 1, 2, 1, 3, 2, 2, 2, 1, 1, 2, 1,
@@ -39,7 +41,7 @@ const u8 opcode_cycles_branched[256] = {
     3, 3, 2, 1, 0, 4, 2, 4, 3, 2, 4, 1, 0, 0, 2, 4
 };
 
-const u8 opcode_cycles_cb[256] = {
+const std::array<u8, 256> opcode_cycles_cb = {
     2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2,
     2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2,
     2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2,

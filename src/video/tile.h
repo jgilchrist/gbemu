@@ -4,6 +4,8 @@
 #include "../definitions.h"
 #include "../mmu.h"
 
+#include <array>
+
 const uint TILES_PER_LINE = 32;
 const uint TILE_HEIGHT_PX = 8;
 const uint TILE_WIDTH_PX = 8;
@@ -29,5 +31,5 @@ private:
     static uint pixel_index(uint x, uint y);
     std::vector<u8> get_pixel_line(u8 byte1, u8 byte2) const;
 
-    GBColor buffer[TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX];
+    std::array<GBColor, TILE_HEIGHT_PX * 2 * TILE_WIDTH_PX> buffer;
 };

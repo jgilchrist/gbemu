@@ -1,7 +1,9 @@
 #pragma once
 /* clang-format off */
 
-static const std::string opcode_names[256] = {
+#include <array>
+
+static const std::array<std::string, 256> opcode_names = {
     "NOP",
     "LD BC,nn",
     "LD (BC),A",
@@ -275,7 +277,7 @@ static const std::string opcode_names[256] = {
     "RST 0x38"
 };
 
-static const std::string opcode_cb_names[256] = {
+static const std::array<std::string, 256> opcode_cb_names = {
     "RLC B",
     "RLC C",
     "RLC D",
