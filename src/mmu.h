@@ -29,7 +29,7 @@ private:
     auto memory_read(const Address& address) const -> u8;
     void memory_write(const Address& address, u8 byte);
 
-    void dma_transfer(const u8 byte);
+    void dma_transfer(u8 byte);
 
     std::shared_ptr<Cartridge> cartridge;
     CPU& cpu;
