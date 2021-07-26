@@ -12,7 +12,7 @@
 #include <memory>
 #include <functional>
 
-typedef std::function<bool(void)> should_close_callback_t;
+using should_close_callback_t = std::function<bool()>;
 
 class Gameboy {
 public:

@@ -12,7 +12,7 @@
 #include <memory>
 #include <functional>
 
-typedef std::function<void(const FrameBuffer&)> vblank_callback_t;
+using vblank_callback_t = std::function<void(const FrameBuffer&)>;
 
 enum class VideoMode {
     ACCESS_OAM,
