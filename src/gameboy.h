@@ -11,8 +11,10 @@
 
 #include <memory>
 #include <functional>
+#include <optional>
 
 using should_close_callback_t = std::function<bool()>;
+using get_serial_data_callback_t = std::function<u8()>;
 
 class Gameboy {
 public:
@@ -21,7 +23,8 @@ public:
 
     void run(
         const should_close_callback_t& _should_close_callback,
-        const vblank_callback_t& _vblank_callback
+        const vblank_callback_t& _vblank_callback,
+        const get_serial_data_callback_t& _get_serial_data_callback
     );
 
     void button_pressed(GbButton button);
@@ -57,4 +60,5 @@ private:
     uint elapsed_cycles = 0;
 
     should_close_callback_t should_close_callback;
+    get_serial_data_callback_t get_serial_data_callback;
 };

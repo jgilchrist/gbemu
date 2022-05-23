@@ -10,9 +10,13 @@ static bool is_closed() {
     return false;
 }
 
+static u8 get_serial_data() {
+    return 0x0;
+}
+
 int main(int argc, char* argv[]) {
     CliOptions cliOptions = get_cli_options(argc, argv);
     auto rom_data = read_bytes(cliOptions.filename);
     gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options);
-    gameboy->run(&is_closed, &draw);
+    gameboy->run(&is_closed, &draw, &get_serial_data);
 }
