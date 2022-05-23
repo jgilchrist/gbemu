@@ -1,4 +1,5 @@
 #include "../../src/gameboy_prelude.h"
+#include "../cli/cli.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -17,7 +18,7 @@ static sf::Sprite sprite;
 
 static std::unique_ptr<Gameboy> gameboy;
 
-static Options options;
+static CliOptions cliOptions;
 
 static bool should_exit = false;
 
@@ -70,7 +71,7 @@ static void set_pixels(const FrameBuffer& buffer) {
 }
 
 static std::string get_save_filename() {
-    return options.filename + ".sav";
+    return cliOptions.filename + ".sav";
 }
 
 static bool file_exists(const std::string& filename) {
@@ -149,7 +150,7 @@ static bool is_closed() {
 }
 
 int main(int argc, char* argv[]) {
-    options = get_options(argc, argv);
+    cliOptions = get_cli_options(argc, argv);
 
     window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "gbemu", sf::Style::Titlebar | sf::Style::Close);
     image.create(width, height);
@@ -158,13 +159,13 @@ int main(int argc, char* argv[]) {
     window->setKeyRepeatEnabled(false);
     window->display();
 
-    auto rom_data = read_bytes(options.filename);
-    log_info("Read %d KB from %s", rom_data.size() / 1024, options.filename.c_str());
+    auto rom_data = read_bytes(cliOptions.filename);
+    log_info("Read %d KB from %s", rom_data.size() / 1024, cliOptions.filename.c_str());
 
     auto save_data = load_state();
     log_info("");
 
-    gameboy = std::make_unique<Gameboy>(rom_data, options, save_data);
+    gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
     gameboy->run(&is_closed, &draw);
     return 0;
 }
