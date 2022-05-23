@@ -2,9 +2,11 @@
 #include "../cli/cli.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 #include <fstream>
 #include <iterator>
+#include <chrono>
 
 static uint pixel_size = 5;
 
@@ -15,6 +17,10 @@ static std::unique_ptr<sf::RenderWindow> window;
 static sf::Image image;
 static sf::Texture texture;
 static sf::Sprite sprite;
+
+static sf::TcpListener listener;
+static sf::TcpSocket client;
+static long long last_serial_interaction_at;
 
 static std::unique_ptr<Gameboy> gameboy;
 
@@ -145,12 +151,61 @@ static void draw(const FrameBuffer& buffer) {
     window->display();
 }
 
+static u8 get_serial_data() {
+    long long current_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (client.getRemoteAddress() == sf::IpAddress::None) {
+        if (listener.accept(client) != sf::Socket::Done) {
+            return 0xFF;
+        }
+
+        client.setBlocking(false);
+
+        log_info("Serial data connection made");
+        last_serial_interaction_at = current_time;
+        return 0xFF;
+    }
+
+    // Been too long since we last received data. Terminate the connection and allow something else to connect.
+    if (current_time - last_serial_interaction_at > 10) {
+        log_info("Nothing received on serial port for ~10 seconds - disconnecting.");
+        client.disconnect();
+        return last_serial_interaction_at;
+    }
+
+
+    char data[1];
+    std::size_t received;
+
+    if (client.receive(data, 1, received) != sf::Socket::Done)
+    {
+        return 0xFF;
+    }
+
+    u8 serial_data = data[0];
+    log_info("Received 0x%02X", serial_data);
+
+    last_serial_interaction_at = current_time;
+
+    return serial_data;
+}
+
 static bool is_closed() {
     return !window->isOpen() || should_exit;
 }
 
 int main(int argc, char* argv[]) {
     cliOptions = get_cli_options(argc, argv);
+
+    auto serial_data_port = 51234;
+    auto status = listener.listen(serial_data_port);
+    if (status != sf::Socket::Done)
+    {
+        fatal_error("Unable to listen");
+    }
+    listener.setBlocking(false);
+
+    log_info("Listening to port %d for serial data", serial_data_port);
 
     window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "gbemu", sf::Style::Titlebar | sf::Style::Close);
     image.create(width, height);
@@ -166,6 +221,6 @@ int main(int argc, char* argv[]) {
     log_info("");
 
     gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
-    gameboy->run(&is_closed, &draw);
+    gameboy->run(&is_closed, &draw, &get_serial_data);
     return 0;
 }
