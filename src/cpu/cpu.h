@@ -1,9 +1,10 @@
 #pragma once
 
 #include "../address.h"
-#include "../mmu.h"
 #include "../register.h"
 #include "../options.h"
+
+class Gameboy;
 
 enum class Condition {
     NZ,
@@ -34,7 +35,7 @@ const u16 joypad = 0x60;
 
 class CPU {
 public:
-    CPU(MMU& inMMU, Options& inOptions);
+    CPU(Gameboy& inGb, Options& inOptions);
 
     auto tick() -> Cycles;
 
@@ -50,7 +51,7 @@ private:
     void handle_interrupts();
     auto handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_interrupts) -> bool;
 
-    MMU& mmu;
+    Gameboy& gb;
     Options& options;
 
     bool interrupts_enabled = false;

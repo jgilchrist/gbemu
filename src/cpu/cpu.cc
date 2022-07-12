@@ -1,5 +1,6 @@
 #include "cpu.h"
 
+#include "../gameboy.h"
 #include "opcode_cycles.h"
 #include "opcode_names.h"
 #include "../util/bitwise.h"
@@ -7,8 +8,8 @@
 
 using bitwise::compose_bytes;
 
-CPU::CPU(MMU& inMMU, Options& inOptions) :
-    mmu(inMMU),
+CPU::CPU(Gameboy& inGb, Options& inOptions) :
+    gb(inGb),
     options(inOptions),
     af(a, f),
     bc(b, c),
@@ -79,7 +80,7 @@ auto CPU::handle_interrupt(u8 interrupt_bit, u16 interrupt_vector, u8 fired_inte
 }
 
 auto CPU::get_byte_from_pc() -> u8 {
-    u8 byte = mmu.read(Address(pc));
+    u8 byte = gb.mmu.read(Address(pc));
     pc.increment();
 
     return byte;
@@ -128,15 +129,15 @@ auto CPU::is_condition(Condition condition) -> bool {
 
 void CPU::stack_push(const WordValue& reg) {
     sp.decrement();
-    mmu.write(Address(sp), reg.high());
+    gb.mmu.write(Address(sp), reg.high());
     sp.decrement();
-    mmu.write(Address(sp), reg.low());
+    gb.mmu.write(Address(sp), reg.low());
 }
 
 void CPU::stack_pop(WordValue& reg) {
-    u8 low_byte = mmu.read(Address(sp));
+    u8 low_byte = gb.mmu.read(Address(sp));
     sp.increment();
-    u8 high_byte = mmu.read(Address(sp));
+    u8 high_byte = gb.mmu.read(Address(sp));
     sp.increment();
 
     u16 value = compose_bytes(high_byte, low_byte);

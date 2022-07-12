@@ -1,6 +1,7 @@
 #include "video.h"
 
 #include "color.h"
+#include "../gameboy.h"
 #include "../cpu/cpu.h"
 
 #include "../util/bitwise.h"
@@ -8,9 +9,8 @@
 
 using bitwise::check_bit;
 
-Video::Video(CPU& inCPU, MMU& inMMU, Options& inOptions) :
-    cpu(inCPU),
-    mmu(inMMU),
+Video::Video(Gameboy& inGb, Options& inOptions) :
+    gb(inGb),
     buffer(GAMEBOY_WIDTH, GAMEBOY_HEIGHT),
     background_map(BG_MAP_SIZE, BG_MAP_SIZE)
 {
@@ -45,13 +45,13 @@ void Video::tick(Cycles cycles) {
                 bool hblank_interrupt = bitwise::check_bit(lcd_status.value(), 3);
 
                 if (hblank_interrupt) {
-                    cpu.interrupt_flag.set_bit_to(1, true);
+                    gb.cpu.interrupt_flag.set_bit_to(1, true);
                 }
 
                 bool ly_coincidence_interrupt = bitwise::check_bit(lcd_status.value(), 6);
                 bool ly_coincidence = ly_compare.value() == line.value();
                 if (ly_coincidence_interrupt && ly_coincidence) {
-                    cpu.interrupt_flag.set_bit_to(1, true);
+                    gb.cpu.interrupt_flag.set_bit_to(1, true);
                 }
                 lcd_status.set_bit_to(2, ly_coincidence);
 
@@ -72,7 +72,7 @@ void Video::tick(Cycles cycles) {
                     current_mode = VideoMode::VBLANK;
                     lcd_status.set_bit_to(1, false);
                     lcd_status.set_bit_to(0, true);
-                    cpu.interrupt_flag.set_bit_to(0, true);
+                    gb.cpu.interrupt_flag.set_bit_to(0, true);
                 } else {
                     lcd_status.set_bit_to(1, true);
                     lcd_status.set_bit_to(0, false);
@@ -172,7 +172,7 @@ void Video::draw_bg_line(uint current_line) {
         Address tile_id_address = tile_map_address + tile_index;
 
         /* Grab the ID of the tile we'll get data from in the tile map */
-        u8 tile_id = mmu.read(tile_id_address);
+        u8 tile_id = gb.mmu.read(tile_id_address);
 
         /* Calculate the offset from the start of the tile data memory where
          * the data for our tile lives */
@@ -190,8 +190,8 @@ void Video::draw_bg_line(uint current_line) {
         /* FIXME: We fetch the full line of pixels for each pixel in the tile
          * we render. This could be altered to work in a way that avoids re-fetching
          * for a more performant renderer */
-        u8 pixels_1 = mmu.read(tile_line_data_start_address);
-        u8 pixels_2 = mmu.read(tile_line_data_start_address + 1);
+        u8 pixels_1 = gb.mmu.read(tile_line_data_start_address);
+        u8 pixels_2 = gb.mmu.read(tile_line_data_start_address + 1);
 
         GBColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
         Color screen_color = get_color_from_palette(pixel_color, palette);
@@ -239,7 +239,7 @@ void Video::draw_window_line(uint current_line) {
         Address tile_id_address = tile_map_address + tile_index;
 
         /* Grab the ID of the tile we'll get data from in the tile map */
-        u8 tile_id = mmu.read(tile_id_address);
+        u8 tile_id = gb.mmu.read(tile_id_address);
 
         /* Calculate the offset from the start of the tile data memory where
          * the data for our tile lives */
@@ -257,8 +257,8 @@ void Video::draw_window_line(uint current_line) {
         /* FIXME: We fetch the full line of pixels for each pixel in the tile
          * we render. This could be altered to work in a way that avoids re-fetching
          * for a more performant renderer */
-        u8 pixels_1 = mmu.read(tile_line_data_start_address);
-        u8 pixels_2 = mmu.read(tile_line_data_start_address + 1);
+        u8 pixels_1 = gb.mmu.read(tile_line_data_start_address);
+        u8 pixels_2 = gb.mmu.read(tile_line_data_start_address + 1);
 
         GBColor pixel_color = get_pixel_from_line(pixels_1, pixels_2, tile_pixel_x);
         Color screen_color = get_color_from_palette(pixel_color, palette);
@@ -274,8 +274,8 @@ void Video::draw_sprite(const uint sprite_n) {
     Address offset_in_oam = sprite_n * SPRITE_BYTES;
 
     Address oam_start = 0xFE00 + offset_in_oam.value();
-    u8 sprite_y = mmu.read(oam_start);
-    u8 sprite_x = mmu.read(oam_start + 1);
+    u8 sprite_y = gb.mmu.read(oam_start);
+    u8 sprite_x = gb.mmu.read(oam_start + 1);
 
     /* If the sprite would be drawn offscreen, don't draw it */
     if (sprite_y == 0 || sprite_y >= 160) { return; }
@@ -287,8 +287,8 @@ void Video::draw_sprite(const uint sprite_n) {
     /* Sprites are always taken from the first tileset */
     Address tile_set_location = TILE_SET_ZERO_ADDRESS;
 
-    u8 pattern_n = mmu.read(oam_start + 2);
-    u8 sprite_attrs = mmu.read(oam_start + 3);
+    u8 pattern_n = gb.mmu.read(oam_start + 2);
+    u8 sprite_attrs = gb.mmu.read(oam_start + 3);
 
     /* Bits 0-3 are used only for CGB */
     bool use_palette_1 = check_bit(sprite_attrs, 4);
@@ -304,7 +304,7 @@ void Video::draw_sprite(const uint sprite_n) {
 
     Address pattern_address = tile_set_location + tile_offset;
 
-    Tile tile(pattern_address, mmu, sprite_size_multiplier);
+    Tile tile(pattern_address, gb.mmu, sprite_size_multiplier);
     int start_y = sprite_y - 16;
     int start_x = sprite_x - 8;
 

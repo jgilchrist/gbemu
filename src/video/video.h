@@ -12,6 +12,8 @@
 #include <memory>
 #include <functional>
 
+class Gameboy;
+
 using vblank_callback_t = std::function<void(const FrameBuffer&)>;
 
 enum class VideoMode {
@@ -28,7 +30,7 @@ struct TileInfo {
 
 class Video {
 public:
-    Video(CPU& inCPU, MMU& inMMU, Options& inOptions);
+    Video(Gameboy& inGb, Options& inOptions);
 
     void tick(Cycles cycles);
     void register_vblank_callback(const vblank_callback_t& _vblank_callback);
@@ -92,8 +94,8 @@ private:
     static auto load_palette(ByteRegister& palette_register) -> Palette;
     static auto get_color_from_palette(GBColor color, const Palette& palette) -> Color;
 
-    CPU& cpu;
-    MMU& mmu;
+    Gameboy& gb;
+
     FrameBuffer buffer;
     FrameBuffer background_map;
 

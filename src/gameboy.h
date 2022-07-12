@@ -37,15 +37,21 @@ private:
     void tick();
 
     std::shared_ptr<Cartridge> cartridge;
-    Input input;
+
     CPU cpu;
+    friend class CPU;
+
     Video video;
-    Serial serial;
+    friend class Video;
+
     MMU mmu;
+    friend class MMU;
+
+    Input input;
+    Serial serial;
     Timer timer;
 
     Debugger debugger;
-
     friend class Debugger;
 
     uint elapsed_cycles = 0;

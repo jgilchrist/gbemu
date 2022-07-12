@@ -7,15 +7,11 @@
 #include <vector>
 #include <memory>
 
-class Video;
-class CPU;
-class Serial;
-class Input;
-class Timer;
+class Gameboy;
 
 class MMU {
 public:
-    MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& input, Serial& serial, Timer& timer, Options& options);
+    MMU(Gameboy& inGb, Options& options);
 
     auto read(const Address& address) const -> u8;
     void write(const Address& address, u8 byte);
@@ -31,12 +27,7 @@ private:
 
     void dma_transfer(u8 byte);
 
-    std::shared_ptr<Cartridge> cartridge;
-    CPU& cpu;
-    Video& video;
-    Input& input;
-    Serial& serial;
-    Timer& timer;
+    Gameboy& gb;
     Options& options;
 
     std::vector<u8> work_ram;

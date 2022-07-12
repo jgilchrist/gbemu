@@ -1,5 +1,6 @@
 #include "cpu.h"
 
+#include "../gameboy.h"
 #include "../util/bitwise.h"
 #include "../util/log.h"
 
@@ -34,7 +35,7 @@ void CPU::opcode_adc(const ByteRegister& reg) {
 }
 
 void CPU::opcode_adc(const Address&& addr) {
-    _opcode_adc(mmu.read(addr));
+    _opcode_adc(gb.mmu.read(addr));
 }
 
 
@@ -59,7 +60,7 @@ void CPU::opcode_add_a(const ByteRegister& reg) {
 }
 
 void CPU::opcode_add_a(const Address& addr) {
-    _opcode_add(a.value(), mmu.read(addr));
+    _opcode_add(a.value(), gb.mmu.read(addr));
 }
 
 
@@ -120,7 +121,7 @@ void CPU::opcode_and(ByteRegister& reg) {
 }
 
 void CPU::opcode_and(Address&& addr) {
-    _opcode_and(mmu.read(addr));
+    _opcode_and(gb.mmu.read(addr));
 }
 
 
@@ -136,7 +137,7 @@ void CPU::opcode_bit(const u8 bit, ByteRegister& reg) {
 }
 
 void CPU::opcode_bit(const u8 bit, Address&& addr) {
-    _opcode_bit(bit, mmu.read(addr));
+    _opcode_bit(bit, gb.mmu.read(addr));
 }
 
 
@@ -185,7 +186,7 @@ void CPU::opcode_cp(const ByteRegister& reg) {
 }
 
 void CPU::opcode_cp(const Address& addr) {
-    _opcode_cp(mmu.read(addr));
+    _opcode_cp(gb.mmu.read(addr));
 }
 
 
@@ -251,9 +252,9 @@ void CPU::opcode_dec(WordRegister& reg) {
 }
 
 void CPU::opcode_dec(Address&& addr) {
-    u8 value = mmu.read(addr);
+    u8 value = gb.mmu.read(addr);
     u8 result = static_cast<u8>(value - 1);
-    mmu.write(addr, result);
+    gb.mmu.write(addr, result);
 
     set_flag_zero(result == 0);
     set_flag_subtract(true);
@@ -291,9 +292,9 @@ void CPU::opcode_inc(WordRegister& reg) {
 }
 
 void CPU::opcode_inc(Address&& addr) {
-    u8 value = mmu.read(addr);
+    u8 value = gb.mmu.read(addr);
     u8 result = static_cast<u8>(value + 1);
-    mmu.write(addr, result);
+    gb.mmu.write(addr, result);
 
     set_flag_zero(result == 0);
     set_flag_subtract(false);
@@ -361,12 +362,12 @@ void CPU::opcode_ld(ByteRegister& reg, const ByteRegister& byte_reg) {
 }
 
 void CPU::opcode_ld(ByteRegister& reg, const Address& address) {
-    reg.set(mmu.read(address));
+    reg.set(gb.mmu.read(address));
 }
 
 void CPU::opcode_ld_from_addr(ByteRegister& reg) {
     u16 nn = get_word_from_pc();
-    reg.set(mmu.read(nn));
+    reg.set(gb.mmu.read(nn));
 }
 
 void CPU::opcode_ld(RegisterPair& reg) {
@@ -387,33 +388,33 @@ void CPU::opcode_ld(WordRegister& reg, const RegisterPair& reg_pair) {
 
 void CPU::opcode_ld(const Address& address) {
     u8 n = get_byte_from_pc();
-    mmu.write(address, n);
+    gb.mmu.write(address, n);
 }
 
 void CPU::opcode_ld(const Address& address, const ByteRegister& byte_reg) {
-    mmu.write(address, byte_reg.value());
+    gb.mmu.write(address, byte_reg.value());
 }
 
 void CPU::opcode_ld(const Address& address, const WordRegister& word_reg) {
-    mmu.write(address, word_reg.low());
-    mmu.write(address + 1, word_reg.high());
+    gb.mmu.write(address, word_reg.low());
+    gb.mmu.write(address + 1, word_reg.high());
 }
 
 
 void CPU::opcode_ld_to_addr(const ByteRegister &reg) {
     u16 address = get_word_from_pc();
-    mmu.write(Address(address), reg.value());
+    gb.mmu.write(Address(address), reg.value());
 }
 
 
 /* LDD */
 void CPU::opcode_ldd(ByteRegister& reg, const Address& address) {
-    reg.set(mmu.read(address));
+    reg.set(gb.mmu.read(address));
     hl.decrement();
 }
 
 void CPU::opcode_ldd(const Address& address, const ByteRegister& reg) {
-    mmu.write(address, reg.value());
+    gb.mmu.write(address, reg.value());
     hl.decrement();
 }
 
@@ -423,7 +424,7 @@ void CPU::opcode_ldh_into_a() {
     u8 offset = get_byte_from_pc();
     auto address = Address(0xFF00 + offset);
 
-    u8 value = mmu.read(address);
+    u8 value = gb.mmu.read(address);
     a.set(value);
 }
 
@@ -431,20 +432,20 @@ void CPU::opcode_ldh_into_data() {
     u8 offset = get_byte_from_pc();
     auto address = Address(0xFF00 + offset);
 
-    mmu.write(address, a.value());
+    gb.mmu.write(address, a.value());
 }
 
 void CPU::opcode_ldh_into_c() {
     u8 offset = c.value();
     auto address = Address(0xFF00 + offset);
 
-    mmu.write(address, a.value());
+    gb.mmu.write(address, a.value());
 }
 
 void CPU::opcode_ldh_c_into_a() {
     auto address = Address(0xFF00 + c.value());
 
-    a.set(mmu.read(address));
+    a.set(gb.mmu.read(address));
 }
 
 
@@ -466,12 +467,12 @@ void CPU::opcode_ldhl() {
 
 /* LDI */
 void CPU::opcode_ldi(ByteRegister& reg, const Address& address) {
-    reg.set(mmu.read(address));
+    reg.set(gb.mmu.read(address));
     hl.increment();
 }
 
 void CPU::opcode_ldi(const Address& address, const ByteRegister& reg) {
-    mmu.write(address, reg.value());
+    gb.mmu.write(address, reg.value());
     hl.increment();
 }
 
@@ -505,7 +506,7 @@ void CPU::opcode_or(const ByteRegister& reg) {
 }
 
 void CPU::opcode_or(const Address& addr) {
-    _opcode_or(mmu.read(addr));
+    _opcode_or(gb.mmu.read(addr));
 }
 
 
@@ -528,9 +529,9 @@ void CPU::opcode_res(const u8 bit, ByteRegister& reg) {
 }
 
 void CPU::opcode_res(const u8 bit, Address&& addr) {
-    u8 value = mmu.read(addr);
+    u8 value = gb.mmu.read(addr);
     u8 result = clear_bit(value, bit);
-    mmu.write(addr, result);
+    gb.mmu.write(addr, result);
 }
 
 
@@ -582,8 +583,8 @@ void CPU::opcode_rl(ByteRegister& reg) {
 }
 
 void CPU::opcode_rl(Address&& addr) {
-    u8 result = _opcode_rl(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_rl(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -612,8 +613,8 @@ void CPU::opcode_rlc(ByteRegister& reg) {
 }
 
 void CPU::opcode_rlc(Address&& addr) {
-    u8 result = _opcode_rlc(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_rlc(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -645,8 +646,8 @@ void CPU::opcode_rr(ByteRegister& reg) {
 }
 
 void CPU::opcode_rr(Address&& addr) {
-    u8 result = _opcode_rr(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_rr(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -675,8 +676,8 @@ void CPU::opcode_rrc(ByteRegister& reg) {
 }
 
 void CPU::opcode_rrc(Address&& addr) {
-    u8 result = _opcode_rrc(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_rrc(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -712,7 +713,7 @@ void CPU::opcode_sbc(ByteRegister& reg) {
 }
 
 void CPU::opcode_sbc(Address&& addr) {
-    _opcode_sbc(mmu.read(addr));
+    _opcode_sbc(gb.mmu.read(addr));
 }
 
 
@@ -731,9 +732,9 @@ void CPU::opcode_set(const u8 bit, ByteRegister& reg) {
 }
 
 void CPU::opcode_set(const u8 bit, Address&& addr) {
-    u8 value = mmu.read(addr);
+    u8 value = gb.mmu.read(addr);
     u8 result = set_bit(value, bit);
-    mmu.write(addr, result);
+    gb.mmu.write(addr, result);
 }
 
 
@@ -757,8 +758,8 @@ void CPU::opcode_sla(ByteRegister& reg) {
 }
 
 void CPU::opcode_sla(Address&& addr) {
-    u8 result = _opcode_sla(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_sla(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -784,8 +785,8 @@ void CPU::opcode_sra(ByteRegister& reg) {
 }
 
 void CPU::opcode_sra(Address&& addr) {
-    u8 result = _opcode_sra(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_sra(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -808,8 +809,8 @@ void CPU::opcode_srl(ByteRegister& reg) {
 }
 
 void CPU::opcode_srl(Address&& addr) {
-    u8 result = _opcode_srl(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_srl(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -841,7 +842,7 @@ void CPU::opcode_sub(ByteRegister& reg) {
 }
 
 void CPU::opcode_sub(Address&& addr) {
-    _opcode_sub(mmu.read(addr));
+    _opcode_sub(gb.mmu.read(addr));
 }
 
 
@@ -868,8 +869,8 @@ void CPU::opcode_swap(ByteRegister& reg) {
 }
 
 void CPU::opcode_swap(Address&& addr) {
-    u8 result = _opcode_swap(mmu.read(addr));
-    mmu.write(addr, result);
+    u8 result = _opcode_swap(gb.mmu.read(addr));
+    gb.mmu.write(addr, result);
 }
 
 
@@ -896,5 +897,5 @@ void CPU::opcode_xor(const ByteRegister& reg) {
 }
 
 void CPU::opcode_xor(const Address& addr) {
-    _opcode_xor(mmu.read(addr));
+    _opcode_xor(gb.mmu.read(addr));
 }

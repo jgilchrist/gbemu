@@ -1,4 +1,5 @@
 #include "mmu.h"
+#include "gameboy.h"
 #include "boot.h"
 #include "serial.h"
 #include "input.h"
@@ -8,13 +9,8 @@
 #include "cpu/cpu.h"
 #include "video/video.h"
 
-MMU::MMU(std::shared_ptr<Cartridge> inCartridge, CPU& inCPU, Video& inVideo, Input& inInput, Serial& inSerial, Timer& inTimer, Options& inOptions) :
-    cartridge(std::move(inCartridge)),
-    cpu(inCPU),
-    video(inVideo),
-    input(inInput),
-    serial(inSerial),
-    timer(inTimer),
+MMU::MMU(Gameboy& inGb, Options& inOptions) :
+    gb(inGb),
     options(inOptions)
 {
     work_ram = std::vector<u8>(0x8000);
@@ -27,17 +23,17 @@ auto MMU::read(const Address& address) const -> u8 {
         if (address.in_range(0x0, 0xFF) && boot_rom_active()) {
             return bootDMG[address.value()];
         }
-        return cartridge->read(address);
+        return gb.cartridge->read(address);
     }
 
     /* VRAM */
     if (address.in_range(0x8000, 0x9FFF)) {
-        return video.read(address.value() - 0x8000);
+        return gb.video.read(address.value() - 0x8000);
     }
 
     /* External (cartridge) RAM */
     if (address.in_range(0xA000, 0xBFFF)) {
-        return cartridge->read(address);
+        return gb.cartridge->read(address);
     }
 
     /* Internal work RAM */
@@ -72,7 +68,7 @@ auto MMU::read(const Address& address) const -> u8 {
 
     /* Interrupt Enable register */
     if (address == 0xFFFF) {
-        return cpu.interrupt_enabled.value();
+        return gb.cpu.interrupt_enabled.value();
     }
 
     fatal_error("Attempted to read from unmapped memory address 0x%X", address.value());
@@ -81,10 +77,10 @@ auto MMU::read(const Address& address) const -> u8 {
 auto MMU::read_io(const Address& address) const -> u8 {
     switch (address.value()) {
         case 0xFF00:
-            return input.get_input();
+            return gb.input.get_input();
 
         case 0xFF01:
-            return serial.read();
+            return gb.serial.read();
 
         case 0xFF02:
             log_unimplemented("Attempted to read serial transfer control");
@@ -94,16 +90,16 @@ auto MMU::read_io(const Address& address) const -> u8 {
             return unmapped_io_read(address);
 
         case 0xFF04:
-            return timer.get_divider();
+            return gb.timer.get_divider();
 
         case 0xFF05:
-            return timer.get_timer();
+            return gb.timer.get_timer();
 
         case 0xFF06:
-            return timer.get_timer_modulo();
+            return gb.timer.get_timer_modulo();
 
         case 0xFF07:
-            return timer.get_timer_control();
+            return gb.timer.get_timer_control();
 
         case 0xFF08:
         case 0xFF09:
@@ -115,7 +111,7 @@ auto MMU::read_io(const Address& address) const -> u8 {
             return unmapped_io_read(address);
 
         case 0xFF0F:
-            return cpu.interrupt_flag.value();
+            return gb.cpu.interrupt_flag.value();
 
         /* TODO: Audio - Channel 1: Tone & Sweep */
         case 0xFF10:
@@ -194,41 +190,41 @@ auto MMU::read_io(const Address& address) const -> u8 {
             return 0xFF;
 
         case 0xFF40:
-            return video.control_byte;
+            return gb.video.control_byte;
 
         case 0xFF41:
-            return video.lcd_status.value();
+            return gb.video.lcd_status.value();
 
         case 0xFF42:
-            return video.scroll_y.value();
+            return gb.video.scroll_y.value();
 
         case 0xFF43:
-            return video.scroll_x.value();
+            return gb.video.scroll_x.value();
 
         case 0xFF44:
-            return video.line.value();
+            return gb.video.line.value();
 
         case 0xFF45:
-            return video.ly_compare.value();
+            return gb.video.ly_compare.value();
 
         case 0xFF46:
             log_warn("Attempted to read from write-only DMA Transfer/Start Address (0xFF46)");
             return 0xFF;
 
         case 0xFF47:
-            return video.bg_palette.value();
+            return gb.video.bg_palette.value();
 
         case 0xFF48:
-            return video.sprite_palette_0.value();
+            return gb.video.sprite_palette_0.value();
 
         case 0xFF49:
-            return video.sprite_palette_1.value();
+            return gb.video.sprite_palette_1.value();
 
         case 0xFF4A:
-            return video.window_y.value();
+            return gb.video.window_y.value();
 
         case 0xFF4B:
-            return video.window_x.value();
+            return gb.video.window_x.value();
 
         /* TODO: CGB mode behaviour */
         case 0xFF4C:
@@ -354,19 +350,19 @@ auto MMU::unmapped_io_read(const Address& address) const -> u8 {
 
 void MMU::write(const Address& address, const u8 byte) {
     if (address.in_range(0x0000, 0x7FFF)) {
-        cartridge->write(address, byte);
+        gb.cartridge->write(address, byte);
         return;
     }
 
     /* VRAM */
     if (address.in_range(0x8000, 0x9FFF)) {
-        video.write(address.value() - 0x8000, byte);
+        gb.video.write(address.value() - 0x8000, byte);
         return;
     }
 
     /* External (cartridge) RAM */
     if (address.in_range(0xA000, 0xBFFF)) {
-        cartridge->write(address, byte);
+        gb.cartridge->write(address, byte);
         return;
     }
 
@@ -408,7 +404,7 @@ void MMU::write(const Address& address, const u8 byte) {
 
     /* Interrupt Enable register */
     if (address == 0xFFFF) {
-        cpu.interrupt_enabled.set(byte);
+        gb.cpu.interrupt_enabled.set(byte);
         return;
     }
 
@@ -418,24 +414,24 @@ void MMU::write(const Address& address, const u8 byte) {
 void MMU::write_io(const Address& address, const u8 byte) {
     switch (address.value()) {
         case 0xFF00:
-            input.write(byte);
+            gb.input.write(byte);
             return;
 
         case 0xFF01:
             /* Serial data transfer (SB) */
-            serial.write(byte);
+            gb.serial.write(byte);
             return;
 
         case 0xFF02:
             /* Serial data transfer (SB) */
-            serial.write_control(byte);
+            gb.serial.write_control(byte);
             return;
 
         case 0xFF03:
             return unmapped_io_write(address, byte);
 
         case 0xFF04:
-            timer.reset_divider();
+            gb.timer.reset_divider();
             return;
 
         case 0xFF05:
@@ -444,11 +440,11 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF06:
-            timer.set_timer_modulo(byte);
+            gb.timer.set_timer_modulo(byte);
             return;
 
         case 0xFF07:
-            timer.set_timer_control(byte);
+            gb.timer.set_timer_control(byte);
             return;
 
         case 0xFF08:
@@ -461,7 +457,7 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return unmapped_io_write(address, byte);
 
         case 0xFF0F:
-            cpu.interrupt_flag.set(byte);
+            gb.cpu.interrupt_flag.set(byte);
             return;
 
         /* TODO: Audio - Channel 1: Tone & Sweep */
@@ -545,31 +541,31 @@ void MMU::write_io(const Address& address, const u8 byte) {
 
         /* Switch on LCD */
         case 0xFF40:
-            video.control_byte = byte;
+            gb.video.control_byte = byte;
             return;
 
         case 0xFF41:
-            video.lcd_status.set(byte);
+            gb.video.lcd_status.set(byte);
             return;
 
         /* Vertical Scroll Register */
         case 0xFF42:
-            video.scroll_y.set(byte);
+            gb.video.scroll_y.set(byte);
             return;
 
         /* Horizontal Scroll Register */
         case 0xFF43:
-            video.scroll_x.set(byte);
+            gb.video.scroll_x.set(byte);
             return;
 
         /* LY - Line Y coordinate */
         case 0xFF44:
             /* "Writing will reset the counter */
-            video.line.set(0x0);
+            gb.video.line.set(0x0);
             return;
 
         case 0xFF45:
-            video.ly_compare.set(byte);
+            gb.video.ly_compare.set(byte);
             return;
 
         case 0xFF46:
@@ -577,26 +573,26 @@ void MMU::write_io(const Address& address, const u8 byte) {
             return;
 
         case 0xFF47:
-            video.bg_palette.set(byte);
+            gb.video.bg_palette.set(byte);
             log_trace("Set video palette: 0x%x", byte);
             return;
 
         case 0xFF48:
-            video.sprite_palette_0.set(byte);
+            gb.video.sprite_palette_0.set(byte);
             log_trace("Set sprite palette 0: 0x%x", byte);
             return;
 
         case 0xFF49:
-            video.sprite_palette_1.set(byte);
+            gb.video.sprite_palette_1.set(byte);
             log_trace("Set sprite palette 1: 0x%x", byte);
             return;
 
         case 0xFF4A:
-            video.window_y.set(byte);
+            gb.video.window_y.set(byte);
             return;
 
         case 0xFF4B:
-            video.window_x.set(byte);
+            gb.video.window_x.set(byte);
             return;
 
         /* TODO: CGB mode behaviour */

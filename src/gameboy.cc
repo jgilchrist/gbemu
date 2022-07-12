@@ -3,11 +3,12 @@
 Gameboy::Gameboy(const std::vector<u8>& cartridge_data, Options& options,
                  const std::vector<u8>& save_data)
     : cartridge(get_cartridge(cartridge_data, save_data)),
-      cpu(mmu, options),
-      video(cpu, mmu, options),
+      cpu(*this, options),
+      video(*this, options),
+      mmu(*this, options),
       serial(options),
-      mmu(cartridge, cpu, video, input, serial, timer, options),
-      debugger(*this, options) {
+      debugger(*this, options)
+{
     if (options.disable_logs) log_set_level(LogLevel::Error);
 
     log_set_level(options.trace
