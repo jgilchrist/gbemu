@@ -15,6 +15,16 @@ CPU::CPU(MMU& inMMU, Options& inOptions) :
     de(d, e),
     hl(h, l)
 {
+    a.set(0x01);
+    f.set(0xB0);
+    b.set(0x00);
+    c.set(0x13);
+    d.set(0x00);
+    e.set(0xD8);
+    h.set(0x01);
+    l.set(0x4D);
+    sp.set(0xFFFE);
+    pc.set(0x0100);
 }
 
 Cycles CPU::tick() {
