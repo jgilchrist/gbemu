@@ -34,9 +34,7 @@ The key bindings are: <kbd>&uarr;</kbd>, <kbd>&darr;</kbd>, <kbd>&larr;</kbd>, <
 
 The emulator is tested using [Blargg's tests][blarggs] - these can be ran with `./scripts/run_test_roms`.
 
-<img src="./.github/images/blarggs-tests.png" width="400">
-
-The test it fails is due to the lack of a timer implementation.
+<img src="./.github/images/blarggs-tests-pass.png" width="400">
 
 ## Missing features
 
