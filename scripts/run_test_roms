@@ -17,15 +17,15 @@ run_test_rom() {
 
     printf "%-30s" "${FILENAME}"
 
-    local OUTPUT=$(./build/gbemu-test "$1" --headless --exit-on-infinite-jr)
-    echo $OUTPUT | grep 'Failed' &> /dev/null
+    local OUTPUT=$(./build/gbemu-test "$1" --headless --print-serial-output --exit-on-infinite-jr)
+    echo $OUTPUT | grep 'Passed' &> /dev/null
 
     if [ $? == 0 ]; then
-        printf "${RED}Failed${RESET}\n"
-        return 1
-    else
         printf "${GREEN}Passed${RESET}\n"
         return 0
+    else
+        printf "${RED}Failed${RESET}\n"
+        return 1
     fi
 }
 
