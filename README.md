@@ -34,7 +34,7 @@ The key bindings are: <kbd>&uarr;</kbd>, <kbd>&darr;</kbd>, <kbd>&larr;</kbd>, <
 
 The emulator is tested using [Blargg's tests][blarggs] - these can be ran with `./scripts/run_test_roms`.
 
-<img src="https://jgilchrist.uk/img/emulator/blarggs-tests.png" width="400">
+<img src="./.github/images/blarggs-tests.png" width="400">
 
 The test it fails is due to the lack of a timer implementation.
 
@@ -46,8 +46,8 @@ Currently, `gbemu` only supports Gameboy games. I'm working on Gameboy Color sup
 
 Menu | Gameplay
 :-------------------------:|:-------------------------:
-<img src="https://jgilchrist.uk/img/emulator/tetris-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/tetris-gameplay.png" width="400">
-<img src="https://jgilchrist.uk/img/emulator/zelda-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/zelda-gameplay.png" width="400">
-<img src="https://jgilchrist.uk/img/emulator/pokemon-menu.png" width="400"> | <img src="https://jgilchrist.uk/img/emulator/pokemon-gameplay.png" width="400">
+<img src="./.github/images/tetris-menu.png" width="400"> | <img src="./.github/images/tetris-gameplay.png" width="400">
+<img src="./.github/images/zelda-menu.png" width="400"> | <img src="./.github/images/zelda-gameplay.png" width="400">
+<img src="./.github/images/pokemon-menu.png" width="400"> | <img src="./.github/images/pokemon-gameplay.png" width="400">
 
 [blarggs]: http://gbdev.gg8.se/wiki/articles/Test_ROMs
