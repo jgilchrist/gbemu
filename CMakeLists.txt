@@ -24,12 +24,11 @@ declare_library(gbemu-core src)
 # endif()
 
 # SDL target
-find_package(SDL2)
+find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
 
-if (SDL2_FOUND)
+if (SDL3_FOUND)
   declare_executable(gbemu platforms/sdl)
-  include_directories(SYSTEM ${SDL2_INCLUDE_DIRS})
-  target_link_libraries(gbemu gbemu-core ${SDL2_LIBRARIES})
+  target_link_libraries(gbemu PRIVATE gbemu-core PRIVATE SDL3::SDL3)
 endif()
 
 # Test target
