@@ -1,7 +1,7 @@
 #include "../../src/gameboy_prelude.h"
 #include "../cli/cli.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include <fstream>
 #include <iterator>
@@ -28,13 +28,13 @@ static std::optional<GbButton> get_gb_button(int keyCode) {
         case SDLK_DOWN: return GbButton::Down;
         case SDLK_LEFT: return GbButton::Left;
         case SDLK_RIGHT: return GbButton::Right;
-        case SDLK_x: return GbButton::A;
-        case SDLK_z: return GbButton::B;
+        case SDLK_X: return GbButton::A;
+        case SDLK_Z: return GbButton::B;
         case SDLK_BACKSPACE: return GbButton::Select;
         case SDLK_RETURN: return GbButton::Start;
-        case SDLK_b: gameboy->debug_toggle_background(); return {};
-        case SDLK_s: gameboy->debug_toggle_sprites(); return {};
-        case SDLK_w: gameboy->debug_toggle_window(); return {};
+        case SDLK_B: gameboy->debug_toggle_background(); return {};
+        case SDLK_S: gameboy->debug_toggle_sprites(); return {};
+        case SDLK_W: gameboy->debug_toggle_window(); return {};
         default: return {};
     }
 }
@@ -51,7 +51,7 @@ static uint32_t get_real_color(Color color) {
         case Color::Black: r = g = b = 0; break;
     }
 
-    return (r << 16) | (g << 8) | (b << 0);
+    return (0xFF << 24) | (r << 16) | (g << 8) | (b << 0);
 }
 
 static void set_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_argb) {
@@ -113,24 +113,22 @@ static void process_events() {
 
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-            case SDL_KEYDOWN:
+            case SDL_EVENT_KEY_DOWN:
                 if (event.key.repeat == true) { break; }
-                if (auto button_pressed = get_gb_button(event.key.keysym.sym); button_pressed) {
+                if (auto button_pressed = get_gb_button(event.key.key); button_pressed) {
                     gameboy->button_pressed(*button_pressed);
                 }
                 break;
-            case SDL_KEYUP:
+            case SDL_EVENT_KEY_UP:
                 if (event.key.repeat == true) { break; }
-                if (auto button_released = get_gb_button(event.key.keysym.sym); button_released) {
+                if (auto button_released = get_gb_button(event.key.key); button_released) {
                     gameboy->button_released(*button_released);
                 }
                 break;
-            case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
-                    should_exit = true;
-                }
+            case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+                should_exit = true;
                 break;
-            case SDL_QUIT:
+            case SDL_EVENT_QUIT:
                 should_exit = true;
                 break;
         }
@@ -150,7 +148,7 @@ static void draw(const FrameBuffer& buffer) {
     set_pixels(pixels, buffer);
     SDL_UnlockTexture(gb_screen_texture);
 
-    SDL_RenderCopy(renderer, gb_screen_texture, nullptr, nullptr);
+    SDL_RenderTexture(renderer, gb_screen_texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
 }
 
@@ -161,22 +159,15 @@ static bool is_closed() {
 int main(int argc, char* argv[]) {
     cliOptions = get_cli_options(argc, argv);
 
-    SDL_Init(SDL_INIT_VIDEO);
-
-    window = SDL_CreateWindow(
-        "gbemu",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        width,
-        height,
-        SDL_WINDOW_OPENGL
-    );
-
-    if (window == nullptr) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         fatal_error("Failed to initialise SDL");
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!SDL_CreateWindowAndRenderer("gbemu", width, height, 0, &window, &renderer)) {
+        fatal_error("Failed to initialise SDL");
+    }
+
+    SDL_SetRenderVSync(renderer, 1);
 
     gb_screen_texture = SDL_CreateTexture(
         renderer,
