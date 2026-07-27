@@ -26,6 +26,7 @@ function(add_warnings)
         -Wno-padded
         -Wno-format-nonliteral
         -Wno-unused-parameter
+        -Wno-switch-default
     )
 
     # FIXME: Temporarily silenced during development
