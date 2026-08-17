@@ -9,8 +9,6 @@
 class Gameboy;
 class CPU;
 
-static const char* PROMPT = "> ";
-
 enum class CommandType {
     Step,
     Run,

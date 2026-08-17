@@ -266,7 +266,7 @@ void Debugger::command_help(const Args& args) {
 }
 
 auto Debugger::get_command() -> Command {
-    printf("%s", PROMPT);
+    printf("> ");
     std::string input_line;
     std::getline(std::cin, input_line);
     return parse(input_line);
