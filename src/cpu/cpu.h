@@ -6,7 +6,7 @@
 
 class Gameboy;
 
-enum class Condition {
+enum class Condition: uint8_t {
     NZ,
     Z,
     NC,

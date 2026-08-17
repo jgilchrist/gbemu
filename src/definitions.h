@@ -34,14 +34,14 @@ const uint BG_MAP_SIZE = 256;
 
 const int CLOCK_RATE = 4194304;
 
-enum class GBColor {
+enum class GBColor: uint8_t {
     Color0, /* White */
     Color1, /* Light gray */
     Color2, /* Dark gray */
     Color3, /* Black */
 };
 
-enum class Color {
+enum class Color: uint8_t {
     White,
     LightGray,
     DarkGray,

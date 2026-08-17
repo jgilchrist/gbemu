@@ -26,7 +26,7 @@ const int header_checksum = 0x14D;
 const int global_checksum = 0x14E;
 } // namespace header
 
-enum class CartridgeType {
+enum class CartridgeType: uint8_t {
     ROMOnly,
     MBC1,
     MBC2,
@@ -43,7 +43,7 @@ extern auto get_title(std::vector<u8>& rom) -> std::string;
 
 extern auto get_license(u16 old_license, u16 new_license) -> std::string;
 
-enum class ROMSize {
+enum class ROMSize: uint8_t {
     KB32,
     KB64,
     KB128,
@@ -60,7 +60,7 @@ enum class ROMSize {
 extern auto get_rom_size(u8 size_code) -> ROMSize;
 extern auto describe(ROMSize size) -> std::string;
 
-enum class RAMSize {
+enum class RAMSize: uint8_t {
     None,
     KB2,
     KB8,
@@ -73,7 +73,7 @@ extern auto get_ram_size(u8 size_code) -> RAMSize;
 extern auto get_actual_ram_size(RAMSize size_code) -> uint;
 extern auto describe(RAMSize size) -> std::string;
 
-enum class Destination {
+enum class Destination: uint8_t {
     Japanese,
     NonJapanese,
 };

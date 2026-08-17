@@ -2,7 +2,7 @@
 
 #include "definitions.h"
 
-enum class GbButton {
+enum class GbButton: uint8_t {
     Up,
     Down,
     Left,

@@ -9,7 +9,7 @@
 class Gameboy;
 class CPU;
 
-enum class CommandType {
+enum class CommandType: uint8_t {
     Step,
     Run,
 

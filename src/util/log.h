@@ -18,7 +18,7 @@
 
 #include <string>
 
-enum class LogLevel {
+enum class LogLevel: uint8_t {
     Trace,
     Debug,
     Unimplemented,

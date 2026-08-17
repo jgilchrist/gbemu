@@ -16,7 +16,7 @@ class Gameboy;
 
 using vblank_callback_t = std::function<void(const FrameBuffer&)>;
 
-enum class VideoMode {
+enum class VideoMode: uint8_t {
     ACCESS_OAM,
     ACCESS_VRAM,
     HBLANK,
