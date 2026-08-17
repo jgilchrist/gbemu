@@ -1,7 +1,11 @@
 #include "../../src/gameboy_prelude.h"
 #include "../cli/cli.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wreserved-macro-identifier"
 #include <SDL3/SDL.h>
+#pragma clang diagnostic pop
 
 #include <fstream>
 #include <iterator>
@@ -51,12 +55,15 @@ static uint32_t get_real_color(Color color) {
         case Color::Black: r = g = b = 0; break;
     }
 
-    return (0xFF << 24) | (r << 16) | (g << 8) | (b << 0);
+    return (0xFFu << 24) | (r << 16) | (g << 8) | (b << 0);
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 static void set_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_argb) {
     pixels[width * y + x] = pixel_argb;
 }
+#pragma clang diagnostic pop
 
 static void set_large_pixel(uint32_t* pixels, uint x, uint y, uint32_t pixel_argb) {
     for (uint w = 0; w < pixel_size; w++) {

@@ -9,6 +9,9 @@ struct CliOptions {
 };
 
 CliOptions get_cli_options(int argc, char* argv[]);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 CliOptions get_cli_options(int argc, char* argv[]) {
     if (argc < 2) {
         fatal_error("Please provide a ROM file to run");
@@ -32,3 +35,4 @@ CliOptions get_cli_options(int argc, char* argv[]) {
 
     return cliOptions;
 }
+#pragma clang diagnostic pop

@@ -240,6 +240,8 @@ auto describe(Destination destination) -> std::string {
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 auto get_title(std::vector<u8>& rom) -> std::string {
     char name[TITLE_LENGTH] = {0};
 
@@ -249,3 +251,4 @@ auto get_title(std::vector<u8>& rom) -> std::string {
 
     return std::string(name);
 }
+#pragma clang diagnostic pop
