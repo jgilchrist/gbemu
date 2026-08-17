@@ -9,6 +9,7 @@ function(add_warnings)
         -Wno-global-constructors
         -Wno-c++98-compat
         -Wno-c++98-compat-pedantic
+        -Wno-unsafe-buffer-usage-in-libc-call
     )
     else()
     set(extra_warn
