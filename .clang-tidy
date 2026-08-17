@@ -33,6 +33,5 @@ Checks: >
   -readability-braces-around-statements,
   -readability-convert-member-functions-to-static,
 WarningsAsErrors: false
-AnalyzeTemporaryDtors: false
 FormatStyle:     file
 ...
