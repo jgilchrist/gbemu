@@ -9,10 +9,10 @@ include(add_sources)
 
 project(gbemu)
 
-add_definitions(-std=c++17)
 add_warnings()
 
 declare_library(gbemu-core src)
+target_compile_features(gbemu-core PUBLIC cxx_std_17)
 
 # SFML target
 # find_package(SFML 2 COMPONENTS system window graphics)
