@@ -17,6 +17,7 @@
  */
 
 #include <string>
+#include <cstdint>
 
 enum class LogLevel: uint8_t {
     Trace,
