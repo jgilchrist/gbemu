@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 list(APPEND CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/platforms/sfml
@@ -12,7 +12,7 @@ project(gbemu)
 add_warnings()
 
 declare_library(gbemu-core src)
-target_compile_features(gbemu-core PUBLIC cxx_std_17)
+target_compile_features(gbemu-core PUBLIC cxx_std_23)
 
 # SFML target
 # find_package(SFML 2 COMPONENTS system window graphics)
