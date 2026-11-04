@@ -109,7 +109,7 @@ void CPU::set_flag_half_carry(bool set) { f.set_flag_half_carry(set); }
 void CPU::set_flag_carry(bool set) { f.set_flag_carry(set); }
 
 auto CPU::is_condition(Condition condition) -> bool {
-    bool should_branch;
+    bool should_branch = false;
 
     switch (condition) {
         case Condition::C:
