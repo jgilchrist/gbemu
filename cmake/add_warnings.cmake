@@ -10,6 +10,9 @@ function(add_warnings)
         -Wno-c++98-compat
         -Wno-c++98-compat-pedantic
         -Wno-unsafe-buffer-usage-in-libc-call
+        -Wno-lifetime-safety-cross-tu-constructor-suggestions
+        -Wno-lifetime-safety-intra-tu-constructor-suggestions
+        -Wno-lifetime-safety-cross-tu-suggestions
     )
     else()
     set(extra_warn
