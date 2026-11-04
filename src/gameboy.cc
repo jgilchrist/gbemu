@@ -1,8 +1,10 @@
 #include "gameboy.h"
 
-Gameboy::Gameboy(const std::vector<u8>& cartridge_data, Options& options,
-                 const std::vector<u8>& save_data)
-    : cartridge(get_cartridge(cartridge_data, save_data)),
+#include <utility>
+
+Gameboy::Gameboy(std::vector<u8> cartridge_data, Options& options,
+                 std::vector<u8> save_data)
+    : cartridge(get_cartridge(std::move(cartridge_data), std::move(save_data))),
       cpu(*this, options),
       video(*this, options),
       mmu(*this, options),

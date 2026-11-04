@@ -11,13 +11,14 @@
 
 #include <memory>
 #include <functional>
+#include <vector>
 
 using should_close_callback_t = std::function<bool()>;
 
 class Gameboy {
 public:
-    Gameboy(const std::vector<u8>& cartridge_data, Options& options,
-            const std::vector<u8>& save_data = {});
+    Gameboy(std::vector<u8> cartridge_data, Options& options,
+            std::vector<u8> save_data = {});
 
     void run(
         const should_close_callback_t& _should_close_callback,

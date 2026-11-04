@@ -2,7 +2,7 @@
 
 #include "../util/log.h"
 
-auto get_info(std::vector<u8> rom) -> std::unique_ptr<CartridgeInfo> {
+auto get_info(std::span<const u8> rom) -> std::unique_ptr<CartridgeInfo> {
     std::unique_ptr<CartridgeInfo> info = std::make_unique<CartridgeInfo>();
 
     u8 type_code = rom[header::cartridge_type];
@@ -242,7 +242,7 @@ auto describe(Destination destination) -> std::string {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
-auto get_title(std::vector<u8>& rom) -> std::string {
+auto get_title(std::span<const u8> rom) -> std::string {
     char name[TITLE_LENGTH] = {0};
 
     for (u8 i = 0; i < TITLE_LENGTH; i++) {

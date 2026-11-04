@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iterator>
 #include <optional>
+#include <utility>
 
 static uint pixel_size = 2;
 
@@ -189,7 +190,8 @@ int main(int argc, char* argv[]) {
     auto save_data = load_state();
     log_info("");
 
-    gameboy = std::make_unique<Gameboy>(rom_data, cliOptions.options, save_data);
+    gameboy = std::make_unique<Gameboy>(
+        std::move(rom_data), cliOptions.options, std::move(save_data));
     gameboy->run(&is_closed, &draw);
 
     save_state();

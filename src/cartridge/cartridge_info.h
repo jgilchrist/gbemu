@@ -3,8 +3,8 @@
 #include "../definitions.h"
 
 #include <string>
-#include <vector>
 #include <memory>
+#include <span>
 
 const int TITLE_LENGTH = 11;
 
@@ -39,7 +39,7 @@ enum class CartridgeType: uint8_t {
 extern auto get_type(u8 type) -> CartridgeType;
 extern auto describe(CartridgeType type) -> std::string;
 
-extern auto get_title(std::vector<u8>& rom) -> std::string;
+extern auto get_title(std::span<const u8> rom) -> std::string;
 
 extern auto get_license(u16 old_license, u16 new_license) -> std::string;
 
@@ -100,4 +100,4 @@ public:
     bool supports_sgb;
 };
 
-extern auto get_info(std::vector<u8> rom) -> std::unique_ptr<CartridgeInfo>;
+extern auto get_info(std::span<const u8> rom) -> std::unique_ptr<CartridgeInfo>;
